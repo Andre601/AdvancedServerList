@@ -1,0 +1,6 @@
+name: 'AdvancedServerList'
+author: 'Andre_601'
+version: '${plugin.version}'
+description: '${plugin.description}'
+
+main: 'ch.andre601.advancedserverlist.bungeecord.BungeeCordCore'

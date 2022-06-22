@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ch.andre601.advancedserverlist</groupId>
+    <artifactId>parent</artifactId>
+    <packaging>pom</packaging>
+    <version>parent</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <plugin.version>1.0.0</plugin.version>
+        <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
+        
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>core</module>
+        <module>velocity</module>
+        <module>bungeecord</module>
+    </modules>
+
+</project>

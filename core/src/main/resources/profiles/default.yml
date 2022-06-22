@@ -1,0 +1,57 @@
+#
+# The priority of this profile. Higher number equals higher priority.
+#
+priority: 0
+
+#
+# Allows you to set a condition for this profile.
+# If the condition evaluates to true will it be displayed, given that no other profile with higher priority is available.
+#
+# It is recommended to keep a profile with a low priority and no condition set.
+#
+# The following placeholders can be used:
+#   - {playerVersion} to replace with the Player's Client version (Protocol version, NOT MC version such as 1.19!)
+#   - {playerName} to replace with the Player's name.
+#
+# The following operators are available:
+#   - '<'   Returns true if the left value is less than the right value.
+#           When the provided values are NOT numbers will it simply compare the lengths of each String.
+#   - '<='  Returns true if the left value is less than OR equal to the right value.
+#           When the provided values are NOT numbers will it simply compare the lengths of each String.
+#   - '='   Returns true if the left value is equal to the right value.
+#   - '!='  Returns true if the left value is NOT equal to the right value.
+#   - '>'   Returns true if the left value is larger than the right value.
+#           When the provided values are NOT numbers will it simply compare the lengths of each String.
+#   - '>='  Returns true if the left value is larger than OR equal to the right value.
+#           When the provided values are NOT numbers will it simply compare the lengths of each String
+#
+#condition: '{playerVersion} < 759'
+
+#
+# The MOTD to display.
+# Remove this option or set it to "motd: []" for no changes.
+#
+# Supports 24-Bit HEX colors.
+#
+motd:
+  - 'Line 1'
+  - 'Line 2'
+
+#
+# The text to display when hovering over the "<online>/<total>" player count.
+# Remove or set this to "players: []" for no changes.
+#
+# Only supports basic colors.
+#
+players:
+  - 'Line 1'
+  - 'Line 2'
+  - 'Line 3'
+
+#
+# The text that usually shows the current and total amount of players.
+# Remove this option or set it to "playerCount: ''" for no changes.
+#
+# Only supports basic colors.
+#
+playerCount: 'Text'
