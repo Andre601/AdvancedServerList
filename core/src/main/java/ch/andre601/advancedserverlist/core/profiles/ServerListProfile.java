@@ -1,13 +1,17 @@
 package ch.andre601.advancedserverlist.core.profiles;
 
+import ch.andre601.advancedserverlist.core.interfaces.ProxyLogger;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class ServerListProfile{
     
-    private final Condition condition;
+    private final ConditionHolder conditions;
     private final int priority;
     
     private final List<String> motd;
@@ -15,7 +19,7 @@ public class ServerListProfile{
     private final String playerCount;
     
     public ServerListProfile(ConfigurationNode node){
-        this.condition = new Condition(node.node("condition").getString(""));
+        this.conditions = new ConditionHolder(getList(node, "conditions"));
         this.priority = node.node("priority").getInt();
         
         this.motd = getList(node, "motd");
@@ -23,8 +27,8 @@ public class ServerListProfile{
         this.playerCount = node.node("playerCount").getString("");
     }
     
-    public Condition getCondition(){
-        return condition;
+    public ConditionHolder getConditions(){
+        return conditions;
     }
     
     public int getPriority(){

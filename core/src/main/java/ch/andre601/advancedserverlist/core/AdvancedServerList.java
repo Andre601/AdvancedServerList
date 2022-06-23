@@ -5,7 +5,7 @@ import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.ProxyLogger;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import ch.andre601.advancedserverlist.core.profiles.Condition;
+import ch.andre601.advancedserverlist.core.profiles.ConditionHolder;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 
 import java.lang.reflect.Constructor;
@@ -62,13 +62,13 @@ public class AdvancedServerList{
         return commandHandler;
     }
     
-    public ServerListProfile getServerListProfile(String name, int protocol){
+    public ServerListProfile getServerListProfile(int protocol){
         for(ServerListProfile profile : getFileHandler().getProfiles()){
             if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
                 continue;
-            
-            Condition condition = profile.getCondition();
-            if(condition.eval(name, protocol, getProxyLogger()))
+    
+            ConditionHolder conditions = profile.getConditions();
+            if(conditions.eval(protocol, getProxyLogger()))
                 return profile;
         }
         

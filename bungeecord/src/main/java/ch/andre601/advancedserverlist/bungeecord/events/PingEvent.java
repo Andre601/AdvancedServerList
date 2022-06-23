@@ -30,7 +30,7 @@ public class PingEvent implements Listener{
         if(protocol == null)
             return;
     
-        ServerListProfile profile = plugin.getCore().getServerListProfile(protocol.getName(), protocol.getProtocol());
+        ServerListProfile profile = plugin.getCore().getServerListProfile(protocol.getProtocol());
         if(!profile.getMotd().isEmpty()){
             List<String> motd = profile.getMotd();
             if(motd.size() > 2)

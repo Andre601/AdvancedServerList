@@ -28,7 +28,7 @@ public class PingEvent{
             return;
     
         ServerPing.Builder builder = ping.asBuilder();
-        ServerListProfile profile = plugin.getCore().getServerListProfile(protocol.getName(), protocol.getProtocol());
+        ServerListProfile profile = plugin.getCore().getServerListProfile(protocol.getProtocol());
         if(!profile.getMotd().isEmpty()){
             List<String> motd = profile.getMotd();
             if(motd.size() > 2)

@@ -1,49 +1,35 @@
 #
-# The priority of this profile. Higher number equals higher priority.
+# Set the priority of this profile.
+# Higher number = Higher priority.
+#
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#priority
 #
 priority: 0
 
 #
-# Allows you to set a condition for this profile.
-# If the condition evaluates to true will it be displayed, given that no other profile with higher priority is available.
+# Set conditions that needs to be met.
+# Only when all conditions return true will the profile be shown (Given no profile with higher priority is used).
 #
-# It is recommended to keep a profile with a low priority and no condition set.
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#conditions
 #
-# The following placeholders can be used:
-#   - {playerVersion} to replace with the Player's Client version (Protocol version, NOT MC version such as 1.19!)
-#   - {playerName} to replace with the Player's name.
-#
-# The following operators are available:
-#   - <   Returns true if the left value is less than the right value.
-#         When the provided values are NOT numbers will it simply compare the lengths of each String.
-#   - <=  Returns true if the left value is less than OR equal to the right value.
-#         When the provided values are NOT numbers will it simply compare the lengths of each String.
-#   - =   Returns true if the left value is equal to the right value.
-#   - !=  Returns true if the left value is NOT equal to the right value.
-#   - >   Returns true if the left value is larger than the right value.
-#         When the provided values are NOT numbers will it simply compare the lengths of each String.
-#   - >=  Returns true if the left value is larger than OR equal to the right value.
-#         When the provided values are NOT numbers will it simply compare the lengths of each String
-#
-# Due to current limitations can you only use one operator within a condition. This may get changed in the future.
-#
-#condition: '{playerVersion} < 759'
+#conditions:
+#  - '{playerVersion} < 759'
 
 #
-# The MOTD to display.
-# Remove this option or set it to "motd: []" for no changes.
+# Set the MOTD that should be displayed.
+# Can be removed or set to "motd: []" to not alter the MOTD.
 #
-# Supports 24-Bit HEX colors.
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#motd
 #
 motd:
   - 'Line 1'
   - 'Line 2'
 
 #
-# The text to display when hovering over the "<online>/<total>" player count.
-# Remove or set this to "players: []" for no changes.
+# Set the hover text that usually displays online players.
+# Can be removed or set to "players: []" to not alter the player list.
 #
-# Only supports basic colors.
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#players
 #
 players:
   - 'Line 1'
@@ -51,9 +37,9 @@ players:
   - 'Line 3'
 
 #
-# The text that usually shows the current and total amount of players.
-# Remove this option or set it to "playerCount: ''" for no changes.
+# Set the text that usually shows online players and max that can join.
+# Can be removed or set to "playerCount: ''" to not alter the player count text.
 #
-# Only supports basic colors.
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#playercount
 #
 playerCount: 'Text'
