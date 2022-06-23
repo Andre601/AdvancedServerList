@@ -64,30 +64,6 @@ public class FileHandler{
         return reloadProfiles();
     }
     
-    public boolean loadConfig(){
-        logger.info("Loading config.yml...");
-        if(!path.toFile().isDirectory() && !path.toFile().mkdirs()){
-            logger.warn("Cannot create folder for plugin!");
-            return false;
-        }
-        
-        if(!config.toFile().exists()){
-            try(InputStream stream = plugin.getClass().getResourceAsStream("/config.yml")){
-                if(stream == null){
-                    logger.warn("Cannot retrieve config.yml from Plugin.");
-                    return false;
-                }
-    
-                Files.copy(stream, config);
-            }catch(IOException ex){
-                logger.warn("Cannot create config.yml for plugin.", ex);
-                return false;
-            }
-        }
-        
-        return reloadConfig();
-    }
-    
     public ConfigurationNode getConfigurationNode(Path path){
         YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
             .path(path)
@@ -99,10 +75,6 @@ public class FileHandler{
             logger.warn("Cannot load " + path.toFile().getName() + " due to an IOException!", ex);
             return null;
         }
-    }
-    
-    public boolean reloadConfig(){
-        return getConfigurationNode(config) != null;
     }
     
     public boolean reloadProfiles(){
@@ -130,5 +102,9 @@ public class FileHandler{
     
         profiles.sort(Comparator.comparing(ServerListProfile::getPriority));
         return !profiles.isEmpty();
+    }
+    
+    public boolean getBoolean(Object... path){
+        return node.node(path).getBoolean(false);
     }
 }

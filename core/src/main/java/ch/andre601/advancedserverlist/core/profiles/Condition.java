@@ -12,11 +12,11 @@ public class Condition{
         this.expression = expression;
     }
     
-    public boolean eval(ProxyPlayer player, ProxyLogger logger){
+    public boolean eval(String name, int protocol, ProxyLogger logger){
         if(expression == null || expression.isEmpty())
             return true;
         
-        String newExpression = replacePlaceholders(player);
+        String newExpression = replacePlaceholders(name, protocol);
         char[] chars = newExpression.toCharArray();
         
         StringBuilder left = new StringBuilder();
@@ -82,7 +82,7 @@ public class Condition{
     
     }
     
-    private String replacePlaceholders(ProxyPlayer player){
+    private String replacePlaceholders(String name, int protocol){
         char[] chars = expression.toCharArray();
         
         StringBuilder builder = new StringBuilder(expression.length());
@@ -120,10 +120,10 @@ public class Condition{
             }
             
             if(finalPlaceholder.equals("playerName")){
-                builder.append(player.getName());
+                builder.append(name);
             }else
             if(finalPlaceholder.equals("playerVersion")){
-                builder.append(player.getClientVersion());
+                builder.append(protocol);
             }else{
                 builder.append('{').append(finalPlaceholder).append('}');
             }

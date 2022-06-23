@@ -1,7 +1,7 @@
 package ch.andre601.advancedserverlist.bungeecord;
 
 import ch.andre601.advancedserverlist.bungeecord.commands.CmdAdvancedServerList;
-import ch.andre601.advancedserverlist.bungeecord.events.ProxyPingEvents;
+import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
 import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
@@ -27,7 +27,7 @@ public class BungeeCordCore extends Plugin implements PluginCore{
     
     @Override
     public void loadEvents(){
-        new ProxyPingEvents(this);
+        new PingEvent(this);
     }
     
     @Override
@@ -48,5 +48,15 @@ public class BungeeCordCore extends Plugin implements PluginCore{
     @Override
     public ProxyLogger getProxyLogger(){
         return logger;
+    }
+    
+    @Override
+    public String getProxyName(){
+        return getProxy().getName();
+    }
+    
+    @Override
+    public String getProxyVersion(){
+        return getProxy().getVersion();
     }
 }

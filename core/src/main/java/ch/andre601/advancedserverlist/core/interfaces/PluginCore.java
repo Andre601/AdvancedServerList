@@ -18,4 +18,8 @@ public interface PluginCore{
     Path getPath();
     
     ProxyLogger getProxyLogger();
+    
+    String getProxyName();
+    
+    String getProxyVersion();
 }

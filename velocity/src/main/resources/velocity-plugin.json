@@ -1,0 +1,10 @@
+{
+  "id": "advancedserverlist",
+  "name": "AdvancedServerList",
+  "version": "${plugin.version}",
+  "description": "${plugin.description}",
+  "authors": [
+    "Andre_601"
+  ],
+  "main": "ch.andre601.advancedserverlist.velocity.VelocityCore"
+}

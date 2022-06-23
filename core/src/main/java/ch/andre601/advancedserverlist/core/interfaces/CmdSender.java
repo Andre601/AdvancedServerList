@@ -6,7 +6,9 @@ public interface CmdSender{
     
     boolean hasPermission(String permission);
     
-    void sendMsg();
+    default void sendMsg(){
+        sendMsg("");
+    }
     
     void sendMsg(String msg, Object... args);
 }

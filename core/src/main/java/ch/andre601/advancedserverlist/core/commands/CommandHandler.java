@@ -18,20 +18,13 @@ public class CommandHandler{
                 sender.sendMsg();
                 sender.sendMsg("<aqua>/asl help <grey>- Shows this help.");
                 sender.sendMsg();
-                sender.sendMsg("<aqua>/asl reload <grey>- Reloads the configuration.");
+                sender.sendMsg("<aqua>/asl reload <grey>- Reloads the profiles.");
             }else{
                 sender.sendMsg("<red>You do not have the permissions to execute this command!");
             }
         }else
         if(args[0].equalsIgnoreCase("reload")){
             if(sender.hasPermission("advancedserverlist.command.reload")){
-                sender.sendMsg("<grey>Reloading config.yml...");
-                if(core.getFileHandler().reloadProfiles()){
-                    sender.sendMsg("<green>Config.yml successfully reloaded!");
-                }else{
-                    sender.sendMsg("<red>Error while reloading config.yml");
-                }
-                
                 sender.sendMsg("<grey>Reloading Profiles...");
                 if(core.getFileHandler().reloadProfiles()){
                     sender.sendMsg("<green>Successfully loaded %d Profiles!", core.getFileHandler().getProfiles().size());

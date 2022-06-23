@@ -14,16 +14,18 @@ priority: 0
 #   - {playerName} to replace with the Player's name.
 #
 # The following operators are available:
-#   - '<'   Returns true if the left value is less than the right value.
-#           When the provided values are NOT numbers will it simply compare the lengths of each String.
-#   - '<='  Returns true if the left value is less than OR equal to the right value.
-#           When the provided values are NOT numbers will it simply compare the lengths of each String.
-#   - '='   Returns true if the left value is equal to the right value.
-#   - '!='  Returns true if the left value is NOT equal to the right value.
-#   - '>'   Returns true if the left value is larger than the right value.
-#           When the provided values are NOT numbers will it simply compare the lengths of each String.
-#   - '>='  Returns true if the left value is larger than OR equal to the right value.
-#           When the provided values are NOT numbers will it simply compare the lengths of each String
+#   - <   Returns true if the left value is less than the right value.
+#         When the provided values are NOT numbers will it simply compare the lengths of each String.
+#   - <=  Returns true if the left value is less than OR equal to the right value.
+#         When the provided values are NOT numbers will it simply compare the lengths of each String.
+#   - =   Returns true if the left value is equal to the right value.
+#   - !=  Returns true if the left value is NOT equal to the right value.
+#   - >   Returns true if the left value is larger than the right value.
+#         When the provided values are NOT numbers will it simply compare the lengths of each String.
+#   - >=  Returns true if the left value is larger than OR equal to the right value.
+#         When the provided values are NOT numbers will it simply compare the lengths of each String
+#
+# Due to current limitations can you only use one operator within a condition. This may get changed in the future.
 #
 #condition: '{playerVersion} < 759'
 

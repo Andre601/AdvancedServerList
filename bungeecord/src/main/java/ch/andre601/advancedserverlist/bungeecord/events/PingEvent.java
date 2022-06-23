@@ -3,7 +3,6 @@ package ch.andre601.advancedserverlist.bungeecord.events;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import ch.andre601.advancedserverlist.core.profiles.ProxyPlayer;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ServerPing;
@@ -15,11 +14,11 @@ import net.md_5.bungee.event.EventPriority;
 
 import java.util.List;
 
-public class ProxyPingEvents implements Listener{
+public class PingEvent implements Listener{
     
     private final BungeeCordCore plugin;
     
-    public ProxyPingEvents(BungeeCordCore plugin){
+    public PingEvent(BungeeCordCore plugin){
         this.plugin = plugin;
         plugin.getProxy().getPluginManager().registerListener(plugin, this);
     }
@@ -31,7 +30,7 @@ public class ProxyPingEvents implements Listener{
         if(protocol == null)
             return;
     
-        ServerListProfile profile = plugin.getCore().getServerListProfile(new ProxyPlayer(protocol.getName(), protocol.getProtocol()));
+        ServerListProfile profile = plugin.getCore().getServerListProfile(protocol.getName(), protocol.getProtocol());
         if(!profile.getMotd().isEmpty()){
             List<String> motd = profile.getMotd();
             if(motd.size() > 2)
