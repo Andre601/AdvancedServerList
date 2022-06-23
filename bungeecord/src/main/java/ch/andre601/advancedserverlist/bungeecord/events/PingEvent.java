@@ -45,6 +45,7 @@ public class PingEvent implements Listener{
         
         if(!profile.getPlayerCount().isEmpty()){
             protocol.setName(ComponentParser.toString(profile.getPlayerCount()));
+            protocol.setProtocol(-1);
         }
         
         if(!profile.getPlayers().isEmpty()){

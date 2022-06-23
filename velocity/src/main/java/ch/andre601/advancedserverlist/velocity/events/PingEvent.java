@@ -38,7 +38,7 @@ public class PingEvent{
         }
         
         if(!profile.getPlayerCount().isEmpty()){
-            builder.version(new ServerPing.Version(protocol.getProtocol(), ComponentParser.toString(profile.getPlayerCount())));
+            builder.version(new ServerPing.Version(-1, ComponentParser.toString(profile.getPlayerCount())));
         }
         
         if(!profile.getPlayers().isEmpty()){
@@ -46,7 +46,7 @@ public class PingEvent{
                 .toArray(new ServerPing.SamplePlayer[0]);
             
             if(players.length > 0)
-                builder.samplePlayers(players);
+                builder.clearSamplePlayers().samplePlayers(players);
         }
         
         event.setPing(builder.build());

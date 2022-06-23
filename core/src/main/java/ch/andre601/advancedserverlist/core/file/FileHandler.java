@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class FileHandler{
     
@@ -23,20 +22,14 @@ public class FileHandler{
     
     private final AdvancedServerList plugin;
     private final ProxyLogger logger;
-    
-    private final Path config;
-    private final Path path;
-    
-    private ConfigurationNode node = null;
+    private final Path profilesFolder;
     
     private final List<ServerListProfile> profiles = new ArrayList<>();
     
     public FileHandler(AdvancedServerList plugin){
         this.plugin = plugin;
         this.logger = plugin.getProxyLogger();
-        
-        this.config = plugin.getPath().resolve("config.yml");
-        this.path = plugin.getPath();
+        this.profilesFolder = plugin.getPath().resolve("profiles");
     }
     
     public List<ServerListProfile> getProfiles(){
@@ -45,8 +38,7 @@ public class FileHandler{
     
     public boolean loadProfiles(){
         logger.info("Loading profiles...");
-        Path profileFolder = path.resolve("profiles");
-        if(!profileFolder.toFile().exists() && profileFolder.toFile().mkdirs()){
+        if(!profilesFolder.toFile().exists() && profilesFolder.toFile().mkdirs()){
             logger.info("Successfully created profiles folder.");
             
             try(InputStream stream = plugin.getClass().getResourceAsStream("/profiles/default.yml")){
@@ -55,7 +47,7 @@ public class FileHandler{
                     return false;
                 }
                 
-                Files.copy(stream, profileFolder.resolve("default.yml"));
+                Files.copy(stream, profilesFolder.resolve("default.yml"));
             }catch(IOException ex){
                 logger.warn("Cannot create default.yml for plugin.", ex);
                 return false;
@@ -80,7 +72,7 @@ public class FileHandler{
     public boolean reloadProfiles(){
         profiles.clear();
         
-        File[] files = path.resolve("profiles").toFile().listFiles(profileFilter);
+        File[] files = profilesFolder.toFile().listFiles(profileFilter);
         if(files == null || files.length == 0){
             logger.warn("Cannot load files from profiles folder! No valid YAML files present.");
             return false;
@@ -90,7 +82,7 @@ public class FileHandler{
             ConfigurationNode tmp = getConfigurationNode(file.toPath());
             if(tmp == null)
                 continue;
-        
+            
             profiles.add(new ServerListProfile(tmp));
             logger.info("Loaded " + file.getName());
         }
@@ -100,11 +92,7 @@ public class FileHandler{
             return false;
         }
     
-        profiles.sort(Comparator.comparing(ServerListProfile::getPriority));
+        profiles.sort(Comparator.comparing(ServerListProfile::getPriority).reversed());
         return !profiles.isEmpty();
-    }
-    
-    public boolean getBoolean(Object... path){
-        return node.node(path).getBoolean(false);
     }
 }

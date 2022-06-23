@@ -82,7 +82,7 @@ public class AdvancedServerList{
         getProxyLogger().info("Proxy: " + plugin.getProxyName() + " " + plugin.getProxyVersion());
         
         if(getFileHandler().loadProfiles()){
-            getProxyLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + "profiles!");
+            getProxyLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
         }else{
             getProxyLogger().warn("Unable to load profiles! Check previous lines for errors.");
             return;
