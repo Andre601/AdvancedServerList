@@ -1,20 +1,20 @@
-package ch.andre601.advancedserverlist.bungeecord;
+package ch.andre601.advancedserverlist.paper;
 
-import ch.andre601.advancedserverlist.bungeecord.commands.CmdAdvancedServerList;
-import ch.andre601.advancedserverlist.bungeecord.events.JoinEvent;
-import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
-import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import net.md_5.bungee.api.plugin.Plugin;
+import ch.andre601.advancedserverlist.paper.commands.CmdAdvancedServerList;
+import ch.andre601.advancedserverlist.paper.events.PingEvent;
+import ch.andre601.advancedserverlist.paper.logging.PaperLogger;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 
-public class BungeeCordCore extends Plugin implements PluginCore{
+public class PaperCore extends JavaPlugin implements PluginCore{
     
+    private final PluginLogger logger = new PaperLogger(getLogger());
     private AdvancedServerList core;
-    private final PluginLogger logger = new BungeeLogger(getLogger());
     
     @Override
     public void onEnable(){
@@ -22,18 +22,18 @@ public class BungeeCordCore extends Plugin implements PluginCore{
     }
     
     @Override
-    public void onDisable(){
-        core.disable();
-    }
-    
-    @Override
     public void loadCommands(){
-        getProxy().getPluginManager().registerCommand(this, new CmdAdvancedServerList(this));
+        PluginCommand cmd = getServer().getPluginCommand("advancedserverlist");
+        if(cmd == null){
+            getPluginLogger().warn("Could not register command /advancedserverlist");
+            return;
+        }
+        
+        cmd.setExecutor(new CmdAdvancedServerList(this));
     }
     
     @Override
     public void loadEvents(){
-        new JoinEvent(this);
         new PingEvent(this);
     }
     
@@ -59,11 +59,11 @@ public class BungeeCordCore extends Plugin implements PluginCore{
     
     @Override
     public String getPlatformName(){
-        return getProxy().getName();
+        return getServer().getName();
     }
     
     @Override
     public String getPlatformVersion(){
-        return getProxy().getVersion();
+        return getServer().getVersion();
     }
 }

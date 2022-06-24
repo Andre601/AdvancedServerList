@@ -22,6 +22,6 @@ public class BungeeCmdSender implements CmdSender{
     
     @Override
     public void sendMsg(String msg, Object... args){
-        bungeeAudiences.sender(sender).sendMessage(ComponentParser.toComponent(String.format(msg, args)));
+        bungeeAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
     }
 }

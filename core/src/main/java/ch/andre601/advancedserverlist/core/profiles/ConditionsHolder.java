@@ -1,37 +1,43 @@
 package ch.andre601.advancedserverlist.core.profiles;
 
-import ch.andre601.advancedserverlist.core.interfaces.ProxyLogger;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ConditionHolder{
+public class ConditionsHolder{
     
     private final List<String> expressions = new ArrayList<>();
+    private final StringReplacer replacer = new StringReplacer();
     
-    public ConditionHolder(List<String> expressions){
+    public ConditionsHolder(List<String> expressions){
         if(expressions != null && !expressions.isEmpty())
             this.expressions.addAll(expressions);
     }
     
-    public boolean eval(int protocol, ProxyLogger logger){
+    public void replace(String from, Object to){
+        replacer.add(from, to);
+    }
+    
+    public boolean eval(PluginLogger logger){
         if(expressions.isEmpty())
             return true;
         
         for(String expression : expressions){
-            if(!parseExpression(expression, protocol, logger))
+            if(!parseExpression(expression, logger))
                 return false;
         }
         
         return true;
     }
     
-    private boolean parseExpression(String expression, int protocol, ProxyLogger logger){
+    private boolean parseExpression(String expression, PluginLogger logger){
         if(expression == null || expression.isEmpty())
             return true;
     
-        String newExpression = replacePlaceholders(expression, protocol);
+        String newExpression = replacer.replace(expression);
         
         char[] chars = newExpression.toCharArray();
     
@@ -96,53 +102,6 @@ public class ConditionHolder{
             default -> false;
         };
     
-    }
-    
-    private String replacePlaceholders(String expression, int protocol){
-        char[] chars = expression.toCharArray();
-        
-        StringBuilder builder = new StringBuilder(expression.length());
-        StringBuilder placeholder = new StringBuilder();
-        
-        for(int i = 0; i < chars.length; i++){
-            char c = chars[i];
-            
-            if(c != '{' || i + 1 >= chars.length){
-                builder.append(c);
-                continue;
-            }
-            
-            boolean valid = false;
-            
-            while(++i < chars.length){
-                char p = chars[i];
-                
-                if(p == ' ' || p == '<' || p == '>' || p == '=' || p == '!')
-                    break;
-                
-                if(p == '}'){
-                    valid = true;
-                    break;
-                }
-                
-                placeholder.append(p);
-            }
-            
-            String finalPlaceholder = placeholder.toString();
-            
-            if(!valid){
-                builder.append('{').append(finalPlaceholder);
-                continue;
-            }
-            
-            if(finalPlaceholder.equals("playerVersion")){
-                builder.append(protocol);
-            }else{
-                builder.append('{').append(finalPlaceholder).append('}');
-            }
-        }
-        
-        return builder.toString();
     }
     
     private int tryParse(String value){

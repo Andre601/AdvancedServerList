@@ -1,0 +1,89 @@
+package ch.andre601.advancedserverlist.core.profiles.players;
+
+import ch.andre601.advancedserverlist.core.AdvancedServerList;
+import ch.andre601.advancedserverlist.core.profiles.replacer.EntryList;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
+
+public class PlayerHandler{
+    
+    private final AdvancedServerList core;
+    private final Path cache;
+    private final EntryList<String, String> players = new EntryList<>();
+    
+    public PlayerHandler(AdvancedServerList core){
+        this.core = core;
+        this.cache = core.getPath().resolve("cache.data");
+    }
+    
+    public void load(){
+        if(!cache.toFile().exists()){
+            core.getPluginLogger().info("No cache.data present. Skipping...");
+            return;
+        }
+        
+        List<String> lines;
+        try{
+            lines = Files.readAllLines(cache);
+        }catch(IOException ex){
+            core.getPluginLogger().warn("Encountered IOException while trying to read cache.data", ex);
+            return;
+        }
+        
+        if(lines.isEmpty()){
+            core.getPluginLogger().info("cache.data is empty. Skipping...");
+            return;
+        }
+        
+        for(String line : lines){
+            String[] parts = line.split("=", 2);
+            if(parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty())
+                continue;
+            
+            players.add(parts[0], parts[1]);
+        }
+        
+        core.getPluginLogger().info("Loaded " + players.size() + " players into cache!");
+    }
+    
+    public void save(){
+        if(players.isEmpty()){
+            core.getPluginLogger().info("No data to save. Skipping...");
+            return;
+        }
+        
+        StringJoiner joiner = new StringJoiner("\n");
+        for(Map.Entry<String, String> entry : players){
+            joiner.add(entry.getKey() + "=" + entry.getValue());
+        }
+    
+        try(InputStream stream = new ByteArrayInputStream(joiner.toString().getBytes(StandardCharsets.UTF_8))){
+            Files.copy(stream, cache, StandardCopyOption.REPLACE_EXISTING);
+            core.getPluginLogger().info("Saved cache.data file.");
+        }catch(IOException ex){
+            core.getPluginLogger().warn("Cannot save player data to cache.data file!", ex);
+        }
+    }
+    
+    public void addPlayer(String name, String ip){
+        players.add(name, ip);
+    }
+    
+    public String getPlayerByIp(String ip){
+        for(Map.Entry<String, String> entry : players){
+            if(entry.getValue().equals(ip))
+                return entry.getKey();
+        }
+        
+        return "?";
+    }
+}

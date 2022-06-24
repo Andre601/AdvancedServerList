@@ -1,7 +1,6 @@
 package ch.andre601.advancedserverlist.core.interfaces;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 
 import java.nio.file.Path;
 
@@ -17,9 +16,9 @@ public interface PluginCore{
     
     Path getPath();
     
-    ProxyLogger getProxyLogger();
+    PluginLogger getPluginLogger();
     
-    String getProxyName();
+    String getPlatformName();
     
-    String getProxyVersion();
+    String getPlatformVersion();
 }

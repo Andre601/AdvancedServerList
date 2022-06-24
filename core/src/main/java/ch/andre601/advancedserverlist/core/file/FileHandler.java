@@ -1,7 +1,7 @@
 package ch.andre601.advancedserverlist.core.file;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.ProxyLogger;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
@@ -21,14 +21,14 @@ public class FileHandler{
     private final FilenameFilter profileFilter = (dir, name) -> name.endsWith(".yml");
     
     private final AdvancedServerList plugin;
-    private final ProxyLogger logger;
+    private final PluginLogger logger;
     private final Path profilesFolder;
     
     private final List<ServerListProfile> profiles = new ArrayList<>();
     
     public FileHandler(AdvancedServerList plugin){
         this.plugin = plugin;
-        this.logger = plugin.getProxyLogger();
+        this.logger = plugin.getPluginLogger();
         this.profilesFolder = plugin.getPath().resolve("profiles");
     }
     

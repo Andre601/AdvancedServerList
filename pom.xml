@@ -23,6 +23,7 @@
         <module>core</module>
         <module>velocity</module>
         <module>bungeecord</module>
+        <module>paper</module>
     </modules>
 
 </project>

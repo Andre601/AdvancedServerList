@@ -1,14 +1,14 @@
-package ch.andre601.advancedserverlist.velocity.commands;
+package ch.andre601.advancedserverlist.paper.commands;
 
 import ch.andre601.advancedserverlist.core.interfaces.CmdSender;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import com.velocitypowered.api.command.CommandSource;
+import org.bukkit.command.CommandSender;
 
-public class VelocityCmdSender implements CmdSender{
+public class PaperCmdSender implements CmdSender{
     
-    private final CommandSource sender;
+    private final CommandSender sender;
     
-    public VelocityCmdSender(CommandSource sender){
+    public PaperCmdSender(CommandSender sender){
         this.sender = sender;
     }
     

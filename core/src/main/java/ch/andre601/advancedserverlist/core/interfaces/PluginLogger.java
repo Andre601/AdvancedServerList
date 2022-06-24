@@ -1,6 +1,6 @@
 package ch.andre601.advancedserverlist.core.interfaces;
 
-public interface ProxyLogger{
+public interface PluginLogger{
     
     void info(String msg);
     

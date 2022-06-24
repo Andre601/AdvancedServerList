@@ -3,13 +3,14 @@ package ch.andre601.advancedserverlist.core;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
-import ch.andre601.advancedserverlist.core.interfaces.ProxyLogger;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import ch.andre601.advancedserverlist.core.profiles.ConditionHolder;
-import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -18,25 +19,29 @@ public class AdvancedServerList{
     private final PluginCore plugin;
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
+    private final PlayerHandler playerHandler;
     
     public AdvancedServerList(PluginCore plugin){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
+        this.playerHandler = new PlayerHandler(this);
         
         load();
     }
     
-    public static <T> List<T> getPlayers(Class<T> clazz, List<String> lines){
+    public static <T> List<T> getPlayers(Class<T> clazz, String text){
         try{
-            final List<T> players = new ArrayList<>(lines.size());
+            String[] lines = text.split("\n");
+            
+            final List<T> players = new ArrayList<>(lines.length);
             final Constructor<T> constructor = clazz.getDeclaredConstructor(String.class, UUID.class);
             
             constructor.setAccessible(true);
             
             for(String line : lines){
                 players.add(constructor.newInstance(
-                    ComponentParser.toString(line), UUID.randomUUID()
+                    ComponentParser.text(line).toString(), UUID.randomUUID()
                 ));
             }
             
@@ -46,8 +51,25 @@ public class AdvancedServerList{
         }
     }
     
-    public ProxyLogger getProxyLogger(){
-        return plugin.getProxyLogger();
+    public Map<String, Object> loadPlaceholders(int protocol, int online, int max, InetSocketAddress ip){
+        Map<String, Object> replacements = new HashMap<>();
+        
+        replacements.put(Placeholders.PLAYER_PROTOCOL, protocol);
+        replacements.put(Placeholders.PLAYERS_ONLINE, online);
+        replacements.put(Placeholders.PLAYERS_MAX, max);
+        replacements.put(Placeholders.PLAYER_NAME, getPlayerHandler().getPlayerByIp(ip.getHostString()));
+        
+        return replacements;
+    }
+    
+    public void disable(){
+        getPluginLogger().info("Saving cache.data file...");
+        getPlayerHandler().save();
+        getPluginLogger().info("AdvancedServerList disabled!");
+    }
+    
+    public PluginLogger getPluginLogger(){
+        return plugin.getPluginLogger();
     }
     
     public Path getPath(){
@@ -62,51 +84,45 @@ public class AdvancedServerList{
         return commandHandler;
     }
     
-    public ServerListProfile getServerListProfile(int protocol){
-        for(ServerListProfile profile : getFileHandler().getProfiles()){
-            if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
-                continue;
-    
-            ConditionHolder conditions = profile.getConditions();
-            if(conditions.eval(protocol, getProxyLogger()))
-                return profile;
-        }
-        
-        return null;
+    public PlayerHandler getPlayerHandler(){
+        return playerHandler;
     }
     
     private void load(){
         printBanner();
-        getProxyLogger().info("Starting AdvancedServerList...");
+        getPluginLogger().info("Starting AdvancedServerList...");
         
-        getProxyLogger().info("Proxy: " + plugin.getProxyName() + " " + plugin.getProxyVersion());
+        getPluginLogger().info("Proxy: " + plugin.getPlatformName() + " " + plugin.getPlatformVersion());
         
         if(getFileHandler().loadProfiles()){
-            getProxyLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
+            getPluginLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
         }else{
-            getProxyLogger().warn("Unable to load profiles! Check previous lines for errors.");
+            getPluginLogger().warn("Unable to load profiles! Check previous lines for errors.");
             return;
         }
         
-        getProxyLogger().info("Loading Commands...");
+        getPluginLogger().info("Loading Commands...");
         plugin.loadCommands();
-        getProxyLogger().info("Commands loaded!");
+        getPluginLogger().info("Commands loaded!");
         
-        getProxyLogger().info("Loading events...");
+        getPluginLogger().info("Loading events...");
         plugin.loadEvents();
-        getProxyLogger().info("Events loaded!");
+        getPluginLogger().info("Events loaded!");
         
-        getProxyLogger().info("AdvancedServerList is ready!");
+        getPluginLogger().info("Loading cache.data...");
+        getPlayerHandler().load();
+        
+        getPluginLogger().info("AdvancedServerList is ready!");
     }
     
     private void printBanner(){
-        getProxyLogger().info("");
-        getProxyLogger().info("           _____ _");
-        getProxyLogger().info("    /\\    / ____| |");
-        getProxyLogger().info("   /  \\  | (___ | |");
-        getProxyLogger().info("  / /\\ \\  \\___ \\| |");
-        getProxyLogger().info(" / ____ \\ ____) | |____");
-        getProxyLogger().info("/_/    \\_\\_____/|______|");
-        getProxyLogger().info("");
+        getPluginLogger().info("");
+        getPluginLogger().info("           _____ _");
+        getPluginLogger().info("    /\\    / ____| |");
+        getPluginLogger().info("   /  \\  | (___ | |");
+        getPluginLogger().info("  / /\\ \\  \\___ \\| |");
+        getPluginLogger().info(" / ____ \\ ____) | |____");
+        getPluginLogger().info("/_/    \\_\\_____/|______|");
+        getPluginLogger().info("");
     }
 }

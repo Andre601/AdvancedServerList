@@ -1,9 +1,9 @@
 package ch.andre601.advancedserverlist.velocity.logging;
 
-import ch.andre601.advancedserverlist.core.interfaces.ProxyLogger;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import org.slf4j.Logger;
 
-public class VelocityLogger implements ProxyLogger{
+public class VelocityLogger implements PluginLogger{
     
     private final Logger logger;
     
