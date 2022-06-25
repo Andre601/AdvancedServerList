@@ -41,7 +41,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.*;
 
@@ -81,9 +80,11 @@ public class PingEvent implements Listener{
                 if(!profile.getMotd().isEmpty()){
                     ping.setMotD(ComponentParser.list(profile.getMotd())
                         .replacements(replacements)
-                        .consumer(text -> {
+                        .function(text -> {
                             if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                                PlaceholderAPI.setPlaceholders(player, text);
+                                return PlaceholderAPI.setPlaceholders(player, text);
+    
+                            return text;
                         })
                         .toString()
                     );
@@ -92,9 +93,11 @@ public class PingEvent implements Listener{
                 if(!profile.getPlayerCount().isEmpty()){
                     ping.setVersionName(ComponentParser.text(profile.getPlayerCount())
                         .replacements(replacements)
-                        .consumer(text -> {
+                        .function(text -> {
                             if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                                PlaceholderAPI.setPlaceholders(player, text);
+                                return PlaceholderAPI.setPlaceholders(player, text);
+    
+                            return text;
                         })
                         .toString()
                     );
@@ -105,9 +108,11 @@ public class PingEvent implements Listener{
                     ping.setPlayers(getFakePlayers(
                         ComponentParser.list(profile.getPlayers())
                             .replacements(replacements)
-                            .consumer(text -> {
+                            .function(text -> {
                                 if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                                    PlaceholderAPI.setPlaceholders(player, text);
+                                    return PlaceholderAPI.setPlaceholders(player, text);
+    
+                                return text;
                             })
                             .toString()
                     ));

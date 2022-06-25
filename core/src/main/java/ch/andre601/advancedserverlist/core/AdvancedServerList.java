@@ -119,6 +119,13 @@ public class AdvancedServerList{
         
         getPluginLogger().info("Proxy: " + plugin.getPlatformName() + " " + plugin.getPlatformVersion());
         
+        if(getFileHandler().loadConfig()){
+            getPluginLogger().info("Successfully loaded config.yml!");
+        }else{
+            getPluginLogger().warn("Unable to load config.yml! Check previous lines for errors.");
+            return;
+        }
+        
         if(getFileHandler().loadProfiles()){
             getPluginLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
         }else{

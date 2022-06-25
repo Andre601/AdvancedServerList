@@ -32,7 +32,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ComponentParser{
     
@@ -46,7 +46,7 @@ public class ComponentParser{
         replacer = new StringReplacer();
     }
     
-    private final String text;
+    private String text;
     
     private ComponentParser(String text){
         this.text = text;
@@ -65,8 +65,8 @@ public class ComponentParser{
         return this;
     }
     
-    public ComponentParser consumer(Consumer<String> consumer){
-        consumer.accept(text);
+    public ComponentParser function(Function<String, String> function){
+        this.text = function.apply(text);
         return this;
     }
     

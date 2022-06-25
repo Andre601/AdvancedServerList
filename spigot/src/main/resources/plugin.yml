@@ -5,6 +5,8 @@ description: '${plugin.description}'
 
 main: 'ch.andre601.advancedserverlist.spigot.SpigotCore'
 
+api-version: 1.19
+
 libraries:
   - 'org.spongepowered:configurate-yaml:${plugin.depend.configurate}'
   - 'net.kyori:adventure-api:${plugin.depend.kyori-adventure}'

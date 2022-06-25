@@ -5,6 +5,11 @@ description: '${plugin.description}'
 
 main: 'ch.andre601.advancedserverlist.paper.PaperCore'
 
+api-version: 1.19
+
+softdepend:
+  - 'PlaceholderAPI'
+
 commands: 
   advancedserverlist:
     description: 'Main command of AdvancedServerList'

@@ -70,9 +70,11 @@ public class PingEvent implements Listener{
         if(!profile.getMotd().isEmpty()){
             event.motd(ComponentParser.list(profile.getMotd())
                 .replacements(replacements)
-                .consumer(text -> {
+                .function(text -> {
                     if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                        PlaceholderAPI.setPlaceholders(player, text);
+                        return PlaceholderAPI.setPlaceholders(player, text);
+                    
+                    return text;
                 })
                 .toComponent());
         }
@@ -80,9 +82,11 @@ public class PingEvent implements Listener{
         if(!profile.getPlayerCount().isEmpty()){
             event.setVersion(ComponentParser.text(profile.getPlayerCount())
                 .replacements(replacements)
-                .consumer(text -> {
+                .function(text -> {
                     if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                        PlaceholderAPI.setPlaceholders(player, text);
+                        return PlaceholderAPI.setPlaceholders(player, text);
+    
+                    return text;
                 })
                 .toString());
             event.setProtocolVersion(-1);
@@ -100,9 +104,16 @@ public class PingEvent implements Listener{
         List<PlayerProfile> players = new ArrayList<>();
         lines.forEach(line -> players.add(Bukkit.createProfile(UUID.randomUUID(), ComponentParser.text(line)
             .replacements(replacements)
-            .consumer(text -> {
-                if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                    PlaceholderAPI.setPlaceholders(player, text);
+            .function(text -> {
+                plugin.getPluginLogger().info("Before: " + text);
+                if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")){
+                    String after = PlaceholderAPI.setPlaceholders(player, text);
+                    
+                    plugin.getPluginLogger().info("After: " + after);
+                    return after;
+                }
+    
+                return text;
             })
             .toString())));
         

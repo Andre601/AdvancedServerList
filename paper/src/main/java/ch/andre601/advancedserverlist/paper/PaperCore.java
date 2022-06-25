@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.paper.commands.CmdAdvancedServerList;
+import ch.andre601.advancedserverlist.paper.events.JoinEvent;
 import ch.andre601.advancedserverlist.paper.events.PingEvent;
 import ch.andre601.advancedserverlist.paper.logging.PaperLogger;
 import org.bstats.bukkit.Metrics;
@@ -64,6 +65,7 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     
     @Override
     public void loadEvents(){
+        new JoinEvent(this);
         new PingEvent(this);
     }
     
