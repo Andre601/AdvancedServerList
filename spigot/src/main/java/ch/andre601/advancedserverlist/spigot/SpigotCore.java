@@ -8,6 +8,7 @@ import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import ch.andre601.advancedserverlist.spigot.logging.SpigotLogger;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -61,7 +62,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
     
     @Override
     public void loadMetrics(){
-        
+        new Metrics(this, 15584);
     }
     
     @Override

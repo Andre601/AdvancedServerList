@@ -8,6 +8,7 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import net.md_5.bungee.api.plugin.Plugin;
+import org.bstats.bungeecord.Metrics;
 
 import java.nio.file.Path;
 
@@ -39,7 +40,7 @@ public class BungeeCordCore extends Plugin implements PluginCore{
     
     @Override
     public void loadMetrics(){
-        
+        new Metrics(this, 15585);
     }
     
     @Override

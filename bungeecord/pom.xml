@@ -53,6 +53,12 @@
             <version>4.1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bungeecord</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -83,6 +89,10 @@
                         <relocation>
                             <pattern>net.kyori.adventure</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.adventure</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.bstats</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

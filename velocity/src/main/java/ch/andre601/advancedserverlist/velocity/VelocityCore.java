@@ -14,6 +14,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import org.bstats.velocity.Metrics;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
@@ -23,15 +24,17 @@ public class VelocityCore implements PluginCore{
     private final PluginLogger logger;
     private final ProxyServer proxy;
     private final Path path;
+    private final Metrics.Factory metrics;
     
     private AdvancedServerList core;
     
     @Inject
-    public VelocityCore(ProxyServer proxy, @DataDirectory Path path){
+    public VelocityCore(ProxyServer proxy, @DataDirectory Path path, Metrics.Factory metrics){
         this.logger = new VelocityLogger(LoggerFactory.getLogger("AdvancedServerList"));
         
         this.proxy = proxy;
         this.path = path;
+        this.metrics = metrics;
     }
     
     @Subscribe
@@ -62,7 +65,7 @@ public class VelocityCore implements PluginCore{
     
     @Override
     public void loadMetrics(){
-        
+        metrics.make(this, 15587);
     }
     
     @Override

@@ -6,6 +6,7 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.paper.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.paper.events.PingEvent;
 import ch.andre601.advancedserverlist.paper.logging.PaperLogger;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,7 +44,7 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     
     @Override
     public void loadMetrics(){
-        
+        new Metrics(this, 15584);
     }
     
     @Override
