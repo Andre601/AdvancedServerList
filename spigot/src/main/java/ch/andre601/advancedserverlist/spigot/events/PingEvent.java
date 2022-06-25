@@ -28,7 +28,7 @@ public class PingEvent implements Listener{
     private void loadPacketListener(SpigotCore spigotPlugin){
         protocolManager.addPacketListener(new PacketAdapter(spigotPlugin, ListenerPriority.LOW, PacketType.Status.Server.SERVER_INFO){
             @Override
-            public void onPacketReceiving(PacketEvent event){
+            public void onPacketSending(PacketEvent event){
                 WrappedServerPing ping = event.getPacket().getServerPings().read(0);
                 InetSocketAddress address = event.getPlayer().getAddress();
                 if(address == null)
@@ -56,6 +56,7 @@ public class PingEvent implements Listener{
                         .replacements(replacements)
                         .toString()
                     );
+                    ping.setVersionProtocol(-1);
                 }
                 
                 if(!profile.getPlayers().isEmpty()){
