@@ -22,13 +22,17 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     }
     
     @Override
+    public void onDisable(){
+        getCore().disable();
+    }
+    
+    @Override
     public void loadCommands(){
         PluginCommand cmd = getServer().getPluginCommand("advancedserverlist");
         if(cmd == null){
             getPluginLogger().warn("Could not register command /advancedserverlist");
             return;
         }
-        
         cmd.setExecutor(new CmdAdvancedServerList(this));
     }
     

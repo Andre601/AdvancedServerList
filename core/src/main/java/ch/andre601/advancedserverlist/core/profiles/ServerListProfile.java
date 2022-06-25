@@ -15,11 +15,11 @@ public class ServerListProfile{
     private final String playerCount;
     
     public ServerListProfile(ConfigurationNode node){
-        this.conditions = new ConditionsHolder(getList(node, "conditions"));
+        this.conditions = new ConditionsHolder(getList(node, "conditions", false));
         this.priority = node.node("priority").getInt();
         
-        this.motd = getList(node, "motd");
-        this.players = getList(node, "players");
+        this.motd = getList(node, "motd", true);
+        this.players = getList(node, "players", false);
         this.playerCount = node.node("playerCount").getString("");
     }
     
@@ -43,11 +43,20 @@ public class ServerListProfile{
         return playerCount;
     }
     
-    private List<String> getList(ConfigurationNode node, String key){
+    private List<String> getList(ConfigurationNode node, String key, boolean trim){
+        List<String> list;
         try{
-            return node.node(key).getList(String.class);
+            list = node.node(key).getList(String.class);
         }catch(SerializationException ex){
             return null;
         }
+        
+        if(list == null)
+            return null;
+        
+        if(trim && list.size() > 2)
+            return list.subList(0, 2);
+        
+        return list;
     }
 }

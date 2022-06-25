@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class PingEvent implements Listener{
@@ -25,6 +26,9 @@ public class PingEvent implements Listener{
     
     @EventHandler
     public void onServerPing(PaperServerListPingEvent event){
+        Map<String, Object> replacements = plugin.getCore()
+            .loadPlaceholders(event.getProtocolVersion(), event.getNumPlayers(), event.getMaxPlayers(), event.getClient().getAddress());
+        
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replace("{playerVersion}", event.getClient().getProtocolVersion())
             .getProfile();

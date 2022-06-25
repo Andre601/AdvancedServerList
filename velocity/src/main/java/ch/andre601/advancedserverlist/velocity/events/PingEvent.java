@@ -48,9 +48,6 @@ public class PingEvent{
         
         if(!profile.getMotd().isEmpty()){
             List<String> motd = profile.getMotd();
-            if(motd.size() > 2)
-                motd = motd.subList(0, 2);
-            
             builder.description(ComponentParser.list(motd)
                 .replacements(replacements)
                 .toComponent()

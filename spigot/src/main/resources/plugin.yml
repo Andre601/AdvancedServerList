@@ -1,0 +1,48 @@
+name: 'AdvancedServerList'
+author: 'Andre_601'
+version: '${plugin.version}'
+description: '${plugin.description}'
+
+main: 'ch.andre601.advancedserverlist.spigot.SpigotCore'
+
+libraries:
+  - 'org.spongepowered:configurate-yaml:${plugin.depend.configurate}'
+  - 'net.kyori:adventure-api:${plugin.depend.kyori-adventure}'
+  - 'net.kyori:adventure-text-minimessage:${plugin.depend.kyori-minimessage}'
+  - 'net.kyori:adventure-text-serializer-legacy:${plugin.depend.kyori-legacy}'
+  - 'net.kyori:adventure-platform-bukkit:${plugin.depend.kyori-platform-bukkit}'
+
+softdepend:
+  - 'ProtocolLib'
+
+commands:
+  advancedserverlist:
+    description: 'Main command of AdvancedServerList'
+    usage: '/<command> [reload]'
+    aliases:
+      - 'asl'
+    permission: 'advancedserverlist.admin'
+
+permissions:
+  advancedserverlist.*:
+    description: 'Grants access to all permissions'
+    default: op
+    children:
+      - 'advancedserverlist.admin'
+  advancedserverlist.admin:
+    description: 'Grants access to all permissions'
+    default: op
+    children:
+      - 'advancedserverlist.command.*'
+  advancedserverlist.command.*:
+    description: 'Grants access to all commands'
+    default: op
+    children:
+      - 'advancedserverlist.command.help'
+      - 'advancedserverlist.command.reload'
+  advancedserverlist.command.help:
+    description: 'Grants access to /asl help'
+    default: op
+  advancedserverlist.command.reload:
+    description: 'Grants access to /asl reload'
+    default: op

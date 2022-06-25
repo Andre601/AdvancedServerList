@@ -14,7 +14,6 @@ import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
 import java.net.InetSocketAddress;
-import java.util.List;
 import java.util.Map;
 
 public class PingEvent implements Listener{
@@ -45,12 +44,8 @@ public class PingEvent implements Listener{
             return;
         
         if(!profile.getMotd().isEmpty()){
-            List<String> motd = profile.getMotd();
-            if(motd.size() > 2)
-                motd = motd.subList(0, 2);
-            
             TextComponent component = new TextComponent(BungeeComponentSerializer.get().serialize(
-                ComponentParser.list(motd)
+                ComponentParser.list(profile.getMotd())
                     .replacements(replacements)
                     .toComponent()
             ));
