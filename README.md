@@ -5,6 +5,8 @@
 [stats-bungeecord]: https://bstats.org/plugin/bungeecord/AdvancedServerList/15585
 [stats-velocity]: https://bstats.org/plugin/velocity/AdvancedServerList/15587
 
+[license]: https://github.com/Andre601/AdvancedServerList/blob/master/LICENSE
+
 # AdvancedServerList
 
 AdvancedServerList is a plugin available for Spigot, PaperMC, BungeeCord and Velocity with the goal of allowing the creation of multiple "profiles" to display a custom MOTD, Player count and Hover in the Multiplayer Server list.
@@ -38,3 +40,4 @@ Other platform may be supported, but compatability has not been tested with any 
   - [Spigot/PaperMC][stats-spigot]
   - [BungeeCord][stats-bungeecord]
   - [Velocity][stats-velocity]
+- [License][license]

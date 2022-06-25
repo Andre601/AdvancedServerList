@@ -1,3 +1,28 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2022 Andre_601
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
+
 package ch.andre601.advancedserverlist.paper.events;
 
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -6,10 +31,13 @@ import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.paper.PaperCore;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.destroystokyo.paper.profile.PlayerProfile;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,41 +54,71 @@ public class PingEvent implements Listener{
     
     @EventHandler
     public void onServerPing(PaperServerListPingEvent event){
+        InetSocketAddress address = event.getClient().getAddress();
         Map<String, Object> replacements = plugin.getCore()
-            .loadPlaceholders(event.getProtocolVersion(), event.getNumPlayers(), event.getMaxPlayers(), event.getClient().getAddress());
+            .loadPlaceholders(event.getClient().getProtocolVersion(), event.getNumPlayers(), event.getMaxPlayers(), address);
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .replace("{playerVersion}", event.getClient().getProtocolVersion())
+            .replacements(replacements)
             .getProfile();
         
         if(profile == null)
             return;
         
+        OfflinePlayer player = resolvePlayer(address);
+        
         if(!profile.getMotd().isEmpty()){
-            List<String> motd = profile.getMotd();
-            if(motd.size() > 2)
-                motd = motd.subList(0, 2);
-            
-            event.motd(ComponentParser.list(motd).toComponent());
+            event.motd(ComponentParser.list(profile.getMotd())
+                .replacements(replacements)
+                .consumer(text -> {
+                    if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+                        PlaceholderAPI.setPlaceholders(player, text);
+                })
+                .toComponent());
         }
         
         if(!profile.getPlayerCount().isEmpty()){
-            event.setVersion(ComponentParser.text(profile.getPlayerCount()).toString());
+            event.setVersion(ComponentParser.text(profile.getPlayerCount())
+                .replacements(replacements)
+                .consumer(text -> {
+                    if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+                        PlaceholderAPI.setPlaceholders(player, text);
+                })
+                .toString());
             event.setProtocolVersion(-1);
         }
         
         if(!profile.getPlayers().isEmpty()){
             event.getPlayerSample().clear();
-            event.getPlayerSample().addAll(getPlayers(profile.getPlayers()));
+            event.getPlayerSample().addAll(getPlayers(profile.getPlayers(), replacements, player));
         }
         
         event.setServerIcon(event.getServerIcon());
     }
     
-    private List<PlayerProfile> getPlayers(List<String> lines){
+    private List<PlayerProfile> getPlayers(List<String> lines, Map<String, Object> replacements, OfflinePlayer player){
         List<PlayerProfile> players = new ArrayList<>();
-        lines.forEach(line -> players.add(Bukkit.createProfile(UUID.randomUUID(), ComponentParser.text(line).toString())));
+        lines.forEach(line -> players.add(Bukkit.createProfile(UUID.randomUUID(), ComponentParser.text(line)
+            .replacements(replacements)
+            .consumer(text -> {
+                if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+                    PlaceholderAPI.setPlaceholders(player, text);
+            })
+            .toString())));
         
         return players;
+    }
+    
+    private OfflinePlayer resolvePlayer(InetSocketAddress address){
+        String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString());
+        OfflinePlayer player = Bukkit.getPlayerExact(playerName);
+        
+        if(player == null){
+            player = Bukkit.getOfflinePlayer(playerName);
+            
+            return player.hasPlayedBefore() ? player : null;
+        }
+        
+        return player;
     }
 }
