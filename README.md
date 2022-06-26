@@ -1,6 +1,8 @@
 [placeholders]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#placeholders
 [wiki]: https://github.com/Andre601/AdvancedServerList/wiki
 
+[spigot]: https://www.spigotmc.org/resources/102910/
+
 [stats-spigot]: https://bstats.org/plugin/bukkit/AdvancedServerList/15584
 [stats-bungeecord]: https://bstats.org/plugin/bungeecord/AdvancedServerList/15585
 [stats-velocity]: https://bstats.org/plugin/velocity/AdvancedServerList/15587
@@ -34,7 +36,7 @@ Other platform may be supported, but compatability has not been tested with any 
 
 ## Links
 
-- SpigotMC (TODO)
+- [SpigotMC][spigot]
 - [Wiki][wiki]
 - Statistics
   - [Spigot/PaperMC][stats-spigot]
