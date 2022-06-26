@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.core.profiles;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ServerListProfile{
@@ -73,11 +74,11 @@ public class ServerListProfile{
         try{
             list = node.node(key).getList(String.class);
         }catch(SerializationException ex){
-            return null;
+            return Collections.emptyList();
         }
         
         if(list == null)
-            return null;
+            return Collections.emptyList();
         
         if(trim && list.size() > 2)
             return list.subList(0, 2);
