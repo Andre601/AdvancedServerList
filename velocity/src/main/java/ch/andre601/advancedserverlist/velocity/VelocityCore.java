@@ -39,6 +39,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import org.bstats.charts.SimplePie;
 import org.bstats.velocity.Metrics;
 import org.slf4j.LoggerFactory;
 
@@ -90,7 +91,9 @@ public class VelocityCore implements PluginCore{
     
     @Override
     public void loadMetrics(){
-        metrics.make(this, 15587);
+        metrics.make(this, 15587).addCustomChart(new SimplePie("profiles",
+            () -> String.valueOf(core.getFileHandler().getProfiles().size())
+        ));
     }
     
     @Override

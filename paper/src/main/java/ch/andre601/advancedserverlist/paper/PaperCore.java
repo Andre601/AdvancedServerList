@@ -33,6 +33,7 @@ import ch.andre601.advancedserverlist.paper.events.JoinEvent;
 import ch.andre601.advancedserverlist.paper.events.PingEvent;
 import ch.andre601.advancedserverlist.paper.logging.PaperLogger;
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -71,7 +72,9 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     
     @Override
     public void loadMetrics(){
-        new Metrics(this, 15584);
+        new Metrics(this, 15584).addCustomChart(new SimplePie("profiles",
+            () -> String.valueOf(core.getFileHandler().getProfiles().size())
+        ));
     }
     
     @Override
