@@ -2,6 +2,7 @@
 [wiki]: https://github.com/Andre601/AdvancedServerList/wiki
 
 [spigot]: https://www.spigotmc.org/resources/102910/
+[hangar]: https://hangar.benndorf.dev/Andre_601/AdvancedServerList
 
 [stats-spigot]: https://bstats.org/plugin/bukkit/AdvancedServerList/15584
 [stats-bungeecord]: https://bstats.org/plugin/bungeecord/AdvancedServerList/15585
@@ -37,6 +38,7 @@ Other platform may be supported, but compatability has not been tested with any 
 ## Links
 
 - [SpigotMC][spigot]
+- [Hangar][hangar]
 - [Wiki][wiki]
 - Statistics
   - [Spigot/PaperMC][stats-spigot]
