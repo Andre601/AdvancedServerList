@@ -1,3 +1,4 @@
+[minimessage]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#minimessage
 [placeholders]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#placeholders
 [wiki]: https://github.com/Andre601/AdvancedServerList/wiki
 
@@ -17,11 +18,12 @@ AdvancedServerList is a plugin available for Spigot, PaperMC, BungeeCord and Vel
 ## Features
 
 - Create multiple profiles with
-  - different priority
-  - different conditions
-  - custom MOTD
-  - custom Player count text
-  - custom hover for the player count text
+  - Priority (Higher number = Higher Priority).
+  - Conditions for displaying the profile.
+  - Custom MOTD.
+  - Custom Player count text.
+  - Custom hover for the player count hover.
+  - MiniMessage formatting for MOTD, player count and player count hover [[Read More][minimessage]]
 - Placeholder support [[Read More][placeholders]]
 
 ## Platforms
