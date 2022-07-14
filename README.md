@@ -30,7 +30,7 @@
 
 ![platforms] ![tested]
 
-AdvancedServerList is a server and proxy platform that allows you to create custom MOTDs and more in your server list with priority and conditions.
+AdvancedServerList is a server and proxy plugin that allows you to create custom MOTDs and more in your server list with priority and conditions.
 
 ## Downloads
 
