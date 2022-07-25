@@ -105,13 +105,8 @@ public class PingEvent implements Listener{
         lines.forEach(line -> players.add(Bukkit.createProfile(UUID.randomUUID(), ComponentParser.text(line)
             .replacements(replacements)
             .function(text -> {
-                plugin.getPluginLogger().info("Before: " + text);
-                if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")){
-                    String after = PlaceholderAPI.setPlaceholders(player, text);
-                    
-                    plugin.getPluginLogger().info("After: " + after);
-                    return after;
-                }
+                if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+                    return PlaceholderAPI.setPlaceholders(player, text);
     
                 return text;
             })

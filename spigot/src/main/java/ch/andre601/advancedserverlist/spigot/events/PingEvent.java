@@ -34,9 +34,11 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.AdventureComponentConverter;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
@@ -78,16 +80,16 @@ public class PingEvent implements Listener{
                 OfflinePlayer player = resolvePlayer(address);
                 
                 if(!profile.getMotd().isEmpty()){
-                    ping.setMotD(ComponentParser.list(profile.getMotd())
+                    Component component = ComponentParser.list(profile.getMotd())
                         .replacements(replacements)
                         .function(text -> {
                             if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
                                 return PlaceholderAPI.setPlaceholders(player, text);
-    
+                            
                             return text;
                         })
-                        .toString()
-                    );
+                        .toComponent();
+                    ping.setMotD(AdventureComponentConverter.fromComponent(component));
                 }
                 
                 if(!profile.getPlayerCount().isEmpty()){

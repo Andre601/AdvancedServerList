@@ -74,6 +74,9 @@ public class PlayerHandler{
             if(parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty())
                 continue;
             
+            if(players.containsKey(parts[0]))
+                continue;
+            
             players.add(parts[0], parts[1]);
         }
         
@@ -100,6 +103,9 @@ public class PlayerHandler{
     }
     
     public void addPlayer(String name, String ip){
+        if(players.containsKey(name))
+            return;
+        
         players.add(name, ip);
     }
     

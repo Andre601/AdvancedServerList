@@ -68,6 +68,12 @@
 
     <build>
         <finalName>AdvancedServerList-Core-${plugin.version}</finalName>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${project.basedir}/src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -37,8 +37,8 @@ public class VelocityLogger implements PluginLogger{
     }
     
     @Override
-    public void info(String msg){
-        logger.info(msg);
+    public void info(String msg, Object... args){
+        logger.info(msg, args);
     }
     
     @Override

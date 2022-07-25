@@ -38,4 +38,12 @@ public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
     public void add(K key, V value){
         add(new AbstractMap.SimpleEntry<>(key, value));
     }
+    
+    public boolean containsKey(K key){
+        for(Map.Entry<K, V> entry : this){
+            if(entry.getKey() == key)
+                return true;
+        }
+        return false;
+    }
 }

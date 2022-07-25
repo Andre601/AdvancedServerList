@@ -27,7 +27,7 @@ package ch.andre601.advancedserverlist.core.interfaces;
 
 public interface PluginLogger{
     
-    void info(String msg);
+    void info(String msg, Object... args);
     
     void warn(String msg);
     

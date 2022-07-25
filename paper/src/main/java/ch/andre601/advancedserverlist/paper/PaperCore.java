@@ -46,11 +46,36 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     
     @Override
     public void onEnable(){
-        this.core = new AdvancedServerList(this);
+        try{
+            Class.forName("io.papermc.paper.configuration.ConfigurationLoaders");
+            this.core = new AdvancedServerList(this);
+        }catch(ClassNotFoundException ex){
+            try{
+                Class.forName("com.destroystokyo.paper.PaperConfig");
+                this.core = new AdvancedServerList(this);
+            }catch(ClassNotFoundException ex1){
+                getPluginLogger().warn("======================================== WARNING ========================================");
+                getPluginLogger().warn("");
+                getPluginLogger().warn("You are using the PaperMC version of AdvancedServerList on a SpigotMC server.");
+                getPluginLogger().warn("The PaperMC version is ONLY compatible with PaperMC itself due to it using exclusive");
+                getPluginLogger().warn("methods and events not available within SpigotMC.");
+                getPluginLogger().warn("");
+                getPluginLogger().warn("To avoid any exceptions and errors will AdvancedServerList disable itself now.");
+                getPluginLogger().warn("Please stop your server and either switch to PaperMC or use the Spigot version");
+                getPluginLogger().warn("of AdvancedServerList.");
+                getPluginLogger().warn("");
+                getPluginLogger().warn("======================================== WARNING ========================================");
+                
+                getServer().getPluginManager().disablePlugin(this);
+            }
+        }
     }
     
     @Override
     public void onDisable(){
+        if(getCore() == null)
+            return; // This is always the case when the plugin is used on a Spigot server (See above try-catch blocks).
+        
         getCore().disable();
     }
     

@@ -69,10 +69,16 @@ public class FileHandler{
     
     public boolean loadConfig(){
         logger.info("Loading config.yml...");
+        File folder = config.toFile().getParentFile();
+        if(!folder.exists() && !folder.mkdirs()){
+            logger.warn("Couldn't create folder for plugin. Is it missing Write permissions?");
+            return false;
+        }
+        
         if(!config.toFile().exists()){
             try(InputStream stream = plugin.getClass().getResourceAsStream("/config.yml")){
                 if(stream == null){
-                    logger.warn("Cannot retrieve config.yml from Plugin.");
+                    logger.warn("Cannot retrieve config.yml from plugin.");
                     return false;
                 }
                 

@@ -39,8 +39,8 @@ public class SpigotLogger implements PluginLogger{
     }
     
     @Override
-    public void info(String msg){
-        logger.info(msg);
+    public void info(String msg, Object... args){
+        logger.info(String.format(msg, args));
     }
     
     @Override

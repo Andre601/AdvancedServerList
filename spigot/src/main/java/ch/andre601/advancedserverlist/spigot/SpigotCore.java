@@ -31,8 +31,6 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.spigot.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import ch.andre601.advancedserverlist.spigot.logging.SpigotLogger;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
@@ -43,7 +41,6 @@ import java.nio.file.Path;
 public class SpigotCore extends JavaPlugin implements PluginCore{
     
     private AdvancedServerList core;
-    private ProtocolManager protocolManager;
     private final PluginLogger logger = new SpigotLogger(getLogger());
     
     @Override
@@ -60,8 +57,6 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
                 printPaperInfo();
             }catch(ClassNotFoundException ignored){}
         }
-        
-        protocolManager = ProtocolLibrary.getProtocolManager();
         
         this.core = new AdvancedServerList(this);
     }
@@ -119,12 +114,14 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
     }
     
     private void printPaperInfo(){
+        getPluginLogger().warn("======================================================================================");
         getPluginLogger().warn("You are using the Spigot version of AdvancedServerList on a PaperMC server.");
         getPluginLogger().warn("It is recommended to use the dedicated PaperMC version, to benefit from the");
         getPluginLogger().warn("Following improvements:");
-        getPluginLogger().warn("- No need to download external libraries already provided by PaperMC.");
-        getPluginLogger().warn("- No dependency on ProtocolLib thanks to provided Events.");
+        getPluginLogger().warn(" - No need to download external libraries already provided by PaperMC.");
+        getPluginLogger().warn(" - No dependency on ProtocolLib thanks to provided Events.");
         getPluginLogger().warn("");
         getPluginLogger().warn("AdvancedServerList may work as normal, but consider using the PaperMC version instead!");
+        getPluginLogger().warn("======================================================================================");
     }
 }

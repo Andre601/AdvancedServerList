@@ -33,6 +33,8 @@ import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
@@ -45,6 +47,8 @@ public class AdvancedServerList{
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
+    
+    private String version;
     
     public AdvancedServerList(PluginCore plugin){
         this.plugin = plugin;
@@ -113,9 +117,15 @@ public class AdvancedServerList{
         return playerHandler;
     }
     
+    public String getVersion(){
+        return version;
+    }
+    
     private void load(){
         printBanner();
-        getPluginLogger().info("Starting AdvancedServerList...");
+        resolveVersion();
+        
+        getPluginLogger().info("Starting AdvancedServerList v%s...", version);
         
         getPluginLogger().info("Proxy: " + plugin.getPlatformName() + " " + plugin.getPlatformVersion());
         
@@ -164,5 +174,17 @@ public class AdvancedServerList{
         getPluginLogger().info(" / ____ \\ ____) | |____");
         getPluginLogger().info("/_/    \\_\\_____/|______|");
         getPluginLogger().info("");
+    }
+    
+    private void resolveVersion(){
+        try(InputStream is = getClass().getResourceAsStream("/version.properties")){
+            Properties properties = new Properties();
+            
+            properties.load(is);
+            
+            version = properties.getProperty("version");
+        }catch(IOException ex){
+            version = "UNKNOWN";
+        }
     }
 }
