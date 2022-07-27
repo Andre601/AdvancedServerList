@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.spigot.events;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
@@ -51,6 +52,8 @@ public class PingEvent implements Listener{
     private final SpigotCore plugin;
     private final ProtocolManager protocolManager;
     
+    private final Map<String, String> hostAddresses = new HashMap<>();
+    
     public PingEvent(SpigotCore plugin, ProtocolManager protocolManager){
         this.plugin = plugin;
         this.protocolManager = protocolManager;
@@ -59,6 +62,18 @@ public class PingEvent implements Listener{
     }
     
     private void loadPacketListener(SpigotCore spigotPlugin){
+        protocolManager.addPacketListener(new PacketAdapter(spigotPlugin, ListenerPriority.LOW, PacketType.Handshake.Client.SET_PROTOCOL){
+            @Override
+            public void onPacketReceiving(PacketEvent event){
+                InetSocketAddress address = event.getPlayer().getAddress();
+                if(address == null)
+                    return;
+                
+                String host = event.getPacket().getStrings().read(0);
+                
+                hostAddresses.put(address.getHostString(), host);
+            }
+        });
         protocolManager.addPacketListener(new PacketAdapter(spigotPlugin, ListenerPriority.LOW, PacketType.Status.Server.SERVER_INFO){
             @Override
             public void onPacketSending(PacketEvent event){
@@ -67,8 +82,15 @@ public class PingEvent implements Listener{
                 if(address == null)
                     return;
                 
-                Map<String, Object> replacements = spigotPlugin.getCore()
-                    .loadPlaceholders(ping.getVersionProtocol(), ping.getPlayersOnline(), ping.getPlayersMaximum(), address);
+                Map<String, Object> replacements = Placeholders.get(spigotPlugin.getCore())
+                    .withProtocol(ping.getVersionProtocol())
+                    .withPlayersOnline(ping.getPlayersOnline())
+                    .withPlayersMax(ping.getPlayersMaximum())
+                    .withPlayerName(address)
+                    .withHostAddress(hostAddresses.get(address.getHostString()))
+                    .getReplacements();
+    
+                spigotPlugin.getPluginLogger().info(hostAddresses.get(address.getHostString()));
                 
                 ServerListProfile profile = ProfileManager.get(spigotPlugin.getCore())
                     .replacements(replacements)
@@ -82,7 +104,7 @@ public class PingEvent implements Listener{
                 if(!profile.getMotd().isEmpty()){
                     Component component = ComponentParser.list(profile.getMotd())
                         .replacements(replacements)
-                        .function(text -> {
+                        .modifyText(text -> {
                             if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
                                 return PlaceholderAPI.setPlaceholders(player, text);
                             
@@ -95,7 +117,7 @@ public class PingEvent implements Listener{
                 if(!profile.getPlayerCount().isEmpty()){
                     ping.setVersionName(ComponentParser.text(profile.getPlayerCount())
                         .replacements(replacements)
-                        .function(text -> {
+                        .modifyText(text -> {
                             if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
                                 return PlaceholderAPI.setPlaceholders(player, text);
     
@@ -110,7 +132,7 @@ public class PingEvent implements Listener{
                     ping.setPlayers(getFakePlayers(
                         ComponentParser.list(profile.getPlayers())
                             .replacements(replacements)
-                            .function(text -> {
+                            .modifyText(text -> {
                                 if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
                                     return PlaceholderAPI.setPlaceholders(player, text);
     

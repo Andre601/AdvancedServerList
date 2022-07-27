@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -58,8 +59,14 @@ public class PingEvent implements Listener{
             return;
     
         InetSocketAddress address = (InetSocketAddress)event.getConnection().getSocketAddress();
-        Map<String, Object> replacements = plugin.getCore()
-            .loadPlaceholders(protocol.getProtocol(), ping.getPlayers().getOnline(), ping.getPlayers().getMax(), address);
+        InetSocketAddress host = event.getConnection().getVirtualHost();
+        Map<String, Object> replacements = Placeholders.get(plugin.getCore())
+            .withProtocol(protocol.getProtocol())
+            .withPlayersOnline(ping.getPlayers().getOnline())
+            .withPlayersMax(ping.getPlayers().getMax())
+            .withPlayerName(address)
+            .withHostAddress(host)
+            .getReplacements();
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replacements(replacements)
@@ -93,6 +100,7 @@ public class PingEvent implements Listener{
             
             ServerPing.PlayerInfo[] playerInfos = AdvancedServerList.getPlayers(ServerPing.PlayerInfo.class, players)
                 .toArray(new ServerPing.PlayerInfo[0]);
+            
             if(playerInfos.length > 0)
                 ping.getPlayers().setSample(playerInfos);
             

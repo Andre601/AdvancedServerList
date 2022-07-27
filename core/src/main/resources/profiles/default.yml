@@ -17,29 +17,35 @@ priority: 0
 
 #
 # Set the MOTD that should be displayed.
-# Can be removed or set to "motd: []" to not alter the MOTD.
+# Supports HEX colors for 1.16+ servers including gradients using MiniMessage's <gradient:color:color> format.
+# 
+# Remove this option or set it to motd: [] to not alter the MOTD.
 #
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#motd
 #
 motd:
-  - 'Line 1'
-  - 'Line 2'
+  - '<grey>Line 1'
+  - '<grey>Line 2'
 
 #
 # Set the hover text that usually displays online players.
-# Can be removed or set to "players: []" to not alter the player list.
+# Only normal colours such as <grey> or <aqua> are supported.
+#
+# Remove this option or set it to players: [] to not alter the hover text.
 #
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#players
 #
 players:
-  - 'Line 1'
-  - 'Line 2'
-  - 'Line 3'
+  - '<grey>Line 1'
+  - '<grey>Line 2'
+  - '<grey>Line 3'
 
 #
 # Set the text that usually shows online players and max that can join.
-# Can be removed or set to "playerCount: ''" to not alter the player count text.
+# Only normal colours such as <grey> or <aqua> are supported.
+#
+# Remove this option or set it to playerCount: '' to not alter the player count text.
 #
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#playercount
 #
-playerCount: 'Text'
+playerCount: '<grey>Text'

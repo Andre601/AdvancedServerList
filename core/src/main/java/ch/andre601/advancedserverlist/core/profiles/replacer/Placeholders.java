@@ -25,12 +25,69 @@
 
 package ch.andre601.advancedserverlist.core.profiles.replacer;
 
+import ch.andre601.advancedserverlist.core.AdvancedServerList;
+
+import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Placeholders{
     
-    public static final String PLAYERS_ONLINE = "${players online}";
-    public static final String PLAYERS_MAX    = "${players max}";
+    private final AdvancedServerList core;
+    private final Map<String, Object> replacements;
     
-    public static final String PLAYER_NAME     = "${player name}";
-    public static final String PLAYER_PROTOCOL = "${player protocol}";
-    public static final String PLAYER_VERSION  = "${player version}";
+    public Placeholders(AdvancedServerList core){
+        this.core = core;
+        this.replacements = new HashMap<>();
+    }
+    
+    public static Placeholders get(AdvancedServerList core){
+        return new Placeholders(core);
+    }
+    
+    
+    public Placeholders withProtocol(int protocol){
+        this.replacements.put("${player protocol}", protocol);
+        return this;
+    }
+    
+    public Placeholders withPlayersOnline(int online){
+        this.replacements.put("${players online}", online);
+        return this;
+    }
+    
+    public Placeholders withPlayersMax(int max){
+        this.replacements.put("${players max}", max);
+        return this;
+    }
+    
+    public Placeholders withPlayerName(InetSocketAddress playerAddress){
+        if(playerAddress != null) 
+            this.replacements.put("${player name}", core.getPlayerHandler().getPlayerByIp(playerAddress.getHostString()));
+        
+        return this;
+    }
+    
+    public Placeholders withHostAddress(InetSocketAddress hostAddress){
+        if(hostAddress != null)
+            this.replacements.put("${server host}", hostAddress.getHostString());
+        
+        return this;
+    }
+    
+    public Placeholders withHostAddress(String hostAddress){
+        if(hostAddress != null) 
+            this.replacements.put("${server host}", hostAddress);
+        
+        return this;
+    }
+    
+    public Placeholders withPlayerVersion(String version){
+        this.replacements.put("${player version}", version);
+        return this;
+    }
+    
+    public Map<String, Object> getReplacements(){
+        return replacements;
+    }
 }

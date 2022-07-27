@@ -29,15 +29,12 @@ import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
-import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -69,26 +66,13 @@ public class AdvancedServerList{
             constructor.setAccessible(true);
             
             for(String line : lines){
-                players.add(constructor.newInstance(
-                    ComponentParser.text(line).toString(), UUID.randomUUID()
-                ));
+                players.add(constructor.newInstance(line, UUID.randomUUID()));
             }
             
             return players;
         }catch(NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex){
             return Collections.emptyList();
         }
-    }
-    
-    public Map<String, Object> loadPlaceholders(int protocol, int online, int max, InetSocketAddress ip){
-        Map<String, Object> replacements = new HashMap<>();
-        
-        replacements.put(Placeholders.PLAYER_PROTOCOL, protocol);
-        replacements.put(Placeholders.PLAYERS_ONLINE, online);
-        replacements.put(Placeholders.PLAYERS_MAX, max);
-        replacements.put(Placeholders.PLAYER_NAME, getPlayerHandler().getPlayerByIp(ip.getHostString()));
-        
-        return replacements;
     }
     
     public void disable(){

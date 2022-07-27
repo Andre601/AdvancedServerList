@@ -38,12 +38,10 @@ public class ComponentParser{
     
     private static final MiniMessage mm;
     private static final LegacyComponentSerializer legacy;
-    private static final StringReplacer replacer;
     
     static {
         mm = MiniMessage.miniMessage();
         legacy = LegacyComponentSerializer.legacySection();
-        replacer = new StringReplacer();
     }
     
     private String text;
@@ -61,17 +59,17 @@ public class ComponentParser{
     }
     
     public ComponentParser replacements(Map<String, Object> replacements){
-        replacements.forEach(replacer::add);
+        text = StringReplacer.replace(text, replacements);
         return this;
     }
     
-    public ComponentParser function(Function<String, String> function){
+    public ComponentParser modifyText(Function<String, String> function){
         this.text = function.apply(text);
         return this;
     }
     
     public Component toComponent(){
-        return mm.deserialize(replacer.replace(text));
+        return mm.deserialize(text);
     }
     
     @Override

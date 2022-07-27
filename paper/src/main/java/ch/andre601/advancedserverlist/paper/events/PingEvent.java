@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.paper.events;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
 import ch.andre601.advancedserverlist.paper.PaperCore;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.destroystokyo.paper.profile.PlayerProfile;
@@ -55,8 +56,14 @@ public class PingEvent implements Listener{
     @EventHandler
     public void onServerPing(PaperServerListPingEvent event){
         InetSocketAddress address = event.getClient().getAddress();
-        Map<String, Object> replacements = plugin.getCore()
-            .loadPlaceholders(event.getClient().getProtocolVersion(), event.getNumPlayers(), event.getMaxPlayers(), address);
+        InetSocketAddress host = event.getClient().getVirtualHost();
+        Map<String, Object> replacements = Placeholders.get(plugin.getCore())
+            .withProtocol(event.getClient().getProtocolVersion())
+            .withPlayersOnline(event.getNumPlayers())
+            .withPlayersMax(event.getMaxPlayers())
+            .withPlayerName(address)
+            .withHostAddress(host)
+            .getReplacements();
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replacements(replacements)
@@ -70,7 +77,7 @@ public class PingEvent implements Listener{
         if(!profile.getMotd().isEmpty()){
             event.motd(ComponentParser.list(profile.getMotd())
                 .replacements(replacements)
-                .function(text -> {
+                .modifyText(text -> {
                     if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
                         return PlaceholderAPI.setPlaceholders(player, text);
                     
@@ -82,7 +89,7 @@ public class PingEvent implements Listener{
         if(!profile.getPlayerCount().isEmpty()){
             event.setVersion(ComponentParser.text(profile.getPlayerCount())
                 .replacements(replacements)
-                .function(text -> {
+                .modifyText(text -> {
                     if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
                         return PlaceholderAPI.setPlaceholders(player, text);
     
@@ -104,7 +111,7 @@ public class PingEvent implements Listener{
         List<PlayerProfile> players = new ArrayList<>();
         lines.forEach(line -> players.add(Bukkit.createProfile(UUID.randomUUID(), ComponentParser.text(line)
             .replacements(replacements)
-            .function(text -> {
+            .modifyText(text -> {
                 if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
                     return PlaceholderAPI.setPlaceholders(player, text);
     

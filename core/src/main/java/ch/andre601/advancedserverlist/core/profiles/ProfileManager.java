@@ -26,7 +26,6 @@
 package ch.andre601.advancedserverlist.core.profiles;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +55,7 @@ public class ProfileManager{
                 continue;
     
             ConditionsHolder conditions = profile.getConditions();
-            replacements.forEach(conditions::replace);
+            conditions.replacements(replacements);
             if(conditions.eval(core.getPluginLogger()))
                 return profile;
         }

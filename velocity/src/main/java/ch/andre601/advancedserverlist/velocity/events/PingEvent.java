@@ -59,10 +59,16 @@ public class PingEvent{
     
         ServerPing.Builder builder = ping.asBuilder();
         InetSocketAddress address = event.getConnection().getRemoteAddress();
+        InetSocketAddress host = event.getConnection().getVirtualHost().orElse(null);
         
-        Map<String, Object> replacements = plugin.getCore()
-            .loadPlaceholders(protocol.getProtocol(), builder.getOnlinePlayers(), builder.getMaximumPlayers(), address);
-        replacements.put(Placeholders.PLAYER_VERSION, ProtocolVersion.getProtocolVersion(protocol.getProtocol()));
+        Map<String, Object> replacements = Placeholders.get(plugin.getCore())
+            .withProtocol(protocol.getProtocol())
+            .withPlayersOnline(builder.getOnlinePlayers())
+            .withPlayersMax(builder.getMaximumPlayers())
+            .withPlayerName(address)
+            .withHostAddress(host)
+            .withPlayerVersion(ProtocolVersion.getProtocolVersion(protocol.getProtocol()).toString())
+            .getReplacements();
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replacements(replacements)
@@ -92,6 +98,7 @@ public class PingEvent{
             String players = ComponentParser.list(profile.getPlayers())
                 .replacements(replacements)
                 .toString();
+            
             ServerPing.SamplePlayer[] playerSamples = AdvancedServerList.getPlayers(ServerPing.SamplePlayer.class, players)
                 .toArray(new ServerPing.SamplePlayer[0]);
             

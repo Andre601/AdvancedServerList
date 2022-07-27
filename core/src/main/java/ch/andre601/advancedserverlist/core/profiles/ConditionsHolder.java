@@ -28,22 +28,20 @@ package ch.andre601.advancedserverlist.core.profiles;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class ConditionsHolder{
     
     private final List<String> expressions = new ArrayList<>();
-    private final StringReplacer replacer = new StringReplacer();
+    private final Map<String, Object> replacements = new HashMap<>();
     
     public ConditionsHolder(List<String> expressions){
         if(expressions != null && !expressions.isEmpty())
             this.expressions.addAll(expressions);
     }
     
-    public void replace(String from, Object to){
-        replacer.add(from, to);
+    public void replacements(Map<String, Object> replacements){
+        this.replacements.putAll(replacements);
     }
     
     public boolean eval(PluginLogger logger){
@@ -62,7 +60,7 @@ public class ConditionsHolder{
         if(expression == null || expression.isEmpty())
             return true;
     
-        String newExpression = replacer.replace(expression);
+        String newExpression = StringReplacer.replace(expression, replacements);
         
         char[] chars = newExpression.toCharArray();
     
