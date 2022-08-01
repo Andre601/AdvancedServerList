@@ -38,8 +38,8 @@ public class Expression{
     private Operator operator = Operator.UNKNOWN;
     private String right;
     
-    public Expression(String expression, PluginLogger logger){
-        resolveExpression(expression, logger);
+    public Expression(String expression){
+        resolveExpression(expression);
     }
     
     public boolean evaluate(Map<String, Object> replacements){
@@ -64,10 +64,9 @@ public class Expression{
         return result;
     }
     
-    private void resolveExpression(String expression, PluginLogger logger){
+    private void resolveExpression(String expression){
         if(expression == null || expression.isEmpty()){
             result = ExpressionResult.INVALID_NO_EXPRESSION;
-            logger.warn("Encountered empty expression!");
             return;
         }
         
@@ -92,7 +91,6 @@ public class Expression{
             
             if(foundOperator){
                 result = ExpressionResult.INVALID_DOUBLE_OPERATOR;
-                logger.warn("Invalid Expression '%s'! Cannot have multiple operants.", expression);
                 return;
             }
             
@@ -101,7 +99,6 @@ public class Expression{
             char next = chars[i + 1];
             if(c == '!' && next != '='){
                 result = ExpressionResult.INVALID_BROKEN_NOT_EQUAL;
-                logger.warn("Invalid Expression '%s'! Cannot have ! without = afterwards.", expression);
                 return;
             }
             
@@ -138,7 +135,6 @@ public class Expression{
         
         if(left.isEmpty() || right.isEmpty()){
             result = ExpressionResult.INVALID_EMPTY_PARTS;
-            logger.warn("Invalid Expression '%s'! One of the expression's parts was empty.", expression);
             return;
         }
         

@@ -26,7 +26,6 @@
 package ch.andre601.advancedserverlist.core.profiles;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.conditions.ConditionsHolder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,9 +53,8 @@ public class ProfileManager{
         for(ServerListProfile profile : core.getFileHandler().getProfiles()){
             if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
                 continue;
-    
-            ConditionsHolder conditions = profile.getConditions();
-            if(conditions.evalExpressions(replacements))
+            
+            if(profile.evalConditions(replacements))
                 return profile;
         }
         
