@@ -53,10 +53,8 @@ public class ProfileManager{
         for(ServerListProfile profile : core.getFileHandler().getProfiles()){
             if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
                 continue;
-    
-            ConditionsHolder conditions = profile.getConditions();
-            conditions.replacements(replacements);
-            if(conditions.eval(core.getPluginLogger()))
+            
+            if(profile.evalConditions(replacements))
                 return profile;
         }
         

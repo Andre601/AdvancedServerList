@@ -29,7 +29,7 @@ public interface PluginLogger{
     
     void info(String msg, Object... args);
     
-    void warn(String msg);
+    void warn(String msg, Object... args);
     
     void warn(String msg, Throwable throwable);
 }

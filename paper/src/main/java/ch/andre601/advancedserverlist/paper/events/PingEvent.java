@@ -86,6 +86,11 @@ public class PingEvent implements Listener{
                 .toComponent());
         }
         
+        if(profile.shouldHidePlayers()){
+            event.setHidePlayers(true);
+            return;
+        }
+        
         if(!profile.getPlayerCount().isEmpty()){
             event.setVersion(ComponentParser.text(profile.getPlayerCount())
                 .replacements(replacements)

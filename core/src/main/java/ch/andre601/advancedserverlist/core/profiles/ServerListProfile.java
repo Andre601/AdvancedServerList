@@ -25,32 +25,34 @@
 
 package ch.andre601.advancedserverlist.core.profiles;
 
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.conditions.Expression;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class ServerListProfile{
     
-    private final ConditionsHolder conditions;
     private final int priority;
+    private final List<Expression> expressions;
     
     private final List<String> motd;
     private final List<String> players;
     private final String playerCount;
+    private final boolean hidePlayers;
     
-    public ServerListProfile(ConfigurationNode node){
-        this.conditions = new ConditionsHolder(getList(node, "conditions", false));
+    public ServerListProfile(ConfigurationNode node, PluginLogger logger){
         this.priority = node.node("priority").getInt();
+        this.expressions = createExpressions(getList(node, "conditions", false), logger);
         
         this.motd = getList(node, "motd", true);
         this.players = getList(node, "players", false);
         this.playerCount = node.node("playerCount").getString("");
-    }
-    
-    public ConditionsHolder getConditions(){
-        return conditions;
+        this.hidePlayers = node.node("hidePlayers").getBoolean();
     }
     
     public int getPriority(){
@@ -69,6 +71,44 @@ public class ServerListProfile{
         return playerCount;
     }
     
+    public boolean shouldHidePlayers(){
+        return hidePlayers;
+    }
+    
+    public boolean evalConditions(Map<String, Object> replacements){
+        if(expressions.isEmpty())
+            return true;
+        
+        for(Expression expression : expressions){
+            if(!expression.evaluate(replacements)){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    private List<Expression> createExpressions(List<String> list, PluginLogger logger) {
+        if(list.isEmpty())
+            return Collections.emptyList();
+        
+        List<Expression> expressions = new ArrayList<>();
+        for(String str : list){
+            Expression expression = new Expression(str);
+            
+            switch(expression.getResult()){
+                case VALID -> expressions.add(expression);
+                case INVALID_EMPTY_PARTS -> logInvalid(logger, str, "Either left or right part of condition was empty.");
+                case INVALID_NO_EXPRESSION -> logInvalid(logger, str, "Empty conditions are not allowed.");
+                case INVALID_DOUBLE_OPERATOR -> logInvalid(logger, str, "Condition had two operands!");
+                case INVALID_BROKEN_NOT_EQUAL -> logInvalid(logger, str, "Found '!' without '=' following it.");
+                default -> logInvalid(logger, str, "Encountered unknown issue.");
+            }
+        }
+        
+        return expressions;
+    }
+    
     private List<String> getList(ConfigurationNode node, String key, boolean trim){
         List<String> list;
         try{
@@ -84,5 +124,9 @@ public class ServerListProfile{
             return list.subList(0, 2);
         
         return list;
+    }
+    
+    private void logInvalid(PluginLogger logger, String expression, String reason){
+        logger.warn("Invalid Condition '%s'! %s", expression, reason);
     }
 }
