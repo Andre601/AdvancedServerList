@@ -43,6 +43,7 @@ public class ServerListProfile{
     private final List<String> motd;
     private final List<String> players;
     private final String playerCount;
+    private final boolean hidePlayers;
     
     public ServerListProfile(ConfigurationNode node, PluginLogger logger){
         this.priority = node.node("priority").getInt();
@@ -51,6 +52,7 @@ public class ServerListProfile{
         this.motd = getList(node, "motd", true);
         this.players = getList(node, "players", false);
         this.playerCount = node.node("playerCount").getString("");
+        this.hidePlayers = node.node("hidePlayers").getBoolean();
     }
     
     public int getPriority(){
@@ -67,6 +69,10 @@ public class ServerListProfile{
     
     public String getPlayerCount(){
         return playerCount;
+    }
+    
+    public boolean shouldHidePlayers(){
+        return hidePlayers;
     }
     
     public boolean evalConditions(Map<String, Object> replacements){

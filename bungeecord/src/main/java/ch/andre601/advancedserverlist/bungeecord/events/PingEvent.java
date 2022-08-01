@@ -85,6 +85,16 @@ public class PingEvent implements Listener{
             ping.setDescriptionComponent(component);
         }
         
+        if(profile.shouldHidePlayers()){
+            ping.setPlayers(null);
+            
+            ping.setFavicon(ping.getFaviconObject());
+            ping.setVersion(protocol);
+            
+            event.setResponse(ping);
+            return;
+        }
+        
         if(!profile.getPlayerCount().isEmpty()){
             protocol.setName(ComponentParser.text(profile.getPlayerCount())
                 .replacements(replacements)

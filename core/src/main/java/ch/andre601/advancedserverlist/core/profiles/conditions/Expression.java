@@ -104,14 +104,6 @@ public class Expression{
         this.right = right.toString();
     }
     
-    private int getInt(String text){
-        try{
-            return Integer.parseInt(text);
-        }catch(NumberFormatException ex){
-            return text.length();
-        }
-    }
-    
     public enum Operator{
         LESS_THAN('<', '\0'){
             @Override
@@ -182,7 +174,7 @@ public class Expression{
         public static Operator getOperand(char first, char second){
             for(Operator operator : VALUES){
                 if(operator.first == first){
-                    if((operator.hasSecond() && second != '=') || operator.second == second)
+                    if((!operator.hasSecond() && second != '=') || operator.second == second)
                         return operator;
                 }
             }

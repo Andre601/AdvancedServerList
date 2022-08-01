@@ -85,6 +85,13 @@ public class PingEvent{
             );
         }
         
+        if(profile.shouldHidePlayers()){
+            builder.nullPlayers();
+            
+            event.setPing(builder.build());
+            return;
+        }
+        
         if(!profile.getPlayerCount().isEmpty()){
             builder.version(new ServerPing.Version(
                 -1, 

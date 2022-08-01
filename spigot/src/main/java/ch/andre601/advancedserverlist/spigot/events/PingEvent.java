@@ -115,6 +115,11 @@ public class PingEvent implements Listener{
                     ping.setMotD(AdventureComponentConverter.fromComponent(component));
                 }
                 
+                if(profile.shouldHidePlayers()){
+                    ping.setPlayersVisible(false);
+                    return;
+                }
+                
                 if(!profile.getPlayerCount().isEmpty()){
                     ping.setVersionName(ComponentParser.text(profile.getPlayerCount())
                         .replacements(replacements)

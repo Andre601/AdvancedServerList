@@ -28,6 +28,15 @@ motd:
   - '<grey>Line 2'
 
 #
+# Sets if players should be hidden.
+# When set to true will the player count be replaced with ???
+# Additionally will the options 'players' and 'playerCount' be ignored by the plugin.
+#
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hideplayers
+#
+hidePlayers: false
+
+#
 # Set the hover text that usually displays online players.
 # Only normal colours such as <grey> or <aqua> are supported.
 #
