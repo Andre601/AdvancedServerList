@@ -25,7 +25,6 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions;
 
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 import java.util.Map;
@@ -46,18 +45,7 @@ public class Expression{
         String newLeft = StringReplacer.replace(left, replacements);
         String newRight = StringReplacer.replace(right, replacements);
         
-        int leftInt = getInt(newLeft);
-        int rightInt = getInt(newRight);
-        
-        return switch(operator){
-            case LESS_THAN -> leftInt < rightInt;
-            case LESS_OR_EQUAL -> leftInt <= rightInt;
-            case EQUAL -> newLeft.equals(newRight);
-            case NOT_EQUAL -> !newLeft.equals(newRight);
-            case GREATER_THAN -> leftInt > rightInt;
-            case GREATER_OR_EQUAL -> leftInt >= rightInt;
-            default -> false;
-        };
+        return operator.evaluate(newLeft, newRight);
     }
     
     public ExpressionResult getResult(){
@@ -102,35 +90,9 @@ public class Expression{
                 return;
             }
             
-            if(c == '!'){
-                operator = Operator.NOT_EQUAL;
+            operator = Operator.getOperand(c, next);
+            if(operator.hasSecond() && operator != Operator.UNKNOWN)
                 i++;
-                continue;
-            }
-            
-            if(c == '<'){
-                if(next == '='){
-                    i++;
-                    operator = Operator.LESS_OR_EQUAL;
-                }else{
-                    operator = Operator.LESS_THAN;
-                }
-                
-                continue;
-            }
-            
-            if(c == '>'){
-                if(next == '='){
-                    i++;
-                    operator = Operator.GREATER_OR_EQUAL;
-                }else{
-                    operator = Operator.GREATER_THAN;
-                }
-                
-                continue;
-            }
-            
-            operator = Operator.EQUAL;
         }
         
         if(left.isEmpty() || right.isEmpty()){
@@ -151,14 +113,96 @@ public class Expression{
     }
     
     public enum Operator{
-        LESS_THAN,
-        LESS_OR_EQUAL,
-        EQUAL,
-        NOT_EQUAL,
-        GREATER_THAN,
-        GREATER_OR_EQUAL,
+        LESS_THAN('<', '\0'){
+            @Override
+            public boolean evaluate(String left, String right){
+                int leftInt = Operator.getInt(left);
+                int rightInt = Operator.getInt(right);
+                
+                return leftInt < rightInt;
+            }
+        },
+        LESS_OR_EQUAL('<', '='){
+            @Override
+            public boolean evaluate(String left, String right){
+                int leftInt = Operator.getInt(left);
+                int rightInt = Operator.getInt(right);
+                
+                return leftInt <= rightInt;
+            }
+        },
+        EQUAL('=', '\0'){
+            @Override
+            public boolean evaluate(String left, String right){
+                return left.equals(right);
+            }
+        },
+        NOT_EQUAL('!', '='){
+            @Override
+            public boolean evaluate(String left, String right){
+                return !left.equals(right);
+            }
+        },
+        GREATER_THAN('>', '\0'){
+            @Override
+            public boolean evaluate(String left, String right){
+                int leftInt = Operator.getInt(left);
+                int rightInt = Operator.getInt(right);
+                
+                return leftInt > rightInt;
+            }
+        },
+        GREATER_OR_EQUAL('>', '='){
+            @Override
+            public boolean evaluate(String left, String right){
+                int leftInt = Operator.getInt(left);
+                int rightInt = Operator.getInt(right);
+                
+                return leftInt >= rightInt;
+            }
+        },
         
-        UNKNOWN
+        UNKNOWN('\0', '\0'){
+            @Override
+            public boolean evaluate(String left, String right){
+                return false;
+            }
+        };
+        
+        private static final Operator[] VALUES = values();
+        
+        private final char first;
+        private final char second;
+        
+        Operator(char first, char second){
+            this.first = first;
+            this.second = second;
+        }
+        
+        public static Operator getOperand(char first, char second){
+            for(Operator operator : VALUES){
+                if(operator.first == first){
+                    if((operator.hasSecond() && second != '=') || operator.second == second)
+                        return operator;
+                }
+            }
+            
+            return Operator.UNKNOWN;
+        }
+        
+        public boolean hasSecond(){
+            return second != '\0';
+        }
+        
+        public abstract boolean evaluate(String left, String right);
+    
+        private static int getInt(String text){
+            try{
+                return Integer.parseInt(text);
+            }catch(NumberFormatException ex){
+                return text.length();
+            }
+        }
     }
     
     public enum ExpressionResult{
