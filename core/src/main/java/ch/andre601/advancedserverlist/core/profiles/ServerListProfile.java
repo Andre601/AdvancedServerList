@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.core.profiles;
 
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.conditions.ConditionsHolder;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 

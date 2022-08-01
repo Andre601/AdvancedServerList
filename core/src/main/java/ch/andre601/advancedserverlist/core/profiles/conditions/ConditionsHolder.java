@@ -23,10 +23,9 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.core.profiles.conditions;
 
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 import java.util.*;
 

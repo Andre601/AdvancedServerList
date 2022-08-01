@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.core.profiles.conditions;
 
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
@@ -58,6 +58,10 @@ public class Expression{
             case GREATER_OR_EQUAL -> leftInt >= rightInt;
             default -> false;
         };
+    }
+    
+    public ExpressionResult getResult(){
+        return result;
     }
     
     private void resolveExpression(String expression, PluginLogger logger){
@@ -140,10 +144,6 @@ public class Expression{
         
         this.left = left.toString();
         this.right = right.toString();
-    }
-    
-    public ExpressionResult getResult(){
-        return result;
     }
     
     private int getInt(String text){

@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.core.profiles;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
+import ch.andre601.advancedserverlist.core.profiles.conditions.ConditionsHolder;
 
 import java.util.HashMap;
 import java.util.Map;
