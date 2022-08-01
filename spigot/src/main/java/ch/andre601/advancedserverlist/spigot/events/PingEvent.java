@@ -74,6 +74,7 @@ public class PingEvent implements Listener{
                 hostAddresses.put(address.getHostString(), host);
             }
         });
+        
         protocolManager.addPacketListener(new PacketAdapter(spigotPlugin, ListenerPriority.LOW, PacketType.Status.Server.SERVER_INFO){
             @Override
             public void onPacketSending(PacketEvent event){
@@ -112,6 +113,11 @@ public class PingEvent implements Listener{
                         })
                         .toComponent();
                     ping.setMotD(AdventureComponentConverter.fromComponent(component));
+                }
+                
+                if(profile.hidePlayers()){
+                    ping.setPlayersVisible(false);
+                    return;
                 }
                 
                 if(!profile.getPlayerCount().isEmpty()){

@@ -44,8 +44,8 @@ public class SpigotLogger implements PluginLogger{
     }
     
     @Override
-    public void warn(String msg){
-        logger.warning(msg);
+    public void warn(String msg, Object... args){
+        logger.warning(String.format(msg, args));
     }
     
     @Override

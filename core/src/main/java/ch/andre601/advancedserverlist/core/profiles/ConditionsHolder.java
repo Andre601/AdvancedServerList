@@ -32,106 +32,29 @@ import java.util.*;
 
 public class ConditionsHolder{
     
-    private final List<String> expressions = new ArrayList<>();
-    private final Map<String, Object> replacements = new HashMap<>();
+    private final List<Expression> expressions = new ArrayList<>();
     
-    public ConditionsHolder(List<String> expressions){
-        if(expressions != null && !expressions.isEmpty())
-            this.expressions.addAll(expressions);
+    public ConditionsHolder(List<String> expressions, PluginLogger logger){
+        if(expressions != null && !expressions.isEmpty()){
+            for(String expression : expressions){
+                Expression exp = new Expression(expression, logger);
+                if(exp.getResult() != Expression.ExpressionResult.VALID)
+                    continue;
+                
+                this.expressions.add(exp);
+            }
+        }
     }
     
-    public void replacements(Map<String, Object> replacements){
-        this.replacements.putAll(replacements);
-    }
-    
-    public boolean eval(PluginLogger logger){
+    public boolean evalExpressions(Map<String, Object> replacements){
         if(expressions.isEmpty())
             return true;
         
-        for(String expression : expressions){
-            if(!parseExpression(expression, logger))
+        for(Expression expression : expressions){
+            if(!expression.evaluate(replacements))
                 return false;
         }
         
         return true;
-    }
-    
-    private boolean parseExpression(String expression, PluginLogger logger){
-        if(expression == null || expression.isEmpty())
-            return true;
-    
-        String newExpression = StringReplacer.replace(expression, replacements);
-        
-        char[] chars = newExpression.toCharArray();
-    
-        StringBuilder left = new StringBuilder();
-        StringBuilder operator = new StringBuilder();
-        StringBuilder right = new StringBuilder();
-    
-        boolean operatorFound = false;
-    
-        for(int i = 0; i < chars.length; i++){
-            char c = chars[i];
-        
-            if(c == ' ')
-                continue;
-        
-            if((c != '<' && c != '>' && c != '=' && c != '!') || i + 1 >= chars.length){
-                if(operatorFound){
-                    right.append(c);
-                    continue;
-                }
-            
-                left.append(c);
-                continue;
-            }
-        
-            if(operatorFound){
-                logger.warn("Encountered second operator in condition! AdvancedServerList currently only supports one operator!");
-                return false;
-            }
-        
-            operatorFound = true;
-        
-            char next = chars[i + 1];
-            if(c == '!' && next != '='){
-                logger.warn("Invalid condition found. Expected '!=' but found '!" + next + "' in condition " + newExpression);
-                return false;
-            }
-        
-            operator.append(c);
-            i++;
-        
-            if(c == '!' || ((c == '<' || c == '>') && next == '=')){
-                operator.append(next);
-            }
-        }
-    
-        if(left.isEmpty() || operator.isEmpty() || right.isEmpty()){
-            logger.warn("Failed to evaluate condition. One part of the expression was empty!");
-            return false;
-        }
-    
-        int leftInt = tryParse(left.toString());
-        int rightInt = tryParse(right.toString());
-    
-        return switch(operator.toString().toLowerCase(Locale.ROOT)){
-            case ">" -> leftInt > rightInt;
-            case ">=" -> leftInt >= rightInt;
-            case "=" -> left.toString().equals(right.toString());
-            case "!=" -> !left.toString().equals(right.toString());
-            case "<" -> leftInt < rightInt;
-            case "<=" -> leftInt <= rightInt;
-            default -> false;
-        };
-    
-    }
-    
-    private int tryParse(String value){
-        try{
-            return Integer.parseInt(value);
-        }catch(NumberFormatException ex){
-            return value.length();
-        }
     }
 }

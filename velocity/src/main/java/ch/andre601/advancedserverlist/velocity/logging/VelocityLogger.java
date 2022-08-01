@@ -42,8 +42,8 @@ public class VelocityLogger implements PluginLogger{
     }
     
     @Override
-    public void warn(String msg){
-        logger.warn(msg);
+    public void warn(String msg, Object... args){
+        logger.warn(msg, args);
     }
     
     @Override

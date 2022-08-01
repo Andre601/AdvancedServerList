@@ -55,8 +55,7 @@ public class ProfileManager{
                 continue;
     
             ConditionsHolder conditions = profile.getConditions();
-            conditions.replacements(replacements);
-            if(conditions.eval(core.getPluginLogger()))
+            if(conditions.evalExpressions(replacements))
                 return profile;
         }
         

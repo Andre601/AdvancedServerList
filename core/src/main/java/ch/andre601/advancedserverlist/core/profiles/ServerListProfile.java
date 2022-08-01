@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.profiles;
 
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -39,14 +40,16 @@ public class ServerListProfile{
     private final List<String> motd;
     private final List<String> players;
     private final String playerCount;
+    private final boolean hidePlayers;
     
-    public ServerListProfile(ConfigurationNode node){
-        this.conditions = new ConditionsHolder(getList(node, "conditions", false));
+    public ServerListProfile(ConfigurationNode node, PluginLogger logger){
+        this.conditions = new ConditionsHolder(getList(node, "conditions", false), logger);
         this.priority = node.node("priority").getInt();
         
         this.motd = getList(node, "motd", true);
         this.players = getList(node, "players", false);
         this.playerCount = node.node("playerCount").getString("");
+        this.hidePlayers = node.node("hidePlayers").getBoolean();
     }
     
     public ConditionsHolder getConditions(){
@@ -67,6 +70,10 @@ public class ServerListProfile{
     
     public String getPlayerCount(){
         return playerCount;
+    }
+    
+    public boolean hidePlayers(){
+        return hidePlayers;
     }
     
     private List<String> getList(ConfigurationNode node, String key, boolean trim){
