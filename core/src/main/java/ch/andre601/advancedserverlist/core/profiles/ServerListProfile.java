@@ -97,7 +97,7 @@ public class ServerListProfile{
             Expression expression = new Expression(str);
             
             if(expression.getResult() != Expression.ExpressionResult.VALID){
-                logger.warn("Detected Invalid condition '%s'! %s", str, expression.getResult().getMessage());
+                logger.warn("Detected Invalid condition '%s'! Cause: %s", str, expression.getResult().getMessage());
                 continue;
             }
             
