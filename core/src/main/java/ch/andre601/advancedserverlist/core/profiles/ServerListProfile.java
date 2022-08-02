@@ -96,14 +96,12 @@ public class ServerListProfile{
         for(String str : list){
             Expression expression = new Expression(str);
             
-            switch(expression.getResult()){
-                case VALID -> expressions.add(expression);
-                case INVALID_EMPTY_PARTS -> logInvalid(logger, str, "Either left or right part of condition was empty.");
-                case INVALID_NO_EXPRESSION -> logInvalid(logger, str, "Empty conditions are not allowed.");
-                case INVALID_DOUBLE_OPERATOR -> logInvalid(logger, str, "Condition had two operands!");
-                case INVALID_BROKEN_NOT_EQUAL -> logInvalid(logger, str, "Found '!' without '=' following it.");
-                default -> logInvalid(logger, str, "Encountered unknown issue.");
+            if(expression.getResult() != Expression.ExpressionResult.VALID){
+                logger.warn("Detected Invalid condition '%s'! %s", str, expression.getResult().getMessage());
+                continue;
             }
+            
+            expressions.add(expression);
         }
         
         return expressions;
@@ -124,9 +122,5 @@ public class ServerListProfile{
             return list.subList(0, 2);
         
         return list;
-    }
-    
-    private void logInvalid(PluginLogger logger, String expression, String reason){
-        logger.warn("Invalid Condition '%s'! %s", expression, reason);
     }
 }
