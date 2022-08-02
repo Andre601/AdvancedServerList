@@ -46,6 +46,7 @@ You can download AdvancedServerList on the following locations:
   - Custom MOTD.
   - Custom Player count text.
   - Custom hover for the player count hover.
+  - Hide player count (Turn to `???`)
   - MiniMessage formatting for MOTD, player count and player count hover [[Read More][minimessage]]
 - Placeholder support [[Read More][placeholders]]
 
