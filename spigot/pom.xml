@@ -68,13 +68,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>${plugin.depend.mc}</version>
+            <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bukkit</artifactId>
-            <version>${plugin.depend.kyori-platform-bukkit}</version>
+            <version>4.1.2</version>
         </dependency>
         <dependency>
             <groupId>com.comphenix.protocol</groupId>

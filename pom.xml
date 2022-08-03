@@ -12,19 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
-        <plugin.version>1.2.0</plugin.version>
+        <plugin.version>1.2.1</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
-        
-        <plugin.depend.mc>1.19-R0.1-SNAPSHOT</plugin.depend.mc>
-        <plugin.depend.velocity>3.1.1-SNAPSHOT</plugin.depend.velocity>
-        
-        <plugin.depend.configurate>4.1.2</plugin.depend.configurate>
-        
-        <plugin.depend.kyori-adventure>4.11.0</plugin.depend.kyori-adventure>
-        <plugin.depend.kyori-minimessage>4.11.0</plugin.depend.kyori-minimessage>
-        <plugin.depend.kyori-legacy>4.11.0</plugin.depend.kyori-legacy>
-        <plugin.depend.kyori-platform-bungeecord>4.1.0</plugin.depend.kyori-platform-bungeecord>
-        <plugin.depend.kyori-platform-bukkit>4.1.1</plugin.depend.kyori-platform-bukkit>
         
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
