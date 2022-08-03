@@ -1,0 +1,50 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: "/bungeecord"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'Type: Update Dependency'
+      - 'Target: BungeeCord'
+  - package-ecosystem: maven
+    directory: "/core"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'Type: Update Dependency'
+      - 'Target: Core'
+  - package-ecosystem: maven
+    directory: "/paper"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'Type: Update Dependency'
+      - 'Target: PaperMC'
+  - package-ecosystem: maven
+    directory: "/spigot"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'Type: Update Dependency'
+      - 'Target: Spigot'
+  - package-ecosystem: maven
+    directory: "/velocity"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'Type: Update Dependency'
+      - 'Target: Velocity'
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'Type: Update Dependency'
+      - 'Target: GitHub Action'
