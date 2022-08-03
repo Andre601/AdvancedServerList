@@ -42,8 +42,8 @@ public class Expression{
     }
     
     public boolean evaluate(Map<String, Object> replacements){
-        String newLeft = StringReplacer.replace(left, replacements);
-        String newRight = StringReplacer.replace(right, replacements);
+        String newLeft = StringReplacer.replace(left, replacements).trim();
+        String newRight = StringReplacer.replace(right, replacements).trim();
         
         return operator.evaluate(newLeft, newRight);
     }
@@ -67,8 +67,10 @@ public class Expression{
         
         for(int i = 0; i < chars.length; i++){
             char c = chars[i];
+            char next = (i == (chars.length - 1)) ? '\0' : chars[i + 1];
             
-            if((c != '<' && c != '>' && c != '=' && c != '!') || i + 1 >= chars.length){
+            Operator tmp = Operator.getOperand(c, next);
+            if(tmp == Operator.UNKNOWN){
                 if(foundOperator){
                     right.append(c);
                 }else{
@@ -82,17 +84,8 @@ public class Expression{
                 return;
             }
             
+            operator = tmp;
             foundOperator = true;
-            
-            char next = chars[i + 1];
-            if(c == '!' && next != '='){
-                result = ExpressionResult.INVALID_BROKEN_NOT_EQUAL;
-                return;
-            }
-            
-            operator = Operator.getOperand(c, next);
-            if(operator.hasSecond() && operator != Operator.UNKNOWN)
-                i++;
         }
         
         if(left.isEmpty() || right.isEmpty()){
@@ -198,11 +191,32 @@ public class Expression{
     }
     
     public enum ExpressionResult{
-        VALID,
+        VALID{
+            @Override
+            public String getMessage(){
+                return null;
+            }
+        },
         
-        INVALID_NO_EXPRESSION,
-        INVALID_DOUBLE_OPERATOR,
-        INVALID_BROKEN_NOT_EQUAL,
-        INVALID_EMPTY_PARTS
+        INVALID_NO_EXPRESSION{
+            @Override
+            public String getMessage(){
+                return "Received empty condition which isn't allowed!";
+            }
+        },
+        INVALID_DOUBLE_OPERATOR{
+            @Override
+            public String getMessage(){
+                return "Condition contained two operands.";
+            }
+        },
+        INVALID_EMPTY_PARTS{
+            @Override
+            public String getMessage(){
+                return "Received condition with either left or right part being empty.";
+            }
+        };
+        
+        public abstract String getMessage();
     }
 }
