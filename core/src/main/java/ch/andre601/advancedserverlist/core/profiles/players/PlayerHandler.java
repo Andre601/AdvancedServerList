@@ -94,7 +94,7 @@ public class PlayerHandler{
         
         try{
             FileWriter file = new FileWriter(cache.toFile(), StandardCharsets.UTF_8, false);
-            BufferedWriter writer = new BufferedWriter(file, joiner.toString().length());
+            BufferedWriter writer = new BufferedWriter(file);
             
             writer.write(joiner.toString());
             writer.close();
