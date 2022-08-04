@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.velocity;
 
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 
 public class VelocityPlayer extends GenericPlayer<Player>{
@@ -33,5 +34,6 @@ public class VelocityPlayer extends GenericPlayer<Player>{
     public VelocityPlayer(String name, int protocol){
         this.name = name;
         this.protocol = protocol;
+        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
     }
 }

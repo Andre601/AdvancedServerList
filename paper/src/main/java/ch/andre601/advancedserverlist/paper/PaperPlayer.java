@@ -32,12 +32,16 @@ public class PaperPlayer extends GenericPlayer<OfflinePlayer>{
     
     public PaperPlayer(OfflinePlayer player, String name, int protocol){
         this.player = player;
-    
+        
         this.name = player == null ? name : player.getName();
         this.protocol = protocol;
-        this.playedBefore = player != null && player.hasPlayedBefore();
-        this.banned = player != null && player.isBanned();
-        this.whitelisted = player != null && player.isWhitelisted();
-        this.uuid = player == null ? null : player.getUniqueId();
+        
+        if(player == null)
+            return;
+        
+        this.playedBefore = player.hasPlayedBefore();
+        this.banned = player.isBanned();
+        this.whitelisted = player.isWhitelisted();
+        this.uuid = player.getUniqueId();
     }
 }

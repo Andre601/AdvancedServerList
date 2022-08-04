@@ -32,62 +32,22 @@ import java.util.Map;
 
 public class PlayerPlaceholders implements Placeholders{
     
-    private final GenericPlayer<?> player;
     private final Map<String, Object> replacements = new HashMap<>();
     
     public PlayerPlaceholders(GenericPlayer<?> player){
-        this.player = player;
-        
-        name();
-        protocol();
-        version();
-        hasPlayedBefore();
-        isBanned();
-        isWhitelisted();
-        uniqueId();
-    }
-    
-    public void name(){
         this.replacements.put("${player name}", player.getName());
-    }
-    
-    public void protocol(){
         this.replacements.put("${player protocol}", player.getProtocol());
-    }
-    
-    public void version(){
-        if(player.getVersion() == null)
-            return;
         
-        this.replacements.put("${player version}", player.getVersion());
-    }
-    
-    public void hasPlayedBefore(){
+        if(player.getVersion() != null)
+            this.replacements.put("${player version}", player);
+        
         if(player.getPlayer() == null)
             return;
         
-        this.replacements.put("${player hasPlayedBefore}", player.hasPlayedBefore());
-    }
-    
-    public void isBanned(){
-        if(player.getPlayer() == null)
-            return;
-        
-        this.replacements.put("${player hasPlayedBefore}", player.isBanned());
-    }
-    
-    public void isWhitelisted(){
-        if(player.getPlayer() == null)
-            return;
-    
-        this.replacements.put("${player isWhitelisted}", player.isWhitelisted());
-    }
-    
-    public void uniqueId(){
-        if(player.getUniqueId() == null)
-            return;
-        
-        this.replacements.put("${player uuid}", player.getUniqueId());
+        this.replacements.put("${player playedBefore}", player);
+        this.replacements.put("${player isBanned}", player);
+        this.replacements.put("${player isWhitelisted}", player);
+        this.replacements.put("${player uuid}", player);
     }
     
     @Override
