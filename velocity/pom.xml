@@ -35,6 +35,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>velocity</artifactId>
+    <packaging>jar</packaging>
+    <version>${plugin.version}</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>

@@ -23,27 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer;
+package ch.andre601.advancedserverlist.spigot;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Map;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import org.bukkit.OfflinePlayer;
 
-/*
- * Original by Imo van den Berge (aka Bergerkiller: https://github.com/Bergerkiller)
- *
- * Original Source: https://github.com/bergerhealer/BKCommonLib/blob/master/src/main/java/com/bergerkiller/bukkit/common/collections/EntryList.java
- */
-public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
-    public void add(K key, V value){
-        add(new AbstractMap.SimpleEntry<>(key, value));
-    }
+public class SpigotPlayer extends GenericPlayer<OfflinePlayer>{
     
-    public boolean containsKey(K key){
-        for(Map.Entry<K, V> entry : this){
-            if(entry.getKey().equals(key))
-                return true;
-        }
-        return false;
+    public SpigotPlayer(OfflinePlayer player, String name, int protocol){
+        this.player = player;
+        
+        this.name = player == null ? name : player.getName();
+        this.protocol = protocol;
+        
+        if(player == null)
+            return;
+        
+        this.playedBefore = player.hasPlayedBefore();
+        this.banned = player.isBanned();
+        this.whitelisted = player.isWhitelisted();
+        this.uuid = player.getUniqueId();
     }
 }

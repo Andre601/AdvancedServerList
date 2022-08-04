@@ -23,27 +23,23 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer;
+package ch.andre601.advancedserverlist.core.generics;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Map;
-
-/*
- * Original by Imo van den Berge (aka Bergerkiller: https://github.com/Bergerkiller)
- *
- * Original Source: https://github.com/bergerhealer/BKCommonLib/blob/master/src/main/java/com/bergerkiller/bukkit/common/collections/EntryList.java
- */
-public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
-    public void add(K key, V value){
-        add(new AbstractMap.SimpleEntry<>(key, value));
+public abstract class GenericEventInfo{
+    
+    protected int playersOnline = -1;
+    protected int playersMax = -1;
+    protected String host = null;
+    
+    public int getPlayersOnline(){
+        return playersOnline;
     }
     
-    public boolean containsKey(K key){
-        for(Map.Entry<K, V> entry : this){
-            if(entry.getKey().equals(key))
-                return true;
-        }
-        return false;
+    public int getPlayersMax(){
+        return playersMax;
+    }
+    
+    public String getHost(){
+        return host;
     }
 }

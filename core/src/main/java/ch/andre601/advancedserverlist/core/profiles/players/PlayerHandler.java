@@ -28,13 +28,12 @@ package ch.andre601.advancedserverlist.core.profiles.players;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.profiles.replacer.EntryList;
 
-import java.io.ByteArrayInputStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -55,7 +54,6 @@ public class PlayerHandler{
             core.getPluginLogger().info("No cache.data present. Skipping...");
             return;
         }
-        
         List<String> lines;
         try{
             lines = Files.readAllLines(cache);
@@ -93,10 +91,15 @@ public class PlayerHandler{
         for(Map.Entry<String, String> entry : players){
             joiner.add(entry.getKey() + "=" + entry.getValue());
         }
-    
-        try(InputStream stream = new ByteArrayInputStream(joiner.toString().getBytes(StandardCharsets.UTF_8))){
-            Files.copy(stream, cache, StandardCopyOption.REPLACE_EXISTING);
-            core.getPluginLogger().info("Saved cache.data file.");
+        
+        try{
+            FileWriter file = new FileWriter(cache.toFile(), StandardCharsets.UTF_8, false);
+            BufferedWriter writer = new BufferedWriter(file, joiner.toString().length());
+            
+            writer.write(joiner.toString());
+            writer.close();
+            
+            core.getPluginLogger().info("Successfully saved cache.data file.");
         }catch(IOException ex){
             core.getPluginLogger().warn("Cannot save player data to cache.data file!", ex);
         }

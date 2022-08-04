@@ -29,8 +29,10 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
+import ch.andre601.advancedserverlist.velocity.VelocityPlayer;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
@@ -61,17 +63,14 @@ public class PingEvent{
         InetSocketAddress address = event.getConnection().getRemoteAddress();
         InetSocketAddress host = event.getConnection().getVirtualHost().orElse(null);
         
-        Map<String, Object> replacements = Placeholders.get(plugin.getCore())
-            .withProtocol(protocol.getProtocol())
-            .withPlayersOnline(builder.getOnlinePlayers())
-            .withPlayersMax(builder.getMaximumPlayers())
-            .withPlayerName(address)
-            .withHostAddress(host)
-            .withPlayerVersion(ProtocolVersion.getProtocolVersion(protocol.getProtocol()).toString())
-            .getReplacements();
+        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(
+            new VelocityPlayer(plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString()), protocol.getProtocol())
+        );
+        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(new VelocityEventInfo(builder, host == null ? null : host.getHostString()));
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .replacements(replacements)
+            .replacements(playerPlaceholders)
+            .replacements(serverPlaceholders)
             .getProfile();
         
         if(profile == null)
@@ -80,7 +79,8 @@ public class PingEvent{
         if(!profile.getMotd().isEmpty()){
             List<String> motd = profile.getMotd();
             builder.description(ComponentParser.list(motd)
-                .replacements(replacements)
+                .replacements(playerPlaceholders)
+                .replacements(serverPlaceholders)
                 .toComponent()
             );
         }
@@ -96,14 +96,16 @@ public class PingEvent{
             builder.version(new ServerPing.Version(
                 -1, 
                 ComponentParser.text(profile.getPlayerCount())
-                    .replacements(replacements)
+                    .replacements(playerPlaceholders)
+                    .replacements(serverPlaceholders)
                     .toString()
             ));
         }
         
         if(!profile.getPlayers().isEmpty()){
             String players = ComponentParser.list(profile.getPlayers())
-                .replacements(replacements)
+                .replacements(playerPlaceholders)
+                .replacements(serverPlaceholders)
                 .toString();
             
             ServerPing.SamplePlayer[] playerSamples = AdvancedServerList.getPlayers(ServerPing.SamplePlayer.class, players)

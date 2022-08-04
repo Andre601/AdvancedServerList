@@ -23,27 +23,16 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer;
+package ch.andre601.advancedserverlist.spigot.events;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Map;
+import ch.andre601.advancedserverlist.core.generics.GenericEventInfo;
+import com.comphenix.protocol.wrappers.WrappedServerPing;
 
-/*
- * Original by Imo van den Berge (aka Bergerkiller: https://github.com/Bergerkiller)
- *
- * Original Source: https://github.com/bergerhealer/BKCommonLib/blob/master/src/main/java/com/bergerkiller/bukkit/common/collections/EntryList.java
- */
-public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
-    public void add(K key, V value){
-        add(new AbstractMap.SimpleEntry<>(key, value));
-    }
+public class ProtocolLibEventInfo extends GenericEventInfo{
     
-    public boolean containsKey(K key){
-        for(Map.Entry<K, V> entry : this){
-            if(entry.getKey().equals(key))
-                return true;
-        }
-        return false;
+    public ProtocolLibEventInfo(WrappedServerPing ping, String host){
+        this.playersOnline = ping.getPlayersOnline();
+        this.playersMax = ping.getPlayersMaximum();
+        this.host = host;
     }
 }
