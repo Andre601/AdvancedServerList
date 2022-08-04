@@ -41,7 +41,7 @@ public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
     
     public boolean containsKey(K key){
         for(Map.Entry<K, V> entry : this){
-            if(entry.getKey() == key)
+            if(entry.getKey().equals(key))
                 return true;
         }
         return false;

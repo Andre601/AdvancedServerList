@@ -39,15 +39,15 @@ public class PlayerPlaceholders implements Placeholders{
         this.replacements.put("${player protocol}", player.getProtocol());
         
         if(player.getVersion() != null)
-            this.replacements.put("${player version}", player);
+            this.replacements.put("${player version}", player.getVersion());
         
         if(player.getPlayer() == null)
             return;
         
-        this.replacements.put("${player playedBefore}", player);
-        this.replacements.put("${player isBanned}", player);
-        this.replacements.put("${player isWhitelisted}", player);
-        this.replacements.put("${player uuid}", player);
+        this.replacements.put("${player playedBefore}", player.hasPlayedBefore());
+        this.replacements.put("${player isBanned}", player.isBanned());
+        this.replacements.put("${player isWhitelisted}", player.isWhitelisted());
+        this.replacements.put("${player uuid}", player.getUniqueId());
     }
     
     @Override
