@@ -44,7 +44,7 @@ public class PlayerPlaceholders implements Placeholders{
         if(player.getPlayer() == null)
             return;
         
-        this.replacements.put("${player playedBefore}", player.hasPlayedBefore());
+        this.replacements.put("${player hasPlayedBefore}", player.hasPlayedBefore());
         this.replacements.put("${player isBanned}", player.isBanned());
         this.replacements.put("${player isWhitelisted}", player.isWhitelisted());
         this.replacements.put("${player uuid}", player.getUniqueId());
