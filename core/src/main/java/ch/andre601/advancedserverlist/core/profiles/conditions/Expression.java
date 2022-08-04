@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.core.profiles.conditions;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 import java.util.Map;
+import java.util.function.Function;
 
 public class Expression{
     

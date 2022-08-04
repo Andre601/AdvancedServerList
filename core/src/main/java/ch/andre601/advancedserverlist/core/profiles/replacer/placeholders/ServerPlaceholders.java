@@ -23,42 +23,27 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
+import ch.andre601.advancedserverlist.core.generics.GenericEventInfo;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileManager{
-    
-    private final AdvancedServerList core;
+public class ServerPlaceholders implements Placeholders{
     
     private final Map<String, Object> replacements = new HashMap<>();
     
-    private ProfileManager(AdvancedServerList core){
-        this.core = core;
-    }
-    
-    public static ProfileManager get(AdvancedServerList core){
-        return new ProfileManager(core);
-    }
-    
-    public ProfileManager replacements(Placeholders placeholders){
-        this.replacements.putAll(placeholders.getReplacements());
-        return this;
-    }
-    
-    public ServerListProfile getProfile(){
-        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
-                continue;
-            
-            if(profile.evalConditions(replacements))
-                return profile;
-        }
+    public ServerPlaceholders(GenericEventInfo info){
+        this.replacements.put("${server playersOnline}", info.getPlayersOnline());
+        this.replacements.put("${server playersMax}", info.getPlayersMax());
         
-        return null;
+        if(info.getHost() != null)
+            this.replacements.put("${server host}", info.getHost());
+    }
+    
+    @Override
+    public Map<String, Object> getReplacements(){
+        return this.replacements;
     }
 }

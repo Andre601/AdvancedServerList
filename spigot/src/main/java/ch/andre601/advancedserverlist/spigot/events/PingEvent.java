@@ -28,8 +28,10 @@ package ch.andre601.advancedserverlist.spigot.events;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
+import ch.andre601.advancedserverlist.spigot.SpigotPlayer;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
@@ -82,32 +84,27 @@ public class PingEvent implements Listener{
                 InetSocketAddress address = event.getPlayer().getAddress();
                 if(address == null)
                     return;
-                
-                Map<String, Object> replacements = Placeholders.get(spigotPlugin.getCore())
-                    .withProtocol(ping.getVersionProtocol())
-                    .withPlayersOnline(ping.getPlayersOnline())
-                    .withPlayersMax(ping.getPlayersMaximum())
-                    .withPlayerName(address)
-                    .withHostAddress(hostAddresses.get(address.getHostString()))
-                    .getReplacements();
     
-                spigotPlugin.getPluginLogger().info(hostAddresses.get(address.getHostString()));
+                SpigotPlayer player = resolvePlayer(address, ping.getVersionProtocol());
+                
+                PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
+                ServerPlaceholders serverPlaceholders = new ServerPlaceholders(new ProtocolLibEventInfo(ping, hostAddresses.get(address.getHostString())));
                 
                 ServerListProfile profile = ProfileManager.get(spigotPlugin.getCore())
-                    .replacements(replacements)
+                    .replacements(playerPlaceholders)
+                    .replacements(serverPlaceholders)
                     .getProfile();
                 
                 if(profile == null)
                     return;
                 
-                OfflinePlayer player = resolvePlayer(address);
-                
                 if(!profile.getMotd().isEmpty()){
                     Component component = ComponentParser.list(profile.getMotd())
-                        .replacements(replacements)
+                        .replacements(playerPlaceholders)
+                        .replacements(serverPlaceholders)
                         .modifyText(text -> {
                             if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                                return PlaceholderAPI.setPlaceholders(player, text);
+                                return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
                             
                             return text;
                         })
@@ -122,10 +119,11 @@ public class PingEvent implements Listener{
                 
                 if(!profile.getPlayerCount().isEmpty()){
                     ping.setVersionName(ComponentParser.text(profile.getPlayerCount())
-                        .replacements(replacements)
+                        .replacements(playerPlaceholders)
+                        .replacements(serverPlaceholders)
                         .modifyText(text -> {
                             if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                                return PlaceholderAPI.setPlaceholders(player, text);
+                                return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
     
                             return text;
                         })
@@ -137,10 +135,11 @@ public class PingEvent implements Listener{
                 if(!profile.getPlayers().isEmpty()){
                     ping.setPlayers(getFakePlayers(
                         ComponentParser.list(profile.getPlayers())
-                            .replacements(replacements)
+                            .replacements(playerPlaceholders)
+                            .replacements(serverPlaceholders)
                             .modifyText(text -> {
                                 if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                                    return PlaceholderAPI.setPlaceholders(player, text);
+                                    return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
     
                                 return text;
                             })
@@ -162,7 +161,7 @@ public class PingEvent implements Listener{
         return profiles;
     }
     
-    private OfflinePlayer resolvePlayer(InetSocketAddress address){
+    private SpigotPlayer resolvePlayer(InetSocketAddress address, int protocol){
         String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString());
         OfflinePlayer player = Bukkit.getPlayerExact(playerName);
         
@@ -170,9 +169,9 @@ public class PingEvent implements Listener{
             //noinspection deprecation
             player = Bukkit.getOfflinePlayer(playerName);
             
-            return player.hasPlayedBefore() ? player : null;
+            return new SpigotPlayer(player.hasPlayedBefore() ? player : null, playerName, protocol);
         }
         
-        return player;
+        return new SpigotPlayer(player, playerName, protocol);
     }
 }

@@ -23,42 +23,50 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.core.profiles.players;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
+import java.util.UUID;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class ProfileManager{
+public abstract class GenericPlayer<T>{
     
-    private final AdvancedServerList core;
+    protected T player = null;
+    protected String name = null;
+    protected String version = null;
+    protected int protocol = -1;
+    protected boolean playedBefore = false;
+    protected boolean banned = false;
+    protected boolean whitelisted = false;
+    protected UUID uuid = null;
     
-    private final Map<String, Object> replacements = new HashMap<>();
-    
-    private ProfileManager(AdvancedServerList core){
-        this.core = core;
+    public T getPlayer(){
+        return player;
     }
     
-    public static ProfileManager get(AdvancedServerList core){
-        return new ProfileManager(core);
+    public String getName(){
+        return name;
     }
     
-    public ProfileManager replacements(Placeholders placeholders){
-        this.replacements.putAll(placeholders.getReplacements());
-        return this;
+    public int getProtocol(){
+        return protocol;
     }
     
-    public ServerListProfile getProfile(){
-        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
-                continue;
-            
-            if(profile.evalConditions(replacements))
-                return profile;
-        }
-        
-        return null;
+    public String getVersion(){
+        return version;
+    }
+    
+    public boolean hasPlayedBefore(){
+        return playedBefore;
+    }
+    
+    public boolean isBanned(){
+        return banned;
+    }
+    
+    public boolean isWhitelisted(){
+        return whitelisted;
+    }
+    
+    public UUID getUniqueId(){
+        return uuid;
     }
 }

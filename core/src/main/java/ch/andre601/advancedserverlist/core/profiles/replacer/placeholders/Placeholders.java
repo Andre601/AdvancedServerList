@@ -23,42 +23,11 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
-
-import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileManager{
+public interface Placeholders{
     
-    private final AdvancedServerList core;
-    
-    private final Map<String, Object> replacements = new HashMap<>();
-    
-    private ProfileManager(AdvancedServerList core){
-        this.core = core;
-    }
-    
-    public static ProfileManager get(AdvancedServerList core){
-        return new ProfileManager(core);
-    }
-    
-    public ProfileManager replacements(Placeholders placeholders){
-        this.replacements.putAll(placeholders.getReplacements());
-        return this;
-    }
-    
-    public ServerListProfile getProfile(){
-        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
-                continue;
-            
-            if(profile.evalConditions(replacements))
-                return profile;
-        }
-        
-        return null;
-    }
+    Map<String, Object> getReplacements();
 }

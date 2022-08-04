@@ -23,42 +23,23 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.core.generics;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class ProfileManager{
+public abstract class GenericEventInfo{
     
-    private final AdvancedServerList core;
+    protected int playersOnline = -1;
+    protected int playersMax = -1;
+    protected String host = null;
     
-    private final Map<String, Object> replacements = new HashMap<>();
-    
-    private ProfileManager(AdvancedServerList core){
-        this.core = core;
+    public int getPlayersOnline(){
+        return playersOnline;
     }
     
-    public static ProfileManager get(AdvancedServerList core){
-        return new ProfileManager(core);
+    public int getPlayersMax(){
+        return playersMax;
     }
     
-    public ProfileManager replacements(Placeholders placeholders){
-        this.replacements.putAll(placeholders.getReplacements());
-        return this;
-    }
-    
-    public ServerListProfile getProfile(){
-        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
-                continue;
-            
-            if(profile.evalConditions(replacements))
-                return profile;
-        }
-        
-        return null;
+    public String getHost(){
+        return host;
     }
 }

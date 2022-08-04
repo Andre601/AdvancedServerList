@@ -26,11 +26,13 @@
 package ch.andre601.advancedserverlist.bungeecord.events;
 
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
+import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.replacer.Placeholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -60,16 +62,15 @@ public class PingEvent implements Listener{
     
         InetSocketAddress address = (InetSocketAddress)event.getConnection().getSocketAddress();
         InetSocketAddress host = event.getConnection().getVirtualHost();
-        Map<String, Object> replacements = Placeholders.get(plugin.getCore())
-            .withProtocol(protocol.getProtocol())
-            .withPlayersOnline(ping.getPlayers().getOnline())
-            .withPlayersMax(ping.getPlayers().getMax())
-            .withPlayerName(address)
-            .withHostAddress(host)
-            .getReplacements();
+    
+        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(
+            new BungeePlayer(plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString()), protocol.getProtocol())
+        );
+        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(new BungeeEventInfo(ping, host == null ? null : host.getHostString()));
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .replacements(replacements)
+            .replacements(playerPlaceholders)
+            .replacements(serverPlaceholders)
             .getProfile();
         
         if(profile == null)
@@ -78,7 +79,8 @@ public class PingEvent implements Listener{
         if(!profile.getMotd().isEmpty()){
             TextComponent component = new TextComponent(BungeeComponentSerializer.get().serialize(
                 ComponentParser.list(profile.getMotd())
-                    .replacements(replacements)
+                    .replacements(playerPlaceholders)
+                    .replacements(serverPlaceholders)
                     .toComponent()
             ));
             
@@ -97,7 +99,8 @@ public class PingEvent implements Listener{
         
         if(!profile.getPlayerCount().isEmpty()){
             protocol.setName(ComponentParser.text(profile.getPlayerCount())
-                .replacements(replacements)
+                .replacements(playerPlaceholders)
+                .replacements(serverPlaceholders)
                 .toString()
             );
             protocol.setProtocol(-1);
@@ -105,7 +108,8 @@ public class PingEvent implements Listener{
         
         if(!profile.getPlayers().isEmpty()){
             String players = ComponentParser.list(profile.getPlayers())
-                .replacements(replacements)
+                .replacements(playerPlaceholders)
+                .replacements(serverPlaceholders)
                 .toString();
             
             ServerPing.PlayerInfo[] playerInfos = AdvancedServerList.getPlayers(ServerPing.PlayerInfo.class, players)
