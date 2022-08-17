@@ -25,8 +25,6 @@
 
 package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
 
-import ch.andre601.advancedserverlist.core.generics.GenericEventInfo;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,12 +32,12 @@ public class ServerPlaceholders implements Placeholders{
     
     private final Map<String, Object> replacements = new HashMap<>();
     
-    public ServerPlaceholders(GenericEventInfo info){
-        this.replacements.put("${server playersOnline}", info.getPlayersOnline());
-        this.replacements.put("${server playersMax}", info.getPlayersMax());
+    public ServerPlaceholders(int online, int max, String host){
+        this.replacements.put("${server playersOnline}", online);
+        this.replacements.put("${server playersMax}", max);
         
-        if(info.getHost() != null)
-            this.replacements.put("${server host}", info.getHost());
+        if(host != null)
+            this.replacements.put("${server host}", host);
     }
     
     @Override

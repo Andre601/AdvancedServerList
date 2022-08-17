@@ -60,8 +60,11 @@ public class PingEvent implements Listener{
     
         PaperPlayer player = resolvePlayer(address, event.getClient().getProtocolVersion());
         
+        int online = event.getNumPlayers();
+        int max = event.getMaxPlayers();
+        
         PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
-        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(new PaperEventInfo(event, host == null ? null : host.getHostString()));
+        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max,  host == null ? null : host.getHostString());
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replacements(playerPlaceholders)
@@ -70,6 +73,13 @@ public class PingEvent implements Listener{
         
         if(profile == null)
             return;
+        
+        if(profile.isOneMore()){
+            max = online + 1;
+            event.setMaxPlayers(max);
+        }
+        
+        serverPlaceholders = new ServerPlaceholders(online, max,  host == null ? null : host.getHostString());
         
         if(!profile.getMotd().isEmpty()){
             event.motd(ComponentParser.list(profile.getMotd())

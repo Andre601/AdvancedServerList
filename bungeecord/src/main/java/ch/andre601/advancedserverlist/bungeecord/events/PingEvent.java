@@ -42,7 +42,6 @@ import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
 import java.net.InetSocketAddress;
-import java.util.Map;
 
 public class PingEvent implements Listener{
     
@@ -62,11 +61,14 @@ public class PingEvent implements Listener{
     
         InetSocketAddress address = (InetSocketAddress)event.getConnection().getSocketAddress();
         InetSocketAddress host = event.getConnection().getVirtualHost();
+        
+        int online = ping.getPlayers().getOnline();
+        int max = ping.getPlayers().getMax();
     
         PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(
             new BungeePlayer(plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString()), protocol.getProtocol())
         );
-        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(new BungeeEventInfo(ping, host == null ? null : host.getHostString()));
+        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replacements(playerPlaceholders)
@@ -75,6 +77,13 @@ public class PingEvent implements Listener{
         
         if(profile == null)
             return;
+        
+        if(profile.isOneMore()){
+            max = online + 1;
+            ping.getPlayers().setMax(max);
+        }
+        
+        serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         
         if(!profile.getMotd().isEmpty()){
             TextComponent component = new TextComponent(BungeeComponentSerializer.get().serialize(

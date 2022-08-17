@@ -36,12 +36,10 @@ import ch.andre601.advancedserverlist.velocity.VelocityPlayer;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
-import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.server.ServerPing;
 
 import java.net.InetSocketAddress;
 import java.util.List;
-import java.util.Map;
 
 public class PingEvent{
     
@@ -63,10 +61,13 @@ public class PingEvent{
         InetSocketAddress address = event.getConnection().getRemoteAddress();
         InetSocketAddress host = event.getConnection().getVirtualHost().orElse(null);
         
+        int online = builder.getOnlinePlayers();
+        int max = builder.getMaximumPlayers();
+        
         PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(
             new VelocityPlayer(plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString()), protocol.getProtocol())
         );
-        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(new VelocityEventInfo(builder, host == null ? null : host.getHostString()));
+        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replacements(playerPlaceholders)
@@ -75,6 +76,13 @@ public class PingEvent{
         
         if(profile == null)
             return;
+        
+        if(profile.isOneMore()){
+            max = online + 1;
+            builder.maximumPlayers(max);
+        }
+        
+        serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         
         if(!profile.getMotd().isEmpty()){
             List<String> motd = profile.getMotd();

@@ -87,8 +87,11 @@ public class PingEvent implements Listener{
     
                 SpigotPlayer player = resolvePlayer(address, ping.getVersionProtocol());
                 
+                int online = ping.getPlayersOnline();
+                int max = ping.getPlayersMaximum();
+                
                 PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
-                ServerPlaceholders serverPlaceholders = new ServerPlaceholders(new ProtocolLibEventInfo(ping, hostAddresses.get(address.getHostString())));
+                ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, hostAddresses.get(address.getHostString()));
                 
                 ServerListProfile profile = ProfileManager.get(spigotPlugin.getCore())
                     .replacements(playerPlaceholders)
@@ -97,6 +100,13 @@ public class PingEvent implements Listener{
                 
                 if(profile == null)
                     return;
+                
+                if(profile.isOneMore()){
+                    max = online + 1;
+                    ping.setPlayersMaximum(max);
+                }
+                
+                serverPlaceholders = new ServerPlaceholders(online, max, hostAddresses.get(address.getHostString()));
                 
                 if(!profile.getMotd().isEmpty()){
                     Component component = ComponentParser.list(profile.getMotd())

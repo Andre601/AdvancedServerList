@@ -44,6 +44,7 @@ public class ServerListProfile{
     private final List<String> players;
     private final String playerCount;
     private final boolean hidePlayers;
+    private final boolean oneMore;
     
     public ServerListProfile(ConfigurationNode node, PluginLogger logger){
         this.priority = node.node("priority").getInt();
@@ -53,6 +54,7 @@ public class ServerListProfile{
         this.players = getList(node, "players", false);
         this.playerCount = node.node("playerCount").getString("");
         this.hidePlayers = node.node("hidePlayers").getBoolean();
+        this.oneMore = node.node("oneMore").getBoolean();
     }
     
     public int getPriority(){
@@ -73,6 +75,10 @@ public class ServerListProfile{
     
     public boolean shouldHidePlayers(){
         return hidePlayers;
+    }
+    
+    public boolean isOneMore(){
+        return oneMore;
     }
     
     public boolean evalConditions(Map<String, Object> replacements){

@@ -58,3 +58,13 @@ players:
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#playercount
 #
 playerCount: '<grey>Text'
+
+#
+# When set to true, will the ${server maxPlayers} placeholder display the online players + 1
+# This means that if 20 players are online, 21 would be displayed by the placeholder with this option enabled.
+#
+# Note that the placeholder will not be affected in the conditions.
+#
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profile#onemore
+#
+oneMore: false

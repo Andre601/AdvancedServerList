@@ -29,11 +29,11 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.profiles.replacer.EntryList;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -93,8 +93,7 @@ public class PlayerHandler{
         }
         
         try{
-            FileWriter file = new FileWriter(cache.toFile(), StandardCharsets.UTF_8, false);
-            BufferedWriter writer = new BufferedWriter(file);
+            BufferedWriter writer = Files.newBufferedWriter(cache, StandardCharsets.UTF_8, StandardOpenOption.WRITE);
             
             writer.write(joiner.toString());
             writer.close();
