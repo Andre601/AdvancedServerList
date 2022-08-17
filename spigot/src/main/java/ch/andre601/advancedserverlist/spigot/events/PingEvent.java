@@ -101,8 +101,8 @@ public class PingEvent implements Listener{
                 if(profile == null)
                     return;
                 
-                if(profile.isOneMore()){
-                    max = online + 1;
+                if(profile.getXMore() >= 0){
+                    max = online + profile.getXMore();
                     ping.setPlayersMaximum(max);
                 }
                 

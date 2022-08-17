@@ -60,11 +60,14 @@ players:
 playerCount: '<grey>Text'
 
 #
-# When set to true, will the ${server maxPlayers} placeholder display the online players + 1
-# This means that if 20 players are online, 21 would be displayed by the placeholder with this option enabled.
+# When set to 0 or higher will alter the max player count to the online count + xMore.
+# Example: With 20 online players would 'xMore: 1' show 20/21 and 'xMore: 0' show 20/20
 #
-# Note that the placeholder will not be affected in the conditions.
+# Note that this will also manipulate the ${server playersMax} placeholder when used
+# in motd, players or playerCount.
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profile#onemore
+# Remove this option or set it to -1 to not alter the max player count.
 #
-oneMore: false
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#xmore
+#
+xMore: -1
