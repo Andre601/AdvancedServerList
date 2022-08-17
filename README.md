@@ -4,30 +4,30 @@
 AdvancedServerList is a plugin made for SpigotMC, PaperMC, BungeeCord/Waterfall and Velocity. It allows you to create server list profiles to display based on priority and conditions.
 
 ## What is a Server List Profile?
-A Server List Profile is a YAML file located in the plugin’s profiles folder having a priority, conditions (Optional), MOTD, Player count text, hover for player count and hiding the player count completely (Changing it to ???)
+A Server List Profile is a YAML file located in the plugin’s profiles folder having a priority, conditions (Optional), MOTD, Player count text, hover for player count and hiding the player count completely (Changing it to `???`)
 
 > [*Read More*][profiles]
 
 ### Conditions
 Thanks to conditions can you determine when a profile should be displayed in the player’s server list, to allow displaying specific text (i.e. a warning when they are using an outdated version).
 
-When multiple profiles exist that have valid conditions will the one with highest priority (Higher number = higher priority) be selected. Having no conditions makes the profile automatically return true.
+When multiple profiles exist that have valid conditions will the one with the highest priority (Higher number = higher priority) be selected. Having no conditions makes the profile automatically return true.
 
-> [Read More][conditions]
+> [*Read More*][conditions]
 
 ### Placeholders
-Placeholders can be used within conditions to further customize them. They can also be used in any other text option (motd, playerCount and players) to display their respective value.
-The format is ${<target> <identifier>} which was adopted from BungeeTabListPlus. Depending on what platform you use the plugin on are only specific placeholders available.
+Placeholders can be used within conditions to further customize them. They can also be used in any other text option (motd, playerCount and players) to display their respective values.
+The format is `${<target> <identifier>}` which was adopted from BungeeTabListPlus. Depending on what platform you use the plugin on are only specific placeholders available.
 
-When using the SpigotMC/PaperMC version can you also use placeholders from PlaceholderAPI using its %<identifier>_<values>% format. PlaceholderAPI needs to be installed for that.
+When using the SpigotMC/PaperMC version can you also use placeholders from [PlaceholderAPI][placeholderapi] using its `%<identifier>_<values>%` placeholder format. PlaceholderAPI needs to be installed for that.
 
-> [Read More][placeholders]
+> [*Read More*][placeholders]
 
 ### Formatting
 The plugin uses the MiniMessage format for a consistent, easy way of formatting your text.
-Depending on the option you use can you use more advanced formatting options such as HEX colours and gradients (Only available for the motd option).
+Only certain options are usable for each option. As an example does motd support HEX colours and gradients, while the other options only support default colour codes.
 
-> [Read More][minimessage]
+> [*Read More*][minimessage]
 
 ## Downloads
 AdvancedServerList can be downloaded from the following places:
@@ -46,6 +46,8 @@ Here are screenshots showing the plugin in action. Do you have your own screensh
 [conditions]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#conditions
 [placeholders]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#placeholders
 [minimessage]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#minimessage
+
+[placeholderapi]: https://www.spigotmc.org/resources/6245/
 
 [modrinth]: https://modrinth.com/mod/advancedserverlist
 [spigot]: https://www.spigotmc.org/resources/102910/
