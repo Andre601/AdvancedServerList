@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ServerListProfile{
     
@@ -44,7 +45,7 @@ public class ServerListProfile{
     private final List<String> players;
     private final String playerCount;
     private final boolean hidePlayers;
-    private final boolean oneMore;
+    private final int xMore;
     
     public ServerListProfile(ConfigurationNode node, PluginLogger logger){
         this.priority = node.node("priority").getInt();
@@ -54,7 +55,7 @@ public class ServerListProfile{
         this.players = getList(node, "players", false);
         this.playerCount = node.node("playerCount").getString("");
         this.hidePlayers = node.node("hidePlayers").getBoolean();
-        this.oneMore = node.node("oneMore").getBoolean();
+        this.xMore = node.node("xMore").getInt();
     }
     
     public int getPriority(){
@@ -76,11 +77,8 @@ public class ServerListProfile{
     public boolean shouldHidePlayers(){
         return hidePlayers;
     }
-    
-    public boolean isOneMore(){
-        return oneMore;
-    }
-    
+    public int getxMore() {return xMore;}
+
     public boolean evalConditions(Map<String, Object> replacements){
         if(expressions.isEmpty())
             return true;

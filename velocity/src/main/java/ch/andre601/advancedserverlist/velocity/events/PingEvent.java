@@ -76,11 +76,10 @@ public class PingEvent{
         
         if(profile == null)
             return;
-        
-        if(profile.isOneMore()){
-            max = online + 1;
-            builder.maximumPlayers(max);
-        }
+
+        int xMore = profile.getxMore();
+        max = online + xMore;
+        builder.maximumPlayers(max);
         
         serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         

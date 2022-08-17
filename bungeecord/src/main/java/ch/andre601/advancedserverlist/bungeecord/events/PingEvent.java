@@ -78,10 +78,9 @@ public class PingEvent implements Listener{
         if(profile == null)
             return;
         
-        if(profile.isOneMore()){
-            max = online + 1;
-            ping.getPlayers().setMax(max);
-        }
+        int xMore = profile.getxMore();
+        max = online + xMore;
+        ping.getPlayers().setMax(max);
         
         serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         
