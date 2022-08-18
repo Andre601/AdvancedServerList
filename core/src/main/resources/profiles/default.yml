@@ -62,9 +62,11 @@ playerCount: '<grey>Text'
 #
 # Allows you to override the default Favicon used by the Server/Proxy.
 # You can provide three specific inputs:
-# - A valid URL pointing to a 
+# - A valid URL pointing to a PNG file.
+# - ${player name} for a per-player avatar being displayed (Uses mc-heads.net)
+# - Image file name (i.e. example.png) for a file in the "favicons" folder.
 #
-#
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#favicon
 #
 favicon: ''
 
