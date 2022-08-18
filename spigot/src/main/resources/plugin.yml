@@ -8,11 +8,11 @@ main: 'ch.andre601.advancedserverlist.spigot.SpigotCore'
 api-version: 1.19
 
 libraries:
-  - 'org.spongepowered:configurate-yaml:${plugin.depend.configurate}'
-  - 'net.kyori:adventure-api:${plugin.depend.kyori-adventure}'
-  - 'net.kyori:adventure-text-minimessage:${plugin.depend.kyori-minimessage}'
-  - 'net.kyori:adventure-text-serializer-legacy:${plugin.depend.kyori-legacy}'
-  - 'net.kyori:adventure-platform-bukkit:${plugin.depend.kyori-platform-bukkit}'
+  - 'org.spongepowered:configurate-yaml:4.1.2'
+  - 'net.kyori:adventure-api:4.11.0'
+  - 'net.kyori:adventure-text-minimessage:4.11.0'
+  - 'net.kyori:adventure-text-serializer-legacy:4.11.0'
+  - 'net.kyori:adventure-platform-bukkit:4.1.2'
 
 softdepend:
   - 'ProtocolLib'

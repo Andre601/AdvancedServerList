@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.spigot.events;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
@@ -46,6 +47,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
 
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.*;
 
@@ -155,6 +157,22 @@ public class PingEvent implements Listener{
                             })
                             .toString()
                     ));
+                }
+                
+                if(!profile.getFavicon().isEmpty()){
+                    byte[] bytes = new FaviconHandler(spigotPlugin.getCore(), profile.getFavicon(), player.getName()).getAsByteArray();
+                    if(bytes == null){
+                        spigotPlugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
+                        ping.setFavicon(ping.getFavicon());
+                    }else{
+                        try{
+                            WrappedServerPing.CompressedImage favicon = WrappedServerPing.CompressedImage.fromPng(bytes);
+                            ping.setFavicon(favicon);
+                        }catch(Exception ex){
+                            spigotPlugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());
+                            ping.setFavicon(ping.getFavicon());
+                        }
+                    }
                 }
             }
         });

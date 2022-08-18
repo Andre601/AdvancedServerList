@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
@@ -37,7 +38,9 @@ import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
+import com.velocitypowered.api.util.Favicon;
 
+import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
@@ -58,15 +61,13 @@ public class PingEvent{
             return;
     
         ServerPing.Builder builder = ping.asBuilder();
-        InetSocketAddress address = event.getConnection().getRemoteAddress();
+        String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(event.getConnection().getRemoteAddress().getHostString());
         InetSocketAddress host = event.getConnection().getVirtualHost().orElse(null);
         
         int online = builder.getOnlinePlayers();
         int max = builder.getMaximumPlayers();
         
-        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(
-            new VelocityPlayer(plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString()), protocol.getProtocol())
-        );
+        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(new VelocityPlayer(playerName, protocol.getProtocol()));
         ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
@@ -121,6 +122,19 @@ public class PingEvent{
             
             if(playerSamples.length > 0)
                 builder.clearSamplePlayers().samplePlayers(playerSamples);
+        }
+        
+        if(!profile.getFavicon().isEmpty()){
+            BufferedImage img = new FaviconHandler(plugin.getCore(), profile.getFavicon(), playerName).getAsBufferedImage();
+            if(img == null){
+                plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
+            }else{
+                try{
+                    Favicon favicon = Favicon.create(img);
+                    builder.favicon(favicon);
+                }catch(Exception ex){
+                    plugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());}
+            }
         }
         
         event.setPing(builder.build());

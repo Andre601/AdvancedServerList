@@ -43,6 +43,7 @@ public class ServerListProfile{
     private final List<String> motd;
     private final List<String> players;
     private final String playerCount;
+    private final String favicon;
     private final boolean hidePlayers;
     private final int xMore;
     
@@ -53,6 +54,7 @@ public class ServerListProfile{
         this.motd = getList(node, "motd", true);
         this.players = getList(node, "players", false);
         this.playerCount = node.node("playerCount").getString("");
+        this.favicon = node.node("favicon").getString("");
         this.hidePlayers = node.node("hidePlayers").getBoolean();
         this.xMore = node.node("xMore").getInt(-1);
     }
@@ -71,6 +73,10 @@ public class ServerListProfile{
     
     public String getPlayerCount(){
         return playerCount;
+    }
+    
+    public String getFavicon(){
+        return favicon;
     }
     
     public boolean shouldHidePlayers(){

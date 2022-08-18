@@ -60,6 +60,15 @@ players:
 playerCount: '<grey>Text'
 
 #
+# Allows you to override the default Favicon used by the Server/Proxy.
+# You can provide three specific inputs:
+# - A valid URL pointing to a 
+#
+#
+#
+favicon: ''
+
+#
 # When set to 0 or higher will alter the max player count to the online count + xMore.
 # Example: With 20 online players would 'xMore: 1' show 20/21 and 'xMore: 0' show 20/20
 #

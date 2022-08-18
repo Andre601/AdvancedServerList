@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.paper.events;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -40,7 +41,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.util.CachedServerIcon;
 
+import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.*;
 
@@ -119,7 +122,21 @@ public class PingEvent implements Listener{
             event.getPlayerSample().addAll(getPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders, player.getPlayer()));
         }
         
-        event.setServerIcon(event.getServerIcon());
+        if(!profile.getFavicon().isEmpty()){
+            BufferedImage img = new FaviconHandler(plugin.getCore(), profile.getFavicon(), player.getName()).getAsBufferedImage();
+            if(img == null){
+                plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
+                event.setServerIcon(event.getServerIcon());
+            }else{
+                try{
+                    CachedServerIcon favicon = Bukkit.loadServerIcon(img);
+                    event.setServerIcon(favicon);
+                }catch(Exception ex){
+                    plugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());
+                    event.setServerIcon(event.getServerIcon());
+                }
+            }
+        }
     }
     
     private List<PlayerProfile> getPlayers(List<String> lines, Placeholders playerPlaceholders, Placeholders serverPlaceholders, OfflinePlayer player){
