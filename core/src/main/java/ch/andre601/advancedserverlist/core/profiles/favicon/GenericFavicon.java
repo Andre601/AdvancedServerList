@@ -41,6 +41,8 @@ public class GenericFavicon{
     private final String input;
     private final BufferedImage image;
     
+    private byte[] bytes = null;
+    
     public GenericFavicon(AdvancedServerList core, String input){
         this.core = core;
         this.input = input;
@@ -48,6 +50,9 @@ public class GenericFavicon{
     }
     
     public byte[] getAsByteArray(){
+        if(bytes != null && bytes.length > 0)
+            return bytes;
+        
         if(image == null){
             this.core.getPluginLogger().warn("Cannot convert Favicon BufferedImage to Byte array. BufferedImage was null.");
             return null;
@@ -58,7 +63,7 @@ public class GenericFavicon{
             ImageIO.setUseCache(false);
             ImageIO.write(image, "PNG", baos);
             
-            return baos.toByteArray();
+            return (bytes = baos.toByteArray());
         }catch(IOException ex){
             this.core.getPluginLogger().warn("Cannot convert Favicon BufferedImage to Byte array. %s", ex.getMessage());
             return null;
