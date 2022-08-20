@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
@@ -125,7 +126,9 @@ public class PingEvent{
         }
         
         if(!profile.getFavicon().isEmpty()){
-            BufferedImage img = new FaviconHandler(plugin.getCore(), profile.getFavicon(), playerName).getAsBufferedImage();
+            String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
+            
+            BufferedImage img = new FaviconHandler(plugin.getCore(), favName).get().getAsBufferedImage();
             if(img == null){
                 plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
             }else{
