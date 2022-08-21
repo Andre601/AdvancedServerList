@@ -66,6 +66,11 @@ playerCount: '<grey>Text'
 # - ${player name} for a per-player avatar being displayed (Uses mc-heads.net)
 # - Image file name (i.e. example.png) for a file in the "favicons" folder.
 #
+# NOTE:
+# - The favicon will be cached for 5 minutes to avoid spam and rate limits.
+# - BungeeCord/Waterfall may report issues that the plugin takes a long time to process.
+#   This is something I cannot really get improved without help.
+#
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#favicon
 #
 favicon: ''
