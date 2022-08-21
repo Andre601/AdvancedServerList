@@ -31,9 +31,12 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
@@ -41,6 +44,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 
 public class PingEvent implements Listener{
@@ -59,15 +63,15 @@ public class PingEvent implements Listener{
         if(protocol == null)
             return;
     
-        InetSocketAddress address = (InetSocketAddress)event.getConnection().getSocketAddress();
+        String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(
+            ((InetSocketAddress)event.getConnection().getSocketAddress()).getHostString()
+        );
         InetSocketAddress host = event.getConnection().getVirtualHost();
         
         int online = ping.getPlayers().getOnline();
         int max = ping.getPlayers().getMax();
     
-        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(
-            new BungeePlayer(plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString()), protocol.getProtocol())
-        );
+        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(new BungeePlayer(playerName, protocol.getProtocol()));
         ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
         
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
@@ -128,7 +132,24 @@ public class PingEvent implements Listener{
                 ping.getPlayers().setSample(playerInfos);
         }
         
-        ping.setFavicon(ping.getFaviconObject());
+        if(!profile.getFavicon().isEmpty()){
+            String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
+            
+            BufferedImage img = new FaviconHandler(plugin.getCore(), favName).get().getAsBufferedImage();
+            if(img == null){
+                plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
+                ping.setFavicon(ping.getFaviconObject());
+            }else{
+                try{
+                    Favicon favicon = Favicon.create(img);
+                    ping.setFavicon(favicon);
+                }catch(Exception ex){
+                    plugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());
+                    ping.setFavicon(ping.getFaviconObject());
+                }
+            }
+        }
+        
         ping.setVersion(protocol);
         
         event.setResponse(ping);
