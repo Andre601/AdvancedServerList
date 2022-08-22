@@ -4,7 +4,8 @@
 AdvancedServerList is a plugin made for SpigotMC, PaperMC, BungeeCord/Waterfall and Velocity. It allows you to create server list profiles to display based on priority and conditions.
 
 ## What is a Server List Profile?
-A Server List Profile is a YAML file located in the plugin’s profiles folder having a priority, conditions (Optional), MOTD, Player count text, hover for player count and hiding the player count completely (Changing it to `???`)
+A Server List Profile refers to a YAML file located in the plugin's `profiles` directory.  
+It allows you to configure specific aspects of the server display in the MC-Client's multiplayer server list, such as the MOTD, player count text, player count hover or Favicon.
 
 > [*Read More*][profiles]
 
