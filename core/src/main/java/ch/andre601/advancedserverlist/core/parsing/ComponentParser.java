@@ -32,7 +32,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 public class ComponentParser{

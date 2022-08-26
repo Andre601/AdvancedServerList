@@ -31,7 +31,6 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -44,7 +43,6 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
-import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 
 public class PingEvent implements Listener{
@@ -135,18 +133,19 @@ public class PingEvent implements Listener{
         if(!profile.getFavicon().isEmpty()){
             String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
             
-            BufferedImage img = new FaviconHandler(plugin.getCore(), favName).get().getAsBufferedImage();
-            if(img == null){
+            Favicon favicon = plugin.getFaviconHandler().getFavicon(favName, image -> {
+                try{
+                    return Favicon.create(image);
+                }catch(Exception ex){
+                    return null;
+                }
+            });
+            
+            if(favicon == null){
                 plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
                 ping.setFavicon(ping.getFaviconObject());
             }else{
-                try{
-                    Favicon favicon = Favicon.create(img);
-                    ping.setFavicon(favicon);
-                }catch(Exception ex){
-                    plugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());
-                    ping.setFavicon(ping.getFaviconObject());
-                }
+                ping.setFavicon(favicon);
             }
         }
         

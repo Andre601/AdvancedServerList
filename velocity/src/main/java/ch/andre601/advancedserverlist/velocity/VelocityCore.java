@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.velocity;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.velocity.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.velocity.events.JoinEvent;
 import ch.andre601.advancedserverlist.velocity.events.PingEvent;
@@ -39,6 +40,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.util.Favicon;
 import org.bstats.charts.SimplePie;
 import org.bstats.velocity.Metrics;
 import org.slf4j.LoggerFactory;
@@ -53,6 +55,7 @@ public class VelocityCore implements PluginCore{
     private final Metrics.Factory metrics;
     
     private AdvancedServerList core;
+    private FaviconHandler<Favicon> faviconHandler;
     
     @Inject
     public VelocityCore(ProxyServer proxy, @DataDirectory Path path, Metrics.Factory metrics){
@@ -66,6 +69,7 @@ public class VelocityCore implements PluginCore{
     @Subscribe
     public void init(ProxyInitializeEvent event){
         this.core = new AdvancedServerList(this);
+        this.faviconHandler = new FaviconHandler<>(core);
     }
     
     @Subscribe
@@ -97,6 +101,11 @@ public class VelocityCore implements PluginCore{
     }
     
     @Override
+    public void clearFaviconCache(){
+        faviconHandler.clearCache();
+    }
+    
+    @Override
     public AdvancedServerList getCore(){
         return core;
     }
@@ -123,5 +132,9 @@ public class VelocityCore implements PluginCore{
     
     public ProxyServer getProxy(){
         return proxy;
+    }
+    
+    public FaviconHandler<Favicon> getFaviconHandler(){
+        return faviconHandler;
     }
 }

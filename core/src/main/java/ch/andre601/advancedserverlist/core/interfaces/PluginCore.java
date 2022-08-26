@@ -37,6 +37,8 @@ public interface PluginCore{
     
     void loadMetrics();
     
+    void clearFaviconCache();
+    
     AdvancedServerList getCore();
     
     Path getPath();

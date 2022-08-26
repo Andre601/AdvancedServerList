@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.paper;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.paper.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.paper.events.JoinEvent;
 import ch.andre601.advancedserverlist.paper.events.PingEvent;
@@ -36,23 +37,26 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.CachedServerIcon;
 
 import java.nio.file.Path;
 
 public class PaperCore extends JavaPlugin implements PluginCore{
     
     private final PluginLogger logger = new PaperLogger(getLogger());
+    
     private AdvancedServerList core;
+    private FaviconHandler<CachedServerIcon> faviconHandler;
     
     @Override
     public void onEnable(){
         try{
             Class.forName("io.papermc.paper.configuration.ConfigurationLoaders");
-            this.core = new AdvancedServerList(this);
+            enable();
         }catch(ClassNotFoundException ex){
             try{
                 Class.forName("com.destroystokyo.paper.PaperConfig");
-                this.core = new AdvancedServerList(this);
+                enable();
             }catch(ClassNotFoundException ex1){
                 getPluginLogger().warn("======================================== WARNING ========================================");
                 getPluginLogger().warn("");
@@ -103,6 +107,11 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     }
     
     @Override
+    public void clearFaviconCache(){
+        faviconHandler.clearCache();
+    }
+    
+    @Override
     public AdvancedServerList getCore(){
         return core;
     }
@@ -125,5 +134,14 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     @Override
     public String getPlatformVersion(){
         return getServer().getVersion();
+    }
+    
+    public FaviconHandler<CachedServerIcon> getFaviconHandler(){
+        return faviconHandler;
+    }
+    
+    private void enable(){
+        this.core = new AdvancedServerList(this);
+        this.faviconHandler = new FaviconHandler<>(core);
     }
 }

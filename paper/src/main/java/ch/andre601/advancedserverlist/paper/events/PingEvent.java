@@ -28,7 +28,6 @@ package ch.andre601.advancedserverlist.paper.events;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
@@ -44,9 +43,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.CachedServerIcon;
 
-import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class PingEvent implements Listener{
     
@@ -126,18 +126,19 @@ public class PingEvent implements Listener{
         if(!profile.getFavicon().isEmpty()){
             String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
             
-            BufferedImage img = new FaviconHandler(plugin.getCore(), favName).get().getAsBufferedImage();
-            if(img == null){
+            CachedServerIcon favicon = plugin.getFaviconHandler().getFavicon(favName, image -> {
+                try{
+                    return Bukkit.loadServerIcon(image);
+                }catch(Exception ex){
+                    return null;
+                }
+            });
+            
+            if(favicon == null){
                 plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
                 event.setServerIcon(event.getServerIcon());
             }else{
-                try{
-                    CachedServerIcon favicon = Bukkit.loadServerIcon(img);
-                    event.setServerIcon(favicon);
-                }catch(Exception ex){
-                    plugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());
-                    event.setServerIcon(event.getServerIcon());
-                }
+                event.setServerIcon(favicon);
             }
         }
     }
