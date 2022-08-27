@@ -28,9 +28,11 @@ package ch.andre601.advancedserverlist.spigot;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.spigot.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import ch.andre601.advancedserverlist.spigot.logging.SpigotLogger;
+import com.comphenix.protocol.wrappers.WrappedServerPing;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
@@ -40,8 +42,10 @@ import java.nio.file.Path;
 
 public class SpigotCore extends JavaPlugin implements PluginCore{
     
-    private AdvancedServerList core;
     private final PluginLogger logger = new SpigotLogger(getLogger());
+    
+    private AdvancedServerList core;
+    FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler;
     
     @Override
     public void onEnable(){
@@ -59,6 +63,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
         }
         
         this.core = new AdvancedServerList(this);
+        this.faviconHandler = new FaviconHandler<>(core);
     }
     
     @Override
@@ -89,6 +94,11 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
     }
     
     @Override
+    public void clearFaviconCache(){
+        faviconHandler.clearCache();
+    }
+    
+    @Override
     public AdvancedServerList getCore(){
         return core;
     }
@@ -111,6 +121,10 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
     @Override
     public String getPlatformVersion(){
         return getServer().getVersion();
+    }
+    
+    public FaviconHandler<WrappedServerPing.CompressedImage> getFaviconHandler(){
+        return faviconHandler;
     }
     
     private void printPaperInfo(){

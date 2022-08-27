@@ -64,6 +64,10 @@ public class CommandHandler{
                     sender.sendMsg("<red>Error while reloading Profiles. No profiles have been loaded.");
                 }
                 
+                sender.sendMsg("<grey>Clearing Favicon cache...");
+                core.clearFaviconCache();
+                sender.sendMsg("<green>Successfully cleared Favicon cache!");
+                
                 sender.sendMsg("<green>Reload complete!");
             }
         }else{

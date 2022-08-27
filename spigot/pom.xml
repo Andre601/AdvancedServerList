@@ -118,11 +118,15 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <minimizeJar>true</minimizeJar>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.paper.depends.bstats</shadedPattern>
+                            <shadedPattern>ch.andre601.advancedserverlist.spigot.depends.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.github.benmanes.caffeine</pattern>
+                            <shadedPattern>ch.andre601.advancedserverlist.spigot.depends.caffeine</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

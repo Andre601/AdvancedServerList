@@ -29,7 +29,6 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -41,7 +40,6 @@ import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 
-import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
@@ -128,15 +126,18 @@ public class PingEvent{
         if(!profile.getFavicon().isEmpty()){
             String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
             
-            BufferedImage img = new FaviconHandler(plugin.getCore(), favName).get().getAsBufferedImage();
-            if(img == null){
+            Favicon favicon = plugin.getFaviconHandler().getFavicon(favName, image -> {
+                try{
+                    return Favicon.create(image);
+                }catch(Exception ex){
+                    return null;
+                }
+            });
+            
+            if(favicon == null){
                 plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
             }else{
-                try{
-                    Favicon favicon = Favicon.create(img);
-                    builder.favicon(favicon);
-                }catch(Exception ex){
-                    plugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());}
+                builder.favicon(favicon);
             }
         }
         

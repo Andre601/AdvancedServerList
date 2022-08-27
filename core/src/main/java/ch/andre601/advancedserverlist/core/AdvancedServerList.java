@@ -81,6 +81,10 @@ public class AdvancedServerList{
         getPluginLogger().info("AdvancedServerList disabled!");
     }
     
+    public void clearFaviconCache(){
+        plugin.clearFaviconCache();
+    }
+    
     public PluginLogger getPluginLogger(){
         return plugin.getPluginLogger();
     }

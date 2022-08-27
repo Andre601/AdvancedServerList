@@ -28,7 +28,6 @@ package ch.andre601.advancedserverlist.spigot.events;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -161,19 +160,20 @@ public class PingEvent implements Listener{
                 
                 if(!profile.getFavicon().isEmpty()){
                     String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
+    
+                    WrappedServerPing.CompressedImage favicon = spigotPlugin.getFaviconHandler().getFavicon(favName, image -> {
+                        try{
+                            return WrappedServerPing.CompressedImage.fromPng(image);
+                        }catch(Exception ex){
+                            return null;
+                        }
+                    });
                     
-                    byte[] bytes = new FaviconHandler(spigotPlugin.getCore(), favName).get().getAsByteArray();
-                    if(bytes == null){
+                    if(favicon == null){
                         spigotPlugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
                         ping.setFavicon(ping.getFavicon());
                     }else{
-                        try{
-                            WrappedServerPing.CompressedImage favicon = WrappedServerPing.CompressedImage.fromPng(bytes);
-                            ping.setFavicon(favicon);
-                        }catch(Exception ex){
-                            spigotPlugin.getPluginLogger().warn("Unable to override Favicon. Reason: %s", ex.getMessage());
-                            ping.setFavicon(ping.getFavicon());
-                        }
+                        ping.setFavicon(favicon);
                     }
                 }
             }
