@@ -105,15 +105,14 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>org.spongepowered.configurate</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.configurate</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>net.kyori.adventure</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.adventure</shadedPattern>
+                            <pattern>net.kyori</pattern>
+                            <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.kyori</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
