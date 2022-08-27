@@ -59,7 +59,7 @@ Here are screenshots showing the plugin in action. Do you have your own screensh
 
 [placeholderapi]: https://www.spigotmc.org/resources/6245/
 
-[modrinth]: https://modrinth.com/mod/advancedserverlist
+[modrinth]: https://modrinth.com/plugin/advancedserverlist
 [spigot]: https://www.spigotmc.org/resources/102910/
 [hangar]: https://hangar.benndorf.dev/Andre_601/AdvancedServerList
 
