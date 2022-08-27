@@ -91,12 +91,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>com.github.benmanes.caffeine</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.core.depends.caffeine</shadedPattern>
-                        </relocation>
-                    </relocations>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
