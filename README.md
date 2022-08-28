@@ -47,9 +47,11 @@ You can disable this in the `config.yml` by setting `send_statistics` to `false`
 ## Screenshots
 Here are screenshots showing the plugin in action. Do you have your own screenshots that you would like to share? Let me know and I may add them here with proper credit.
 
-![showcase]
+![basic_example]
 
-![features]
+![full_example]
+
+![favicons_example]
 
 <!-- Links -->
 [profiles]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles
@@ -69,8 +71,9 @@ Here are screenshots showing the plugin in action. Do you have your own screensh
 [bstats-velocity]: https://bstats.org/plugin/velocity/AdvancedServerList/15587
 
 <!-- images -->
-[showcase]: https://cdn.discordapp.com/attachments/417019799365746690/990379003250626580/unknown.png
-[features]: https://cdn.discordapp.com/attachments/990389158944055366/1004042735973568522/2022-08-02_17.03.40.jpg
+[basic_example]: https://raw.githubusercontent.com/Andre601/AdvancedServerList/master/.github/assets/basic_example.jpg
+[full_example]: https://raw.githubusercontent.com/Andre601/AdvancedServerList/master/.github/assets/full_example.jpg
+[favicons_example]: https://raw.githubusercontent.com/Andre601/AdvancedServerList/master/.github/assets/version_1.5.0.jpg
 
 <!-- Badges -->
 [platform]: https://img.shields.io/badge/Platforms-Spigot%20%7C%20Paper%20%7C%20BungeeCord%20%7C%20Velocity-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMDYzIDEuNDU2YTEuNzUgMS43NSAwIDAxMS44NzQgMGw4LjM4MyA1LjMxNmExLjc1IDEuNzUgMCAwMTAgMi45NTZsLTguMzgzIDUuMzE2YTEuNzUgMS43NSAwIDAxLTEuODc0IDBMMi42OCA5LjcyOGExLjc1IDEuNzUgMCAwMTAtMi45NTZsOC4zODMtNS4zMTZ6bTEuMDcxIDEuMjY3YS4yNS4yNSAwIDAwLS4yNjggMEwzLjQ4MyA4LjAzOWEuMjUuMjUgMCAwMDAgLjQyMmw4LjM4MyA1LjMxNmEuMjUuMjUgMCAwMC4yNjggMGw4LjM4My01LjMxNmEuMjUuMjUgMCAwMDAtLjQyMmwtOC4zODMtNS4zMTZ6Ij48L3BhdGg+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMS44NjcgMTIuMzI0YS43NS43NSAwIDAxMS4wMzUtLjIzMmw4Ljk2NCA1LjY4NWEuMjUuMjUgMCAwMC4yNjggMGw4Ljk2NC01LjY4NWEuNzUuNzUgMCAwMS44MDQgMS4yNjdsLTguOTY1IDUuNjg1YTEuNzUgMS43NSAwIDAxLTEuODc0IDBsLTguOTY1LTUuNjg1YS43NS43NSAwIDAxLS4yMzEtMS4wMzV6Ij48L3BhdGg+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMS44NjcgMTYuMzI0YS43NS43NSAwIDAxMS4wMzUtLjIzMmw4Ljk2NCA1LjY4NWEuMjUuMjUgMCAwMC4yNjggMGw4Ljk2NC01LjY4NWEuNzUuNzUgMCAwMS44MDQgMS4yNjdsLTguOTY1IDUuNjg1YTEuNzUgMS43NSAwIDAxLTEuODc0IDBsLTguOTY1LTUuNjg1YS43NS43NSAwIDAxLS4yMzEtMS4wMzV6Ij48L3BhdGg+PC9zdmc+
