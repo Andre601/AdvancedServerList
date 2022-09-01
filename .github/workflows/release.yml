@@ -6,6 +6,21 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        include:
+          - platforms: bungeecord,waterfall
+            directory: bungeecord
+            name: BungeeCord, Waterfall
+          - platforms: paper
+            directory: paper
+            name: Paper
+          - platforms: spigot
+            directory: spigot
+            name: Spigot
+          - platforms: velocity
+            directory: velocity
+            name: Velocity
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -16,8 +31,26 @@ jobs:
         java-version: '16'
     - name: Build jar
       run: mvn clean install
-    - name: Upload jar
-      uses: AButler/upload-release-assets@v2.0
+    - name: Obtain GitHub Release version
+      id: github-release
+      run: |
+        version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
+        echo "::set-output name=version::$version"
+    - name: Upload ${{ matrix.name }} to GitHub and Modrinth
+      uses: Kir-Antipov/mc-publish@v3.1
       with:
-        files: 'bungeecord/target/AdvancedServerList-*.jar;paper/target/AdvancedServerList-*.jar;spigot/target/AdvancedServerList-*.jar;velocity/target/AdvancedServerList-*.jar'
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        name: v${{ steps.github-release.outputs.version }} - ${{ matrix.name }}
+        version: ${{ steps.github-release.outputs.version }}
+        version-type: release
+        files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
+        files-secondary: ""
+        changelog: ${{ github.event.release.body }}
+        loaders: ${{ matrix.platforms }}
+        game-versions: |
+          1.19
+          1.19.1
+          1.19.2
+        java: 16
+        modrinth-id: xss83sOY
+        modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+        github-toke: ${{ secrets.GITHUB_TOKEN }}
