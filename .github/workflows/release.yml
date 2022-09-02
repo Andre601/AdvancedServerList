@@ -74,7 +74,7 @@ jobs:
         name: v${{ steps.github-release.outputs.version }} - ${{ matrix.name }}
         version: ${{ steps.github-release.outputs.version }}
         version-type: release
-        files: ${{ matrix,directory}}/target/AdvancedServerList-*.jar
+        files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
         files-secondary: ""
         loaders: ${{ matrix.loaders }}
         version-resolver: releases
