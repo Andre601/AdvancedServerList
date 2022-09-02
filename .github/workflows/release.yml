@@ -19,12 +19,19 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '16'
+    - name: Load Maven Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Build Jar files
       run: mvn clean install
     - name: Save Jar files
-      uses: actions/upload-artifact@v3
+      uses: actions/cache@v3
       with:
-        name: asl-files
+        key: ${{ github.event.release.tag_name }}-asl-cache
         path: |
           bungeecord/target/AdvancedServerList-*.jar
           paper/target/AdvancedServerList-*.jar
@@ -37,25 +44,24 @@ jobs:
           - loaders: |
               bungeecord
               waterfall
-            jar: BungeeCord
+            directory: bungeecord
             name: BungeeCord, Waterfall
           - loaders: paper
-            jar: Paper
+            directory: paper
             name: Paper
           - loaders: spigot
-            jar: Spigot
+            directory: spigot
             name: Spigot
           - loaders: velocity
-            jar: Velocity
+            directory: velocity
             name: Velocity
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Get Jar files
-      uses: actions/download-artifact@v3
-      id: download
+      uses: actions/cache@v3
       with:
-        name: asl-files
+        key: ${{ github.event.release.tag_name }}-asl-cache
     - name: Obtain GitHub Release version
       id: github-release
       run: |
@@ -67,7 +73,7 @@ jobs:
         name: v${{ steps.github-release.outputs.version }} - ${{ matrix.name }}
         version: ${{ steps.github-release.outputs.version }}
         version-type: release
-        files: ${{ steps.download.outputs.download-path }}/AdvancedServerList-${{ matrix.jar}}-*.jar
+        files: ${{ matrix,directory}}/target/AdvancedServerList-*.jar
         files-secondary: ""
         loaders: ${{ matrix.loaders }}
         version-resolver: releases
