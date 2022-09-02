@@ -44,7 +44,7 @@ jobs:
         version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
         echo "::set-output name=version::$version"
     - name: Upload ${{ matrix.name }} to GitHub and Modrinth
-      uses: Kir-Antipov/mc-publish@v3.1
+      uses: Kir-Antipov/mc-publish@v3.2
       with:
         name: v${{ steps.github-release.outputs.version }} - ${{ matrix.name }}
         version: ${{ steps.github-release.outputs.version }}
