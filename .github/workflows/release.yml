@@ -62,6 +62,7 @@ jobs:
       uses: actions/cache@v3
       with:
         key: ${{ github.event.release.tag_name }}-asl-cache
+        path: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
     - name: Obtain GitHub Release version
       id: github-release
       run: |
