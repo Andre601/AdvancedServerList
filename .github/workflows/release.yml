@@ -1,4 +1,9 @@
-name: Build Jars
+#
+# Big thank you to @Kir-Antipov for providing this workflow file.
+# Check out his mc-publish action here: https://github.com/Kir-Antipov/mc-publish
+#
+
+name: Publish Assets
 
 on:
   release:
