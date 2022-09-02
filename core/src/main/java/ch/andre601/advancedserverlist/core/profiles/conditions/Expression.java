@@ -191,32 +191,20 @@ public class Expression{
     }
     
     public enum ExpressionResult{
-        VALID{
-            @Override
-            public String getMessage(){
-                return null;
-            }
-        },
+        VALID(null),
         
-        INVALID_NO_EXPRESSION{
-            @Override
-            public String getMessage(){
-                return "Received empty condition which isn't allowed!";
-            }
-        },
-        INVALID_DOUBLE_OPERATOR{
-            @Override
-            public String getMessage(){
-                return "Condition contained two operands.";
-            }
-        },
-        INVALID_EMPTY_PARTS{
-            @Override
-            public String getMessage(){
-                return "Received condition with either left or right part being empty.";
-            }
-        };
+        INVALID_NO_EXPRESSION  ("Received empty condition which isn't allowed!"),
+        INVALID_DOUBLE_OPERATOR("Condition contained two operands."),
+        INVALID_EMPTY_PARTS    ("Received condition with either left or right part being empty.");
         
-        public abstract String getMessage();
+        private final String message;
+        
+        ExpressionResult(String message){
+            this.message = message;
+        }
+        
+        public String getMessage(){
+            return message;
+        }
     }
 }

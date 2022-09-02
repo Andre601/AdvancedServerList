@@ -43,8 +43,6 @@ import java.util.List;
 
 public class FileHandler{
     
-    private final FilenameFilter profileFilter = (dir, name) -> name.endsWith(".yml");
-    
     private final AdvancedServerList plugin;
     private final PluginLogger logger;
     
@@ -119,7 +117,7 @@ public class FileHandler{
     public boolean reloadProfiles(){
         profiles.clear();
         
-        File[] files = profilesFolder.toFile().listFiles(profileFilter);
+        File[] files = profilesFolder.toFile().listFiles(((dir, name) -> name.endsWith(".yml")));
         if(files == null || files.length == 0){
             logger.warn("Cannot load files from profiles folder! No valid YAML files present.");
             return false;

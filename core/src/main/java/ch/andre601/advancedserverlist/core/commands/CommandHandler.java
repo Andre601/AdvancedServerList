@@ -37,41 +37,45 @@ public class CommandHandler{
     }
     
     public void handle(CmdSender sender, String[] args){
+        String errorPrefix = "<grey>[<gradient:dark_red:red>AdvancedServerList</gradient>]";
+        String prefix = "<grey>[<gradient:aqua:white>AdvancedServerList</gradient>]";
+        
         if(args.length == 0 || args[0].equalsIgnoreCase("help")){
             if(sender.hasPermission("advancedserverlist.command.help")){
-                sender.sendMsg("AdvancedServerList Commands");
+                sender.sendMsg("%s - Commands", prefix);
                 sender.sendMsg();
-                sender.sendMsg("<aqua>/asl help <grey>- Shows this help.");
+                sender.sendMsg("<gradient:aqua:white>/asl help</gradient> <grey>- Shows this Help");
                 sender.sendMsg();
-                sender.sendMsg("<aqua>/asl reload <grey>- Reloads the config and profiles.");
+                sender.sendMsg("<gradient:aqua:white>/asl reload</gradient> <grey>- Reloads the plugin");
             }else{
-                sender.sendMsg("<red>You do not have the permissions to execute this command!");
+                sender.sendMsg("%s <red>You do not have permissions to execute this command!", errorPrefix);
             }
         }else
         if(args[0].equalsIgnoreCase("reload")){
             if(sender.hasPermission("advancedserverlist.command.reload")){
-                sender.sendMsg("<grey>Reloading config.yml...");
+                sender.sendMsg("%s Reloading plugin...", prefix);
+                
                 if(core.getFileHandler().reloadConfig()){
-                    sender.sendMsg("<green>Successfully reloaded <grey>config.yml</grey>!");
+                    sender.sendMsg("%s <green>Reloaded <grey>config.yml</grey>!", prefix);
                 }else{
-                    sender.sendMsg("<red>Error while reloading the config.yml.");
+                    sender.sendMsg("%s <red>Error while reloading the <grey>config.yml</grey>!", errorPrefix);
                 }
                 
-                sender.sendMsg("<grey>Reloading Profiles...");
                 if(core.getFileHandler().reloadProfiles()){
-                    sender.sendMsg("<green>Successfully loaded <grey>%d</grey> Profiles!", core.getFileHandler().getProfiles().size());
+                    sender.sendMsg("%s <green>Loaded <grey>%s Profile(s)</grey>!", prefix, core.getFileHandler().getProfiles());
                 }else{
-                    sender.sendMsg("<red>Error while reloading Profiles. No profiles have been loaded.");
+                    sender.sendMsg("%s <red>Cannot load Profiles!", errorPrefix);
                 }
                 
-                sender.sendMsg("<grey>Clearing Favicon cache...");
                 core.clearFaviconCache();
-                sender.sendMsg("<green>Successfully cleared Favicon cache!");
+                sender.sendMsg("%s <green>Successfully cleared Favicon cache!", prefix);
                 
-                sender.sendMsg("<green>Reload complete!");
+                sender.sendMsg("%s <green>Reload complete!", prefix);
+            }else{
+                sender.sendMsg("%s <red>You do not have permissions to execute this command!", errorPrefix);
             }
         }else{
-            sender.sendMsg("<red>Unknown subcommand <grey>%s</grey>. Use <grey>/asl help</grey> for a list of commands.", args[0]);
+            sender.sendMsg("%s <red>Unknown subcommand <grey>%s</grey>. Use <grey>/asl help</grey> for a list of commands.", prefix, args[0]);
         }
     }
 }
