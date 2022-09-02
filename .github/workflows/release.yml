@@ -14,7 +14,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - platforms: bungeecord,waterfall
+          - platforms: |
+              bungeecord
+              waterfall
             directory: bungeecord
             name: BungeeCord, Waterfall
           - platforms: paper
