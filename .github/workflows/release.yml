@@ -49,7 +49,6 @@ jobs:
         version-type: release
         files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
         files-secondary: ""
-        changelog: ${{ github.event.release.body }}
         loaders: ${{ matrix.platforms }}
         game-versions: |
           1.19
