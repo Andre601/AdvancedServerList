@@ -10,24 +10,7 @@ on:
     types: [published]
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        include:
-          - platforms: |
-              bungeecord
-              waterfall
-            directory: bungeecord
-            name: BungeeCord, Waterfall
-          - platforms: paper
-            directory: paper
-            name: Paper
-          - platforms: spigot
-            directory: spigot
-            name: Spigot
-          - platforms: velocity
-            directory: velocity
-            name: Velocity
+  buildJars:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -36,26 +19,59 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '16'
-    - name: Build jar
+    - name: Build Jar files
       run: mvn clean install
+    - name: Save Jar files
+      uses: actions/upload-artifact@v3
+      with:
+        name: asl-files
+        path: |
+          bungeecord/target/AdvancedServerList-*.jar
+          paper/target/AdvancedServerList-*.jar
+          spigot/target/AdvancedServerList-*.jar
+          velocity/target/AdvancedServerList-*.jar
+  publish:
+    strategy:
+      matrix:
+        include:
+          - loaders: |
+              bungeecord
+              waterfall
+            jar: BungeeCord
+            name: BungeeCord, Waterfall
+          - loaders: paper
+            jar: Paper
+            name: Paper
+          - loaders: spigot
+            jar: Spigot
+            name: Spigot
+          - loaders: velocity
+            jar: Velocity
+            name: Velocity
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Get Jar files
+      uses: actions/download-artifact@v3
+      id: download
+      with:
+        name: asl-files
     - name: Obtain GitHub Release version
       id: github-release
       run: |
         version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
         echo "::set-output name=version::$version"
-    - name: Upload ${{ matrix.name }} to GitHub and Modrinth
+    - name: Upload AdvancedServerList (${{ matrix.name }}) to GitHub and Modrinth
       uses: Kir-Antipov/mc-publish@v3.2
       with:
         name: v${{ steps.github-release.outputs.version }} - ${{ matrix.name }}
         version: ${{ steps.github-release.outputs.version }}
         version-type: release
-        files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
+        files: ${{ steps.download.outputs.download-path }}/AdvancedServerList-${{ matrix.jar}}-*.jar
         files-secondary: ""
-        loaders: ${{ matrix.platforms }}
-        game-versions: |
-          1.19
-          1.19.1
-          1.19.2
+        loaders: ${{ matrix.loaders }}
+        version-resolver: releases
+        game-versions: '1.19'
         java: 16
         modrinth-id: xss83sOY
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
