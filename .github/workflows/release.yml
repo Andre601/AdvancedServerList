@@ -59,4 +59,4 @@ jobs:
         java: 16
         modrinth-id: xss83sOY
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-        github-toke: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
