@@ -38,6 +38,7 @@ jobs:
           spigot/target/AdvancedServerList-*.jar
           velocity/target/AdvancedServerList-*.jar
   publish:
+    needs: [buildJars]
     strategy:
       matrix:
         include:
