@@ -81,5 +81,5 @@ jobs:
         game-versions: '1.19'
         java: 16
         modrinth-id: xss83sOY
-        modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+        #modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
         github-token: ${{ secrets.GITHUB_TOKEN }}
