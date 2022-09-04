@@ -35,6 +35,13 @@ AdvancedServerList can be downloaded from the following places:
 
 [![dl-modrinth]][modrinth] [![dl-spigot]][spigot] [![dl-hangar]][hangar]
 
+## Dependencies
+
+| Dependency       | Platforms     | Required? |
+| ---------------- | ------------- | --------- |
+| [ProtocolLib]    | Spigot        | Yes       |
+| [PlaceholderAPI] | Spigot, Paper | No        |
+
 ## Statistics
 
 This plugin sends statistics to [bStats] to display.  
@@ -45,13 +52,9 @@ You can disable this in the `config.yml` by setting `send_statistics` to `false`
 - [Velocity][bstats-velocity]
 
 ## Screenshots
-Here are screenshots showing the plugin in action. Do you have your own screenshots that you would like to share? Let me know and I may add them here with proper credit.
 
-![basic_example]
-
-![full_example]
-
-![favicons_example]
+Please see the [Gallery Tab][gallery] for some previews.  
+If you have any own screenshots, feel free to share them with me. I may add them to the Gallery if they are good.
 
 <!-- Links -->
 [profiles]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles
@@ -65,15 +68,15 @@ Here are screenshots showing the plugin in action. Do you have your own screensh
 [spigot]: https://www.spigotmc.org/resources/102910/
 [hangar]: https://hangar.benndorf.dev/Andre_601/AdvancedServerList
 
+[protocollib]: https://www.spigotmc.org/resources/1997/
+[placeholderapi]: https://www.spigotmc.org/resources/6245/
+
 [bstats]: https://bstats.org
 [bstats-bungee]: https://bstats.org/plugin/bungeecord/AdvancedServerList/15585
 [bstats-spigot]: https://bstats.org/plugin/bukkit/AdvancedServerList/15584
 [bstats-velocity]: https://bstats.org/plugin/velocity/AdvancedServerList/15587
 
-<!-- images -->
-[basic_example]: https://raw.githubusercontent.com/Andre601/AdvancedServerList/master/.github/assets/basic_example.jpg
-[full_example]: https://raw.githubusercontent.com/Andre601/AdvancedServerList/master/.github/assets/full_example.jpg
-[favicons_example]: https://raw.githubusercontent.com/Andre601/AdvancedServerList/master/.github/assets/version_1.5.0.jpg
+[gallery]: https://modrinth.com/mod/advancedserverlist/gallery
 
 <!-- Badges -->
 [platform]: https://img.shields.io/badge/Platforms-Spigot%20%7C%20Paper%20%7C%20BungeeCord%20%7C%20Velocity-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMDYzIDEuNDU2YTEuNzUgMS43NSAwIDAxMS44NzQgMGw4LjM4MyA1LjMxNmExLjc1IDEuNzUgMCAwMTAgMi45NTZsLTguMzgzIDUuMzE2YTEuNzUgMS43NSAwIDAxLTEuODc0IDBMMi42OCA5LjcyOGExLjc1IDEuNzUgMCAwMTAtMi45NTZsOC4zODMtNS4zMTZ6bTEuMDcxIDEuMjY3YS4yNS4yNSAwIDAwLS4yNjggMEwzLjQ4MyA4LjAzOWEuMjUuMjUgMCAwMDAgLjQyMmw4LjM4MyA1LjMxNmEuMjUuMjUgMCAwMC4yNjggMGw4LjM4My01LjMxNmEuMjUuMjUgMCAwMDAtLjQyMmwtOC4zODMtNS4zMTZ6Ij48L3BhdGg+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMS44NjcgMTIuMzI0YS43NS43NSAwIDAxMS4wMzUtLjIzMmw4Ljk2NCA1LjY4NWEuMjUuMjUgMCAwMC4yNjggMGw4Ljk2NC01LjY4NWEuNzUuNzUgMCAwMS44MDQgMS4yNjdsLTguOTY1IDUuNjg1YTEuNzUgMS43NSAwIDAxLTEuODc0IDBsLTguOTY1LTUuNjg1YS43NS43NSAwIDAxLS4yMzEtMS4wMzV6Ij48L3BhdGg+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMS44NjcgMTYuMzI0YS43NS43NSAwIDAxMS4wMzUtLjIzMmw4Ljk2NCA1LjY4NWEuMjUuMjUgMCAwMC4yNjggMGw4Ljk2NC01LjY4NWEuNzUuNzUgMCAwMS44MDQgMS4yNjdsLTguOTY1IDUuNjg1YTEuNzUgMS43NSAwIDAxLTEuODc0IDBsLTguOTY1LTUuNjg1YS43NS43NSAwIDAxLS4yMzEtMS4wMzV6Ij48L3BhdGg+PC9zdmc+
