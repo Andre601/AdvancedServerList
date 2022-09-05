@@ -26,10 +26,11 @@
 package ch.andre601.advancedserverlist.core.interfaces;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
+import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 
 import java.nio.file.Path;
 
-public interface PluginCore{
+public interface PluginCore<T>{
     
     void loadCommands();
     
@@ -44,6 +45,8 @@ public interface PluginCore{
     Path getPath();
     
     PluginLogger getPluginLogger();
+    
+    FaviconHandler<T> getFaviconHandler();
     
     String getPlatformName();
     

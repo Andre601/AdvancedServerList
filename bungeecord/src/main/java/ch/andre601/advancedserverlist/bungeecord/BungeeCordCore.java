@@ -40,16 +40,15 @@ import org.bstats.charts.SimplePie;
 
 import java.nio.file.Path;
 
-public class BungeeCordCore extends Plugin implements PluginCore{
+public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
     private AdvancedServerList core;
-    private FaviconHandler<Favicon> faviconHandler;
+    private FaviconHandler<Favicon> faviconHandler = null;
     private final PluginLogger logger = new BungeeLogger(getLogger());
     
     @Override
     public void onEnable(){
         this.core = new AdvancedServerList(this);
-        this.faviconHandler = new FaviconHandler<>(core);
     }
     
     @Override
@@ -97,6 +96,14 @@ public class BungeeCordCore extends Plugin implements PluginCore{
     }
     
     @Override
+    public FaviconHandler<Favicon> getFaviconHandler(){
+        if(faviconHandler == null)
+            faviconHandler = new FaviconHandler<>(core);
+        
+        return faviconHandler;
+    }
+    
+    @Override
     public String getPlatformName(){
         return getProxy().getName();
     }
@@ -104,9 +111,5 @@ public class BungeeCordCore extends Plugin implements PluginCore{
     @Override
     public String getPlatformVersion(){
         return getProxy().getVersion();
-    }
-    
-    public FaviconHandler<Favicon> getFaviconHandler(){
-        return faviconHandler;
     }
 }

@@ -21,7 +21,7 @@ softdepend:
 commands:
   advancedserverlist:
     description: 'Main command of AdvancedServerList'
-    usage: '/<command> [reload]'
+    usage: '/<command> [help|reload]'
     aliases:
       - 'asl'
     permission: 'advancedserverlist.admin'

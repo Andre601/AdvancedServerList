@@ -98,7 +98,7 @@ public class Expression{
     }
     
     public enum Operator{
-        LESS_THAN('<', '\0'){
+        LESS('<', '\0'){
             @Override
             public boolean evaluate(String left, String right){
                 int leftInt = Operator.getInt(left);
@@ -128,7 +128,7 @@ public class Expression{
                 return !left.equals(right);
             }
         },
-        GREATER_THAN('>', '\0'){
+        GREATER('>', '\0'){
             @Override
             public boolean evaluate(String left, String right){
                 int leftInt = Operator.getInt(left);

@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 
-public class VelocityCore implements PluginCore{
+public class VelocityCore implements PluginCore<Favicon>{
     
     private final PluginLogger logger;
     private final ProxyServer proxy;
@@ -55,7 +55,7 @@ public class VelocityCore implements PluginCore{
     private final Metrics.Factory metrics;
     
     private AdvancedServerList core;
-    private FaviconHandler<Favicon> faviconHandler;
+    private FaviconHandler<Favicon> faviconHandler = null;
     
     @Inject
     public VelocityCore(ProxyServer proxy, @DataDirectory Path path, Metrics.Factory metrics){
@@ -69,7 +69,6 @@ public class VelocityCore implements PluginCore{
     @Subscribe
     public void init(ProxyInitializeEvent event){
         this.core = new AdvancedServerList(this);
-        this.faviconHandler = new FaviconHandler<>(core);
     }
     
     @Subscribe
@@ -121,6 +120,14 @@ public class VelocityCore implements PluginCore{
     }
     
     @Override
+    public FaviconHandler<Favicon> getFaviconHandler(){
+        if(faviconHandler == null)
+            faviconHandler = new FaviconHandler<>(core);
+        
+        return faviconHandler;
+    }
+    
+    @Override
     public String getPlatformName(){
         return getProxy().getVersion().getName();
     }
@@ -132,9 +139,5 @@ public class VelocityCore implements PluginCore{
     
     public ProxyServer getProxy(){
         return proxy;
-    }
-    
-    public FaviconHandler<Favicon> getFaviconHandler(){
-        return faviconHandler;
     }
 }

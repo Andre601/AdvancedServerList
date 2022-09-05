@@ -145,13 +145,9 @@ public class AdvancedServerList{
         getPluginLogger().info("Loading cache.data...");
         getPlayerHandler().load();
         
-        getPluginLogger().info("Loading Metrics for bStats...");
-        if(getFileHandler().getBoolean("send_statistics")){
-            plugin.loadMetrics();
-            getPluginLogger().info("Metrics loaded!");
-        }else{
-            getPluginLogger().info("'send_statistics' disabled in config.yml. Not loading Metrics for bStats...");
-        }
+        getPluginLogger().info("Loading bStats metrics. Disable it in the global config under /plugins/bstats/");
+        plugin.loadMetrics();
+        getPluginLogger().info("Metrics loaded!");
         
         getPluginLogger().info("AdvancedServerList is ready!");
     }

@@ -40,12 +40,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 
-public class SpigotCore extends JavaPlugin implements PluginCore{
+public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPing.CompressedImage>{
     
     private final PluginLogger logger = new SpigotLogger(getLogger());
     
     private AdvancedServerList core;
-    FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler;
+    FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
     
     @Override
     public void onEnable(){
@@ -63,7 +63,6 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
         }
         
         this.core = new AdvancedServerList(this);
-        this.faviconHandler = new FaviconHandler<>(core);
     }
     
     @Override
@@ -114,6 +113,14 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
     }
     
     @Override
+    public FaviconHandler<WrappedServerPing.CompressedImage> getFaviconHandler(){
+        if(faviconHandler == null)
+            faviconHandler = new FaviconHandler<>(core);
+        
+        return faviconHandler;
+    }
+    
+    @Override
     public String getPlatformName(){
         return getServer().getName();
     }
@@ -121,10 +128,6 @@ public class SpigotCore extends JavaPlugin implements PluginCore{
     @Override
     public String getPlatformVersion(){
         return getServer().getVersion();
-    }
-    
-    public FaviconHandler<WrappedServerPing.CompressedImage> getFaviconHandler(){
-        return faviconHandler;
     }
     
     private void printPaperInfo(){

@@ -2,7 +2,3 @@
 # Used for when AdvancedServerList doesn't have a cached player to use for ${player name}
 #
 unknown_player: "Anonymous"
-#
-# Whether statistics should be sent to bStats or not.
-#
-send_statistics: true

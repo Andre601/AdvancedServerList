@@ -32,7 +32,6 @@ import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -156,9 +155,5 @@ public class FileHandler{
     
     public String getString(String def, Object... path){
         return node.node(path).getString(def);
-    }
-    
-    public boolean getBoolean(Object... path){
-        return node.node(path).getBoolean(true);
     }
 }

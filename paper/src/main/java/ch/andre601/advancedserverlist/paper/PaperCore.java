@@ -41,7 +41,7 @@ import org.bukkit.util.CachedServerIcon;
 
 import java.nio.file.Path;
 
-public class PaperCore extends JavaPlugin implements PluginCore{
+public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon>{
     
     private final PluginLogger logger = new PaperLogger(getLogger());
     
@@ -127,6 +127,14 @@ public class PaperCore extends JavaPlugin implements PluginCore{
     }
     
     @Override
+    public FaviconHandler<CachedServerIcon> getFaviconHandler(){
+        if(faviconHandler == null)
+            faviconHandler = new FaviconHandler<>(core);
+        
+        return faviconHandler;
+    }
+    
+    @Override
     public String getPlatformName(){
         return getServer().getName();
     }
@@ -136,12 +144,7 @@ public class PaperCore extends JavaPlugin implements PluginCore{
         return getServer().getVersion();
     }
     
-    public FaviconHandler<CachedServerIcon> getFaviconHandler(){
-        return faviconHandler;
-    }
-    
     private void enable(){
         this.core = new AdvancedServerList(this);
-        this.faviconHandler = new FaviconHandler<>(core);
     }
 }
