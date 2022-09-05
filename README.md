@@ -45,7 +45,7 @@ AdvancedServerList can be downloaded from the following places:
 ## Statistics
 
 This plugin sends statistics to [bStats] to display.  
-You can disable this in the `config.yml` by setting `send_statistics` to `false`.
+You can disable this in the global bStats config file located in `/plugins/bstats/`
 
 - [BungeeCord][bstats-bungee]
 - [Paper/Spigot][bstats-spigot]
