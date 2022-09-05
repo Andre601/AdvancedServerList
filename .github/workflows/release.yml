@@ -88,8 +88,12 @@ jobs:
         files-secondary: ""
         loaders: ${{ matrix.loaders }}
         version-resolver: releases
-        game-versions: '1.19'
+        game-versions: |
+          1.19
+          1.19.1
+          1.19.2
         java: 16
         modrinth-id: xss83sOY
+        modrinth-featured: false
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
         github-token: ${{ secrets.GITHUB_TOKEN }}
