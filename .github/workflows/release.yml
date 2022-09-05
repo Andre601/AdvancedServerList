@@ -55,19 +55,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - title: BungeeCord, Waterfall
-            directory: bungeecord
+          - directory: bungeecord
             loaders: |
               bungeecord
               waterfall
-          - title: Paper
-            directory: paper
+          - directory: paper
             loaders: paper
-          - title: Spigot
-            directory: spigot
+          - directory: spigot
             loaders: spigot
-          - title: Velocity
-            directory: velocity
+          - directory: velocity
             loaders: velocity
     runs-on: ubuntu-latest
     steps:
@@ -82,10 +78,10 @@ jobs:
       run: |
         version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
         echo "::set-output name=version::$version"
-    - name: Upload AdvancedServerList (${{ matrix.title }}) to GitHub and Modrinth
+    - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth
       uses: Kir-Antipov/mc-publish@v3.2
       with:
-        name: v${{ steps.github-release.outputs.version }} - ${{ matrix.title }}
+        name: ${{ github.event.release.name }}
         version: ${{ steps.github-release.outputs.version }}
         version-type: release
         files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
