@@ -42,9 +42,9 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-public class FaviconHandler<T>{
+public class FaviconHandler<F>{
     
-    private final Cache<String, T> favicons = Caffeine.newBuilder()
+    private final Cache<String, F> favicons = Caffeine.newBuilder()
         .expireAfterWrite(5, TimeUnit.MINUTES)
         .build();
     
@@ -54,7 +54,7 @@ public class FaviconHandler<T>{
         this.core = core;
     }
     
-    public T getFavicon(String input, Function<BufferedImage, T> function){
+    public F getFavicon(String input, Function<BufferedImage, F> function){
         return favicons.get(input, k -> {
             BufferedImage image = resolveImage(core, input);
             if(image == null)
