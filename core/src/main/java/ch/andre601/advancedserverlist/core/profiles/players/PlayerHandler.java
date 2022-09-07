@@ -46,24 +46,24 @@ public class PlayerHandler{
     
     public PlayerHandler(AdvancedServerList core){
         this.core = core;
-        this.cache = core.getFolderPath().resolve("cache.data");
+        this.cache = core.getPlugin().getFolderPath().resolve("cache.data");
     }
     
     public void load(){
         if(!cache.toFile().exists()){
-            core.getPluginLogger().info("No cache.data present. Skipping...");
+            core.getPlugin().getPluginLogger().info("No cache.data present. Skipping...");
             return;
         }
         List<String> lines;
         try{
             lines = Files.readAllLines(cache);
         }catch(IOException ex){
-            core.getPluginLogger().warn("Encountered IOException while trying to read cache.data", ex);
+            core.getPlugin().getPluginLogger().warn("Encountered IOException while trying to read cache.data", ex);
             return;
         }
         
         if(lines.isEmpty()){
-            core.getPluginLogger().info("cache.data is empty. Skipping...");
+            core.getPlugin().getPluginLogger().info("cache.data is empty. Skipping...");
             return;
         }
         
@@ -78,12 +78,12 @@ public class PlayerHandler{
             players.add(parts[0], parts[1]);
         }
         
-        core.getPluginLogger().info("Loaded " + players.size() + " players into cache!");
+        core.getPlugin().getPluginLogger().info("Loaded " + players.size() + " players into cache!");
     }
     
     public void save(){
         if(players.isEmpty()){
-            core.getPluginLogger().info("No data to save. Skipping...");
+            core.getPlugin().getPluginLogger().info("No data to save. Skipping...");
             return;
         }
         
@@ -98,9 +98,9 @@ public class PlayerHandler{
             writer.write(joiner.toString());
             writer.close();
             
-            core.getPluginLogger().info("Successfully saved cache.data file.");
+            core.getPlugin().getPluginLogger().info("Successfully saved cache.data file.");
         }catch(IOException ex){
-            core.getPluginLogger().warn("Cannot save player data to cache.data file!", ex);
+            core.getPlugin().getPluginLogger().warn("Cannot save player data to cache.data file!", ex);
         }
     }
     

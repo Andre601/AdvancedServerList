@@ -52,12 +52,12 @@ public class FileHandler{
     
     private ConfigurationNode node = null;
     
-    public FileHandler(AdvancedServerList plugin){
-        this.plugin = plugin;
-        this.logger = plugin.getPluginLogger();
+    public FileHandler(AdvancedServerList core){
+        this.plugin = core;
+        this.logger = core.getPlugin().getPluginLogger();
         
-        this.config = plugin.getFolderPath().resolve("config.yml");
-        this.profilesFolder = plugin.getFolderPath().resolve("profiles");
+        this.config = core.getPlugin().getFolderPath().resolve("config.yml");
+        this.profilesFolder = core.getPlugin().getFolderPath().resolve("profiles");
     }
     
     public List<ServerListProfile> getProfiles(){

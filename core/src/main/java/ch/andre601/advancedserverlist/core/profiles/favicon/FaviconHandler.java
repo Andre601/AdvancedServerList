@@ -75,9 +75,9 @@ public class FaviconHandler<F>{
             stream = getFromUrl(core, input);
         }else
         if(input.toLowerCase(Locale.ROOT).endsWith(".png")){
-            File folder = core.getFolderPath().resolve("favicons").toFile();
+            File folder = core.getPlugin().getFolderPath().resolve("favicons").toFile();
             if(!folder.exists()){
-                core.getPluginLogger().warn("Cannot get Favicon %s from favicons folder. Folder doesn't exist!", input);
+                core.getPlugin().getPluginLogger().warn("Cannot get Favicon %s from favicons folder. Folder doesn't exist!", input);
                 return null;
             }
             
@@ -86,8 +86,8 @@ public class FaviconHandler<F>{
             try{
                 stream = new FileInputStream(file);
             }catch(IOException ex){
-                core.getPluginLogger().warn("Cannot create Favicon from File %s.", input);
-                core.getPluginLogger().warn("Cause: %s", ex.getMessage());
+                core.getPlugin().getPluginLogger().warn("Cannot create Favicon from File %s.", input);
+                core.getPlugin().getPluginLogger().warn("Cause: %s", ex.getMessage());
                 return null;
             }
         }else{
@@ -95,14 +95,14 @@ public class FaviconHandler<F>{
         }
         
         if(stream == null){
-            core.getPluginLogger().warn("Cannot create Favicon. InputStream was null.");
+            core.getPlugin().getPluginLogger().warn("Cannot create Favicon. InputStream was null.");
             return null;
         }
         
         try{
             BufferedImage original = ImageIO.read(stream);
             if(original == null){
-                core.getPluginLogger().warn("Cannot create Favicon. Unable to create BufferedImage.");
+                core.getPlugin().getPluginLogger().warn("Cannot create Favicon. Unable to create BufferedImage.");
                 return null;
             }
             
@@ -115,8 +115,8 @@ public class FaviconHandler<F>{
             
             return favicon;
         }catch(IOException ex){
-            core.getPluginLogger().warn("Unable to create Favicon. Encountered IOException during creation.");
-            core.getPluginLogger().warn("Cause: %s", ex.getMessage());
+            core.getPlugin().getPluginLogger().warn("Unable to create Favicon. Encountered IOException during creation.");
+            core.getPlugin().getPluginLogger().warn("Cause: %s", ex.getMessage());
             return null;
         }
     }
@@ -130,8 +130,8 @@ public class FaviconHandler<F>{
             
             return connection.getInputStream();
         }catch(IOException ex){
-            core.getPluginLogger().warn("Error while connecting to %s for Favicon creation.", url);
-            core.getPluginLogger().warn("Cause: %s", ex.getMessage());
+            core.getPlugin().getPluginLogger().warn("Error while connecting to %s for Favicon creation.", url);
+            core.getPlugin().getPluginLogger().warn("Cause: %s", ex.getMessage());
             return null;
         }
     }
