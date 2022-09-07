@@ -26,9 +26,11 @@
 package ch.andre601.advancedserverlist.velocity;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
+import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import ch.andre601.advancedserverlist.velocity.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.velocity.events.JoinEvent;
 import ch.andre601.advancedserverlist.velocity.events.PingEvent;
@@ -40,14 +42,18 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import org.bstats.charts.SimplePie;
 import org.bstats.velocity.Metrics;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class VelocityCore implements PluginCore<Favicon>{
+public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>{
     
     private final PluginLogger logger;
     private final ProxyServer proxy;
@@ -110,7 +116,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     }
     
     @Override
-    public Path getPath(){
+    public Path getFolderPath(){
         return path;
     }
     
@@ -125,6 +131,22 @@ public class VelocityCore implements PluginCore<Favicon>{
             faviconHandler = new FaviconHandler<>(core);
         
         return faviconHandler;
+    }
+    
+    @Override
+    public List<ServerPing.SamplePlayer> createPlayers(List<String> lines, Placeholders... placeholders){
+        List<ServerPing.SamplePlayer> players = new ArrayList<>(lines.size());
+        
+        for(String line : lines){
+            String parsed = ComponentParser.text(line)
+                .replacements(placeholders[0])
+                .replacements(placeholders[1])
+                .toString();
+            
+            players.add(new ServerPing.SamplePlayer(parsed, UUID.randomUUID()));
+        }
+        
+        return players;
     }
     
     @Override

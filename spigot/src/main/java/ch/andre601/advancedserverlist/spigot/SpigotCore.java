@@ -26,21 +26,29 @@
 package ch.andre601.advancedserverlist.spigot;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.interfaces.core.ServerCore;
+import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import ch.andre601.advancedserverlist.spigot.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import ch.andre601.advancedserverlist.spigot.logging.SpigotLogger;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPing.CompressedImage>{
+public class SpigotCore extends JavaPlugin implements ServerCore<WrappedServerPing.CompressedImage, WrappedGameProfile, OfflinePlayer>{
     
     private final PluginLogger logger = new SpigotLogger(getLogger());
     
@@ -103,7 +111,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     }
     
     @Override
-    public Path getPath(){
+    public Path getFolderPath(){
         return getDataFolder().toPath();
     }
     
@@ -130,11 +138,33 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
         return getServer().getVersion();
     }
     
+    @Override
+    public List<WrappedGameProfile> createPlayers(List<String> lines, OfflinePlayer player, Placeholders... placeholders){
+        List<WrappedGameProfile> players = new ArrayList<>(lines.size());
+        
+        for(String line : lines){
+            String parsed = ComponentParser.text(line)
+                .replacements(placeholders[0])
+                .replacements(placeholders[1])
+                .modifyText(text -> {
+                    if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+                        return PlaceholderAPI.setPlaceholders(player, text);
+                    
+                    return text;
+                })
+                .toString();
+            
+            players.add(new WrappedGameProfile(UUID.randomUUID(), parsed));
+        }
+        
+        return players;
+    }
+    
     private void printPaperInfo(){
         getPluginLogger().warn("======================================================================================");
-        getPluginLogger().warn("You are using the Spigot version of AdvancedServerList on a PaperMC server.");
-        getPluginLogger().warn("It is recommended to use the dedicated PaperMC version, to benefit from the");
-        getPluginLogger().warn("Following improvements:");
+        getPluginLogger().warn("You are using the Spigot version of AdvancedServerList on a Paper server.");
+        getPluginLogger().warn("It is recommended to use the dedicated Paper version, to benefit from the");
+        getPluginLogger().warn("following improvements:");
         getPluginLogger().warn(" - No need to download external libraries already provided by PaperMC.");
         getPluginLogger().warn(" - No dependency on ProtocolLib thanks to provided Events.");
         getPluginLogger().warn("");

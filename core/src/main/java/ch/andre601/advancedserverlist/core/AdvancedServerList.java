@@ -27,52 +27,32 @@ package ch.andre601.advancedserverlist.core;
 
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
-import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.*;
 
 public class AdvancedServerList{
     
-    private final PluginCore plugin;
+    private final PluginCore<?> plugin;
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
     
     private String version;
     
-    public AdvancedServerList(PluginCore plugin){
+    public AdvancedServerList(PluginCore<?> plugin){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
         
         load();
-    }
-    
-    public static <T> List<T> getPlayers(Class<T> clazz, String text){
-        try{
-            String[] lines = text.split("\n");
-            
-            final List<T> players = new ArrayList<>(lines.length);
-            final Constructor<T> constructor = clazz.getDeclaredConstructor(String.class, UUID.class);
-            
-            constructor.setAccessible(true);
-            
-            for(String line : lines){
-                players.add(constructor.newInstance(line, UUID.randomUUID()));
-            }
-            
-            return players;
-        }catch(NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex){
-            return Collections.emptyList();
-        }
     }
     
     public void disable(){
@@ -90,7 +70,7 @@ public class AdvancedServerList{
     }
     
     public Path getPath(){
-        return plugin.getPath();
+        return plugin.getFolderPath();
     }
     
     public FileHandler getFileHandler(){

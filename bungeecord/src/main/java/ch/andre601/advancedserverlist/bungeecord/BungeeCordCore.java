@@ -30,17 +30,23 @@ import ch.andre601.advancedserverlist.bungeecord.events.JoinEvent;
 import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
 import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
+import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import net.md_5.bungee.api.Favicon;
+import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
 import org.bstats.charts.SimplePie;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
+public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerPing.PlayerInfo>{
     
     private AdvancedServerList core;
     private FaviconHandler<Favicon> faviconHandler = null;
@@ -86,7 +92,7 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     }
     
     @Override
-    public Path getPath(){
+    public Path getFolderPath(){
         return getDataFolder().toPath();
     }
     
@@ -111,5 +117,21 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     @Override
     public String getPlatformVersion(){
         return getProxy().getVersion();
+    }
+    
+    @Override
+    public List<ServerPing.PlayerInfo> createPlayers(List<String> lines, Placeholders... placeholders){
+        List<ServerPing.PlayerInfo> players = new ArrayList<>(lines.size());
+        
+        for(String line : lines){
+            String parsed = ComponentParser.text(line)
+                .replacements(placeholders[0])
+                .replacements(placeholders[1])
+                .toString();
+            
+            players.add(new ServerPing.PlayerInfo(parsed, UUID.randomUUID()));
+        }
+        
+        return players;
     }
 }

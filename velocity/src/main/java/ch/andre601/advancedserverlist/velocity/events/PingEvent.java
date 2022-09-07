@@ -25,7 +25,6 @@
 
 package ch.andre601.advancedserverlist.velocity.events;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
@@ -111,12 +110,7 @@ public class PingEvent{
         }
         
         if(!profile.getPlayers().isEmpty()){
-            String players = ComponentParser.list(profile.getPlayers())
-                .replacements(playerPlaceholders)
-                .replacements(serverPlaceholders)
-                .toString();
-            
-            ServerPing.SamplePlayer[] playerSamples = AdvancedServerList.getPlayers(ServerPing.SamplePlayer.class, players)
+            ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders)
                 .toArray(new ServerPing.SamplePlayer[0]);
             
             if(playerSamples.length > 0)

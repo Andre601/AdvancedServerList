@@ -118,12 +118,7 @@ public class PingEvent implements Listener{
         }
         
         if(!profile.getPlayers().isEmpty()){
-            String players = ComponentParser.list(profile.getPlayers())
-                .replacements(playerPlaceholders)
-                .replacements(serverPlaceholders)
-                .toString();
-            
-            ServerPing.PlayerInfo[] playerInfos = AdvancedServerList.getPlayers(ServerPing.PlayerInfo.class, players)
+            ServerPing.PlayerInfo[] playerInfos = plugin.createPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders)
                 .toArray(new ServerPing.PlayerInfo[0]);
             
             if(playerInfos.length > 0)

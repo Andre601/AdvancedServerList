@@ -39,7 +39,6 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.AdventureComponentConverter;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
@@ -144,18 +143,9 @@ public class PingEvent implements Listener{
                 }
                 
                 if(!profile.getPlayers().isEmpty()){
-                    ping.setPlayers(getFakePlayers(
-                        ComponentParser.list(profile.getPlayers())
-                            .replacements(playerPlaceholders)
-                            .replacements(serverPlaceholders)
-                            .modifyText(text -> {
-                                if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                                    return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
-    
-                                return text;
-                            })
-                            .toString()
-                    ));
+                    ping.setPlayers(
+                        spigotPlugin.createPlayers(profile.getPlayers(), player.getPlayer(), playerPlaceholders, serverPlaceholders)
+                    );
                 }
                 
                 if(!profile.getFavicon().isEmpty()){
@@ -178,17 +168,6 @@ public class PingEvent implements Listener{
                 }
             }
         });
-    }
-    
-    private List<WrappedGameProfile> getFakePlayers(String text){
-        String[] lines = text.split("\n");
-        List<WrappedGameProfile> profiles = new ArrayList<>();
-        
-        for(String line : lines){
-            profiles.add(new WrappedGameProfile(UUID.randomUUID(), line));
-        }
-        
-        return profiles;
     }
     
     private SpigotPlayer resolvePlayer(InetSocketAddress address, int protocol){

@@ -29,13 +29,11 @@ import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.paper.PaperCore;
 import ch.andre601.advancedserverlist.paper.PaperPlayer;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
-import com.destroystokyo.paper.profile.PlayerProfile;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -44,9 +42,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.util.CachedServerIcon;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class PingEvent implements Listener{
     
@@ -120,7 +115,9 @@ public class PingEvent implements Listener{
         if(!profile.getPlayers().isEmpty()){
             event.getPlayerSample().clear();
             
-            event.getPlayerSample().addAll(getPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders, player.getPlayer()));
+            event.getPlayerSample().addAll(
+                plugin.createPlayers(profile.getPlayers(), player.getPlayer(), playerPlaceholders, serverPlaceholders)
+            );
         }
         
         if(!profile.getFavicon().isEmpty()){
@@ -141,22 +138,6 @@ public class PingEvent implements Listener{
                 event.setServerIcon(favicon);
             }
         }
-    }
-    
-    private List<PlayerProfile> getPlayers(List<String> lines, Placeholders playerPlaceholders, Placeholders serverPlaceholders, OfflinePlayer player){
-        List<PlayerProfile> players = new ArrayList<>();
-        lines.forEach(line -> players.add(Bukkit.createProfile(UUID.randomUUID(), ComponentParser.text(line)
-            .replacements(playerPlaceholders)
-            .replacements(serverPlaceholders)
-            .modifyText(text -> {
-                if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                    return PlaceholderAPI.setPlaceholders(player, text);
-    
-                return text;
-            })
-            .toString())));
-        
-        return players;
     }
     
     private PaperPlayer resolvePlayer(InetSocketAddress address, int protocol){

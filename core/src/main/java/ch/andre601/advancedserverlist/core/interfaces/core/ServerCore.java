@@ -23,32 +23,12 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces;
+package ch.andre601.advancedserverlist.core.interfaces.core;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 
-import java.nio.file.Path;
+import java.util.List;
 
-public interface PluginCore<T>{
-    
-    void loadCommands();
-    
-    void loadEvents();
-    
-    void loadMetrics();
-    
-    void clearFaviconCache();
-    
-    AdvancedServerList getCore();
-    
-    Path getPath();
-    
-    PluginLogger getPluginLogger();
-    
-    FaviconHandler<T> getFaviconHandler();
-    
-    String getPlatformName();
-    
-    String getPlatformVersion();
+public interface ServerCore<F, P, P2> extends PluginCore<F>{
+    List<P> createPlayers(List<String> lines, P2 player, Placeholders... placeholders);
 }
