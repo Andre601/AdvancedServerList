@@ -28,7 +28,6 @@ package ch.andre601.advancedserverlist.core;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
@@ -69,7 +68,7 @@ public class AdvancedServerList{
         return plugin.getPluginLogger();
     }
     
-    public Path getPath(){
+    public Path getFolderPath(){
         return plugin.getFolderPath();
     }
     
@@ -111,7 +110,7 @@ public class AdvancedServerList{
             return;
         }
         
-        if(!getPath().resolve("favicons").toFile().exists() && getPath().resolve("favicons").toFile().mkdirs())
+        if(!getFolderPath().resolve("favicons").toFile().exists() && getFolderPath().resolve("favicons").toFile().mkdirs())
             getPluginLogger().info("Successfully created favicons folder.");
         
         getPluginLogger().info("Loading Commands...");

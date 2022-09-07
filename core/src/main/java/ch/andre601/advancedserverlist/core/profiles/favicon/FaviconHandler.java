@@ -75,7 +75,7 @@ public class FaviconHandler<F>{
             stream = getFromUrl(core, input);
         }else
         if(input.toLowerCase(Locale.ROOT).endsWith(".png")){
-            File folder = core.getPath().resolve("favicons").toFile();
+            File folder = core.getFolderPath().resolve("favicons").toFile();
             if(!folder.exists()){
                 core.getPluginLogger().warn("Cannot get Favicon %s from favicons folder. Folder doesn't exist!", input);
                 return null;

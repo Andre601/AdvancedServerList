@@ -46,7 +46,7 @@ public class PlayerHandler{
     
     public PlayerHandler(AdvancedServerList core){
         this.core = core;
-        this.cache = core.getPath().resolve("cache.data");
+        this.cache = core.getFolderPath().resolve("cache.data");
     }
     
     public void load(){

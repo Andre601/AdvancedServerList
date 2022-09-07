@@ -56,8 +56,8 @@ public class FileHandler{
         this.plugin = plugin;
         this.logger = plugin.getPluginLogger();
         
-        this.config = plugin.getPath().resolve("config.yml");
-        this.profilesFolder = plugin.getPath().resolve("profiles");
+        this.config = plugin.getFolderPath().resolve("config.yml");
+        this.profilesFolder = plugin.getFolderPath().resolve("profiles");
     }
     
     public List<ServerListProfile> getProfiles(){
