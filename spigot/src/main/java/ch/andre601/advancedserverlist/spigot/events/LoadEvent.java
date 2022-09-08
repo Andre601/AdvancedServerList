@@ -46,7 +46,7 @@ public class LoadEvent implements Listener{
         PluginManager manager = plugin.getServer().getPluginManager();
         
         if(!manager.isPluginEnabled("ProtocolLib")){
-            plugin.getCore().getPluginLogger().warn("ProtocolLib not found! AdvancedServerList requires it to work on Spigot!");
+            plugin.getCore().getPlugin().getPluginLogger().warn("ProtocolLib not found! AdvancedServerList requires it to work on Spigot!");
     
             manager.disablePlugin(plugin);
             return;

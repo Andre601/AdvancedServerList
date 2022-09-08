@@ -27,7 +27,6 @@ package ch.andre601.advancedserverlist.bungeecord.events;
 
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
@@ -80,8 +79,8 @@ public class PingEvent implements Listener{
         if(profile == null)
             return;
         
-        if(profile.getXMore() >= 0){
-            max = online + profile.getXMore();
+        if(profile.isExtraPlayersEnabled()){
+            max = online + profile.getExtraPlayers();
             ping.getPlayers().setMax(max);
         }
         
@@ -100,15 +99,9 @@ public class PingEvent implements Listener{
         
         if(profile.shouldHidePlayers()){
             ping.setPlayers(null);
-            
-            ping.setFavicon(ping.getFaviconObject());
-            ping.setVersion(protocol);
-            
-            event.setResponse(ping);
-            return;
         }
         
-        if(!profile.getPlayerCount().isEmpty()){
+        if(!profile.getPlayerCount().isEmpty() && !profile.shouldHidePlayers()){
             protocol.setName(ComponentParser.text(profile.getPlayerCount())
                 .replacements(playerPlaceholders)
                 .replacements(serverPlaceholders)
@@ -117,13 +110,8 @@ public class PingEvent implements Listener{
             protocol.setProtocol(-1);
         }
         
-        if(!profile.getPlayers().isEmpty()){
-            String players = ComponentParser.list(profile.getPlayers())
-                .replacements(playerPlaceholders)
-                .replacements(serverPlaceholders)
-                .toString();
-            
-            ServerPing.PlayerInfo[] playerInfos = AdvancedServerList.getPlayers(ServerPing.PlayerInfo.class, players)
+        if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
+            ServerPing.PlayerInfo[] playerInfos = plugin.createPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders)
                 .toArray(new ServerPing.PlayerInfo[0]);
             
             if(playerInfos.length > 0)
@@ -137,6 +125,7 @@ public class PingEvent implements Listener{
                 try{
                     return Favicon.create(image);
                 }catch(Exception ex){
+                    plugin.getPluginLogger().warn("Unable to create Favicon. %s", ex.getMessage());
                     return null;
                 }
             });

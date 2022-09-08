@@ -25,7 +25,6 @@
 
 package ch.andre601.advancedserverlist.velocity.events;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
@@ -76,9 +75,9 @@ public class PingEvent{
         
         if(profile == null)
             return;
-        
-        if(profile.getXMore() >= 0){
-            max = online + profile.getXMore();
+    
+        if(profile.isExtraPlayersEnabled()){
+            max = online + profile.getExtraPlayers();
             builder.maximumPlayers(max);
         }
         
@@ -95,12 +94,9 @@ public class PingEvent{
         
         if(profile.shouldHidePlayers()){
             builder.nullPlayers();
-            
-            event.setPing(builder.build());
-            return;
         }
         
-        if(!profile.getPlayerCount().isEmpty()){
+        if(!profile.getPlayerCount().isEmpty() && !profile.shouldHidePlayers()){
             builder.version(new ServerPing.Version(
                 -1, 
                 ComponentParser.text(profile.getPlayerCount())
@@ -110,13 +106,8 @@ public class PingEvent{
             ));
         }
         
-        if(!profile.getPlayers().isEmpty()){
-            String players = ComponentParser.list(profile.getPlayers())
-                .replacements(playerPlaceholders)
-                .replacements(serverPlaceholders)
-                .toString();
-            
-            ServerPing.SamplePlayer[] playerSamples = AdvancedServerList.getPlayers(ServerPing.SamplePlayer.class, players)
+        if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
+            ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders)
                 .toArray(new ServerPing.SamplePlayer[0]);
             
             if(playerSamples.length > 0)

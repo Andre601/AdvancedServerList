@@ -27,27 +27,24 @@ package ch.andre601.advancedserverlist.core;
 
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
-import ch.andre601.advancedserverlist.core.interfaces.PluginCore;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.*;
 
 public class AdvancedServerList{
     
-    private final PluginCore plugin;
+    private final PluginCore<?> plugin;
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
     
     private String version;
     
-    public AdvancedServerList(PluginCore plugin){
+    public AdvancedServerList(PluginCore<?> plugin){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
@@ -56,41 +53,8 @@ public class AdvancedServerList{
         load();
     }
     
-    public static <T> List<T> getPlayers(Class<T> clazz, String text){
-        try{
-            String[] lines = text.split("\n");
-            
-            final List<T> players = new ArrayList<>(lines.length);
-            final Constructor<T> constructor = clazz.getDeclaredConstructor(String.class, UUID.class);
-            
-            constructor.setAccessible(true);
-            
-            for(String line : lines){
-                players.add(constructor.newInstance(line, UUID.randomUUID()));
-            }
-            
-            return players;
-        }catch(NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex){
-            return Collections.emptyList();
-        }
-    }
-    
-    public void disable(){
-        getPluginLogger().info("Saving cache.data file...");
-        getPlayerHandler().save();
-        getPluginLogger().info("AdvancedServerList disabled!");
-    }
-    
-    public void clearFaviconCache(){
-        plugin.clearFaviconCache();
-    }
-    
-    public PluginLogger getPluginLogger(){
-        return plugin.getPluginLogger();
-    }
-    
-    public Path getPath(){
-        return plugin.getPath();
+    public PluginCore<?> getPlugin(){
+        return plugin;
     }
     
     public FileHandler getFileHandler(){
@@ -109,58 +73,69 @@ public class AdvancedServerList{
         return version;
     }
     
+    public void disable(){
+        getPlugin().getPluginLogger().info("Saving cache.data file...");
+        getPlayerHandler().save();
+        getPlugin().getPluginLogger().info("AdvancedServerList disabled!");
+    }
+    
+    public void clearFaviconCache(){
+        plugin.clearFaviconCache();
+    }
+    
     private void load(){
         printBanner();
         resolveVersion();
-        
-        getPluginLogger().info("Starting AdvancedServerList v%s...", version);
-        
-        getPluginLogger().info("Platform: " + plugin.getPlatformName() + " " + plugin.getPlatformVersion());
+    
+        getPlugin().getPluginLogger().info("Starting AdvancedServerList v%s...", version);
+    
+        getPlugin().getPluginLogger().info("Platform: " + plugin.getPlatformName() + " " + plugin.getPlatformVersion());
         
         if(getFileHandler().loadConfig()){
-            getPluginLogger().info("Successfully loaded config.yml!");
+            getPlugin().getPluginLogger().info("Successfully loaded config.yml!");
         }else{
-            getPluginLogger().warn("Unable to load config.yml! Check previous lines for errors.");
+            getPlugin().getPluginLogger().warn("Unable to load config.yml! Check previous lines for errors.");
             return;
         }
         
         if(getFileHandler().loadProfiles()){
-            getPluginLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
+            getPlugin().getPluginLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
         }else{
-            getPluginLogger().warn("Unable to load profiles! Check previous lines for errors.");
+            getPlugin().getPluginLogger().warn("Unable to load profiles! Check previous lines for errors.");
             return;
         }
         
-        if(!getPath().resolve("favicons").toFile().exists() && getPath().resolve("favicons").toFile().mkdirs())
-            getPluginLogger().info("Successfully created favicons folder.");
-        
-        getPluginLogger().info("Loading Commands...");
+        Path folder = getPlugin().getFolderPath().resolve("favicons");
+        if(!folder.toFile().exists() && folder.toFile().mkdirs())
+            getPlugin().getPluginLogger().info("Successfully created favicons folder.");
+    
+        getPlugin().getPluginLogger().info("Loading Commands...");
         plugin.loadCommands();
-        getPluginLogger().info("Commands loaded!");
-        
-        getPluginLogger().info("Loading events...");
+        getPlugin().getPluginLogger().info("Commands loaded!");
+    
+        getPlugin().getPluginLogger().info("Loading events...");
         plugin.loadEvents();
-        getPluginLogger().info("Events loaded!");
-        
-        getPluginLogger().info("Loading cache.data...");
+        getPlugin().getPluginLogger().info("Events loaded!");
+    
+        getPlugin().getPluginLogger().info("Loading cache.data...");
         getPlayerHandler().load();
-        
-        getPluginLogger().info("Loading bStats metrics. Disable it in the global config under /plugins/bstats/");
+    
+        getPlugin().getPluginLogger().info("Loading bStats metrics. Disable it in the global config under /plugins/bstats/");
         plugin.loadMetrics();
-        getPluginLogger().info("Metrics loaded!");
-        
-        getPluginLogger().info("AdvancedServerList is ready!");
+        getPlugin().getPluginLogger().info("Metrics loaded!");
+    
+        getPlugin().getPluginLogger().info("AdvancedServerList is ready!");
     }
     
     private void printBanner(){
-        getPluginLogger().info("");
-        getPluginLogger().info("           _____ _");
-        getPluginLogger().info("    /\\    / ____| |");
-        getPluginLogger().info("   /  \\  | (___ | |");
-        getPluginLogger().info("  / /\\ \\  \\___ \\| |");
-        getPluginLogger().info(" / ____ \\ ____) | |____");
-        getPluginLogger().info("/_/    \\_\\_____/|______|");
-        getPluginLogger().info("");
+        getPlugin().getPluginLogger().info("");
+        getPlugin().getPluginLogger().info("           _____ _");
+        getPlugin().getPluginLogger().info("    /\\    / ____| |");
+        getPlugin().getPluginLogger().info("   /  \\  | (___ | |");
+        getPlugin().getPluginLogger().info("  / /\\ \\  \\___ \\| |");
+        getPlugin().getPluginLogger().info(" / ____ \\ ____) | |____");
+        getPlugin().getPluginLogger().info("/_/    \\_\\_____/|______|");
+        getPlugin().getPluginLogger().info("");
     }
     
     private void resolveVersion(){
