@@ -45,18 +45,20 @@ public class ServerListProfile{
     private final String playerCount;
     private final String favicon;
     private final boolean hidePlayers;
-    private final int xMore;
+    private final boolean extraPlayersEnabled;
+    private final int extraPlayers;
     
     public ServerListProfile(ConfigurationNode node, PluginLogger logger){
         this.priority = node.node("priority").getInt();
-        this.expressions = createExpressions(getList(node, "conditions", false), logger);
+        this.expressions = createExpressions(getList(node, false, "conditions"), logger);
         
-        this.motd = getList(node, "motd", true);
-        this.players = getList(node, "players", false);
-        this.playerCount = node.node("playerCount").getString("");
+        this.motd = getList(node, true, "motd");
+        this.players = getList(node, false, "playerCount", "hover");
+        this.playerCount = node.node("playerCount", "text").getString("");
         this.favicon = node.node("favicon").getString("");
-        this.hidePlayers = node.node("hidePlayers").getBoolean();
-        this.xMore = node.node("xMore").getInt(-1);
+        this.hidePlayers = node.node("playerCount", "hidePlayers").getBoolean();
+        this.extraPlayersEnabled = node.node("playerCount", "extraPlayers", "enabled").getBoolean();
+        this.extraPlayers = node.node("playerCount", "extraPlayers", "amount").getInt();
     }
     
     public int getPriority(){
@@ -83,8 +85,12 @@ public class ServerListProfile{
         return hidePlayers;
     }
     
-    public int getXMore(){
-        return xMore;
+    public boolean isExtraPlayersEnabled(){
+        return extraPlayersEnabled;
+    }
+    
+    public int getExtraPlayers(){
+        return extraPlayers;
     }
     
     public boolean evalConditions(Map<String, Object> replacements){
@@ -119,10 +125,10 @@ public class ServerListProfile{
         return expressions;
     }
     
-    private List<String> getList(ConfigurationNode node, String key, boolean trim){
+    private List<String> getList(ConfigurationNode node, boolean trim, Object... path){
         List<String> list;
         try{
-            list = node.node(key).getList(String.class);
+            list = node.node(path).getList(String.class);
         }catch(SerializationException ex){
             return Collections.emptyList();
         }

@@ -28,62 +28,79 @@ motd:
   - '<grey>Line 2'
 
 #
-# Sets if players should be hidden.
-# When set to true will the player count be replaced with ???
-# Additionally will the options 'players' and 'playerCount' be ignored by the plugin.
-#
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hideplayers
-#
-hidePlayers: false
-
-#
-# Set the hover text that usually displays online players.
-# Only normal colours such as <grey> or <aqua> are supported.
-#
-# Remove this option or set it to players: [] to not alter the hover text.
-#
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#players
-#
-players:
-  - '<grey>Line 1'
-  - '<grey>Line 2'
-  - '<grey>Line 3'
-
-#
-# Set the text that usually shows online players and max that can join.
-# Only normal colours such as <grey> or <aqua> are supported.
-#
-# Remove this option or set it to playerCount: '' to not alter the player count text.
-#
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#playercount
-#
-playerCount: '<grey>Text'
-
-#
-# Allows you to override the default Favicon used by the Server/Proxy.
-# You can provide three specific inputs:
-# - A valid URL pointing to a PNG file.
-# - ${player name} for a per-player avatar being displayed (Uses mc-heads.net)
-# - Image file name (i.e. example.png) for a file in the "favicons" folder.
-#
-# NOTE:
-# - The favicon will be cached for 5 minutes to avoid spam and rate limits.
-# - BungeeCord/Waterfall may report issues that the plugin takes a long time to process.
-#   This is something I cannot really get improved without help.
+# Allows you to set a favicon for this server list profile.
+# You can use one of three possible options:
+#   1. A file name matching a PNG file located in the 'favicons' folder (Needs to end with .png)
+#   2. A URL pointing to a valid Image
+#   3. ${player name} to display the player's head as favicon. Uses https://mc-heads.net for this
 #
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#favicon
 #
 favicon: ''
 
 #
-# When set to 0 or higher will alter the max player count to the online count + xMore.
-# Example: With 20 online players would 'xMore: 1' show 20/21 and 'xMore: 0' show 20/20
+# Contains various options to manipulate the player count (Text displaying online and max players allowed).
 #
-# Note that this will also manipulate the ${server playersMax} placeholder when used
-# in motd, players or playerCount.
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#playercount
 #
-# Remove this option or set it to -1 to not alter the max player count.
-#
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#xmore
-#
-xMore: -1
+playerCount:
+  #
+  # Whether AdvancedServerList should hide the player count or not.
+  # When set to true will the player count display '???' instead of <online>/<max>
+  #
+  # Note that when this is enabled will all other options, except for 'extraPlayers', be ignored.
+  #
+  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hideplayers
+  #
+  hidePlayers: false
+  #
+  # Sets the text displayed when hovering over the player count.
+  # You can set this to 'hover: []' or remove the option to not modify the hover text.
+  #
+  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hover
+  #
+  hover:
+    - '<grey>Line 1'
+    - '<grey>Line 2'
+    - '<grey>Line 3'
+  #
+  # Modifies the text that usually displays '<online>/<max>'
+  # 
+  # Note that when used, the Ping icon will display as 'outdated server'/'outdated client'.
+  # This is nothing that can be fixed or avoided and would require changes from Mojang.
+  #
+  # You can set this to 'count: ''' or remove the option to not modify the player count text.
+  #
+  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#text
+  #
+  text: ''
+  #
+  # Allows you to modify the max player count displayed.
+  # Note that this will affect ${server playersMax} (Except for when used in conditions).
+  #
+  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#extraPlayers
+  #
+  extraPlayers:
+    #
+    # Enables/Disables the extraPlayers option.
+    # When enabled will the total amount of players allowed be modified to the current
+    # number of online players + 'amount'
+    #
+    # Defaults to false when not present.
+    #
+    # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#enabled
+    #
+    enabled: false
+    #
+    # Sets how much should be added/subtracted from the current number of online players
+    # to then use for the max player count.
+    #
+    # Example:
+    # When set to 1 while 10 players are online would the player count - if unmodified -
+    # display '10/11'. When -1 is used will it display '10/9'
+    #
+    # Defaults to 0 when not present.
+    #
+    # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#amount
+    #
+    amount: 0

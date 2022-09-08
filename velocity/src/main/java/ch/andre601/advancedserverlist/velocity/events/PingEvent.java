@@ -75,9 +75,9 @@ public class PingEvent{
         
         if(profile == null)
             return;
-        
-        if(profile.getXMore() >= 0){
-            max = online + profile.getXMore();
+    
+        if(profile.isExtraPlayersEnabled()){
+            max = online + profile.getExtraPlayers();
             builder.maximumPlayers(max);
         }
         
@@ -94,12 +94,9 @@ public class PingEvent{
         
         if(profile.shouldHidePlayers()){
             builder.nullPlayers();
-            
-            event.setPing(builder.build());
-            return;
         }
         
-        if(!profile.getPlayerCount().isEmpty()){
+        if(!profile.getPlayerCount().isEmpty() && !profile.shouldHidePlayers()){
             builder.version(new ServerPing.Version(
                 -1, 
                 ComponentParser.text(profile.getPlayerCount())
@@ -109,7 +106,7 @@ public class PingEvent{
             ));
         }
         
-        if(!profile.getPlayers().isEmpty()){
+        if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
             ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders)
                 .toArray(new ServerPing.SamplePlayer[0]);
             

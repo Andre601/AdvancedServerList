@@ -100,9 +100,9 @@ public class PingEvent implements Listener{
                 
                 if(profile == null)
                     return;
-                
-                if(profile.getXMore() >= 0){
-                    max = online + profile.getXMore();
+    
+                if(profile.isExtraPlayersEnabled()){
+                    max = online + profile.getExtraPlayers();
                     ping.setPlayersMaximum(max);
                 }
                 
@@ -124,10 +124,9 @@ public class PingEvent implements Listener{
                 
                 if(profile.shouldHidePlayers()){
                     ping.setPlayersVisible(false);
-                    return;
                 }
                 
-                if(!profile.getPlayerCount().isEmpty()){
+                if(!profile.getPlayerCount().isEmpty() && !profile.shouldHidePlayers()){
                     ping.setVersionName(ComponentParser.text(profile.getPlayerCount())
                         .replacements(playerPlaceholders)
                         .replacements(serverPlaceholders)
@@ -142,7 +141,7 @@ public class PingEvent implements Listener{
                     ping.setVersionProtocol(-1);
                 }
                 
-                if(!profile.getPlayers().isEmpty()){
+                if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
                     ping.setPlayers(
                         spigotPlugin.createPlayers(profile.getPlayers(), player.getPlayer(), playerPlaceholders, serverPlaceholders)
                     );
