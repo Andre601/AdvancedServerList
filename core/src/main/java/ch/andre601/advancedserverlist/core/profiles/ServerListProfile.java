@@ -106,6 +106,13 @@ public class ServerListProfile{
         return true;
     }
     
+    public boolean isInvalid(){
+        return getMotd().isEmpty() &&
+            getPlayers().isEmpty() &&
+            (getPlayerCount().isEmpty() && !shouldHidePlayers()) &&
+            getFavicon().isEmpty();
+    }
+    
     private List<Expression> createExpressions(List<String> list, PluginLogger logger) {
         if(list.isEmpty())
             return Collections.emptyList();

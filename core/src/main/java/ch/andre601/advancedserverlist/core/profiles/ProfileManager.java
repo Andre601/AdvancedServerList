@@ -52,7 +52,7 @@ public class ProfileManager{
     
     public ServerListProfile getProfile(){
         for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.getMotd().isEmpty() && profile.getPlayers().isEmpty() && profile.getPlayerCount().isEmpty())
+            if(profile.isInvalid())
                 continue;
             
             if(profile.evalConditions(replacements))
