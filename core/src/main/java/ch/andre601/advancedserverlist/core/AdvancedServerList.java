@@ -28,7 +28,6 @@ package ch.andre601.advancedserverlist.core;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
 import java.io.IOException;
