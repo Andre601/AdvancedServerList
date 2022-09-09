@@ -83,6 +83,9 @@ public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerP
     
     @Override
     public void clearFaviconCache(){
+        if(faviconHandler == null)
+            return;
+    
         faviconHandler.clearCache();
     }
     

@@ -107,6 +107,9 @@ public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>
     
     @Override
     public void clearFaviconCache(){
+        if(faviconHandler == null)
+            return;
+    
         faviconHandler.clearCache();
     }
     

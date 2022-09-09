@@ -70,22 +70,21 @@ public class Expression{
             char next = (i == (chars.length - 1)) ? '\0' : chars[i + 1];
             
             Operator tmp = Operator.getOperand(c, next);
-            if(tmp == Operator.UNKNOWN){
-                if(foundOperator){
-                    right.append(c);
-                }else{
-                    left.append(c);
-                }
+            if(tmp != Operator.UNKNOWN && !foundOperator){
+                operator = tmp;
+                foundOperator = true;
+                
+                if(tmp.hasSecond())
+                    i++; // Skip next character if operator has 2
+                
                 continue;
             }
             
             if(foundOperator){
-                result = ExpressionResult.INVALID_DOUBLE_OPERATOR;
-                return;
+                right.append(c);
+            }else{
+                left.append(c);
             }
-            
-            operator = tmp;
-            foundOperator = true;
         }
         
         if(left.isEmpty() || right.isEmpty()){
@@ -194,7 +193,6 @@ public class Expression{
         VALID(null),
         
         INVALID_NO_EXPRESSION  ("Received empty condition which isn't allowed!"),
-        INVALID_DOUBLE_OPERATOR("Condition contained two operands."),
         INVALID_EMPTY_PARTS    ("Received condition with either left or right part being empty.");
         
         private final String message;

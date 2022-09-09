@@ -102,6 +102,9 @@ public class SpigotCore extends JavaPlugin implements ServerCore<WrappedServerPi
     
     @Override
     public void clearFaviconCache(){
+        if(faviconHandler == null)
+            return;
+    
         faviconHandler.clearCache();
     }
     

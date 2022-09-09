@@ -117,6 +117,9 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     
     @Override
     public void clearFaviconCache(){
+        if(faviconHandler == null)
+            return;
+        
         faviconHandler.clearCache();
     }
     
