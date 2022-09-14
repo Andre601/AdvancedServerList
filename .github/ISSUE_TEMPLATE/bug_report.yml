@@ -29,7 +29,7 @@ body:
     attributes:
       label: Other platform
       description: |-
-        Please provide the name of the platfoem (Proxy/Server) you use, if you selected `Other (Please specify)` in the above section.
+        Please provide the name of the platform (Proxy/Server) you use, if you selected `Other (Please specify)` in the above section.
         Leave empty otherwise.
       placeholder: SomeProxy
   - type: textarea
