@@ -1,0 +1,34 @@
+name: Feature Request
+description: Suggest a new feature for the plugin
+
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        ## Before opening
+        Please make sure you've checked the following things first:
+        
+        - You're using the latest release of AdvancedServerList [[Download from Modrinth](https://modrinth.com/plugin/advancedserverlist)]
+        - You're using a supported Proxy/Server version. As of right now is only 1.19.x supported.
+        - The Feature you suggest hasn't been suggested before.
+  - type: dropdown
+    attributes:
+      label: Platforms
+      description: What platforms should this feature be usable on
+      multiple: true
+      options:
+        - Proxy (BungeeCord, Waterfall, ...)
+        - Proxy (Velocity)
+        - Server (Spigot, Paper, ...)
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Feature
+      description: |-
+        Give a detailed description of what exactly should be added and/or changed in AdvancedServerList.
+        You can provide screenshots to further explain the idea.
+        When sharing code snippets, make sure to use a site such as https://paste.helpch.at to do so.
+      placeholder: AdvancedServerList should get ... because ...
+    validations:
+      required: true
