@@ -1,0 +1,61 @@
+name: Bug Report
+description: Report an issue with the plugin
+
+body:
+  - type: markdown
+    attributes: |-
+      ## Before opening
+      Please make sure you've checked the following things first:
+      
+      - You're using the latest release of AdvancedServerList [[Download from Modrinth](https://modrinth.com/plugin/advancedserverlist)]
+      - You're using a supported Proxy/Server version. As of right now is only 1.19.x supported.
+      - The issue happens with just AdvancedServerList installed.
+  - type: dropdown
+    attributes:
+      label: Platform
+      description: On what platform do you use the plugin?
+      options:
+        - BungeeCord
+        - Other (Please specify)
+        - Paper
+        - Purpur
+        - Spigot
+        - Velocity
+        - Waterfall
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Other platform
+      description: |-
+        Please provide the name of the platfoem (Proxy/Server) you use, if you selected `Other (Please specify)` in the above section.
+        Leave empty otherwise.
+      placeholder: SomeProxy
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: |-
+        Give a detailed description of what exactly happened.
+        You can provide screenshots to further explain the issues.
+        When sharing errors, make sure to use a site such as https://paste.helpch.at to do so.
+      placeholder: When I do ... does ... happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Provide a detailed step-by-step explanation on how to reproduce this issue.
+      placeholder: |-
+        1. Do this
+        2. ...
+        3. Profit!
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Server List Profiles
+      description: |-
+        **Optional**
+        Provide any Server List Profiles you use, if you believe those to be the cause of the issue.
+        This text field will automatically render the text as YAML code.
+      render: yaml
