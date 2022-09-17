@@ -62,7 +62,7 @@ public class CommandHandler{
                 }
                 
                 if(core.getFileHandler().reloadProfiles()){
-                    sender.sendMsg("%s <green>Loaded <grey>%s Profile(s)</grey>!", prefix, core.getFileHandler().getProfiles());
+                    sender.sendMsg("%s <green>Loaded <grey>%d Profile(s)</grey>!", prefix, core.getFileHandler().getProfiles().size());
                 }else{
                     sender.sendMsg("%s <red>Cannot load Profiles!", errorPrefix);
                 }
