@@ -1,5 +1,7 @@
 # AdvancedServerList
-![platform] ![tested]
+<a href="https://modrinth.com/plugin/advancedserverlist" target="_blank">
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/main/badges/modrinth_vector.svg" height="64" />
+</a>
 
 AdvancedServerList is a plugin made for SpigotMC, PaperMC, BungeeCord/Waterfall and Velocity. It allows you to create server list profiles to display based on priority and conditions.
 
@@ -30,12 +32,6 @@ Only certain options are usable for each option. As an example does motd support
 
 > [*Read More*][minimessage]
 
-## Downloads
-
-<a href="https://modrinth.com/plugin/advancedserverlist" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/main/badges/modrinth_vector.svg" height="64" />
-</a>
-
 ## Dependencies
 
 | Dependency       | Platforms     | Required? |
@@ -58,6 +54,14 @@ You can disable this in the global bStats config file located in `/plugins/bstat
   <img src="https://raw.githubusercontent.com/intergrav/devins-badges/main/badges/modrinth-gallery_vector.svg" height="64" />
 </a>
 
+## Support
+<a href="https://discord.gg/6dazXp6" target="_blank">
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/main/badges/discord_vector.svg" height="64" />
+</a>
+<a href="https://app.revolt.chat/invite/74TpERXA" target="_blank">
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/main/badges/revolt_vector.svg" height="64" />
+</a>
+
 <!-- Links -->
 [profiles]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles
 [conditions]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#conditions
@@ -77,8 +81,3 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 [bstats-velocity]: https://bstats.org/plugin/velocity/AdvancedServerList/15587
 
 [gallery]: https://modrinth.com/mod/advancedserverlist/gallery
-
-<!-- Badges -->
-[platform]: https://img.shields.io/badge/Platforms-Spigot%20%7C%20Paper%20%7C%20BungeeCord%20%7C%20Velocity-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTEuMDYzIDEuNDU2YTEuNzUgMS43NSAwIDAxMS44NzQgMGw4LjM4MyA1LjMxNmExLjc1IDEuNzUgMCAwMTAgMi45NTZsLTguMzgzIDUuMzE2YTEuNzUgMS43NSAwIDAxLTEuODc0IDBMMi42OCA5LjcyOGExLjc1IDEuNzUgMCAwMTAtMi45NTZsOC4zODMtNS4zMTZ6bTEuMDcxIDEuMjY3YS4yNS4yNSAwIDAwLS4yNjggMEwzLjQ4MyA4LjAzOWEuMjUuMjUgMCAwMDAgLjQyMmw4LjM4MyA1LjMxNmEuMjUuMjUgMCAwMC4yNjggMGw4LjM4My01LjMxNmEuMjUuMjUgMCAwMDAtLjQyMmwtOC4zODMtNS4zMTZ6Ij48L3BhdGg+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMS44NjcgMTIuMzI0YS43NS43NSAwIDAxMS4wMzUtLjIzMmw4Ljk2NCA1LjY4NWEuMjUuMjUgMCAwMC4yNjggMGw4Ljk2NC01LjY4NWEuNzUuNzUgMCAwMS44MDQgMS4yNjdsLTguOTY1IDUuNjg1YTEuNzUgMS43NSAwIDAxLTEuODc0IDBsLTguOTY1LTUuNjg1YS43NS43NSAwIDAxLS4yMzEtMS4wMzV6Ij48L3BhdGg+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMS44NjcgMTYuMzI0YS43NS43NSAwIDAxMS4wMzUtLjIzMmw4Ljk2NCA1LjY4NWEuMjUuMjUgMCAwMC4yNjggMGw4Ljk2NC01LjY4NWEuNzUuNzUgMCAwMS44MDQgMS4yNjdsLTguOTY1IDUuNjg1YTEuNzUgMS43NSAwIDAxLTEuODc0IDBsLTguOTY1LTUuNjg1YS43NS43NSAwIDAxLS4yMzEtMS4wMzV6Ij48L3BhdGg+PC9zdmc+
-
-[tested]: https://img.shields.io/badge/Tested%20Versions-1.19%20%7C%201.19.1%20%7C%201.19.2-blue?style=for-the-badge&logo=image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTE3LjI4IDkuMjhhLjc1Ljc1IDAgMDAtMS4wNi0xLjA2bC01Ljk3IDUuOTctMi40Ny0yLjQ3YS43NS43NSAwIDAwLTEuMDYgMS4wNmwzIDNhLjc1Ljc1IDAgMDAxLjA2IDBsNi41LTYuNXoiPjwvcGF0aD48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zLjc1IDJBMS43NSAxLjc1IDAgMDAyIDMuNzV2MTYuNWMwIC45NjYuNzg0IDEuNzUgMS43NSAxLjc1aDE2LjVBMS43NSAxLjc1IDAgMDAyMiAyMC4yNVYzLjc1QTEuNzUgMS43NSAwIDAwMjAuMjUgMkgzLjc1ek0zLjUgMy43NWEuMjUuMjUgMCAwMS4yNS0uMjVoMTYuNWEuMjUuMjUgMCAwMS4yNS4yNXYxNi41YS4yNS4yNSAwIDAxLS4yNS4yNUgzLjc1YS4yNS4yNSAwIDAxLS4yNS0uMjVWMy43NXoiPjwvcGF0aD48L3N2Zz4=
