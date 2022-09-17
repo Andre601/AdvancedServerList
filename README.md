@@ -32,7 +32,7 @@ Only certain options are usable for each option. As an example does motd support
 
 ## Downloads
 
-[![dl-modrinth]][modrinth] [![dl-github]][github] [![dl-hangar]][hangar]
+[![dl-modrinth]][modrinth]
 
 ## Dependencies
 
@@ -63,8 +63,6 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 [placeholderapi]: https://www.spigotmc.org/resources/6245/
 
 [modrinth]: https://modrinth.com/plugin/advancedserverlist
-[github]: https://github.com/Andre601/AdvancedServerList/releases/latest
-[hangar]: https://hangar.benndorf.dev/Andre_601/AdvancedServerList
 
 [protocollib]: https://www.spigotmc.org/resources/1997/
 [placeholderapi]: https://www.spigotmc.org/resources/6245/
