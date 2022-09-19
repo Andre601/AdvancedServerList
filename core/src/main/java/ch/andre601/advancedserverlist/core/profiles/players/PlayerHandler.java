@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -93,7 +92,7 @@ public class PlayerHandler{
         }
         
         try{
-            BufferedWriter writer = Files.newBufferedWriter(cache, StandardCharsets.UTF_8, StandardOpenOption.WRITE);
+            BufferedWriter writer = Files.newBufferedWriter(cache, StandardCharsets.UTF_8);
             
             writer.write(joiner.toString());
             writer.close();
