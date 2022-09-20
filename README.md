@@ -3,7 +3,7 @@
   <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/cozy/available/modrinth_vector.svg" height="64" align="right" alt="download-on-modrinth" />
 </a>
 
-AdvancedServerList is a plugin made for SpigotMC, PaperMC, BungeeCord/Waterfall and Velocity. It allows you to create server list profiles to display based on priority and conditions.
+AdvancedServerList is a plugin that allowys you to customize your server's MOTD, favicon, Player count text and player count hover displayed in a player's multiplayer server list based on conditions and priorities.
 
 ## Supported Platforms
 
