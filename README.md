@@ -14,10 +14,10 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
   <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/paper_vector.svg" height="64" alt="platform-" />
 </a>
 <a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/available/github_vector.svg" height="64" alt="platform-" />
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/bungeecord_vector.svg" height="64" alt="platform-" />
 </a>
 <a href="https://velocitypowered.com" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/available/github_vector.svg" height="64" alt="platform-" />
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/velocity_vector.svg" height="64" alt="platform-" />
 </a>
 
 ## What is a Server List Profile?
