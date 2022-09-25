@@ -1,6 +1,6 @@
 # AdvancedServerList
 <a href="https://modrinth.com/plugin/advancedserverlist" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/cozy/available/modrinth_vector.svg" height="64" align="right" alt="download-on-modrinth" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/cozy/available/modrinth_vector.svg" height="64" align="right" alt="download-on-modrinth" />
 </a>
 
 AdvancedServerList is a plugin that allowys you to customize your server's MOTD, favicon, Player count text and player count hover displayed in a player's multiplayer server list based on conditions and priorities.
@@ -8,16 +8,16 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
 ## Supported Platforms
 
 <a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/spigot_vector.svg" height="64" alt="platform-spigot" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/spigot_vector.svg" height="64" alt="platform-spigot" />
 </a>
 <a href="https://papermc.io" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/paper_vector.svg" height="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/paper_vector.svg" height="64" alt="platform-" />
 </a>
 <a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/bungeecord_vector.svg" height="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/bungeecord_vector.svg" height="64" alt="platform-" />
 </a>
 <a href="https://velocitypowered.com" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/velocity_vector.svg" height="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/velocity_vector.svg" height="64" alt="platform-" />
 </a>
 
 ## What is a Server List Profile?
@@ -66,15 +66,15 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 ## Screenshots
 
 <a href="https://modrinth.com/plugin/advancedserverlist/gallery" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/cozy/documentation/modrinth-gallery_vector.svg" height="64" alt="check-out-the-gallery" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/cozy/documentation/modrinth-gallery_vector.svg" height="64" alt="check-out-the-gallery" />
 </a>
 
 ## Support
 <a href="https://discord.gg/6dazXp6" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/social/discord-singular_vector.svg" height="64" alt="chat-with-the-community-discord" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/social/discord-singular_vector.svg" height="64" alt="chat-with-the-community-discord" />
 </a>
 <a href="https://app.revolt.chat/invite/74TpERXA" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/social/revolt-singular_vector.svg" height="64" alt="chat-with-the-community-revolt" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/social/revolt-singular_vector.svg" height="64" alt="chat-with-the-community-revolt" />
 </a>
 
 <!-- Links -->
