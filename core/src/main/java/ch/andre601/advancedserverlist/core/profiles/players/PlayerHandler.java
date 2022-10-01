@@ -116,6 +116,6 @@ public class PlayerHandler{
                 return entry.getKey();
         }
         
-        return core.getFileHandler().getString("Anonymous", "unknown_player");
+        return core.getFileHandler().getAnonymousString();
     }
 }

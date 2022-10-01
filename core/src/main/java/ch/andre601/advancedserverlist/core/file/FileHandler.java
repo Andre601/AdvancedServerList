@@ -91,18 +91,23 @@ public class FileHandler{
     
     public boolean loadProfiles(){
         logger.info("Loading profiles...");
-        if(!profilesFolder.toFile().exists() && profilesFolder.toFile().mkdirs()){
-            logger.info("Successfully created profiles folder.");
-            
-            try(InputStream stream = plugin.getClass().getResourceAsStream("/profiles/default.yml")){
-                if(stream == null){
-                    logger.warn("Cannot retrieve default.yml from Plugin.");
+        if(!profilesFolder.toFile().exists()){
+            if(profilesFolder.toFile().mkdirs()){
+                logger.info("Successfully created profiles folder.");
+                
+                try(InputStream stream = plugin.getClass().getResourceAsStream("/profiles/default.yml")){
+                    if(stream == null){
+                        logger.warn("Cannot retrieve default.yml from Plugin.");
+                        return false;
+                    }
+                    
+                    Files.copy(stream, profilesFolder.resolve("default.yml"));
+                }catch(IOException ex){
+                    logger.warn("Cannot create default.yml for plugin.", ex);
                     return false;
                 }
-                
-                Files.copy(stream, profilesFolder.resolve("default.yml"));
-            }catch(IOException ex){
-                logger.warn("Cannot create default.yml for plugin.", ex);
+            }else{
+                logger.warn("Unable to create profiles folder! Does the plugin lack write permissions?");
                 return false;
             }
         }
@@ -140,7 +145,11 @@ public class FileHandler{
         return !profiles.isEmpty();
     }
     
-    public ConfigurationNode getConfigurationNode(Path path){
+    public String getAnonymousString(){
+        return node.node("unknown_player").getString("Anonymous");
+    }
+    
+    private ConfigurationNode getConfigurationNode(Path path){
         YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
             .path(path)
             .build();
@@ -151,9 +160,5 @@ public class FileHandler{
             logger.warn("Cannot load " + path.toFile().getName() + " due to an IOException!", ex);
             return null;
         }
-    }
-    
-    public String getString(String def, Object... path){
-        return node.node(path).getString(def);
     }
 }

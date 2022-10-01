@@ -25,6 +25,7 @@
         <module>bungeecord</module>
         <module>paper</module>
         <module>spigot</module>
+        <module>sponge</module>
     </modules>
 
 </project>

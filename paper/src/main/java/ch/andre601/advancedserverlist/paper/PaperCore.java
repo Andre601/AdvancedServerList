@@ -69,12 +69,12 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
             }catch(ClassNotFoundException ex1){
                 getPluginLogger().warn("======================================== WARNING ========================================");
                 getPluginLogger().warn("");
-                getPluginLogger().warn("You are using the PaperMC version of AdvancedServerList on a SpigotMC server.");
-                getPluginLogger().warn("The PaperMC version is ONLY compatible with PaperMC itself due to it using exclusive");
+                getPluginLogger().warn("You are using the Paper version of AdvancedServerList on a SpigotMC server.");
+                getPluginLogger().warn("The Paper version is ONLY compatible with Paper itself due to it using exclusive");
                 getPluginLogger().warn("methods and events not available within SpigotMC.");
                 getPluginLogger().warn("");
                 getPluginLogger().warn("To avoid any exceptions and errors will AdvancedServerList disable itself now.");
-                getPluginLogger().warn("Please stop your server and either switch to PaperMC or use the Spigot version");
+                getPluginLogger().warn("Please stop your server and either switch to Paper or use the Spigot version");
                 getPluginLogger().warn("of AdvancedServerList.");
                 getPluginLogger().warn("");
                 getPluginLogger().warn("======================================== WARNING ========================================");
