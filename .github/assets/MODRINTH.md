@@ -13,7 +13,7 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
   <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/bungeecord_vector.svg" width="64" alt="platform-" />
 </a>
 <a href="https://www.papermc.io" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/waterfall_vector.svg" height="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/waterfall_vector.svg" width="64" alt="platform-" />
 </a>
 <a href="https://velocitypowered.com" target="_blank">
   <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/velocity_vector.svg" width="64" alt="platform-" />
