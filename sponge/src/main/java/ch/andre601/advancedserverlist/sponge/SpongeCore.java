@@ -36,9 +36,7 @@ import ch.andre601.advancedserverlist.sponge.logging.SpongeLogger;
 import com.google.inject.Inject;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.lifecycle.LoadedGameEvent;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.network.status.Favicon;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.plugin.PluginContainer;
@@ -50,23 +48,20 @@ import java.util.List;
 import java.util.UUID;
 
 @Plugin("advancedserverlist")
-public class SpongeCore implements ServerCore<Favicon, GameProfile, Player>{
+public class SpongeCore implements ServerCore<Favicon, GameProfile, ServerPlayer>{
     
     private final PluginContainer pluginContainer;
     private final PluginLogger logger;
     
-    private AdvancedServerList core;
+    private final AdvancedServerList core;
     private FaviconHandler<Favicon> faviconHandler = null;
     
     @Inject
     public SpongeCore(PluginContainer pluginContainer, Logger logger){
+        this.core = new AdvancedServerList(this);
+        
         this.pluginContainer = pluginContainer;
         this.logger = new SpongeLogger(logger);
-    }
-    
-    @Listener
-    public void onInit(LoadedGameEvent event){
-        this.core = new AdvancedServerList(this);
     }
     
     @Override
@@ -116,7 +111,7 @@ public class SpongeCore implements ServerCore<Favicon, GameProfile, Player>{
     }
     
     @Override
-    public List<GameProfile> createPlayers(List<String> lines, Player player, Placeholders... placeholders){
+    public List<GameProfile> createPlayers(List<String> lines, ServerPlayer player, Placeholders... placeholders){
         List<GameProfile> players = new ArrayList<>(lines.size());
         
         for(String line : lines){

@@ -26,12 +26,19 @@
 package ch.andre601.advancedserverlist.sponge;
 
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 
-public class SpongePlayer extends GenericPlayer<User>{
+public class SpongePlayer extends GenericPlayer<ServerPlayer>{
     
-    public SpongePlayer(String name, int protocol){
-        this.name = name;
+    public SpongePlayer(ServerPlayer player, String name, int protocol){
+        this.player = player;
+        
+        this.name = player == null ? name : player.name();
         this.protocol = protocol;
+        
+        if(player == null)
+            return;
+        
+        this.playedBefore = player.hasPlayedBefore();
     }
 }

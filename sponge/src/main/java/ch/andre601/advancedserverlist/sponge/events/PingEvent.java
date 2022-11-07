@@ -35,6 +35,7 @@ import ch.andre601.advancedserverlist.sponge.SpongeCore;
 import ch.andre601.advancedserverlist.sponge.SpongePlayer;
 import org.spongepowered.api.MinecraftVersion;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.server.ServerPlayer;
 import org.spongepowered.api.event.EventListener;
 import org.spongepowered.api.event.server.ClientPingServerEvent;
 import org.spongepowered.api.network.status.Favicon;
@@ -64,14 +65,16 @@ public class PingEvent implements EventListener<ClientPingServerEvent>{
         MinecraftVersion version = response.version();
         StatusClient client = event.client();
         
-        String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(client.address().getHostString());
+        InetSocketAddress address = event.client().address();
         InetSocketAddress host = client.virtualHost().orElse(null);
-    
+        
+        SpongePlayer player = resolvePlayer(address, version.dataVersion().orElse(-1));
+        
         StatusResponse.Players players = response.players().orElse(null);
         int online = players == null ? 0 : players.online();
         int max = players == null ? 0 : players.max();
     
-        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(new SpongePlayer(playerName, version.dataVersion().orElse(-1)));
+        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
         ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
     
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
@@ -129,5 +132,12 @@ public class PingEvent implements EventListener<ClientPingServerEvent>{
                 response.setFavicon(favicon);
             }
         }
+    }
+    
+    private SpongePlayer resolvePlayer(InetSocketAddress address, int protocol){
+        String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString());
+        ServerPlayer player = Sponge.server().player(playerName).orElse(null);
+        
+        return new SpongePlayer(player, playerName, protocol);
     }
 }
