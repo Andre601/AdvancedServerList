@@ -53,6 +53,12 @@ public class PlayerHandler{
             core.getPlugin().getPluginLogger().info("No cache.data present. Skipping...");
             return;
         }
+        
+        if(core.getFileHandler().getBoolean("disable_cache")){
+            core.getPlugin().getPluginLogger().info("Cache disabled. Skipping player loading...");
+            return;
+        }
+        
         List<String> lines;
         try{
             lines = Files.readAllLines(cache);
@@ -85,6 +91,11 @@ public class PlayerHandler{
             core.getPlugin().getPluginLogger().info("No data to save. Skipping...");
             return;
         }
+    
+        if(core.getFileHandler().getBoolean("disable_cache")){
+            core.getPlugin().getPluginLogger().info("Cache disabled. Skipping player saving...");
+            return;
+        }
         
         StringJoiner joiner = new StringJoiner("\n");
         for(Map.Entry<String, String> entry : players){
@@ -104,13 +115,16 @@ public class PlayerHandler{
     }
     
     public void addPlayer(String name, String ip){
-        if(players.containsKey(name))
+        if(players.containsKey(name) || core.getFileHandler().getBoolean("disable_cache"))
             return;
         
         players.add(name, ip);
     }
     
     public String getPlayerByIp(String ip){
+        if(core.getFileHandler().getBoolean("disable_cache"))
+            core.getFileHandler().getString("Anonymous", "unknown_player");
+        
         for(Map.Entry<String, String> entry : players){
             if(entry.getValue().equals(ip))
                 return entry.getKey();
