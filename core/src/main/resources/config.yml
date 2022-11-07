@@ -7,6 +7,6 @@ unknown_player: "Anonymous"
 # Should the Caching of players be disabled?
 #
 # When set to true will AdvancedServerList not load any players from the cache.data file (if present) nor save any to it.
-# The ${player name} placeholder will also always return "Anonymous" in these cases, no matter if the player was cached or not before.
+# Placeholders that rely on the player being cached (such as ${player isWhitelisted}) will not work while this option is enabled.
 #
 disable_cache: false
