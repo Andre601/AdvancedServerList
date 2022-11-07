@@ -156,4 +156,8 @@ public class FileHandler{
     public String getString(String def, Object... path){
         return node.node(path).getString(def);
     }
+    
+    public boolean getBoolean(Object... path){
+        return node.node(path).getBoolean();
+    }
 }
