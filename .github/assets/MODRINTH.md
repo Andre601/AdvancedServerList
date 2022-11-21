@@ -4,19 +4,19 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
 ## Supported Platforms
 
 <a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/spigot_vector.svg" width="64" alt="platform-spigot" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/spigot_vector.svg" width="64" alt="platform-spigot" title="Tested on Spigot">
 </a>
 <a href="https://papermc.io" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/paper_vector.svg" width="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/paper_vector.svg" width="64" alt="platform-paper" title="Tested on Paper">
 </a>
 <a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/bungeecord_vector.svg" width="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/bungeecord_vector.svg" width="64" alt="platform-bungeecord" title="Tested on BungeeCord">
 </a>
 <a href="https://www.papermc.io" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/waterfall_vector.svg" width="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/waterfall_vector.svg" width="64" alt="platform-waterfall" title="Tested on Waterfall">
 </a>
 <a href="https://velocitypowered.com" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/supported/velocity_vector.svg" width="64" alt="platform-" />
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/velocity_vector.svg" width="64" alt="platform-velocity" title="Tested on Velocity">
 </a>
 
 ## What is a Server List Profile?
@@ -61,15 +61,18 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 ## Screenshots
 
 <a href="https://modrinth.com/plugin/advancedserverlist/gallery" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/cozy/documentation/modrinth-gallery_vector.svg" width="208" alt="check-out-the-gallery" />
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/cozy/documentation/modrinth-gallery_vector.svg" width="208" alt="gallery" title="Check out the Gallery">
 </a>
 
 ## Support
 <a href="https://discord.gg/6dazXp6" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/social/discord-singular_vector.svg" width="64" alt="chat-with-the-community-discord" />
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/social/discord-singular_vector.svg" width="64" alt="discord" title="Join my Discord Server">
 </a>
 <a href="https://app.revolt.chat/invite/74TpERXA" target="_blank">
-  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/social/revolt-singular_vector.svg" width="64" alt="chat-with-the-community-revolt" />
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/social/revolt-singular_vector.svg" width="64" alt="revolt" title="Join my Revolt Server">
+</a>
+<a href="https://blobfox.coffee/@andre_601" target="_blank">
+  <img src="https://raw.githubusercontent.com/intergrav/devins-badges/v2/assets/minimal/social/mastodon-singular_vector.svg" width="64" alt="revolt" title="Chat with me on Mastodon">
 </a>
 
 <!-- Links -->
