@@ -158,6 +158,7 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     
     private void enable(){
         this.core = new AdvancedServerList(this);
+        core.checkForUpdates("paper");
     }
     
     @Override

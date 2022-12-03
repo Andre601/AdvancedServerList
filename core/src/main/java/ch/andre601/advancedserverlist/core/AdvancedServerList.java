@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core;
 
+import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -41,6 +42,7 @@ public class AdvancedServerList{
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
+    private final UpdateChecker updateChecker;
     
     private String version;
     
@@ -49,6 +51,7 @@ public class AdvancedServerList{
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
+        this.updateChecker = new UpdateChecker(this);
         
         load();
     }
@@ -83,12 +86,27 @@ public class AdvancedServerList{
         plugin.clearFaviconCache();
     }
     
+    public void checkForUpdates(String platform){
+        updateChecker.checkUpdate(platform).whenComplete((version, throwable) -> {
+            if(version == null || throwable != null){
+                getPlugin().getPluginLogger().warn("Update check failed! See previous messages for explanations and causes.");
+                return;
+            }
+            
+            if(version.getVersionNumber().equals(getVersion())){
+                getPlugin().getPluginLogger().info("No new update detected! You're running the latest version.");
+                return;
+            }
+            
+            printUpdateBanner(version.getVersionNumber(), version.getId());
+        });
+    }
+    
     private void load(){
         printBanner();
         resolveVersion();
     
         getPlugin().getPluginLogger().info("Starting AdvancedServerList v%s...", version);
-    
         getPlugin().getPluginLogger().info("Platform: " + plugin.getPlatformName() + " " + plugin.getPlatformVersion());
         
         if(getFileHandler().loadConfig()){
@@ -136,6 +154,18 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info(" / ____ \\ ____) | |____");
         getPlugin().getPluginLogger().info("/_/    \\_\\_____/|______|");
         getPlugin().getPluginLogger().info("");
+    }
+    
+    private void printUpdateBanner(String version, String versionId){
+        getPlugin().getPluginLogger().info("==================================================================");
+        getPlugin().getPluginLogger().info("You are running an outdated version of AdvancedServerList!");
+        getPlugin().getPluginLogger().info("");
+        getPlugin().getPluginLogger().info("Your version: %s", getVersion());
+        getPlugin().getPluginLogger().info("Modrinth version: %s", version);
+        getPlugin().getPluginLogger().info("");
+        getPlugin().getPluginLogger().info("You can download the latest release from here:");
+        getPlugin().getPluginLogger().info("https://modrinth.com/plugin/advancedserverlist/version/%s", versionId);
+        getPlugin().getPluginLogger().info("==================================================================");
     }
     
     private void resolveVersion(){

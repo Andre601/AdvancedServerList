@@ -71,6 +71,7 @@ public class SpigotCore extends JavaPlugin implements ServerCore<WrappedServerPi
         }
         
         this.core = new AdvancedServerList(this);
+        core.checkForUpdates("spigot");
     }
     
     @Override
