@@ -87,6 +87,12 @@ public class AdvancedServerList{
     }
     
     public void checkForUpdates(String platform){
+        getPlugin().getPluginLogger().info("Checking for updates. Please wait...");
+        if(!getFileHandler().getBoolean("check_updates")){
+            getPlugin().getPluginLogger().info("'check_updates' set to false. Skipping update checks.");
+            return;
+        }
+        
         updateChecker.checkUpdate(platform).whenComplete((version, throwable) -> {
             if(version == null || throwable != null){
                 getPlugin().getPluginLogger().warn("Update check failed! See previous messages for explanations and causes.");
