@@ -41,10 +41,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class UpdateChecker{
     
@@ -62,7 +59,7 @@ public class UpdateChecker{
         .setLenient()
         .create();
     
-    private final Timer timer = new Timer("AdvancedServerList Update-Thread");
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new UpdateCheckThread());
     
     public UpdateChecker(AdvancedServerList core){
         this.core = core;
@@ -73,37 +70,40 @@ public class UpdateChecker{
     }
     
     public void startUpdateChecker(){
-        timer.scheduleAtFixedRate(
-            new TimerTask(){
-                @Override
-                public void run(){
-                    logger.info("Checking for a new update...");
-                    checkUpdate().whenComplete((version, throwable) -> {
-                        if(version == null || throwable != null){
-                            logger.warn("Failed to look for any updates. See previous messages for reasons.");
-                            return;
-                        }
-                        
-                        int result = version.compare(core.getVersion());
-                        switch(result){
-                            case -2 -> {
-                                logger.warn("Encountered an exception while comparing versions. Are they valid?");
-                                logger.warn("Own version: %s; New version: %s", core.getVersion(), version.getVersionNumber());
-                            }
-                            case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
-                            case 0 -> logger.info("No new update found. You're running the latest version!");
-                            case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
-                        }
-                    });
+        executor.scheduleAtFixedRate(() -> {
+            logger.info("Checking for a new update...");
+            checkUpdate().whenComplete((version, throwable) -> {
+                if(version == null || throwable != null){
+                    logger.warn("Failed to look for any updates. See previous messages for reasons.");
+                    return;
                 }
-            },
-            0L,
-            TimeUnit.HOURS.toMillis(12L)
-        );
+        
+                int result = version.compare(core.getVersion());
+                switch(result){
+                    case -2 -> {
+                        logger.warn("Encountered an exception while comparing versions. Are they valid?");
+                        logger.warn("Own version: %s; New version: %s", core.getVersion(), version.getVersionNumber());
+                    }
+                    case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
+                    case 0 -> logger.info("No new update found. You're running the latest version!");
+                    case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
+                }
+            });
+        }, 0L, 12L, TimeUnit.HOURS);
     }
     
     public void disable(){
-        timer.cancel();
+        executor.shutdown();
+        try{
+            if(!executor.awaitTermination(1, TimeUnit.SECONDS)){
+                executor.shutdownNow();
+                if(!executor.awaitTermination(1, TimeUnit.SECONDS))
+                    logger.warn("Scheduler didn't terminate in time!");
+            }
+        }catch(InterruptedException ex){
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
     }
     
     private CompletableFuture<ModrinthVersion> checkUpdate(){
