@@ -77,6 +77,7 @@ public class UpdateChecker{
             new TimerTask(){
                 @Override
                 public void run(){
+                    logger.info("Checking for a new update...");
                     checkUpdate().whenComplete((version, throwable) -> {
                         if(version == null || throwable != null){
                             logger.warn("Failed to look for any updates. See previous messages for reasons.");
