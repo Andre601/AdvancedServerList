@@ -47,7 +47,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
 
 import java.net.InetSocketAddress;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PingEvent implements Listener{
     

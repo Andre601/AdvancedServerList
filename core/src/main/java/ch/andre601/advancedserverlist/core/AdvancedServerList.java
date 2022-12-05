@@ -35,7 +35,10 @@ import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class AdvancedServerList{
     
@@ -89,30 +92,34 @@ public class AdvancedServerList{
     
     public void checkForUpdates(String platform){
         PluginLogger logger = plugin.getPluginLogger();
-    
-        logger.info("Checking for updates. Please wait...");
-        if(!getFileHandler().getBoolean("check_updates")){
-            logger.info("'check_updates' set to false. Skipping update checks.");
-            return;
-        }
         
-        updateChecker.checkUpdate(platform).whenComplete((version, throwable) -> {
-            if(version == null || throwable != null){
-                logger.warn("Update check failed! See previous messages for explanations and causes.");
-                return;
-            }
-            
-            int result = version.compare(getVersion());
-            switch(result){
-                case -2 -> {
-                    logger.warn("Encountered an exception while comparing versions. Are they valid?");
-                    logger.warn("Own version: %s; New version: %s", getVersion(), version.getVersionNumber());
+        new Timer("AdvancedServerList-UpdateChecker-Thread").scheduleAtFixedRate(
+            new TimerTask(){
+                @Override
+                public void run(){
+                    logger.info("Checking for updates. Please wait...");
+                    updateChecker.checkUpdate(platform).whenComplete((version, throwable) -> {
+                        if(version == null || throwable != null){
+                            logger.warn("Update check failed! See previous messages for explanations and causes.");
+                            return;
+                        }
+        
+                        int result = version.compare(getVersion());
+                        switch(result){
+                            case -2 -> {
+                                logger.warn("Encountered an exception while comparing versions. Are they valid?");
+                                logger.warn("Own version: %s; New version: %s", getVersion(), version.getVersionNumber());
+                            }
+                            case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
+                            case 0 -> logger.info("No new update found. You're running the latest version!");
+                            case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
+                        }
+                    });
                 }
-                case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
-                case 0 -> logger.info("No new update found. You're running the latest version!");
-                case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
-            }
-        });
+            },
+            0L,
+            TimeUnit.HOURS.toMillis(12L)
+        );
     }
     
     private void load(){
@@ -156,6 +163,9 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info("Metrics loaded!");
     
         getPlugin().getPluginLogger().info("AdvancedServerList is ready!");
+        
+        if(getFileHandler().getBoolean("check_updates"))
+            plugin.enableUpdateCheck();
     }
     
     private void printBanner(){

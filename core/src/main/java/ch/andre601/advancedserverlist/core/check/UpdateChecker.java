@@ -112,10 +112,6 @@ public class UpdateChecker{
                 logger.warn("Encountered Exception while checking for an update!", ex);
                 return null;
             }
-        }, r -> {
-            Thread t = new Thread(r, "AdvancedServerList-UpdateCheck-Thread");
-            t.setDaemon(true);
-            t.start();
         });
     }
     

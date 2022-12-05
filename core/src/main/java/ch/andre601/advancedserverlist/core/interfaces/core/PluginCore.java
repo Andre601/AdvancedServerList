@@ -41,6 +41,8 @@ public interface PluginCore<F>{
     
     void clearFaviconCache();
     
+    void enableUpdateCheck();
+    
     AdvancedServerList getCore();
     
     Path getFolderPath();

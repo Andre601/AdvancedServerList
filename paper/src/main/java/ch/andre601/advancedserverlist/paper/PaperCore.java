@@ -124,6 +124,11 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     }
     
     @Override
+    public void enableUpdateCheck(){
+        core.checkForUpdates("paper");
+    }
+    
+    @Override
     public AdvancedServerList getCore(){
         return core;
     }
@@ -156,11 +161,6 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
         return getServer().getVersion();
     }
     
-    private void enable(){
-        this.core = new AdvancedServerList(this);
-        core.checkForUpdates("paper");
-    }
-    
     @Override
     public List<PlayerProfile> createPlayers(List<String> lines, OfflinePlayer player, Placeholders... placeholders){
         List<PlayerProfile> players = new ArrayList<>(lines.size());
@@ -181,5 +181,9 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
         }
         
         return players;
+    }
+    
+    private void enable(){
+        this.core = new AdvancedServerList(this);
     }
 }

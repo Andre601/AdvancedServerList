@@ -30,8 +30,8 @@ import ch.andre601.advancedserverlist.bungeecord.events.JoinEvent;
 import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
 import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
@@ -55,7 +55,6 @@ public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerP
     @Override
     public void onEnable(){
         this.core = new AdvancedServerList(this);
-        core.checkForUpdates("bungeecord");
     }
     
     @Override
@@ -88,6 +87,11 @@ public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerP
             return;
     
         faviconHandler.clearCache();
+    }
+    
+    @Override
+    public void enableUpdateCheck(){
+        core.checkForUpdates("bungeecord");
     }
     
     @Override
