@@ -7,6 +7,9 @@ main: 'ch.andre601.advancedserverlist.paper.PaperCore'
 
 api-version: 1.19
 
+libraries:
+  - 'com.squareup.okhttp3:okhttp:4.10.0'
+
 softdepend:
   - 'PlaceholderAPI'
 

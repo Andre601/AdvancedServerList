@@ -71,7 +71,7 @@ public class UpdateChecker{
             
             Request request = new Request.Builder()
                 .url(String.format(url, loader))
-                .header("User-Agent", "AdvancedServerList/" + core.getVersion())
+                .header("User-Agent", "AdvancedServerList-" + loader + "/" + core.getVersion())
                 .build();
             
             try(Response response = client.newCall(request).execute()){
@@ -86,7 +86,7 @@ public class UpdateChecker{
                     return null;
                 }
                 
-                String responseString = response.toString();
+                String responseString = body.string();
                 if(responseString.isEmpty()){
                     logger.warn("Received an empty Response body from Modrinth!");
                     return null;
@@ -134,6 +134,28 @@ public class UpdateChecker{
     
         public String getVersionNumber(){
             return versionNumber;
+        }
+        
+        public int compare(String version){
+            String[] oldParts = version.split("\\.");
+            String[] newParts = versionNumber.split("\\.");
+            int length = Math.max(oldParts.length, newParts.length);
+            
+            for(int i = 0; i < length; i++){
+                try{
+                    int oldPart = i < oldParts.length ? Integer.parseInt(oldParts[i]) : 0;
+                    int newPart = i < newParts.length ? Integer.parseInt(newParts[i]) : 0;
+                    
+                    if(oldPart < newPart)
+                        return 1;
+                    
+                    if(oldPart > newPart)
+                        return -1;
+                }catch(NumberFormatException ex){
+                    return -2;
+                }
+            }
+            return 0;
         }
     }
 }

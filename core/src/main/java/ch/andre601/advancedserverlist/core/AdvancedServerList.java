@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.core;
 import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
@@ -87,24 +88,30 @@ public class AdvancedServerList{
     }
     
     public void checkForUpdates(String platform){
-        getPlugin().getPluginLogger().info("Checking for updates. Please wait...");
+        PluginLogger logger = plugin.getPluginLogger();
+    
+        logger.info("Checking for updates. Please wait...");
         if(!getFileHandler().getBoolean("check_updates")){
-            getPlugin().getPluginLogger().info("'check_updates' set to false. Skipping update checks.");
+            logger.info("'check_updates' set to false. Skipping update checks.");
             return;
         }
         
         updateChecker.checkUpdate(platform).whenComplete((version, throwable) -> {
             if(version == null || throwable != null){
-                getPlugin().getPluginLogger().warn("Update check failed! See previous messages for explanations and causes.");
+                logger.warn("Update check failed! See previous messages for explanations and causes.");
                 return;
             }
             
-            if(version.getVersionNumber().equals(getVersion())){
-                getPlugin().getPluginLogger().info("No new update detected! You're running the latest version.");
-                return;
+            int result = version.compare(getVersion());
+            switch(result){
+                case -2 -> {
+                    logger.warn("Encountered an exception while comparing versions. Are they valid?");
+                    logger.warn("Own version: %s; New version: %s", getVersion(), version.getVersionNumber());
+                }
+                case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
+                case 0 -> logger.info("No new update found. You're running the latest version!");
+                case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
             }
-            
-            printUpdateBanner(version.getVersionNumber(), version.getId());
         });
     }
     
