@@ -135,7 +135,7 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info("AdvancedServerList is ready!");
         
         if(getFileHandler().getBoolean("check_updates"))
-            this.updateChecker = new UpdateChecker(this, plugin.getLoader());
+            this.updateChecker = new UpdateChecker(this);
     }
     
     private void printBanner(){

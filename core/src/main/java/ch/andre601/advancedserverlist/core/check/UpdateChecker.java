@@ -64,10 +64,10 @@ public class UpdateChecker{
     
     private final Timer timer = new Timer("AdvancedServerList Update-Thread");
     
-    public UpdateChecker(AdvancedServerList core, String loader){
+    public UpdateChecker(AdvancedServerList core){
         this.core = core;
         this.logger = core.getPlugin().getPluginLogger();
-        this.loader = loader;
+        this.loader = core.getPlugin().getLoader();
         
         startUpdateChecker();
     }
