@@ -14,7 +14,7 @@ disable_cache: false
 #
 # Should AdvancedServerList check for new versions?
 #
-# When set to true will AdvancedServerList connect to modrinth.com to check for any new versions for the platform it is used
-# on. This check only happens when the plugin enables.
+# When set to true will AdvancedServerList check for a new version on modrinth.com every 12 hours and inform you in the
+# console about whether it found any new update or not.
 #
 check_updates: true
