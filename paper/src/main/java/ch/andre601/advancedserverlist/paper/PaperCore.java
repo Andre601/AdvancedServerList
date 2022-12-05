@@ -157,6 +157,11 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     }
     
     @Override
+    public String getLoader(){
+        return "paper";
+    }
+    
+    @Override
     public List<PlayerProfile> createPlayers(List<String> lines, OfflinePlayer player, Placeholders... placeholders){
         List<PlayerProfile> players = new ArrayList<>(lines.size());
         
@@ -180,6 +185,5 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     
     private void enable(){
         this.core = new AdvancedServerList(this);
-        core.checkForUpdates("paper");
     }
 }

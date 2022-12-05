@@ -28,7 +28,6 @@ package ch.andre601.advancedserverlist.core;
 import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
@@ -36,9 +35,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 public class AdvancedServerList{
     
@@ -46,9 +42,8 @@ public class AdvancedServerList{
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
-    private final UpdateChecker updateChecker;
     
-    private final Timer timer;
+    private UpdateChecker updateChecker;
     
     private String version;
     
@@ -57,8 +52,6 @@ public class AdvancedServerList{
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
-        this.updateChecker = new UpdateChecker(this);
-        this.timer = new Timer("AdvancedServerList UpdateCheck-Thread");
         
         load();
     }
@@ -87,51 +80,16 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info("Saving cache.data file...");
         getPlayerHandler().save();
         
-        getPlugin().getPluginLogger().info("Disabling Update Checker...");
-        timer.cancel();
+        if(updateChecker != null){
+            getPlugin().getPluginLogger().info("Disabling Update Checker...");
+            updateChecker.disable();
+        }
         
         getPlugin().getPluginLogger().info("AdvancedServerList disabled!");
     }
     
     public void clearFaviconCache(){
         plugin.clearFaviconCache();
-    }
-    
-    public void checkForUpdates(String platform){
-        PluginLogger logger = plugin.getPluginLogger();
-        logger.info("Enabling Update checker...");
-        if(!getFileHandler().getBoolean("check_updates")){
-            logger.info("'check_updates' is set to 'false'. Not checking for new Updates.");
-            return;
-        }
-        
-        timer.scheduleAtFixedRate(
-            new TimerTask(){
-                @Override
-                public void run(){
-                    logger.info("Checking for updates. Please wait...");
-                    updateChecker.checkUpdate(platform).whenComplete((version, throwable) -> {
-                        if(version == null || throwable != null){
-                            logger.warn("Update check failed! See previous messages for explanations and causes.");
-                            return;
-                        }
-        
-                        int result = version.compare(getVersion());
-                        switch(result){
-                            case -2 -> {
-                                logger.warn("Encountered an exception while comparing versions. Are they valid?");
-                                logger.warn("Own version: %s; New version: %s", getVersion(), version.getVersionNumber());
-                            }
-                            case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
-                            case 0 -> logger.info("No new update found. You're running the latest version!");
-                            case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
-                        }
-                    });
-                }
-            },
-            0L,
-            TimeUnit.HOURS.toMillis(12L)
-        );
     }
     
     private void load(){
@@ -175,6 +133,9 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info("Metrics loaded!");
     
         getPlugin().getPluginLogger().info("AdvancedServerList is ready!");
+        
+        if(getFileHandler().getBoolean("check_updates"))
+            this.updateChecker = new UpdateChecker(this, plugin.getLoader());
     }
     
     private void printBanner(){
@@ -186,18 +147,6 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info(" / ____ \\ ____) | |____");
         getPlugin().getPluginLogger().info("/_/    \\_\\_____/|______|");
         getPlugin().getPluginLogger().info("");
-    }
-    
-    private void printUpdateBanner(String version, String versionId){
-        getPlugin().getPluginLogger().info("==================================================================");
-        getPlugin().getPluginLogger().info("You are running an outdated version of AdvancedServerList!");
-        getPlugin().getPluginLogger().info("");
-        getPlugin().getPluginLogger().info("Your version: %s", getVersion());
-        getPlugin().getPluginLogger().info("Modrinth version: %s", version);
-        getPlugin().getPluginLogger().info("");
-        getPlugin().getPluginLogger().info("You can download the latest release from here:");
-        getPlugin().getPluginLogger().info("https://modrinth.com/plugin/advancedserverlist/version/%s", versionId);
-        getPlugin().getPluginLogger().info("==================================================================");
     }
     
     private void resolveVersion(){

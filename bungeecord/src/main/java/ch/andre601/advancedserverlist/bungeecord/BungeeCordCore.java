@@ -55,7 +55,6 @@ public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerP
     @Override
     public void onEnable(){
         this.core = new AdvancedServerList(this);
-        core.checkForUpdates("bungeecord");
     }
     
     @Override
@@ -121,6 +120,11 @@ public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerP
     @Override
     public String getPlatformVersion(){
         return getProxy().getVersion();
+    }
+    
+    @Override
+    public String getLoader(){
+        return "bungeecord";
     }
     
     @Override

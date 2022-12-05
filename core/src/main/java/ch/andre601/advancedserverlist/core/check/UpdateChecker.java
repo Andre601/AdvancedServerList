@@ -41,7 +41,10 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class UpdateChecker{
     
@@ -49,6 +52,8 @@ public class UpdateChecker{
     private final OkHttpClient client = new OkHttpClient();
     
     private final AdvancedServerList core;
+    private final PluginLogger logger;
+    private final String loader;
     
     private final Type listType = new TypeToken<ArrayList<ModrinthVersion>>(){}.getType();
     private final Gson gson = new GsonBuilder()
@@ -57,11 +62,50 @@ public class UpdateChecker{
         .setLenient()
         .create();
     
-    public UpdateChecker(AdvancedServerList core){
+    private final Timer timer = new Timer("AdvancedServerList Update-Thread");
+    
+    public UpdateChecker(AdvancedServerList core, String loader){
         this.core = core;
+        this.logger = core.getPlugin().getPluginLogger();
+        this.loader = loader;
+        
+        startUpdateChecker();
     }
     
-    public CompletableFuture<ModrinthVersion> checkUpdate(String loader){
+    public void startUpdateChecker(){
+        timer.scheduleAtFixedRate(
+            new TimerTask(){
+                @Override
+                public void run(){
+                    checkUpdate().whenComplete((version, throwable) -> {
+                        if(version == null || throwable != null){
+                            logger.warn("Failed to look for any updates. See previous messages for reasons.");
+                            return;
+                        }
+                        
+                        int result = version.compare(core.getVersion());
+                        switch(result){
+                            case -2 -> {
+                                logger.warn("Encountered an exception while comparing versions. Are they valid?");
+                                logger.warn("Own version: %s; New version: %s", core.getVersion(), version.getVersionNumber());
+                            }
+                            case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
+                            case 0 -> logger.info("No new update found. You're running the latest version!");
+                            case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
+                        }
+                    });
+                }
+            },
+            0L,
+            TimeUnit.HOURS.toMillis(12L)
+        );
+    }
+    
+    public void disable(){
+        timer.cancel();
+    }
+    
+    private CompletableFuture<ModrinthVersion> checkUpdate(){
         return CompletableFuture.supplyAsync(() -> {
             PluginLogger logger = core.getPlugin().getPluginLogger();
             if(core.getVersion().equals("UNKNOWN")){
@@ -113,6 +157,18 @@ public class UpdateChecker{
                 return null;
             }
         });
+    }
+    
+    private void printUpdateBanner(String version, String versionId){
+        logger.info("==================================================================");
+        logger.info("You are running an outdated version of AdvancedServerList!");
+        logger.info("");
+        logger.info("Your version: %s", core.getVersion());
+        logger.info("Modrinth version: %s", version);
+        logger.info("");
+        logger.info("You can download the latest release from here:");
+        logger.info("https://modrinth.com/plugin/advancedserverlist/version/%s", versionId);
+        logger.info("==================================================================");
     }
     
     public static class ModrinthVersion{

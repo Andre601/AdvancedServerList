@@ -75,7 +75,6 @@ public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>
     @Subscribe
     public void init(ProxyInitializeEvent event){
         this.core = new AdvancedServerList(this);
-        core.checkForUpdates("velocity");
     }
     
     @Subscribe
@@ -161,6 +160,11 @@ public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>
     @Override
     public String getPlatformVersion(){
         return getProxy().getVersion().getVersion();
+    }
+    
+    @Override
+    public String getLoader(){
+        return "velocity";
     }
     
     public ProxyServer getProxy(){

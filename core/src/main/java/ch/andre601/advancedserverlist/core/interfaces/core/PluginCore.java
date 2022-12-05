@@ -52,4 +52,6 @@ public interface PluginCore<F>{
     String getPlatformName();
     
     String getPlatformVersion();
+    
+    String getLoader();
 }
