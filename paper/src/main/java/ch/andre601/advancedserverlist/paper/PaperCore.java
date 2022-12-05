@@ -124,11 +124,6 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     }
     
     @Override
-    public void enableUpdateCheck(){
-        core.checkForUpdates("paper");
-    }
-    
-    @Override
     public AdvancedServerList getCore(){
         return core;
     }
@@ -185,5 +180,6 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     
     private void enable(){
         this.core = new AdvancedServerList(this);
+        core.checkForUpdates("paper");
     }
 }

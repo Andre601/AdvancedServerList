@@ -48,6 +48,8 @@ public class AdvancedServerList{
     private final PlayerHandler playerHandler;
     private final UpdateChecker updateChecker;
     
+    private final Timer timer;
+    
     private String version;
     
     public AdvancedServerList(PluginCore<?> plugin){
@@ -56,6 +58,7 @@ public class AdvancedServerList{
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
         this.updateChecker = new UpdateChecker(this);
+        this.timer = new Timer("AdvancedServerList UpdateCheck-Thread");
         
         load();
     }
@@ -83,6 +86,10 @@ public class AdvancedServerList{
     public void disable(){
         getPlugin().getPluginLogger().info("Saving cache.data file...");
         getPlayerHandler().save();
+        
+        getPlugin().getPluginLogger().info("Disabling Update Checker...");
+        timer.cancel();
+        
         getPlugin().getPluginLogger().info("AdvancedServerList disabled!");
     }
     
@@ -92,8 +99,13 @@ public class AdvancedServerList{
     
     public void checkForUpdates(String platform){
         PluginLogger logger = plugin.getPluginLogger();
+        logger.info("Enabling Update checker...");
+        if(!getFileHandler().getBoolean("check_updates")){
+            logger.info("'check_updates' is set to 'false'. Not checking for new Updates.");
+            return;
+        }
         
-        new Timer("AdvancedServerList-UpdateChecker-Thread").scheduleAtFixedRate(
+        timer.scheduleAtFixedRate(
             new TimerTask(){
                 @Override
                 public void run(){
@@ -163,9 +175,6 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info("Metrics loaded!");
     
         getPlugin().getPluginLogger().info("AdvancedServerList is ready!");
-        
-        if(getFileHandler().getBoolean("check_updates"))
-            plugin.enableUpdateCheck();
     }
     
     private void printBanner(){
