@@ -81,12 +81,12 @@ jobs:
       id: github-release
       run: |
         version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
-        echo "::set-output name=version::$version"
+        echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
     - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth
       uses: Kir-Antipov/mc-publish@v3.2
       with:
         name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
-        version: ${{ steps.github-release.outputs.version }}
+        version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
         version-type: release
         files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
         files-secondary: ""
