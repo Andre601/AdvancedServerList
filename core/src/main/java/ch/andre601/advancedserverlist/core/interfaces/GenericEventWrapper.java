@@ -23,26 +23,43 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.events;
+package ch.andre601.advancedserverlist.core.interfaces;
 
-import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import ch.andre601.advancedserverlist.core.events.PingEventHandler;
-import net.md_5.bungee.api.event.ProxyPingEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
+import net.kyori.adventure.text.Component;
 
-public class PingEvent implements Listener{
+import java.net.InetSocketAddress;
+import java.util.List;
+
+public interface GenericEventWrapper<P, PL>{
     
-    private final BungeeCordCore plugin;
+    void setMaxPlayers(int maxPlayers);
     
-    public PingEvent(BungeeCordCore plugin){
-        this.plugin = plugin;
-        plugin.getProxy().getPluginManager().registerListener(plugin, this);
-    }
+    void setMotd(Component component);
     
-    @EventHandler(priority = EventPriority.LOW)
-    public void onProxyPing(ProxyPingEvent event){
-        PingEventHandler.handleEvent(plugin, new BungeeEventWrapper(plugin, event));
-    }
+    void hidePlayers();
+    
+    void setPlayerCount(String name);
+    
+    void setPlayers(List<String> players, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders);
+    
+    void setFavicon(String favicon);
+    
+    void updateEvent();
+    
+    P getProtocol();
+    
+    int getProtocolVersion();
+    
+    int getOnlinePlayers();
+    
+    int getMaxPlayers();
+    
+    String getHostString();
+    
+    InetSocketAddress getVirtualHost();
+    
+    GenericPlayer<PL> createPlayer(String name, int protocol);
 }
