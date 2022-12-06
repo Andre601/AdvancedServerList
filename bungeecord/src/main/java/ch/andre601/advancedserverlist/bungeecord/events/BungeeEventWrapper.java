@@ -46,8 +46,8 @@ public class BungeeEventWrapper implements GenericEventWrapper<ServerPing.Protoc
     
     private final BungeeCordCore plugin;
     private final ProxyPingEvent event;
-    private ServerPing.Protocol protocol;
-    private ServerPing ping;
+    private final ServerPing.Protocol protocol;
+    private final ServerPing ping;
     
     public BungeeEventWrapper(BungeeCordCore plugin, ProxyPingEvent event){
         this.plugin = plugin;
