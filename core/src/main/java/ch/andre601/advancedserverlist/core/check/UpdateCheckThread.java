@@ -23,35 +23,15 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.core.check;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import org.jetbrains.annotations.NotNull;
 
-import java.nio.file.Path;
+import java.util.concurrent.ThreadFactory;
 
-public interface PluginCore<F>{
-    
-    void loadCommands();
-    
-    void loadEvents();
-    
-    void loadMetrics();
-    
-    void clearFaviconCache();
-    
-    AdvancedServerList getCore();
-    
-    Path getFolderPath();
-    
-    PluginLogger getPluginLogger();
-    
-    FaviconHandler<F> getFaviconHandler();
-    
-    String getPlatformName();
-    
-    String getPlatformVersion();
-    
-    String getLoader();
+public class UpdateCheckThread implements ThreadFactory{
+    @Override
+    public Thread newThread(@NotNull Runnable r){
+        return new Thread(r, "AdvancedServerList Update-Thread");
+    }
 }

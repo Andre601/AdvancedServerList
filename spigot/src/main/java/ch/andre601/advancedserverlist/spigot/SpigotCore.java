@@ -142,6 +142,11 @@ public class SpigotCore extends JavaPlugin implements ServerCore<WrappedServerPi
     }
     
     @Override
+    public String getLoader(){
+        return "spigot";
+    }
+    
+    @Override
     public List<WrappedGameProfile> createPlayers(List<String> lines, OfflinePlayer player, Placeholders... placeholders){
         List<WrappedGameProfile> players = new ArrayList<>(lines.size());
         

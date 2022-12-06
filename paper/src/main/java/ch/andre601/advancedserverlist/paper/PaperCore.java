@@ -156,8 +156,9 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
         return getServer().getVersion();
     }
     
-    private void enable(){
-        this.core = new AdvancedServerList(this);
+    @Override
+    public String getLoader(){
+        return "paper";
     }
     
     @Override
@@ -180,5 +181,9 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
         }
         
         return players;
+    }
+    
+    private void enable(){
+        this.core = new AdvancedServerList(this);
     }
 }

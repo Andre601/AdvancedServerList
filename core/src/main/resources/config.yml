@@ -10,3 +10,11 @@ unknown_player: "Anonymous"
 # Placeholders that rely on the player being cached (such as ${player isWhitelisted}) will not work while this option is enabled.
 #
 disable_cache: false
+
+#
+# Should AdvancedServerList check for new versions?
+#
+# When set to true will AdvancedServerList check for a new version on modrinth.com every 12 hours and inform you in the
+# console about whether it found any new update or not.
+#
+check_updates: true

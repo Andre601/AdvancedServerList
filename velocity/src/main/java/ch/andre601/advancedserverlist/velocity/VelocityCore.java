@@ -26,8 +26,8 @@
 package ch.andre601.advancedserverlist.velocity;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
@@ -160,6 +160,11 @@ public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>
     @Override
     public String getPlatformVersion(){
         return getProxy().getVersion().getVersion();
+    }
+    
+    @Override
+    public String getLoader(){
+        return "velocity";
     }
     
     public ProxyServer getProxy(){

@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core;
 
+import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -33,7 +34,7 @@ import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Properties;
 
 public class AdvancedServerList{
     
@@ -41,6 +42,8 @@ public class AdvancedServerList{
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
+    
+    private UpdateChecker updateChecker;
     
     private String version;
     
@@ -76,6 +79,12 @@ public class AdvancedServerList{
     public void disable(){
         getPlugin().getPluginLogger().info("Saving cache.data file...");
         getPlayerHandler().save();
+        
+        if(updateChecker != null){
+            getPlugin().getPluginLogger().info("Disabling Update Checker...");
+            updateChecker.disable();
+        }
+        
         getPlugin().getPluginLogger().info("AdvancedServerList disabled!");
     }
     
@@ -88,7 +97,6 @@ public class AdvancedServerList{
         resolveVersion();
     
         getPlugin().getPluginLogger().info("Starting AdvancedServerList v%s...", version);
-    
         getPlugin().getPluginLogger().info("Platform: " + plugin.getPlatformName() + " " + plugin.getPlatformVersion());
         
         if(getFileHandler().loadConfig()){
@@ -125,6 +133,9 @@ public class AdvancedServerList{
         getPlugin().getPluginLogger().info("Metrics loaded!");
     
         getPlugin().getPluginLogger().info("AdvancedServerList is ready!");
+        
+        if(getFileHandler().getBoolean("check_updates"))
+            this.updateChecker = new UpdateChecker(this);
     }
     
     private void printBanner(){
