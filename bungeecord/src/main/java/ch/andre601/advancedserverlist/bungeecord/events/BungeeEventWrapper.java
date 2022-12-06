@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.bungeecord.events;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
 import ch.andre601.advancedserverlist.core.interfaces.GenericEventWrapper;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -42,7 +43,7 @@ import net.md_5.bungee.api.event.ProxyPingEvent;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-public class BungeeEventWrapper implements GenericEventWrapper<ServerPing.Protocol, ProxiedPlayer>{
+public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Favicon>{
     
     private final BungeeCordCore plugin;
     private final ProxyPingEvent event;
@@ -112,8 +113,8 @@ public class BungeeEventWrapper implements GenericEventWrapper<ServerPing.Protoc
     }
     
     @Override
-    public ServerPing.Protocol getProtocol(){
-        return this.protocol;
+    public boolean isInvalidProtocol(){
+        return protocol == null;
     }
     
     @Override
@@ -139,6 +140,11 @@ public class BungeeEventWrapper implements GenericEventWrapper<ServerPing.Protoc
     @Override
     public InetSocketAddress getVirtualHost(){
         return event.getConnection().getVirtualHost();
+    }
+    
+    @Override
+    public PluginCore<Favicon> getPlugin(){
+        return plugin;
     }
     
     @Override

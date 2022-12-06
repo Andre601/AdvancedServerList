@@ -38,9 +38,11 @@ import java.net.InetSocketAddress;
 
 public class PingEventHandler{
     
-    public static void handleEvent(PluginCore<?> plugin, GenericEventWrapper<?, ?> event){
-        if(event.getProtocol() == null)
+    public static void handleEvent(GenericEventWrapper<?, ?> event){
+        if(event.isInvalidProtocol())
             return;
+        
+        PluginCore<?> plugin = event.getPlugin();
         
         String name = plugin.getCore().getPlayerHandler().getPlayerByIp(event.getHostString());
         InetSocketAddress host = event.getVirtualHost();

@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.interfaces;
 
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -33,7 +34,7 @@ import net.kyori.adventure.text.Component;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-public interface GenericEventWrapper<P, PL>{
+public interface GenericEventWrapper<P, F>{
     
     void setMaxPlayers(int maxPlayers);
     
@@ -49,7 +50,7 @@ public interface GenericEventWrapper<P, PL>{
     
     void updateEvent();
     
-    P getProtocol();
+    boolean isInvalidProtocol();
     
     int getProtocolVersion();
     
@@ -61,5 +62,7 @@ public interface GenericEventWrapper<P, PL>{
     
     InetSocketAddress getVirtualHost();
     
-    GenericPlayer<PL> createPlayer(String name, int protocol);
+    PluginCore<F> getPlugin();
+    
+    GenericPlayer<P> createPlayer(String name, int protocol);
 }

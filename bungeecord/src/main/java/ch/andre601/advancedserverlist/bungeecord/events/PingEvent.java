@@ -43,6 +43,6 @@ public class PingEvent implements Listener{
     
     @EventHandler(priority = EventPriority.LOW)
     public void onProxyPing(ProxyPingEvent event){
-        PingEventHandler.handleEvent(plugin, new BungeeEventWrapper(plugin, event));
+        PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
     }
 }
