@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces;
+package ch.andre601.advancedserverlist.core.interfaces.events;
 
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
@@ -44,7 +44,7 @@ public interface GenericEventWrapper<P, F>{
     
     void setPlayerCount(String name);
     
-    void setPlayers(List<String> players, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders);
+    void setPlayers(List<String> players, GenericPlayer<P> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders);
     
     void setFavicon(String favicon);
     
@@ -58,11 +58,17 @@ public interface GenericEventWrapper<P, F>{
     
     int getMaxPlayers();
     
-    String getHostString();
+    String getPlayerIP();
     
-    InetSocketAddress getVirtualHost();
+    String parsePAPIPlaceholders(String text, GenericPlayer<P> player);
+    
+    String getVirtualHost();
     
     PluginCore<F> getPlugin();
     
     GenericPlayer<P> createPlayer(String name, int protocol);
+    
+    default String resolveHost(InetSocketAddress address){
+        return address == null ? null : address.getHostString();
+    }
 }

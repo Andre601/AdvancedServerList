@@ -23,137 +23,140 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.events;
+package ch.andre601.advancedserverlist.paper.events;
 
-import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import ch.andre601.advancedserverlist.paper.PaperPlayer;
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
-import net.md_5.bungee.api.Favicon;
-import net.md_5.bungee.api.ServerPing;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ProxyPingEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.util.CachedServerIcon;
 
-import java.net.InetSocketAddress;
 import java.util.List;
 
-public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Favicon>{
+public class PaperEventWrapper implements GenericEventWrapper<OfflinePlayer, CachedServerIcon>{
     
-    private final BungeeCordCore plugin;
-    private final ProxyPingEvent event;
-    private final ServerPing.Protocol protocol;
-    private final ServerPing ping;
+    private final PaperCore plugin;
+    private final PaperServerListPingEvent event;
     
-    public BungeeEventWrapper(BungeeCordCore plugin, ProxyPingEvent event){
+    public PaperEventWrapper(PaperCore plugin, PaperServerListPingEvent event){
         this.plugin = plugin;
         this.event = event;
-        this.protocol = event.getResponse().getVersion();
-        this.ping = event.getResponse();
     }
     
     @Override
     public void setMaxPlayers(int maxPlayers){
-        ping.getPlayers().setMax(maxPlayers);
+        event.setMaxPlayers(maxPlayers);
     }
     
     @Override
     public void setMotd(Component component){
-        ping.setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(component)));
+        event.motd(component);
     }
     
     @Override
     public void hidePlayers(){
-        ping.setPlayers(null);
+        event.setHidePlayers(true);
     }
     
     @Override
     public void setPlayerCount(String name){
-        protocol.setName(name);
-        protocol.setProtocol(-1);
+        event.setVersion(name);
+        event.setProtocolVersion(-1);
     }
     
     @Override
-    public void setPlayers(List<String> players, GenericPlayer<ProxiedPlayer> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders){
-        ServerPing.PlayerInfo[] playerInfos = plugin.createPlayers(players, playerPlaceholders, serverPlaceholders)
-            .toArray(new ServerPing.PlayerInfo[0]);
+    public void setPlayers(List<String> players, GenericPlayer<OfflinePlayer> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders){
+        event.getPlayerSample().clear();
         
-        if(playerInfos.length > 0)
-            ping.getPlayers().setSample(playerInfos);
+        event.getPlayerSample().addAll(
+            plugin.createPlayers(players, player.getPlayer(), playerPlaceholders, serverPlaceholders)
+        );
     }
     
     @Override
     public void setFavicon(String favicon){
-        Favicon fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
+        CachedServerIcon fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
             try{
-                return Favicon.create(image);
+                return Bukkit.loadServerIcon(image);
             }catch(Exception ex){
-                plugin.getPluginLogger().warn("Unable to create Favicon. %s", ex.getMessage());
                 return null;
             }
         });
         
         if(fav == null){
             plugin.getPluginLogger().warn("Cannot apply valid favicon. See previous messages for reasons");
-            ping.setFavicon(ping.getFaviconObject());
+            event.setServerIcon(event.getServerIcon());
         }else{
-            ping.setFavicon(fav);
+            event.setServerIcon(fav);
         }
     }
     
+    // Not used in Paper
     @Override
-    public void updateEvent(){
-        this.ping.setVersion(this.protocol);
-        this.event.setResponse(this.ping);
-    }
+    public void updateEvent(){}
     
+    // Not used in Paper
     @Override
     public boolean isInvalidProtocol(){
-        return protocol == null;
+        return false;
     }
     
     @Override
     public int getProtocolVersion(){
-        return this.protocol.getProtocol();
+        return event.getClient().getProtocolVersion();
     }
     
     @Override
     public int getOnlinePlayers(){
-        return ping.getPlayers().getOnline();
+        return event.getNumPlayers();
     }
     
     @Override
     public int getMaxPlayers(){
-        return ping.getPlayers().getMax();
+        return event.getMaxPlayers();
     }
     
     @Override
     public String getPlayerIP(){
-        return ((InetSocketAddress)event.getConnection().getSocketAddress()).getHostString();
+        return event.getClient().getAddress().getHostString();
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, GenericPlayer<ProxiedPlayer> player){
+    public String parsePAPIPlaceholders(String text, GenericPlayer<OfflinePlayer> player){
+        if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+            return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
+        
         return text;
     }
     
     @Override
     public String getVirtualHost(){
-        return this.resolveHost(event.getConnection().getVirtualHost());
+        return this.resolveHost(event.getClient().getVirtualHost());
     }
     
     @Override
-    public PluginCore<Favicon> getPlugin(){
+    public PluginCore<CachedServerIcon> getPlugin(){
         return plugin;
     }
     
     @Override
-    public GenericPlayer<ProxiedPlayer> createPlayer(String name, int protocol){
-        return new BungeePlayer(name, protocol);
+    public GenericPlayer<OfflinePlayer> createPlayer(String name, int protocol){
+        OfflinePlayer player = Bukkit.getPlayerExact(name);
+        
+        if(player == null){
+            player = Bukkit.getOfflinePlayer(name);
+            
+            return new PaperPlayer(player.hasPlayedBefore() ? player : null, name, protocol);
+        }
+        
+        return new PaperPlayer(player, name, protocol);
     }
 }

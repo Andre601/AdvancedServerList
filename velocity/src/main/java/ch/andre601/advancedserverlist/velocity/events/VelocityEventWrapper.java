@@ -23,68 +23,64 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.events;
+package ch.andre601.advancedserverlist.velocity.events;
 
-import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
-import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
+import ch.andre601.advancedserverlist.velocity.VelocityCore;
+import ch.andre601.advancedserverlist.velocity.VelocityPlayer;
+import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.ServerPing;
+import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
-import net.md_5.bungee.api.Favicon;
-import net.md_5.bungee.api.ServerPing;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ProxyPingEvent;
 
-import java.net.InetSocketAddress;
 import java.util.List;
 
-public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Favicon>{
+public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon>{
     
-    private final BungeeCordCore plugin;
+    private final VelocityCore plugin;
     private final ProxyPingEvent event;
-    private final ServerPing.Protocol protocol;
-    private final ServerPing ping;
+    private final ServerPing.Builder builder;
+    private final ServerPing.Version protocol;
     
-    public BungeeEventWrapper(BungeeCordCore plugin, ProxyPingEvent event){
+    public VelocityEventWrapper(VelocityCore plugin, ProxyPingEvent event){
         this.plugin = plugin;
         this.event = event;
-        this.protocol = event.getResponse().getVersion();
-        this.ping = event.getResponse();
+        this.builder = event.getPing().asBuilder();
+        this.protocol = event.getPing().getVersion();
     }
     
     @Override
     public void setMaxPlayers(int maxPlayers){
-        ping.getPlayers().setMax(maxPlayers);
+        builder.maximumPlayers(maxPlayers);
     }
     
     @Override
     public void setMotd(Component component){
-        ping.setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(component)));
+        builder.description(component);
     }
     
     @Override
     public void hidePlayers(){
-        ping.setPlayers(null);
+        builder.nullPlayers();
     }
     
     @Override
     public void setPlayerCount(String name){
-        protocol.setName(name);
-        protocol.setProtocol(-1);
+        builder.version(new ServerPing.Version(-1, name));
     }
     
     @Override
-    public void setPlayers(List<String> players, GenericPlayer<ProxiedPlayer> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders){
-        ServerPing.PlayerInfo[] playerInfos = plugin.createPlayers(players, playerPlaceholders, serverPlaceholders)
-            .toArray(new ServerPing.PlayerInfo[0]);
+    public void setPlayers(List<String> players, GenericPlayer<Player> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders){
+        ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(players, playerPlaceholders, serverPlaceholders)
+            .toArray(new ServerPing.SamplePlayer[0]);
         
-        if(playerInfos.length > 0)
-            ping.getPlayers().setSample(playerInfos);
+        if(playerSamples.length > 0)
+            builder.clearSamplePlayers().samplePlayers(playerSamples);
     }
     
     @Override
@@ -93,23 +89,20 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
             try{
                 return Favicon.create(image);
             }catch(Exception ex){
-                plugin.getPluginLogger().warn("Unable to create Favicon. %s", ex.getMessage());
                 return null;
             }
         });
         
         if(fav == null){
             plugin.getPluginLogger().warn("Cannot apply valid favicon. See previous messages for reasons");
-            ping.setFavicon(ping.getFaviconObject());
         }else{
-            ping.setFavicon(fav);
+            builder.favicon(fav);
         }
     }
     
     @Override
     public void updateEvent(){
-        this.ping.setVersion(this.protocol);
-        this.event.setResponse(this.ping);
+        event.setPing(builder.build());
     }
     
     @Override
@@ -119,32 +112,32 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     
     @Override
     public int getProtocolVersion(){
-        return this.protocol.getProtocol();
+        return protocol.getProtocol();
     }
     
     @Override
     public int getOnlinePlayers(){
-        return ping.getPlayers().getOnline();
+        return builder.getOnlinePlayers();
     }
     
     @Override
     public int getMaxPlayers(){
-        return ping.getPlayers().getMax();
+        return builder.getMaximumPlayers();
     }
     
     @Override
     public String getPlayerIP(){
-        return ((InetSocketAddress)event.getConnection().getSocketAddress()).getHostString();
+        return event.getConnection().getRemoteAddress().getHostString();
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, GenericPlayer<ProxiedPlayer> player){
+    public String parsePAPIPlaceholders(String text, GenericPlayer<Player> player){
         return text;
     }
     
     @Override
     public String getVirtualHost(){
-        return this.resolveHost(event.getConnection().getVirtualHost());
+        return this.resolveHost(event.getConnection().getVirtualHost().orElse(null));
     }
     
     @Override
@@ -153,7 +146,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     }
     
     @Override
-    public GenericPlayer<ProxiedPlayer> createPlayer(String name, int protocol){
-        return new BungeePlayer(name, protocol);
+    public GenericPlayer<Player> createPlayer(String name, int protocol){
+        return new VelocityPlayer(name, protocol);
     }
 }

@@ -25,33 +25,35 @@
 
 package ch.andre601.advancedserverlist.core.events;
 
-import ch.andre601.advancedserverlist.core.interfaces.GenericEventWrapper;
+import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 
-import java.net.InetSocketAddress;
-
 public class PingEventHandler{
     
-    public static void handleEvent(GenericEventWrapper<?, ?> event){
+    public static <P, F> void handleEvent(GenericEventWrapper<P, F> event){
         if(event.isInvalidProtocol())
             return;
         
-        PluginCore<?> plugin = event.getPlugin();
-        
-        String name = plugin.getCore().getPlayerHandler().getPlayerByIp(event.getHostString());
-        InetSocketAddress host = event.getVirtualHost();
+        PluginCore<F> plugin = event.getPlugin();
+    
+        GenericPlayer<P> player = event.createPlayer(
+            plugin.getCore().getPlayerHandler().getPlayerByIp(event.getPlayerIP()),
+            event.getProtocolVersion()
+        );
+        String host = event.getVirtualHost();
         
         int online = event.getOnlinePlayers();
         int max = event.getMaxPlayers();
     
-        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(event.createPlayer(name, event.getProtocolVersion()));
-        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
+        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
+        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host);
     
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
             .replacements(playerPlaceholders)
@@ -66,13 +68,14 @@ public class PingEventHandler{
             event.setMaxPlayers(max);
         }
         
-        serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
+        serverPlaceholders = new ServerPlaceholders(online, max, host);
         
         if(!profile.getMotd().isEmpty()){
             event.setMotd(
                 ComponentParser.list(profile.getMotd())
                     .replacements(playerPlaceholders)
                     .replacements(serverPlaceholders)
+                    .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toComponent()
             );
         }
@@ -86,12 +89,13 @@ public class PingEventHandler{
                 ComponentParser.text(profile.getPlayerCount())
                     .replacements(playerPlaceholders)
                     .replacements(serverPlaceholders)
+                    .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toString()
             );
         }
         
         if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
-            event.setPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders);
+            event.setPlayers(profile.getPlayers(), player, playerPlaceholders, serverPlaceholders);
         }
         
         if(!profile.getFavicon().isEmpty()){

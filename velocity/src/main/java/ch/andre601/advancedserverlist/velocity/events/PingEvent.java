@@ -25,22 +25,11 @@
 
 package ch.andre601.advancedserverlist.velocity.events;
 
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
-import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
-import ch.andre601.advancedserverlist.velocity.VelocityPlayer;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
-import com.velocitypowered.api.proxy.server.ServerPing;
-import com.velocitypowered.api.util.Favicon;
-
-import java.net.InetSocketAddress;
-import java.util.List;
 
 public class PingEvent{
     
@@ -53,85 +42,6 @@ public class PingEvent{
     
     @Subscribe(order = PostOrder.EARLY)
     public void onProxyPing(ProxyPingEvent event){
-        ServerPing ping = event.getPing();
-        ServerPing.Version protocol = ping.getVersion();
-        if(protocol == null)
-            return;
-    
-        ServerPing.Builder builder = ping.asBuilder();
-        String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(event.getConnection().getRemoteAddress().getHostString());
-        InetSocketAddress host = event.getConnection().getVirtualHost().orElse(null);
-        
-        int online = builder.getOnlinePlayers();
-        int max = builder.getMaximumPlayers();
-        
-        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(new VelocityPlayer(playerName, protocol.getProtocol()));
-        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
-        
-        ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .replacements(playerPlaceholders)
-            .replacements(serverPlaceholders)
-            .getProfile();
-        
-        if(profile == null)
-            return;
-    
-        if(profile.isExtraPlayersEnabled()){
-            max = online + profile.getExtraPlayers();
-            builder.maximumPlayers(max);
-        }
-        
-        serverPlaceholders = new ServerPlaceholders(online, max, host == null ? null : host.getHostString());
-        
-        if(!profile.getMotd().isEmpty()){
-            List<String> motd = profile.getMotd();
-            builder.description(ComponentParser.list(motd)
-                .replacements(playerPlaceholders)
-                .replacements(serverPlaceholders)
-                .toComponent()
-            );
-        }
-        
-        if(profile.shouldHidePlayers()){
-            builder.nullPlayers();
-        }
-        
-        if(!profile.getPlayerCount().isEmpty() && !profile.shouldHidePlayers()){
-            builder.version(new ServerPing.Version(
-                -1, 
-                ComponentParser.text(profile.getPlayerCount())
-                    .replacements(playerPlaceholders)
-                    .replacements(serverPlaceholders)
-                    .toString()
-            ));
-        }
-        
-        if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
-            ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(profile.getPlayers(), playerPlaceholders, serverPlaceholders)
-                .toArray(new ServerPing.SamplePlayer[0]);
-            
-            if(playerSamples.length > 0)
-                builder.clearSamplePlayers().samplePlayers(playerSamples);
-        }
-        
-        if(!profile.getFavicon().isEmpty()){
-            String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
-            
-            Favicon favicon = plugin.getFaviconHandler().getFavicon(favName, image -> {
-                try{
-                    return Favicon.create(image);
-                }catch(Exception ex){
-                    return null;
-                }
-            });
-            
-            if(favicon == null){
-                plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
-            }else{
-                builder.favicon(favicon);
-            }
-        }
-        
-        event.setPing(builder.build());
+        PingEventHandler.handleEvent(new VelocityEventWrapper(plugin, event));
     }
 }
