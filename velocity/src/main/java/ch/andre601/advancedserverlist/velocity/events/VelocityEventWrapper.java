@@ -38,6 +38,7 @@ import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon>{
@@ -84,21 +85,13 @@ public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon
     }
     
     @Override
-    public void setFavicon(String favicon){
-        Favicon fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
-            try{
-                return Favicon.create(image);
-            }catch(Exception ex){
-                return null;
-            }
-        });
-        
-        if(fav == null){
-            plugin.getPluginLogger().warn("Cannot apply valid favicon. See previous messages for reasons");
-        }else{
-            builder.favicon(fav);
-        }
+    public void setFavicon(Favicon favicon){
+        builder.favicon(favicon);
     }
+    
+    // Not used in Velocity
+    @Override
+    public void setDefaultFavicon(){}
     
     @Override
     public void updateEvent(){
@@ -148,5 +141,10 @@ public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon
     @Override
     public GenericPlayer<Player> createPlayer(String name, int protocol){
         return new VelocityPlayer(name, protocol);
+    }
+    
+    @Override
+    public Favicon createFavicon(BufferedImage image){
+        return Favicon.create(image);
     }
 }

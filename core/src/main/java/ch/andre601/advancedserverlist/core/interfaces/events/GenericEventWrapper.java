@@ -31,6 +31,7 @@ import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Player
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import net.kyori.adventure.text.Component;
 
+import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
@@ -46,7 +47,9 @@ public interface GenericEventWrapper<P, F>{
     
     void setPlayers(List<String> players, GenericPlayer<P> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders);
     
-    void setFavicon(String favicon);
+    void setFavicon(F favicon);
+    
+    void setDefaultFavicon();
     
     void updateEvent();
     
@@ -67,6 +70,8 @@ public interface GenericEventWrapper<P, F>{
     PluginCore<F> getPlugin();
     
     GenericPlayer<P> createPlayer(String name, int protocol);
+    
+    F createFavicon(BufferedImage image) throws Exception;
     
     default String resolveHost(InetSocketAddress address){
         return address == null ? null : address.getHostString();

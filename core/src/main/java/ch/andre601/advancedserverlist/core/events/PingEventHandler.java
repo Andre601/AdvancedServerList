@@ -101,7 +101,20 @@ public class PingEventHandler{
         if(!profile.getFavicon().isEmpty()){
             String favicon = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
             
-            event.setFavicon(favicon);
+            F fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
+                try{
+                    return event.createFavicon(image);
+                }catch(Exception ex){
+                    plugin.getPluginLogger().warn("Encountered an Exception while creating Favicon!", ex);
+                    return null;
+                }
+            });
+            
+            if(fav == null){
+                event.setDefaultFavicon();
+            }else{
+                event.setFavicon(fav);
+            }
         }
         
         event.updateEvent();

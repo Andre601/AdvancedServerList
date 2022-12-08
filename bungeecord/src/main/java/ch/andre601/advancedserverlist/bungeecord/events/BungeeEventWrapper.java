@@ -40,6 +40,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
+import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
@@ -88,22 +89,13 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     }
     
     @Override
-    public void setFavicon(String favicon){
-        Favicon fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
-            try{
-                return Favicon.create(image);
-            }catch(Exception ex){
-                plugin.getPluginLogger().warn("Unable to create Favicon. %s", ex.getMessage());
-                return null;
-            }
-        });
-        
-        if(fav == null){
-            plugin.getPluginLogger().warn("Cannot apply valid favicon. See previous messages for reasons");
-            ping.setFavicon(ping.getFaviconObject());
-        }else{
-            ping.setFavicon(fav);
-        }
+    public void setFavicon(Favicon favicon){
+        ping.setFavicon(favicon);
+    }
+    
+    @Override
+    public void setDefaultFavicon(){
+        ping.setFavicon(ping.getFaviconObject());
     }
     
     @Override
@@ -155,5 +147,10 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     @Override
     public GenericPlayer<ProxiedPlayer> createPlayer(String name, int protocol){
         return new BungeePlayer(name, protocol);
+    }
+    
+    @Override
+    public Favicon createFavicon(BufferedImage image) throws IllegalArgumentException{
+        return Favicon.create(image);
     }
 }

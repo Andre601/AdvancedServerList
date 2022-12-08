@@ -40,6 +40,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
@@ -88,21 +89,13 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<OfflinePlaye
     }
     
     @Override
-    public void setFavicon(String favicon){
-        WrappedServerPing.CompressedImage fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
-            try{
-                return WrappedServerPing.CompressedImage.fromPng(image);
-            }catch(Exception ex){
-                return null;
-            }
-        });
-        
-        if(fav == null){
-            plugin.getPluginLogger().warn("Cannot apply valid favicon. See previous messages for reasons");
-            ping.setFavicon(ping.getFavicon());
-        }else{
-            ping.setFavicon(fav);
-        }
+    public void setFavicon(WrappedServerPing.CompressedImage favicon){
+        ping.setFavicon(favicon);
+    }
+    
+    @Override
+    public void setDefaultFavicon(){
+        ping.setFavicon(ping.getFavicon());
     }
     
     // Not used in ProtocolLib
@@ -168,5 +161,10 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<OfflinePlaye
         }
         
         return new SpigotPlayer(player, name, protocol);
+    }
+    
+    @Override
+    public WrappedServerPing.CompressedImage createFavicon(BufferedImage image) throws Exception{
+        return WrappedServerPing.CompressedImage.fromPng(image);
     }
 }

@@ -39,6 +39,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.CachedServerIcon;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class PaperEventWrapper implements GenericEventWrapper<OfflinePlayer, CachedServerIcon>{
@@ -82,21 +83,13 @@ public class PaperEventWrapper implements GenericEventWrapper<OfflinePlayer, Cac
     }
     
     @Override
-    public void setFavicon(String favicon){
-        CachedServerIcon fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
-            try{
-                return Bukkit.loadServerIcon(image);
-            }catch(Exception ex){
-                return null;
-            }
-        });
-        
-        if(fav == null){
-            plugin.getPluginLogger().warn("Cannot apply valid favicon. See previous messages for reasons");
-            event.setServerIcon(event.getServerIcon());
-        }else{
-            event.setServerIcon(fav);
-        }
+    public void setFavicon(CachedServerIcon favicon){
+        event.setServerIcon(favicon);
+    }
+    
+    @Override
+    public void setDefaultFavicon(){
+        event.setServerIcon(event.getServerIcon());
     }
     
     // Not used in Paper
@@ -158,5 +151,10 @@ public class PaperEventWrapper implements GenericEventWrapper<OfflinePlayer, Cac
         }
         
         return new PaperPlayer(player, name, protocol);
+    }
+    
+    @Override
+    public CachedServerIcon createFavicon(BufferedImage image) throws Exception{
+        return Bukkit.loadServerIcon(image);
     }
 }
