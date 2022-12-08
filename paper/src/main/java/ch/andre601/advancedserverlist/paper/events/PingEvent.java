@@ -25,23 +25,11 @@
 
 package ch.andre601.advancedserverlist.paper.events;
 
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
-import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.paper.PaperCore;
-import ch.andre601.advancedserverlist.paper.PaperPlayer;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
-import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.util.CachedServerIcon;
-
-import java.net.InetSocketAddress;
 
 public class PingEvent implements Listener{
     
@@ -54,101 +42,6 @@ public class PingEvent implements Listener{
     
     @EventHandler
     public void onServerPing(PaperServerListPingEvent event){
-        InetSocketAddress address = event.getClient().getAddress();
-        InetSocketAddress host = event.getClient().getVirtualHost();
-    
-        PaperPlayer player = resolvePlayer(address, event.getClient().getProtocolVersion());
-        
-        int online = event.getNumPlayers();
-        int max = event.getMaxPlayers();
-        
-        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
-        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max,  host == null ? null : host.getHostString());
-        
-        ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .replacements(playerPlaceholders)
-            .replacements(serverPlaceholders)
-            .getProfile();
-        
-        if(profile == null)
-            return;
-    
-        if(profile.isExtraPlayersEnabled()){
-            max = online + profile.getExtraPlayers();
-            event.setMaxPlayers(max);
-        }
-        
-        serverPlaceholders = new ServerPlaceholders(online, max,  host == null ? null : host.getHostString());
-        
-        if(!profile.getMotd().isEmpty()){
-            event.motd(ComponentParser.list(profile.getMotd())
-                .replacements(playerPlaceholders)
-                .replacements(serverPlaceholders)
-                .modifyText(text -> {
-                    if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                        return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
-                    
-                    return text;
-                })
-                .toComponent());
-        }
-        
-        if(profile.shouldHidePlayers()){
-            event.setHidePlayers(true);
-        }
-        
-        if(!profile.getPlayerCount().isEmpty() && !profile.shouldHidePlayers()){
-            event.setVersion(ComponentParser.text(profile.getPlayerCount())
-                .replacements(playerPlaceholders)
-                .replacements(serverPlaceholders)
-                .modifyText(text -> {
-                    if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                        return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
-    
-                    return text;
-                })
-                .toString());
-            event.setProtocolVersion(-1);
-        }
-        
-        if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
-            event.getPlayerSample().clear();
-            
-            event.getPlayerSample().addAll(
-                plugin.createPlayers(profile.getPlayers(), player.getPlayer(), playerPlaceholders, serverPlaceholders)
-            );
-        }
-        
-        if(!profile.getFavicon().isEmpty()){
-            String favName = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
-            
-            CachedServerIcon favicon = plugin.getFaviconHandler().getFavicon(favName, image -> {
-                try{
-                    return Bukkit.loadServerIcon(image);
-                }catch(Exception ex){
-                    return null;
-                }
-            });
-            
-            if(favicon == null){
-                plugin.getPluginLogger().warn("Could not obtain valid Favicon to use.");
-                event.setServerIcon(event.getServerIcon());
-            }else{
-                event.setServerIcon(favicon);
-            }
-        }
-    }
-    
-    private PaperPlayer resolvePlayer(InetSocketAddress address, int protocol){
-        String playerName = plugin.getCore().getPlayerHandler().getPlayerByIp(address.getHostString());
-        OfflinePlayer player = Bukkit.getPlayerExact(playerName);
-        
-        if(player == null){
-            player = Bukkit.getOfflinePlayer(playerName);
-            
-            return new PaperPlayer(player.hasPlayedBefore() ? player : null, playerName, protocol);
-        }
-        
-        return new PaperPlayer(player, playerName, protocol);
+        PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
     }
 }

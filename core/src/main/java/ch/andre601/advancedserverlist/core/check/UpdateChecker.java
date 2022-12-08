@@ -173,7 +173,9 @@ public class UpdateChecker{
     }
     
     public static class ModrinthVersion{
+        @SuppressWarnings("FieldMayBeFinal")
         private String id;
+        @SuppressWarnings("FieldMayBeFinal")
         private String versionNumber;
         
         public ModrinthVersion(String id, String versionNumber){
