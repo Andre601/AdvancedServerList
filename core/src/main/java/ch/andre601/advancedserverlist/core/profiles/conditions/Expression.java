@@ -192,8 +192,8 @@ public class Expression{
     public enum ExpressionResult{
         VALID(null),
         
-        INVALID_NO_EXPRESSION  ("Received empty condition which isn't allowed!"),
-        INVALID_EMPTY_PARTS    ("Received condition with either left or right part being empty.");
+        INVALID_NO_EXPRESSION("Received empty condition which isn't allowed!"),
+        INVALID_EMPTY_PARTS  ("Received condition with either left or right part being empty.");
         
         private final String message;
         
