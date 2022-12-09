@@ -96,6 +96,7 @@ jobs:
           1.19
           1.19.1
           1.19.2
+          1.19.3
         java: 16
         modrinth-id: xss83sOY
         modrinth-featured: false
