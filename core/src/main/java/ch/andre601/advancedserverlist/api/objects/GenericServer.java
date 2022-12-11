@@ -26,8 +26,7 @@
 package ch.andre601.advancedserverlist.api.objects;
 
 /**
- * A basic class to wrap some simple Server/Proxy information into.
- * <br>An instance is created whenever a player pings the Server/Proxy while AdvancedServerList is running.
+ * A basic class to wrap around generic data such as online count, max players and pinged host/ip.
  */
 public class GenericServer{
     

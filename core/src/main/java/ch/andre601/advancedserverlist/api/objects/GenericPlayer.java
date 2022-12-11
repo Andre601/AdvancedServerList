@@ -27,6 +27,12 @@ package ch.andre601.advancedserverlist.api.objects;
 
 import java.util.UUID;
 
+/**
+ * Abstract class used to wrap around some generic values including the provided Type instance.
+ * 
+ * @param <T>
+ *        The Player Object/instance to use for the {@link #getPlayer() Player instance}.
+ */
 public abstract class GenericPlayer<T>{
     
     protected T player = null;
