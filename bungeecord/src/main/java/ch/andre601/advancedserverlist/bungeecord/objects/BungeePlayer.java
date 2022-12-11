@@ -23,35 +23,15 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
+package ch.andre601.advancedserverlist.bungeecord.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.DummyPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class PlayerPlaceholders implements Placeholders{
+public class BungeePlayer extends GenericPlayer<DummyPlayer>{
     
-    private final Map<String, Object> replacements = new HashMap<>();
-    
-    public PlayerPlaceholders(GenericPlayer<?> player){
-        this.replacements.put("${player name}", player.getName());
-        this.replacements.put("${player protocol}", player.getProtocol());
-        
-        if(player.getVersion() != null)
-            this.replacements.put("${player version}", player.getVersion());
-        
-        if(player.getPlayer() == null)
-            return;
-        
-        this.replacements.put("${player hasPlayedBefore}", player.hasPlayedBefore());
-        this.replacements.put("${player isBanned}", player.isBanned());
-        this.replacements.put("${player isWhitelisted}", player.isWhitelisted());
-        this.replacements.put("${player uuid}", player.getUniqueId());
-    }
-    
-    @Override
-    public Map<String, Object> getReplacements(){
-        return replacements;
+    public BungeePlayer(String name, int protocol){
+        this.name = name;
+        this.protocol = protocol;
     }
 }

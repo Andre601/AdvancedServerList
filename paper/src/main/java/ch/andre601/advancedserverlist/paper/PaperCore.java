@@ -25,22 +25,23 @@
 
 package ch.andre601.advancedserverlist.paper;
 
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.interfaces.core.ServerCore;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import ch.andre601.advancedserverlist.paper.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.paper.events.JoinEvent;
 import ch.andre601.advancedserverlist.paper.events.PingEvent;
 import ch.andre601.advancedserverlist.paper.logging.PaperLogger;
+import ch.andre601.advancedserverlist.paper.objects.PaperPlayer;
+import ch.andre601.advancedserverlist.paper.objects.PlayerPlaceholders;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon, PlayerProfile, OfflinePlayer>{
+public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon, PlayerProfile, PaperPlayer>{
     
     private final PluginLogger logger = new PaperLogger(getLogger());
     
@@ -162,16 +163,15 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     }
     
     @Override
-    public List<PlayerProfile> createPlayers(List<String> lines, OfflinePlayer player, Placeholders... placeholders){
+    public List<PlayerProfile> createPlayers(List<String> lines, PaperPlayer player, GenericServer server){
         List<PlayerProfile> players = new ArrayList<>(lines.size());
         
         for(String line : lines){
             String parsed = ComponentParser.text(line)
-                .replacements(placeholders[0])
-                .replacements(placeholders[1])
+                .applyReplacements(player, server)
                 .modifyText(text -> {
                     if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                        return PlaceholderAPI.setPlaceholders(player, text);
+                        return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
                     
                     return text;
                 })
@@ -184,6 +184,6 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     }
     
     private void enable(){
-        this.core = new AdvancedServerList(this);
+        this.core = new AdvancedServerList(this, new PlayerPlaceholders());
     }
 }

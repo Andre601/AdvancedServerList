@@ -25,17 +25,16 @@
 
 package ch.andre601.advancedserverlist.core.interfaces.events;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import net.kyori.adventure.text.Component;
 
 import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-public interface GenericEventWrapper<P, F>{
+public interface GenericEventWrapper<F, PL, P extends GenericPlayer<?>>{
     
     void setMaxPlayers(int maxPlayers);
     
@@ -45,7 +44,7 @@ public interface GenericEventWrapper<P, F>{
     
     void setPlayerCount(String name);
     
-    void setPlayers(List<String> players, GenericPlayer<P> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders);
+    void setPlayers(List<String> players, P player, GenericServer server);
     
     void setFavicon(F favicon);
     
@@ -63,13 +62,13 @@ public interface GenericEventWrapper<P, F>{
     
     String getPlayerIP();
     
-    String parsePAPIPlaceholders(String text, GenericPlayer<P> player);
+    String parsePAPIPlaceholders(String text, P player);
     
     String getVirtualHost();
     
-    PluginCore<F> getPlugin();
+    PluginCore<F, PL, P> getPlugin();
     
-    GenericPlayer<P> createPlayer(String name, int protocol);
+    P createPlayer(String name, int protocol);
     
     F createFavicon(BufferedImage image) throws Exception;
     

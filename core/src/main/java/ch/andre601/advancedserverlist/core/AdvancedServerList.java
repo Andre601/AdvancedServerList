@@ -25,6 +25,9 @@
 
 package ch.andre601.advancedserverlist.core;
 
+import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.internals.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
@@ -38,25 +41,28 @@ import java.util.Properties;
 
 public class AdvancedServerList{
     
-    private final PluginCore<?> plugin;
+    private final PluginCore<?, ?, ?> plugin;
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
+    private final AdvancedServerListAPI api = AdvancedServerListAPI.get();
     
     private UpdateChecker updateChecker;
     
     private String version;
     
-    public AdvancedServerList(PluginCore<?> plugin){
+    public AdvancedServerList(PluginCore<?, ?, ?> plugin, PlaceholderProvider<?> player){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
+        this.api.addPlaceholderProvider(player);
+        this.api.addPlaceholderProvider(new ServerPlaceholders());
         
         load();
     }
     
-    public PluginCore<?> getPlugin(){
+    public PluginCore<?, ?, ?> getPlugin(){
         return plugin;
     }
     
@@ -74,6 +80,10 @@ public class AdvancedServerList{
     
     public String getVersion(){
         return version;
+    }
+    
+    public AdvancedServerListAPI getApi(){
+        return api;
     }
     
     public void disable(){

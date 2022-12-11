@@ -23,11 +23,26 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
+package ch.andre601.advancedserverlist.bungeecord.objects;
 
-import java.util.Map;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public interface Placeholders{
+public class PlayerPlaceholders extends PlaceholderProvider<BungeePlayer>{
     
-    Map<String, Object> getReplacements();
+    public PlayerPlaceholders(){
+        this.identifier = "player";
+    }
+    
+    @Override
+    public String parsePlaceholder(String placeholder, BungeePlayer player, GenericServer server){
+        if(placeholder.equals("name")){
+            return player.getName();
+        }else
+        if(placeholder.equals("protocol")){
+            return String.valueOf(player.getProtocol());
+        }else{
+            return null;
+        }
+    }
 }

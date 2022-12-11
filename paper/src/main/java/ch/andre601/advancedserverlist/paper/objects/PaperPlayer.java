@@ -23,15 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord;
+package ch.andre601.advancedserverlist.paper.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import org.bukkit.OfflinePlayer;
 
-public class BungeePlayer extends GenericPlayer<ProxiedPlayer>{
+public class PaperPlayer extends GenericPlayer<OfflinePlayer>{
     
-    public BungeePlayer(String name, int protocol){
-        this.name = name;
+    public PaperPlayer(OfflinePlayer player, String name, int protocol){
+        this.player = player;
+        
+        this.name = player == null ? name : player.getName();
         this.protocol = protocol;
+        
+        if(player == null)
+            return;
+        
+        this.playedBefore = player.hasPlayedBefore();
+        this.banned = player.isBanned();
+        this.whitelisted = player.isWhitelisted();
+        this.uuid = player.getUniqueId();
     }
 }

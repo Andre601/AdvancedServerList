@@ -23,12 +23,20 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.api.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
-
-import java.util.List;
-
-public interface ProxyCore<F, P> extends PluginCore<F>{
-    List<P> createPlayers(List<String> lines, Placeholders... placeholders);
+/**
+ * Placeholder class used for Platforms that do not allow to retrieve data from specific players that aren't online such
+ * as BungeeCord and Velocity.
+ * <br>It is also used in the {@link ch.andre601.advancedserverlist.api.internals.placeholders.ServerPlaceholders ServerPlaceholders class}
+ * as it doesn't require any player data.
+ * 
+ * <p>Feel free to use this class in your {@link ch.andre601.advancedserverlist.api.PlaceholderProvider PlaceholderProvider instance}
+ * should you not need any player data from the server.
+ */
+public class DummyPlayer extends GenericPlayer<Object>{
+    public DummyPlayer(){
+        this.name = "dummy";
+        this.protocol = 0;
+    }
 }

@@ -23,12 +23,17 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.velocity.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
+import ch.andre601.advancedserverlist.api.objects.DummyPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import com.velocitypowered.api.network.ProtocolVersion;
 
-import java.util.List;
-
-public interface ServerCore<F, P, P2> extends PluginCore<F>{
-    List<P> createPlayers(List<String> lines, P2 player, Placeholders... placeholders);
+public class VelocityPlayer extends GenericPlayer<DummyPlayer>{
+    
+    public VelocityPlayer(String name, int protocol){
+        this.name = name;
+        this.protocol = protocol;
+        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
+    }
 }

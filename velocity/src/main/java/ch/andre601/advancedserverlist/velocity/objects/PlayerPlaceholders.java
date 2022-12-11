@@ -23,17 +23,23 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity;
+package ch.andre601.advancedserverlist.velocity.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import com.velocitypowered.api.network.ProtocolVersion;
-import com.velocitypowered.api.proxy.Player;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class VelocityPlayer extends GenericPlayer<Player>{
+public class PlayerPlaceholders extends PlaceholderProvider<VelocityPlayer>{
     
-    public VelocityPlayer(String name, int protocol){
-        this.name = name;
-        this.protocol = protocol;
-        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
+    public PlayerPlaceholders(){
+        this.identifier = "player";
+    }
+    
+    @Override
+    public String parsePlaceholder(String placeholder, VelocityPlayer player, GenericServer server){
+        return switch(placeholder){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "version" -> player.getVersion();
+        };
     }
 }

@@ -23,42 +23,48 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.api.objects;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-
-public class ProfileManager{
+/**
+ * A basic class to wrap some simple Server/Proxy information into.
+ * <br>An instance is created whenever a player pings the Server/Proxy while AdvancedServerList is running.
+ */
+public class GenericServer{
     
-    private final AdvancedServerList core;
+    private final int playersOnline;
+    private final int playersMax;
+    private final String host;
     
-    private GenericPlayer<?> player;
-    private GenericServer server;
-    
-    private ProfileManager(AdvancedServerList core){
-        this.core = core;
+    public GenericServer(int online, int max, String host){
+        this.playersOnline = online;
+        this.playersMax = max;
+        this.host = host;
     }
     
-    public static ProfileManager get(AdvancedServerList core){
-        return new ProfileManager(core);
+    /**
+     * Returns the amount of players online.
+     * 
+     * @return Number of online players.
+     */
+    public int getPlayersOnline(){
+        return playersOnline;
     }
     
-    public <P extends GenericPlayer<?>> ProfileManager applyReplacements(P player, GenericServer server){
-        this.player = player;
-        this.server = server;
-        return this;
+    /**
+     * Returns the amount of players that can join this Server/Proxy.
+     *
+     * @return Number of players total.
+     */
+    public int getPlayersMax(){
+        return playersMax;
     }
     
-    public ServerListProfile getProfile(){
-        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.isInvalid())
-                continue;
-            
-            if(profile.evalConditions(player, server))
-                return profile;
-        }
-        
-        return null;
+    /**
+     * Returns the host (domain/IP) that has been pinged by the player. Can be null
+     *
+     * @return Possibly-null String containing the domain/IP pinged by the player.
+     */
+    public String getHost(){
+        return host;
     }
 }

@@ -25,8 +25,9 @@
 
 package ch.andre601.advancedserverlist.core.parsing;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -58,8 +59,8 @@ public class ComponentParser{
         return new ComponentParser(String.join("\n", lines));
     }
     
-    public ComponentParser replacements(Placeholders placeholders){
-        text = StringReplacer.replace(text, placeholders.getReplacements());
+    public <P extends GenericPlayer<?>> ComponentParser applyReplacements(P player, GenericServer server){
+        text = StringReplacer.replace(text, player, server);
         return this;
     }
     

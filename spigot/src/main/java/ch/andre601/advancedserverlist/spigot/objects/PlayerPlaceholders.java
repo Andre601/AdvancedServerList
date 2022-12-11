@@ -23,25 +23,26 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot;
+package ch.andre601.advancedserverlist.spigot.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import org.bukkit.OfflinePlayer;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class SpigotPlayer extends GenericPlayer<OfflinePlayer>{
+public class PlayerPlaceholders extends PlaceholderProvider<SpigotPlayer>{
+    @Override
+    public String parsePlaceholder(String placeholder, SpigotPlayer player, GenericServer server){
+        return switch(placeholder){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "hasPlayedBefore" -> returnValue(player, player.hasPlayedBefore());
+            case "isBanned" -> returnValue(player, player.isBanned());
+            case "isWhitelisted" -> returnValue(player, player.isWhitelisted());
+            case "uuid" -> returnValue(player, player.getUniqueId());
+            default -> null;
+        };
+    }
     
-    public SpigotPlayer(OfflinePlayer player, String name, int protocol){
-        this.player = player;
-        
-        this.name = player == null ? name : player.getName();
-        this.protocol = protocol;
-        
-        if(player == null)
-            return;
-        
-        this.playedBefore = player.hasPlayedBefore();
-        this.banned = player.isBanned();
-        this.whitelisted = player.isWhitelisted();
-        this.uuid = player.getUniqueId();
+    private String returnValue(SpigotPlayer player, Object value){
+        return player.getPlayer() == null ? null : String.valueOf(value);
     }
 }

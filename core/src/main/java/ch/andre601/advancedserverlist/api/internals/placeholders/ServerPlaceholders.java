@@ -23,50 +23,24 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.players;
+package ch.andre601.advancedserverlist.api.internals.placeholders;
 
-import java.util.UUID;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.DummyPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public abstract class GenericPlayer<T>{
+public class ServerPlaceholders extends PlaceholderProvider<DummyPlayer>{
     
-    protected T player = null;
-    protected String name = null;
-    protected String version = null;
-    protected int protocol = -1;
-    protected boolean playedBefore = false;
-    protected boolean banned = false;
-    protected boolean whitelisted = false;
-    protected UUID uuid = null;
-    
-    public T getPlayer(){
-        return player;
+    public ServerPlaceholders(){
+        this.identifier = "server";
     }
     
-    public String getName(){
-        return name;
-    }
-    
-    public int getProtocol(){
-        return protocol;
-    }
-    
-    public String getVersion(){
-        return version;
-    }
-    
-    public boolean hasPlayedBefore(){
-        return playedBefore;
-    }
-    
-    public boolean isBanned(){
-        return banned;
-    }
-    
-    public boolean isWhitelisted(){
-        return whitelisted;
-    }
-    
-    public UUID getUniqueId(){
-        return uuid;
+    @Override
+    public String parsePlaceholder(String placeholder, DummyPlayer player, GenericServer server){
+        return switch(placeholder){
+            case "playersOnline" -> String.valueOf(server.getPlayersOnline());
+            case "playersMax" -> String.valueOf(server.getPlayersMax());
+            case "host" -> server.getHost();
+        };
     }
 }

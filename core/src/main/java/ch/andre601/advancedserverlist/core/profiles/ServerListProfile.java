@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.core.profiles;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.Expression;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -33,7 +35,6 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class ServerListProfile{
     
@@ -93,14 +94,13 @@ public class ServerListProfile{
         return extraPlayers;
     }
     
-    public boolean evalConditions(Map<String, Object> replacements){
+    public <P extends GenericPlayer<?>> boolean evalConditions(P player, GenericServer server){
         if(expressions.isEmpty())
             return true;
         
         for(Expression expression : expressions){
-            if(!expression.evaluate(replacements)){
+            if(!expression.evaluate(player, server))
                 return false;
-            }
         }
         
         return true;

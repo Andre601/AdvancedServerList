@@ -25,15 +25,12 @@
 
 package ch.andre601.advancedserverlist.velocity.events;
 
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
-import ch.andre601.advancedserverlist.velocity.VelocityPlayer;
+import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayer;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
-import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
@@ -41,7 +38,7 @@ import net.kyori.adventure.text.Component;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon>{
+public class VelocityEventWrapper implements GenericEventWrapper<Favicon, ServerPing.SamplePlayer, VelocityPlayer>{
     
     private final VelocityCore plugin;
     private final ProxyPingEvent event;
@@ -76,8 +73,8 @@ public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon
     }
     
     @Override
-    public void setPlayers(List<String> players, GenericPlayer<Player> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders){
-        ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(players, playerPlaceholders, serverPlaceholders)
+    public void setPlayers(List<String> players, VelocityPlayer player, GenericServer server){
+        ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(players, player, server)
             .toArray(new ServerPing.SamplePlayer[0]);
         
         if(playerSamples.length > 0)
@@ -124,7 +121,7 @@ public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, GenericPlayer<Player> player){
+    public String parsePAPIPlaceholders(String text, VelocityPlayer player){
         return text;
     }
     
@@ -134,12 +131,12 @@ public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon
     }
     
     @Override
-    public PluginCore<Favicon> getPlugin(){
+    public PluginCore<Favicon, ServerPing.SamplePlayer, VelocityPlayer> getPlugin(){
         return plugin;
     }
     
     @Override
-    public GenericPlayer<Player> createPlayer(String name, int protocol){
+    public VelocityPlayer createPlayer(String name, int protocol){
         return new VelocityPlayer(name, protocol);
     }
     

@@ -25,15 +25,14 @@
 
 package ch.andre601.advancedserverlist.spigot.events;
 
-import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
+import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.spigot.SpigotPlayer;
+import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.AdventureComponentConverter;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
@@ -44,7 +43,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Map;
 
-public class ProtocolLibEventWrapper implements GenericEventWrapper<OfflinePlayer, WrappedServerPing.CompressedImage>{
+public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, WrappedGameProfile, SpigotPlayer>{
     
     private final SpigotCore plugin;
     private final PacketEvent event;
@@ -82,9 +81,9 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<OfflinePlaye
     }
     
     @Override
-    public void setPlayers(List<String> players, GenericPlayer<OfflinePlayer> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders){
+    public void setPlayers(List<String> players, SpigotPlayer player, GenericServer server){
         ping.setPlayers(
-            plugin.createPlayers(players, player.getPlayer(), playerPlaceholders, serverPlaceholders)
+            plugin.createPlayers(players, player, server)
         );
     }
     
@@ -128,7 +127,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<OfflinePlaye
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, GenericPlayer<OfflinePlayer> player){
+    public String parsePAPIPlaceholders(String text, SpigotPlayer player){
         if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
         
@@ -145,12 +144,12 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<OfflinePlaye
     }
     
     @Override
-    public PluginCore<WrappedServerPing.CompressedImage> getPlugin(){
+    public PluginCore<WrappedServerPing.CompressedImage, WrappedGameProfile, SpigotPlayer> getPlugin(){
         return plugin;
     }
     
     @Override
-    public GenericPlayer<OfflinePlayer> createPlayer(String name, int protocol){
+    public SpigotPlayer createPlayer(String name, int protocol){
         OfflinePlayer player = Bukkit.getPlayerExact(name);
         
         if(player == null){

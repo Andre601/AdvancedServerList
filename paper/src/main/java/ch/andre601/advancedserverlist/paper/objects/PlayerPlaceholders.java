@@ -23,25 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
+package ch.andre601.advancedserverlist.paper.objects;
 
-import java.util.HashMap;
-import java.util.Map;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class ServerPlaceholders implements Placeholders{
+public class PlayerPlaceholders extends PlaceholderProvider<PaperPlayer>{
     
-    private final Map<String, Object> replacements = new HashMap<>();
-    
-    public ServerPlaceholders(int online, int max, String host){
-        this.replacements.put("${server playersOnline}", online);
-        this.replacements.put("${server playersMax}", max);
-        
-        if(host != null)
-            this.replacements.put("${server host}", host);
+    public PlayerPlaceholders(){
+        this.identifier = "player";
     }
     
     @Override
-    public Map<String, Object> getReplacements(){
-        return this.replacements;
+    public String parsePlaceholder(String placeholder, PaperPlayer player, GenericServer server){
+        return switch(placeholder){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "hasPlayedBefore" -> returnValue(player, player.hasPlayedBefore());
+            case "isBanned" -> returnValue(player, player.isBanned());
+            case "isWhitelisted" -> returnValue(player, player.isWhitelisted());
+            case "uuid" -> returnValue(player, player.getUniqueId());
+            default -> null;
+        };
+    }
+    
+    private String returnValue(PaperPlayer player, Object value){
+        return player.getPlayer() == null ? null : String.valueOf(value);
     }
 }

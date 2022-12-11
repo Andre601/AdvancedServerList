@@ -25,16 +25,18 @@
 
 package ch.andre601.advancedserverlist.velocity;
 
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import ch.andre601.advancedserverlist.velocity.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.velocity.events.JoinEvent;
 import ch.andre601.advancedserverlist.velocity.events.PingEvent;
 import ch.andre601.advancedserverlist.velocity.logging.VelocityLogger;
+import ch.andre601.advancedserverlist.velocity.objects.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayer;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
@@ -53,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>{
+public class VelocityCore implements PluginCore<Favicon, ServerPing.SamplePlayer, VelocityPlayer>{
     
     private final PluginLogger logger;
     private final ProxyServer proxy;
@@ -74,7 +76,7 @@ public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>
     
     @Subscribe
     public void init(ProxyInitializeEvent event){
-        this.core = new AdvancedServerList(this);
+        this.core = new AdvancedServerList(this, new PlayerPlaceholders());
     }
     
     @Subscribe
@@ -137,13 +139,12 @@ public class VelocityCore implements ProxyCore<Favicon, ServerPing.SamplePlayer>
     }
     
     @Override
-    public List<ServerPing.SamplePlayer> createPlayers(List<String> lines, Placeholders... placeholders){
+    public List<ServerPing.SamplePlayer> createPlayers(List<String> lines, VelocityPlayer player, GenericServer server){
         List<ServerPing.SamplePlayer> players = new ArrayList<>(lines.size());
         
         for(String line : lines){
             String parsed = ComponentParser.text(line)
-                .replacements(placeholders[0])
-                .replacements(placeholders[1])
+                .applyReplacements(player, server)
                 .toString();
             
             players.add(new ServerPing.SamplePlayer(parsed, UUID.randomUUID()));

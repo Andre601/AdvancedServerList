@@ -23,14 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.paper;
+package ch.andre601.advancedserverlist.spigot.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import org.bukkit.OfflinePlayer;
 
-public class PaperPlayer extends GenericPlayer<OfflinePlayer>{
+public class SpigotPlayer extends GenericPlayer<OfflinePlayer>{
     
-    public PaperPlayer(OfflinePlayer player, String name, int protocol){
+    public SpigotPlayer(OfflinePlayer player, String name, int protocol){
         this.player = player;
         
         this.name = player == null ? name : player.getName();

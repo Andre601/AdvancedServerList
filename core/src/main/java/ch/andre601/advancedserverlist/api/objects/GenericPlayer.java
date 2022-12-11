@@ -23,40 +23,50 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.api.objects;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import java.util.UUID;
 
-import java.nio.file.Path;
-import java.util.List;
-
-public interface PluginCore<F, PL, P extends GenericPlayer<?>>{
+public abstract class GenericPlayer<T>{
     
-    void loadCommands();
+    protected T player = null;
+    protected String name = null;
+    protected String version = null;
+    protected int protocol = -1;
+    protected boolean playedBefore = false;
+    protected boolean banned = false;
+    protected boolean whitelisted = false;
+    protected UUID uuid = null;
     
-    void loadEvents();
+    public T getPlayer(){
+        return player;
+    }
     
-    void loadMetrics();
+    public String getName(){
+        return name;
+    }
     
-    void clearFaviconCache();
+    public int getProtocol(){
+        return protocol;
+    }
     
-    AdvancedServerList getCore();
+    public String getVersion(){
+        return version;
+    }
     
-    Path getFolderPath();
+    public boolean hasPlayedBefore(){
+        return playedBefore;
+    }
     
-    PluginLogger getPluginLogger();
+    public boolean isBanned(){
+        return banned;
+    }
     
-    FaviconHandler<F> getFaviconHandler();
+    public boolean isWhitelisted(){
+        return whitelisted;
+    }
     
-    String getPlatformName();
-    
-    String getPlatformVersion();
-    
-    String getLoader();
-    
-    List<PL> createPlayers(List<String> lines, P player, GenericServer server);
+    public UUID getUniqueId(){
+        return uuid;
+    }
 }
