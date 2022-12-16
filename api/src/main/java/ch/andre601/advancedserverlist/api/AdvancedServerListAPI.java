@@ -65,6 +65,10 @@ public class AdvancedServerListAPI{
      *
      * @param placeholderProvider
      *        The {@link PlaceholderProvider PlaceholderProvider} to add.
+     * 
+     * @throws ch.andre601.advancedserverlist.api.exceptions.InvalidPlaceholderProviderException
+     *         When the provided {@link PlaceholderProvider PlaceholderProvider instance} has a null or empty identifier,
+     *         the identifier contains spaces or another provider with the same identifier is already loaded.
      */
     public void addPlaceholderProvider(PlaceholderProvider placeholderProvider){
         String identifier = placeholderProvider.getIdentifier().toLowerCase(Locale.ROOT);
