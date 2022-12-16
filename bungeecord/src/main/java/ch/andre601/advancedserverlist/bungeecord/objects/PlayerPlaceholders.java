@@ -26,16 +26,17 @@
 package ch.andre601.advancedserverlist.bungeecord.objects;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class PlayerPlaceholders extends PlaceholderProvider<BungeePlayer>{
+public class PlayerPlaceholders extends PlaceholderProvider{
     
     public PlayerPlaceholders(){
         this.identifier = "player";
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, BungeePlayer player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
         if(placeholder.equals("name")){
             return player.getName();
         }else

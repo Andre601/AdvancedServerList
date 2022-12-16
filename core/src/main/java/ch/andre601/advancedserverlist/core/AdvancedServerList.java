@@ -27,7 +27,7 @@ package ch.andre601.advancedserverlist.core;
 
 import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.api.internals.placeholders.ServerPlaceholders;
+import ch.andre601.advancedserverlist.api.internal.ServerPlaceholders;
 import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
@@ -51,7 +51,7 @@ public class AdvancedServerList{
     
     private String version;
     
-    public AdvancedServerList(PluginCore<?, ?, ?> plugin, PlaceholderProvider<?> player){
+    public AdvancedServerList(PluginCore<?, ?, ?> plugin, PlaceholderProvider player){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);

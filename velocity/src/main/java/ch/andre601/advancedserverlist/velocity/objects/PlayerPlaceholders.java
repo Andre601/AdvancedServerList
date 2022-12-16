@@ -26,16 +26,17 @@
 package ch.andre601.advancedserverlist.velocity.objects;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class PlayerPlaceholders extends PlaceholderProvider<VelocityPlayer>{
+public class PlayerPlaceholders extends PlaceholderProvider{
     
     public PlayerPlaceholders(){
         this.identifier = "player";
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, VelocityPlayer player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
         return switch(placeholder){
             case "name" -> player.getName();
             case "protocol" -> String.valueOf(player.getProtocol());

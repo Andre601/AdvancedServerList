@@ -26,44 +26,15 @@
 package ch.andre601.advancedserverlist.api.objects;
 
 /**
- * A basic class to wrap around generic data such as online count, max players and pinged host/ip.
+ * A placeholder {@link GenericPlayer GenericPlayer instance} used for platforms that do not have any form of a persistent
+ * player data storage.
+ * <p>Classes implementing this do indicate that there is no {@link #getPlayer() Player instance} to use for further data.
+ * <br>Additionally are all data except for name and protocol not guaranteed to exist.
  */
-public class GenericServer{
+public class DummyPlayer extends GenericPlayer<Object>{
     
-    private final int playersOnline;
-    private final int playersMax;
-    private final String host;
-    
-    public GenericServer(int online, int max, String host){
-        this.playersOnline = online;
-        this.playersMax = max;
-        this.host = host;
-    }
-    
-    /**
-     * Returns the amount of players online.
-     * 
-     * @return Number of online players.
-     */
-    public int getPlayersOnline(){
-        return playersOnline;
-    }
-    
-    /**
-     * Returns the amount of players that can join this Server/Proxy.
-     *
-     * @return Number of players total.
-     */
-    public int getPlayersMax(){
-        return playersMax;
-    }
-    
-    /**
-     * Returns the host (domain/IP) that has been pinged by the player. Can be null
-     *
-     * @return Possibly-null String containing the domain/IP pinged by the player.
-     */
-    public String getHost(){
-        return host;
+    public DummyPlayer(){
+        this.name = "Dummy";
+        this.protocol = 0;
     }
 }

@@ -29,8 +29,6 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
-import java.util.Map;
-
 public class Expression{
     
     private ExpressionResult result = ExpressionResult.VALID;
@@ -46,13 +44,6 @@ public class Expression{
     public <P extends GenericPlayer<?>> boolean evaluate(P player, GenericServer server){
         String newLeft = StringReplacer.replace(left, player, server);
         String newRight = StringReplacer.replace(right, player, server);
-        
-        return operator.evaluate(newLeft, newRight);
-    }
-    
-    public boolean evaluate(Map<String, Object> replacements){
-        String newLeft = StringReplacer.replace(left, replacements).trim();
-        String newRight = StringReplacer.replace(right, replacements).trim();
         
         return operator.evaluate(newLeft, newRight);
     }

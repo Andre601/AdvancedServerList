@@ -26,28 +26,29 @@
 package ch.andre601.advancedserverlist.paper.objects;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class PlayerPlaceholders extends PlaceholderProvider<PaperPlayer>{
+public class PlayerPlaceholders extends PlaceholderProvider{
     
     public PlayerPlaceholders(){
         this.identifier = "player";
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, PaperPlayer player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
         return switch(placeholder){
             case "name" -> player.getName();
             case "protocol" -> String.valueOf(player.getProtocol());
             case "hasPlayedBefore" -> returnValue(player, player.hasPlayedBefore());
             case "isBanned" -> returnValue(player, player.isBanned());
             case "isWhitelisted" -> returnValue(player, player.isWhitelisted());
-            case "uuid" -> returnValue(player, player.getUniqueId());
+            case "uuid" -> returnValue(player, player.getUuid());
             default -> null;
         };
     }
     
-    private String returnValue(PaperPlayer player, Object value){
+    private <P extends GenericPlayer<?>> String returnValue(P player, Object value){
         return player.getPlayer() == null ? null : String.valueOf(value);
     }
 }

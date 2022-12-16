@@ -30,8 +30,22 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 
 public class BungeePlayer extends GenericPlayer<DummyPlayer>{
     
+    private final String name;
+    
+    private final int protocol;
+    
     public BungeePlayer(String name, int protocol){
         this.name = name;
         this.protocol = protocol;
+    }
+    
+    @Override
+    public String getName(){
+        return name;
+    }
+    
+    @Override
+    public int getProtocol(){
+        return protocol;
     }
 }

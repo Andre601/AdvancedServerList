@@ -30,23 +30,7 @@ import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-import java.util.Locale;
-import java.util.Map;
-
 public class StringReplacer{
-    
-    public static String replace(String input, Map<String, Object> replacements){
-        StringBuilder output = new StringBuilder(input);
-        int index;
-        for(Map.Entry<String, Object> entry : replacements.entrySet()){
-            index = 0;
-            while((index = output.indexOf(entry.getKey(), index)) != -1){
-                output.replace(index, index + entry.getKey().length(), String.valueOf(entry.getValue()));
-                index += String.valueOf(entry.getValue()).length();
-            }
-        }
-        return output.toString();
-    }
     
     public static <P extends GenericPlayer<?>> String replace(String input, P player, GenericServer server){
         char[] chars = input.toCharArray();
@@ -112,8 +96,8 @@ public class StringReplacer{
                 }
                 continue;
             }
-    
-            PlaceholderProvider provider = api.retrievePlaceholderProvider(identifierString.toLowerCase(Locale.ROOT));
+            
+            PlaceholderProvider provider = api.retrievePlaceholderProvider(identifierString);
             if(provider == null){
                 builder.append("${").append(identifierString);
     
