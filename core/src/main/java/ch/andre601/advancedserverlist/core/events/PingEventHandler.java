@@ -70,9 +70,9 @@ public class PingEventHandler{
         
         serverPlaceholders = new ServerPlaceholders(online, max, host);
         
-        if(!profile.getMotd().isEmpty()){
+        if(!profile.getMotds().isEmpty()){
             event.setMotd(
-                ComponentParser.list(profile.getMotd())
+                ComponentParser.text(profile.getMotd().getText())
                     .replacements(playerPlaceholders)
                     .replacements(serverPlaceholders)
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
