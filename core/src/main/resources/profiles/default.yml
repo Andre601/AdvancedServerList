@@ -16,16 +16,17 @@ priority: 0
 #  - '{playerVersion} < 759'
 
 #
-# Set the MOTD that should be displayed.
+# Set the MOTDs that should be displayed.
 # Supports HEX colors for 1.16+ servers including gradients using MiniMessage's <gradient:color:color> format.
 # 
-# Remove this option or set it to motd: [] to not alter the MOTD.
+# Remove this option or set it to motds: [] to not alter the MOTD.
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#motd
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#motds
 #
-motd:
-  - '<grey>Line 1'
-  - '<grey>Line 2'
+motds:
+  - |-
+    <grey>Line 1
+    <grey>Line 2
 
 #
 # Allows you to set a favicon for this server list profile.

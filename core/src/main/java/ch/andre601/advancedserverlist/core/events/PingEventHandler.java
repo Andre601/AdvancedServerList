@@ -66,20 +66,24 @@ public class PingEventHandler{
         
         server = new GenericServer(online, max, host);
         
-        if(!profile.getMotd().isEmpty()){
-            event.setMotd(
-                ComponentParser.list(profile.getMotd())
-                    .applyReplacements(player, server)
-                    .modifyText(text -> event.parsePAPIPlaceholders(text, player))
-                    .toComponent()
-            );
+        if(!profile.getMOTDs().isEmpty()){
+            ServerListProfile.Motd motd = profile.getRandomMOTD();
+            
+            if(motd != null){
+                event.setMotd(
+                    ComponentParser.text(motd.getText())
+                        .applyReplacements(player, server)
+                        .modifyText(text -> event.parsePAPIPlaceholders(text, player))
+                        .toComponent()
+                );
+            }
         }
         
-        if(profile.shouldHidePlayers()){
+        if(profile.isHidePlayersEnabled()){
             event.hidePlayers();
         }
         
-        if(!profile.getPlayerCount().isEmpty() && !profile.shouldHidePlayers()){
+        if(!profile.getPlayerCountText().isEmpty() && !profile.isHidePlayersEnabled()){
             event.setPlayerCount(
                 ComponentParser.text(profile.getPlayerCount())
                     .applyReplacements(player, server)
@@ -88,8 +92,8 @@ public class PingEventHandler{
             );
         }
         
-        if(!profile.getPlayers().isEmpty() && !profile.shouldHidePlayers()){
-            event.setPlayers(profile.getPlayers(), player, server);
+        if(!profile.getPlayers().isEmpty() && !profile.isHidePlayersEnabled()){
+            event.setPlayers(profile.getPlayers(), player, playerPlaceholders, serverPlaceholders);
         }
         
         if(!profile.getFavicon().isEmpty()){

@@ -41,7 +41,7 @@ public class ServerListProfile{
     private final int priority;
     private final List<Expression> expressions;
     
-    private final List<String> motd;
+    private final List<Motd> motds;
     private final List<String> players;
     private final String playerCount;
     private final String favicon;
@@ -49,32 +49,47 @@ public class ServerListProfile{
     private final boolean extraPlayersEnabled;
     private final int extraPlayers;
     
-    public ServerListProfile(ConfigurationNode node, PluginLogger logger){
-        this.priority = node.node("priority").getInt();
-        this.expressions = createExpressions(getList(node, false, "conditions"), logger);
-        
-        this.motd = getList(node, true, "motd");
-        this.players = getList(node, false, "playerCount", "hover");
-        this.playerCount = node.node("playerCount", "text").getString("");
-        this.favicon = node.node("favicon").getString("");
-        this.hidePlayers = node.node("playerCount", "hidePlayers").getBoolean();
-        this.extraPlayersEnabled = node.node("playerCount", "extraPlayers", "enabled").getBoolean();
-        this.extraPlayers = node.node("playerCount", "extraPlayers", "amount").getInt();
+    private final Random random = new Random();
+    
+    public ServerListProfile(int priority, List<Expression> expressions, List<Motd> motds, List<String> players,
+                             String playerCount, String favicon, boolean hidePlayers, boolean extraPlayersEnabled,
+                             int extraPlayers){
+        this.priority = priority;
+        this.expressions = expressions;
+        this.motds = motds;
+        this.players = players;
+        this.playerCount = playerCount;
+        this.favicon = favicon;
+        this.hidePlayers = hidePlayers;
+        this.extraPlayersEnabled = extraPlayersEnabled;
+        this.extraPlayers = extraPlayers;
     }
     
     public int getPriority(){
         return priority;
     }
     
-    public List<String> getMotd(){
-        return motd;
+    public List<Motd> getMOTDs(){
+        return motds;
+    }
+    
+    public Motd getRandomMOTD(){
+        if(motds.isEmpty())
+            return null;
+        
+        if(motds.size() == 1)
+            return motds.get(0);
+        
+        synchronized(random){
+            return motds.get(random.nextInt(motds.size()));
+        }
     }
     
     public List<String> getPlayers(){
         return players;
     }
     
-    public String getPlayerCount(){
+    public String getPlayerCountText(){
         return playerCount;
     }
     
@@ -82,7 +97,7 @@ public class ServerListProfile{
         return favicon;
     }
     
-    public boolean shouldHidePlayers(){
+    public boolean isHidePlayersEnabled(){
         return hidePlayers;
     }
     
@@ -106,46 +121,179 @@ public class ServerListProfile{
         return true;
     }
     
-    public boolean isInvalid(){
-        return getMotd().isEmpty() &&
+    /*
+     * Returns true if the Profile...
+     * ...doesn't have any valid MOTD set AND
+     * ...doesn't have any player hover set AND
+     * ...doesn't have a player count text set and hidePlayers is false AND
+     * ...doesn't have a favicon set.
+     */
+    public boolean isInvalidProfile(){
+        return getMOTDs().isEmpty() &&
             getPlayers().isEmpty() &&
-            (getPlayerCount().isEmpty() && !shouldHidePlayers()) &&
+            (getPlayerCountText().isEmpty() && !isHidePlayersEnabled()) &&
             getFavicon().isEmpty();
     }
     
-    private List<Expression> createExpressions(List<String> list, PluginLogger logger) {
-        if(list.isEmpty())
-            return Collections.emptyList();
+    public static class Builder{
         
-        List<Expression> expressions = new ArrayList<>();
-        for(String str : list){
-            Expression expression = new Expression(str);
+        private final ConfigurationNode node;
+        
+        private final int priority;
+        private final PluginLogger logger;
+        
+        private final List<Expression> expressions = new ArrayList<>();
+        private final List<Motd> motds = new ArrayList<>();
+        private List<String> players = new ArrayList<>();
+        private String playerCount = null;
+        private String favicon = null;
+        private boolean hidePlayers = false;
+        private boolean extraPlayersEnabled = false;
+        private int extraPlayers = 0;
+        
+        private Builder(ConfigurationNode node, PluginLogger logger){
+            this.node = node;
+            this.priority = node.node("priority").getInt();
+            this.logger = logger;
+        }
+        
+        public static Builder resolve(ConfigurationNode node, PluginLogger logger){
+            return new Builder(node, logger)
+                .resolveExpressions()
+                .resolveMOTDs()
+                .resolvePlayers()
+                .resolvePlayerCount()
+                .resolveFavicon()
+                .resolveHidePlayers()
+                .resolveExtraPlayers()
+                .resolveExtraPlayersCount();
+        }
+    
+        private Builder resolveExpressions(){
+            List<String> list = getList("conditions");
+            if(list.isEmpty())
+                return this;
             
-            if(expression.getResult() != Expression.ExpressionResult.VALID){
-                logger.warn("Detected Invalid condition '%s'! Cause: %s", str, expression.getResult().getMessage());
-                continue;
+            for(String str : list){
+                Expression expression = new Expression(str);
+                
+                if(expression.getResult() != Expression.ExpressionResult.VALID){
+                    logger.warn("Detected invalid expression in condition '%s'! Reason: %s", str, expression.getResult().getMessage());
+                    continue;
+                }
+                
+                this.expressions.add(expression);
             }
             
-            expressions.add(expression);
+            return this;
+        }
+    
+        private Builder resolveMOTDs(){
+            List<String> list = getList("motds");
+            if(!list.isEmpty()){
+                for(String lines : list){
+                    Motd motd = Motd.resolve(lines);
+                    if(motd == null)
+                        continue;
+                    
+                    this.motds.add(motd);
+                }
+                return this;
+            }
+            
+            list = getList("motd");
+            if(list.isEmpty())
+                return this;
+            
+            Motd motd = Motd.resolve(list);
+            if(motd == null)
+                return this;
+            
+            this.motds.add(motd);
+            return this;
+        }
+    
+        private Builder resolvePlayers(){
+            this.players = getList("playerCount", "hover");
+            return this;
+        }
+    
+        private Builder resolvePlayerCount(){
+            this.playerCount = node.node("playerCount", "text").getString("");
+            return this;
+        }
+    
+        private Builder resolveFavicon(){
+            this.favicon = node.node("favicon").getString("");
+            return this;
+        }
+    
+        private Builder resolveHidePlayers(){
+            this.hidePlayers = node.node("playerCount", "hidePlayers").getBoolean();
+            return this;
+        }
+    
+        private Builder resolveExtraPlayers(){
+            this.extraPlayersEnabled = node.node("playerCount", "extraPlayers", "enabled").getBoolean();
+            return this;
+        }
+    
+        private Builder resolveExtraPlayersCount(){
+            this.extraPlayers = node.node("playerCount", "extraPlayers", "amount").getInt();
+            return this;
+        }
+    
+        public ServerListProfile build(){
+            return new ServerListProfile(this.priority, this.expressions, this.motds, this.players, this.playerCount,
+                this.favicon, this.hidePlayers, this.extraPlayersEnabled, this.extraPlayers);
         }
         
-        return expressions;
+        private List<String> getList(Object... path){
+            List<String> temp;
+            try{
+                temp = node.node(path).getList(String.class);
+            }catch(SerializationException ex){
+                temp = null;
+            }
+            
+            if(temp == null)
+                return Collections.emptyList();
+            
+            return temp;
+        }
     }
     
-    private List<String> getList(ConfigurationNode node, boolean trim, Object... path){
-        List<String> list;
-        try{
-            list = node.node(path).getList(String.class);
-        }catch(SerializationException ex){
-            return Collections.emptyList();
+    public static class Motd{
+        String text;
+        
+        private Motd(String[] lines){
+            text = resolveLines(lines);
         }
         
-        if(list == null)
-            return Collections.emptyList();
+        public static Motd resolve(String text){
+            String[] split = text.split("\n");
+            if(split.length == 0)
+                return null;
+            
+            return new Motd(split);
+        }
         
-        if(trim && list.size() > 2)
-            return list.subList(0, 2);
-        
-        return list;
+        public static Motd resolve(List<String> lines){
+            if(lines.size() == 0)
+                return null;
+            
+            return new Motd(lines.toArray(new String[0]));
+        }
+    
+        public String getText(){
+            return text;
+        }
+    
+        private String resolveLines(String[] lines){
+            if(lines.length > 2)
+                return String.join("\n", lines[0], lines[1]);
+            
+            return String.join("\n", lines);
+        }
     }
 }

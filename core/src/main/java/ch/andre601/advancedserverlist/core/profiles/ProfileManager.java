@@ -52,7 +52,7 @@ public class ProfileManager{
     
     public ServerListProfile getProfile(){
         for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.isInvalid())
+            if(profile.isInvalidProfile())
                 continue;
             
             if(profile.evalConditions(player, server))
