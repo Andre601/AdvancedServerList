@@ -85,7 +85,7 @@ public class PingEventHandler{
         
         if(!profile.getPlayerCountText().isEmpty() && !profile.isHidePlayersEnabled()){
             event.setPlayerCount(
-                ComponentParser.text(profile.getPlayerCount())
+                ComponentParser.text(profile.getPlayerCountText())
                     .applyReplacements(player, server)
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toString()
@@ -93,7 +93,7 @@ public class PingEventHandler{
         }
         
         if(!profile.getPlayers().isEmpty() && !profile.isHidePlayersEnabled()){
-            event.setPlayers(profile.getPlayers(), player, playerPlaceholders, serverPlaceholders);
+            event.setPlayers(profile.getPlayers(), player, server);
         }
         
         if(!profile.getFavicon().isEmpty()){
