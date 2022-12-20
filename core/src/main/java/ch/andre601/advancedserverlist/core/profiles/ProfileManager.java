@@ -52,10 +52,10 @@ public class ProfileManager{
     
     public ServerListProfile getProfile(){
         for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.isInvalid())
+            if(profile.isInvalidProfile())
                 continue;
             
-            if(profile.evalConditions(replacements))
+            if(profile.evaluateConditions(replacements))
                 return profile;
         }
         
