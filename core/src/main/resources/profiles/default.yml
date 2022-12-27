@@ -16,10 +16,12 @@ priority: 0
 #  - '{playerVersion} < 759'
 
 #
-# This option allows you to have multiple MOTDs, hovers, etc. defined. Essentially, this is profiles within a profile.
-# Any option that is not set or is set to an empty one (if allowed) will be overriden by the "global" options.
+# Option that allows you to define multiple profiles to use.
+# Each entry supports the same options as the server list profile does. Whenever an option is not present, or set to
+# an empty value (If supported) would the option in the file be used (if present).
+# This allows you to f.e. randomize the MOTD while keeping other options the same, without copy-pasting the same options.
 #
-# A global option is just the same option in this file.
+# A profile will be selected randomly.
 #
 # Remove this option or set it to profiles: [] to use the global options of this file.
 #
@@ -42,10 +44,10 @@ priority: 0
 #        amount: 0
 
 #
-# Set the MOTDs that should be displayed.
+# Set the default (Global) MOTD used by this server list profile.
 # Supports HEX colors for 1.16+ servers including gradients using MiniMessage's <gradient:color:color> format.
 # 
-# Remove this option or set it to motds: [] to not alter the MOTD.
+# Remove this option or set it to motd: [] to not alter the MOTD.
 #
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#motds
 #
@@ -54,11 +56,13 @@ motd:
   - '<grey>Line 2'
 
 #
-# Allows you to set a favicon for this server list profile.
+# Allows you to set a global (Default) favicon for this server list profile.
 # You can use one of three possible options:
 #   1. A file name matching a PNG file located in the 'favicons' folder (Needs to end with .png)
 #   2. A URL pointing to a valid Image
 #   3. ${player name} to display the player's head as favicon. Uses https://mc-heads.net for this
+#
+# Remove this option or set to favicon: '' to not replace the Favicon.
 #
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#favicon
 #
@@ -76,12 +80,15 @@ playerCount:
   #
   # Note that when this is enabled will all other options, except for 'extraPlayers', be ignored.
   #
+  # Defaults to false when not present.
+  #
   # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hideplayers
   #
   hidePlayers: false
   #
   # Sets the text displayed when hovering over the player count.
-  # You can set this to 'hover: []' or remove the option to not modify the hover text.
+  #
+  # Remove this option or set it to hover: [] to not modify the player samples on the player count.
   #
   # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hover
   #
@@ -95,7 +102,7 @@ playerCount:
   # Note that when used, the Ping icon will display as 'outdated server'/'outdated client'.
   # This is nothing that can be fixed or avoided and would require changes from Mojang.
   #
-  # You can set this to 'count: ''' or remove the option to not modify the player count text.
+  # Remove this option or set it to text: '' to not modify the player count text.
   #
   # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#text
   #
