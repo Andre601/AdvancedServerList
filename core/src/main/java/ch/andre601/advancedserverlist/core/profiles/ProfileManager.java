@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProfileManager{
@@ -61,4 +62,74 @@ public class ProfileManager{
         
         return null;
     }
+    
+    /*
+     * Convenience method to get a ProfileEntry instance with values merged.
+     * If the random profile's value is not null will it be used instead of the default one.
+     */
+    public static ProfileEntry merge(ServerListProfile profile){
+        ProfileEntry entry = profile.getRandomProfile();
+        ProfileEntry defEntry = profile.getDefaultProfile();
+        
+        List<String> motd = resolveMOTD(entry, defEntry);
+        List<String> players = resolvePlayers(entry, defEntry);
+        String playerCountText = resolvePlayerCountText(entry, defEntry);
+        String favicon = resolveFavicon(entry, defEntry);
+        boolean isHidePlayersEnabled = resolveHidePlayersEnabled(entry, defEntry);
+        boolean isExtraPlayersEnabled = resolveExtraPlayersEnabled(entry, defEntry);
+        int extraPlayersCount = resolveExtraPlayersCount(entry, defEntry);
+        
+        return new ProfileEntry(motd, players, playerCountText, favicon, isHidePlayersEnabled, isExtraPlayersEnabled,
+            extraPlayersCount);
+    }
+    
+    private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null)
+            return defaultProfile.getMOTD();
+        
+        return profile.getMOTD();
+    }
+    
+    private static List<String> resolvePlayers(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null)
+            return defaultProfile.getPlayers();
+        
+        return profile.getPlayers();
+    }
+    
+    private static String resolvePlayerCountText(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null)
+            return defaultProfile.getPlayerCountText();
+        
+        return profile.getPlayerCountText();
+    }
+    
+    private static String resolveFavicon(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null)
+            return defaultProfile.getFavicon();
+        
+        return profile.getFavicon();
+    }
+    
+    private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null)
+            return defaultProfile.isHidePlayersEnabled();
+        
+        return profile.isHidePlayersEnabled();
+    }
+    
+    private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null)
+            return defaultProfile.isExtraPlayersEnabled();
+        
+        return profile.isExtraPlayersEnabled();
+    }
+    
+    private static int resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null)
+            return defaultProfile.getExtraPlayersCount();
+        
+        return profile.getExtraPlayersCount();
+    }
+    
 }

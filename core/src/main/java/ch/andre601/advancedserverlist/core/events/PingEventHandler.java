@@ -25,8 +25,8 @@
 
 package ch.andre601.advancedserverlist.core.events;
 
-import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
@@ -64,7 +64,7 @@ public class PingEventHandler{
         if(profile == null)
             return;
     
-        ProfileEntry entry = profile.getRandomProfile();
+        ProfileEntry entry = ProfileManager.merge(profile);
         
         if(entry.isExtraPlayersEnabled()){
             max = online + entry.getExtraPlayersCount();

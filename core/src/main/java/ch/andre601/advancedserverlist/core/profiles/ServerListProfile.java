@@ -30,7 +30,10 @@ import ch.andre601.advancedserverlist.core.profiles.conditions.Expression;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class ServerListProfile{
     
@@ -38,7 +41,7 @@ public class ServerListProfile{
     private final List<Expression> expressions;
     private final ProfileEntry defaultProfile;
     
-    private List<ProfileEntry> profiles;
+    private final List<ProfileEntry> profiles;
     
     private final Random random = new Random();
     
@@ -67,10 +70,7 @@ public class ServerListProfile{
     
     public ProfileEntry getRandomProfile(){
         if(profiles.isEmpty()){
-            if(defaultProfile == null || defaultProfile.isInvalidProfile())
-                return null;
-            
-            return defaultProfile;
+            return null;
         }
         
         synchronized(random){
@@ -78,55 +78,8 @@ public class ServerListProfile{
         }
     }
     
-    public List<String> getMOTD(){
-        ProfileEntry profile = getRandomProfile();
-        if(profile == null)
-            return Collections.emptyList();
-        
-        if(profile.getMOTD().size() > 2)
-            return profile.getMOTD().subList(0, 2);
-        
-        return profile.getMOTD();
-    }
-    
-    public List<String> getPlayers(){
-        ProfileEntry profile = getRandomProfile();
-        if(profile == null)
-            return Collections.emptyList();
-        
-        return profile.getPlayers();
-    }
-    
-    public String getPlayerCountText(){
-        ProfileEntry profile = getRandomProfile();
-        if(profile == null)
-            return null;
-        
-        return profile.getPlayerCountText();
-    }
-    
-    public String getFavicon(){
-        ProfileEntry profile = getRandomProfile();
-        if(profile == null)
-            return null;
-        
-        return profile.getFavicon();
-    }
-    
-    public boolean isHidePlayersEnabled(){
-        ProfileEntry profile = getRandomProfile();
-        if(profile == null)
-            return false;
-        
-        return profile.isExtraPlayersEnabled();
-    }
-    
-    public boolean isExtraPlayersEnabled(){
-        ProfileEntry profile = getRandomProfile();
-        if(profile == null)
-            return false;
-        
-        return profile.isExtraPlayersEnabled();
+    public ProfileEntry getDefaultProfile(){
+        return defaultProfile;
     }
     
     /*
@@ -159,7 +112,7 @@ public class ServerListProfile{
         private final PluginLogger logger;
         
         private List<ProfileEntry> profiles = new ArrayList<>();
-        private ProfileEntry defaultProfile = null;
+        private ProfileEntry defaultProfile = ProfileEntry.empty();
         
         private Builder(ConfigurationNode node, PluginLogger logger){
             this.node = node;

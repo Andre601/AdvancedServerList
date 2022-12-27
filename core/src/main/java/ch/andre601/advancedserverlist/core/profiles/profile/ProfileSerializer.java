@@ -37,7 +37,7 @@ public class ProfileSerializer implements TypeSerializer<ProfileEntry>{
     public static final ProfileSerializer INSTANCE = new ProfileSerializer();
     
     @Override
-    public ProfileEntry deserialize(Type type, ConfigurationNode node) throws SerializationException{
+    public ProfileEntry deserialize(Type type, ConfigurationNode node){
         return ProfileEntry.Builder.resolve(node).build();
     }
     

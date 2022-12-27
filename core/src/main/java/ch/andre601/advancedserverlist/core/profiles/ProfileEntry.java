@@ -25,7 +25,6 @@
 
 package ch.andre601.advancedserverlist.core.profiles;
 
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -44,8 +43,8 @@ public class ProfileEntry{
     private final int extraPlayersCount;
     
     public ProfileEntry(List<String> motd, List<String> players,
-                               String playerCountText, String favicon, boolean hidePlayersEnabled,
-                               boolean extraPlayersEnabled, int extraPlayersCount){
+                        String playerCountText, String favicon, boolean hidePlayersEnabled,
+                        boolean extraPlayersEnabled, int extraPlayersCount){
         this.motd = motd;
         this.players = players;
         this.playerCountText = playerCountText;
@@ -53,6 +52,11 @@ public class ProfileEntry{
         this.hidePlayersEnabled = hidePlayersEnabled;
         this.extraPlayersEnabled = extraPlayersEnabled;
         this.extraPlayersCount = extraPlayersCount;
+    }
+    
+    public static ProfileEntry empty(){
+        return new ProfileEntry(Collections.emptyList(), Collections.emptyList(), "", "",
+            false, false, 0);
     }
     
     public List<String> getMOTD(){
