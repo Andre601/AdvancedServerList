@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.core.events;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
+import ch.andre601.advancedserverlist.core.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
@@ -62,35 +63,33 @@ public class PingEventHandler{
         
         if(profile == null)
             return;
+    
+        ProfileEntry entry = profile.getRandomProfile();
         
-        if(profile.isExtraPlayersEnabled()){
-            max = online + profile.getExtraPlayers();
+        if(entry.isExtraPlayersEnabled()){
+            max = online + entry.getExtraPlayersCount();
             event.setMaxPlayers(max);
         }
         
         serverPlaceholders = new ServerPlaceholders(online, max, host);
         
-        if(!profile.getMOTDs().isEmpty()){
-            ServerListProfile.Motd motd = profile.getRandomMOTD();
-            
-            if(motd != null){
-                event.setMotd(
-                    ComponentParser.text(motd.getText())
-                        .replacements(playerPlaceholders)
-                        .replacements(serverPlaceholders)
-                        .modifyText(text -> event.parsePAPIPlaceholders(text, player))
-                        .toComponent()
-                );
-            }
+        if(!entry.getMOTD().isEmpty()){
+            event.setMotd(
+                ComponentParser.list(entry.getMOTD())
+                    .replacements(playerPlaceholders)
+                    .replacements(serverPlaceholders)
+                    .modifyText(text -> event.parsePAPIPlaceholders(text, player))
+                    .toComponent()
+            );
         }
         
-        if(profile.isHidePlayersEnabled()){
+        if(entry.isHidePlayersEnabled()){
             event.hidePlayers();
         }
         
-        if(!profile.getPlayerCountText().isEmpty() && !profile.isHidePlayersEnabled()){
+        if(!entry.getPlayerCountText().isEmpty() && !entry.isHidePlayersEnabled()){
             event.setPlayerCount(
-                ComponentParser.text(profile.getPlayerCountText())
+                ComponentParser.text(entry.getPlayerCountText())
                     .replacements(playerPlaceholders)
                     .replacements(serverPlaceholders)
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
@@ -98,12 +97,12 @@ public class PingEventHandler{
             );
         }
         
-        if(!profile.getPlayers().isEmpty() && !profile.isHidePlayersEnabled()){
-            event.setPlayers(profile.getPlayers(), player, playerPlaceholders, serverPlaceholders);
+        if(!entry.getPlayers().isEmpty() && !entry.isHidePlayersEnabled()){
+            event.setPlayers(entry.getPlayers(), player, playerPlaceholders, serverPlaceholders);
         }
         
-        if(!profile.getFavicon().isEmpty()){
-            String favicon = StringReplacer.replace(profile.getFavicon(), playerPlaceholders.getReplacements());
+        if(!entry.getFavicon().isEmpty()){
+            String favicon = StringReplacer.replace(entry.getFavicon(), playerPlaceholders.getReplacements());
             
             F fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
                 try{

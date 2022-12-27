@@ -27,7 +27,9 @@ package ch.andre601.advancedserverlist.core.file;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.profile.ProfileSerializer;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
@@ -106,6 +108,7 @@ public class FileHandler{
                 return false;
             }
         }
+        
         return reloadProfiles();
     }
     
@@ -142,6 +145,7 @@ public class FileHandler{
     
     public ConfigurationNode getConfigurationNode(Path path){
         YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .defaultOptions(opts -> opts.serializers(build -> build.register(ProfileEntry.class, ProfileSerializer.INSTANCE)))
             .path(path)
             .build();
         

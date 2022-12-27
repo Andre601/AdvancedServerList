@@ -21,10 +21,10 @@
 
     <modules>
         <module>core</module>
-        <module>velocity</module>
         <module>bungeecord</module>
         <module>paper</module>
         <module>spigot</module>
+        <module>velocity</module>
     </modules>
 
 </project>
