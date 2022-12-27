@@ -16,6 +16,32 @@ priority: 0
 #  - '{playerVersion} < 759'
 
 #
+# This option allows you to have multiple MOTDs, hovers, etc. defined. Essentially, this is profiles within a profile.
+# Any option that is not set or is set to an empty one (if allowed) will be overriden by the "global" options.
+#
+# A global option is just the same option in this file.
+#
+# Remove this option or set it to profiles: [] to use the global options of this file.
+#
+# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#profiles
+#
+#profiles:
+#  - motd:
+#      - '<aqua>Line 1'
+#      - '<aqua>Line 2'
+#    favicon: ''
+#    playerCount:
+#      hidePlayers: false
+#      hover:
+#        - '<green>Line 1'
+#        - '<green>Line 2'
+#        - '<green>Line 3'
+#      text: ''
+#      extraPlayers:
+#        enabled: false
+#        amount: 0
+
+#
 # Set the MOTDs that should be displayed.
 # Supports HEX colors for 1.16+ servers including gradients using MiniMessage's <gradient:color:color> format.
 # 
@@ -23,10 +49,9 @@ priority: 0
 #
 # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#motds
 #
-motds:
-  - |-
-    <grey>Line 1
-    <grey>Line 2
+motd:
+  - '<grey>Line 1'
+  - '<grey>Line 2'
 
 #
 # Allows you to set a favicon for this server list profile.
