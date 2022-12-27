@@ -38,13 +38,13 @@ public class ProfileEntry{
     private final List<String> players;
     private final String playerCountText;
     private final String favicon;
-    private final boolean hidePlayersEnabled;
-    private final boolean extraPlayersEnabled;
-    private final int extraPlayersCount;
+    private final Boolean hidePlayersEnabled;
+    private final Boolean extraPlayersEnabled;
+    private final Integer extraPlayersCount;
     
     public ProfileEntry(List<String> motd, List<String> players,
-                        String playerCountText, String favicon, boolean hidePlayersEnabled,
-                        boolean extraPlayersEnabled, int extraPlayersCount){
+                        String playerCountText, String favicon, Boolean hidePlayersEnabled,
+                        Boolean extraPlayersEnabled, Integer extraPlayersCount){
         this.motd = motd;
         this.players = players;
         this.playerCountText = playerCountText;
@@ -75,15 +75,15 @@ public class ProfileEntry{
         return favicon;
     }
     
-    public boolean isHidePlayersEnabled(){
+    public Boolean isHidePlayersEnabled(){
         return hidePlayersEnabled;
     }
     
-    public boolean isExtraPlayersEnabled(){
+    public Boolean isExtraPlayersEnabled(){
         return extraPlayersEnabled;
     }
     
-    public int getExtraPlayersCount(){
+    public Integer getExtraPlayersCount(){
         return extraPlayersCount;
     }
     
@@ -102,9 +102,9 @@ public class ProfileEntry{
         private List<String> players = new ArrayList<>();
         private String playerCountText = null;
         private String favicon = null;
-        private boolean hidePlayersEnabled = false;
-        private boolean extraPlayersEnabled = false;
-        private int extraPlayersCount = 0;
+        private Boolean hidePlayersEnabled = false;
+        private Boolean extraPlayersEnabled = false;
+        private Integer extraPlayersCount = 0;
     
         private Builder(ConfigurationNode node){
             this.node = node;
@@ -123,6 +123,7 @@ public class ProfileEntry{
         
         public Builder resolveMOTD(){
             List<String> motd = resolveList(node, "motd");
+            System.out.println(String.join(", ", motd));
             if(motd.size() <= 2){
                 this.motd = motd;
                 return this;
@@ -148,16 +149,31 @@ public class ProfileEntry{
         }
         
         public Builder resolveHidePlayersEnabled(){
-            this.hidePlayersEnabled = node.node("playerCount", "hidePlayers").getBoolean();
+            if(node.node("playerCount", "hidePlayers").virtual()){
+                this.hidePlayersEnabled = null;
+                return this;
+            }
+            
+            this.hidePlayersEnabled = node.node("playerCount", "hidePlayers").isNull();
             return this;
         }
         
         public Builder resolveExtraPlayersEnabled(){
+            if(node.node("playerCount", "extraPlayers", "enabled").virtual()){
+                this.extraPlayersEnabled = null;
+                return this;
+            }
+            
             this.extraPlayersEnabled = node.node("playerCount", "extraPlayers", "enabled").getBoolean();
             return this;
         }
         
         public Builder resolveExtraPlayersCount(){
+            if(node.node("playerCount", "extraPlayers", "amount").virtual()){
+                this.extraPlayersCount = null;
+                return this;
+            }
+            
             this.extraPlayersCount = node.node("playerCount", "extraPlayers", "amount").getInt();
             return this;
         }
@@ -169,8 +185,10 @@ public class ProfileEntry{
     
         private List<String> resolveList(ConfigurationNode node, Object... path){
             try{
+                System.out.println("Resolved list!");
                 return node.node(path).getList(String.class);
             }catch(SerializationException ex){
+                System.out.println(ex.getMessage());
                 return Collections.emptyList();
             }
         }

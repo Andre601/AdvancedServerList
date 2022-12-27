@@ -66,8 +66,8 @@ public class PingEventHandler{
     
         ProfileEntry entry = ProfileManager.merge(profile);
         
-        if(entry.isExtraPlayersEnabled()){
-            max = online + entry.getExtraPlayersCount();
+        if(entry.isExtraPlayersEnabled() != null && entry.isExtraPlayersEnabled()){
+            max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
             event.setMaxPlayers(max);
         }
         
@@ -83,11 +83,13 @@ public class PingEventHandler{
             );
         }
         
-        if(entry.isHidePlayersEnabled()){
+        boolean hidePlayers = entry.isHidePlayersEnabled() != null && entry.isHidePlayersEnabled();
+        
+        if(hidePlayers){
             event.hidePlayers();
         }
         
-        if(!entry.getPlayerCountText().isEmpty() && !entry.isHidePlayersEnabled()){
+        if(!entry.getPlayerCountText().isEmpty() && !hidePlayers){
             event.setPlayerCount(
                 ComponentParser.text(entry.getPlayerCountText())
                     .replacements(playerPlaceholders)
@@ -97,7 +99,7 @@ public class PingEventHandler{
             );
         }
         
-        if(!entry.getPlayers().isEmpty() && !entry.isHidePlayersEnabled()){
+        if(!entry.getPlayers().isEmpty() && !hidePlayers){
             event.setPlayers(entry.getPlayers(), player, playerPlaceholders, serverPlaceholders);
         }
         

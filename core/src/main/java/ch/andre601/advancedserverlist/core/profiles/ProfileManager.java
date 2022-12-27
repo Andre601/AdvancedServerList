@@ -75,58 +75,58 @@ public class ProfileManager{
         List<String> players = resolvePlayers(entry, defEntry);
         String playerCountText = resolvePlayerCountText(entry, defEntry);
         String favicon = resolveFavicon(entry, defEntry);
-        boolean isHidePlayersEnabled = resolveHidePlayersEnabled(entry, defEntry);
-        boolean isExtraPlayersEnabled = resolveExtraPlayersEnabled(entry, defEntry);
-        int extraPlayersCount = resolveExtraPlayersCount(entry, defEntry);
+        Boolean isHidePlayersEnabled = resolveHidePlayersEnabled(entry, defEntry);
+        Boolean isExtraPlayersEnabled = resolveExtraPlayersEnabled(entry, defEntry);
+        Integer extraPlayersCount = resolveExtraPlayersCount(entry, defEntry);
         
         return new ProfileEntry(motd, players, playerCountText, favicon, isHidePlayersEnabled, isExtraPlayersEnabled,
             extraPlayersCount);
     }
     
     private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null)
+        if(profile == null || profile.getMOTD().isEmpty())
             return defaultProfile.getMOTD();
         
         return profile.getMOTD();
     }
     
     private static List<String> resolvePlayers(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null)
+        if(profile == null || profile.getPlayers().isEmpty())
             return defaultProfile.getPlayers();
         
         return profile.getPlayers();
     }
     
     private static String resolvePlayerCountText(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null)
+        if(profile == null || profile.getPlayerCountText().isEmpty())
             return defaultProfile.getPlayerCountText();
         
         return profile.getPlayerCountText();
     }
     
     private static String resolveFavicon(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null)
+        if(profile == null || profile.getFavicon().isEmpty())
             return defaultProfile.getFavicon();
         
         return profile.getFavicon();
     }
     
-    private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null)
+    private static Boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null || profile.isHidePlayersEnabled() == null)
             return defaultProfile.isHidePlayersEnabled();
         
         return profile.isHidePlayersEnabled();
     }
     
-    private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null)
+    private static Boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null || profile.isExtraPlayersEnabled() == null)
             return defaultProfile.isExtraPlayersEnabled();
         
         return profile.isExtraPlayersEnabled();
     }
     
-    private static int resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null)
+    private static Integer resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null || profile.getExtraPlayersCount() == null)
             return defaultProfile.getExtraPlayersCount();
         
         return profile.getExtraPlayersCount();
