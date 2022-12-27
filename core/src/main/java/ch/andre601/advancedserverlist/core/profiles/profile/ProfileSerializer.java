@@ -25,7 +25,6 @@
 
 package ch.andre601.advancedserverlist.core.profiles.profile;
 
-import ch.andre601.advancedserverlist.core.profiles.ProfileEntry;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;

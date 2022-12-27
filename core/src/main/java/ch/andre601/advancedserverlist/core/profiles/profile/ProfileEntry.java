@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles;
+package ch.andre601.advancedserverlist.core.profiles.profile;
 
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -154,7 +154,7 @@ public class ProfileEntry{
                 return this;
             }
             
-            this.hidePlayersEnabled = node.node("playerCount", "hidePlayers").isNull();
+            this.hidePlayersEnabled = node.node("playerCount", "hidePlayers").getBoolean();
             return this;
         }
         
