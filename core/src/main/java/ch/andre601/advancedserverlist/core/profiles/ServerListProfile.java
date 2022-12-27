@@ -73,6 +73,9 @@ public class ServerListProfile{
             return null;
         }
         
+        if(profiles.size() == 1)
+            return profiles.get(0); // No need to run a random for 1 profile.
+        
         synchronized(random){
             return profiles.get(random.nextInt(profiles.size()));
         }
