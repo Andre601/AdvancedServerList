@@ -43,6 +43,13 @@
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
     
+    <repositories>
+        <repository>
+            <id>flexver-repo</id>
+            <url>https://repo.sleeping.town/</url>
+        </repository>
+    </repositories>
+    
     <dependencies>
         <dependency>
             <groupId>org.spongepowered</groupId>
@@ -80,6 +87,19 @@
             <artifactId>okhttp</artifactId>
             <version>4.10.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.unascribed</groupId>
+            <artifactId>flexver-java</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -111,6 +131,12 @@
                             </excludes>
                         </filter>
                     </filters>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.unascribed</pattern>
+                            <shadedPattern>ch.andre601.advancedserverlist.core.depends.flexver</shadedPattern>
+                        </relocation>
+                    </relocations>
                 </configuration>
                 <executions>
                     <execution>

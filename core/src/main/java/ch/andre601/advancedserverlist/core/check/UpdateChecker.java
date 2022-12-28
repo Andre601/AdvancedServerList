@@ -31,6 +31,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.unascribed.flexver.FlexVerComparator;
 import io.leangen.geantyref.TypeToken;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -83,13 +84,12 @@ public class UpdateChecker{
         
                 int result = version.compare(core.getVersion());
                 switch(result){
-                    case -2 -> {
-                        logger.warn("Encountered an exception while comparing versions. Are they valid?");
-                        logger.warn("Own version: %s; New version: %s", core.getVersion(), version.getVersionNumber());
-                    }
-                    case -1 -> logger.info("You seem to run a newer version compared to Modrinth. Are you running a dev build?");
+                    case -1 -> printUpdateBanner(version.getVersionNumber(), version.getId(), version.isRelease());
                     case 0 -> logger.info("No new update found. You're running the latest version!");
-                    case 1 -> printUpdateBanner(version.getVersionNumber(), version.getId());
+                    case 1 -> logger.info(
+                        "Your version (%s) is higher than the latest release (%s). Are you running a dev build?",
+                        core.getVersion(), version.getVersionNumber()
+                    );
                 }
             });
         }, 0L, 12L, TimeUnit.HOURS);
@@ -147,6 +147,7 @@ public class UpdateChecker{
                 }
                 
                 ModrinthVersion version = list.get(0);
+                
                 if(version.getVersionNumber() == null || version.getVersionNumber().isEmpty()){
                     logger.warn("Cannot check latest version. Received version number was null/empty.");
                     return null;
@@ -163,13 +164,20 @@ public class UpdateChecker{
         });
     }
     
-    private void printUpdateBanner(String version, String versionId){
+    private void printUpdateBanner(String version, String versionId, boolean isRelease){
         logger.info("==================================================================");
         logger.info("You are running an outdated version of AdvancedServerList!");
         logger.info("");
         logger.info("Your version: %s", core.getVersion());
         logger.info("Modrinth version: %s", version);
         logger.info("");
+        
+        if(!isRelease){
+            logger.info("WARNING: This release is an Alpha/Beta! It may contain");
+            logger.info("         breaking changes!");
+            logger.info("");
+        }
+        
         logger.info("You can download the latest release from here:");
         logger.info("https://modrinth.com/plugin/advancedserverlist/version/%s", versionId);
         logger.info("==================================================================");
@@ -180,10 +188,13 @@ public class UpdateChecker{
         private String id;
         @SuppressWarnings("FieldMayBeFinal")
         private String versionNumber;
+        @SuppressWarnings("FieldMayBeFinal")
+        private String versionType;
         
-        public ModrinthVersion(String id, String versionNumber){
+        public ModrinthVersion(String id, String versionNumber, String versionType){
             this.id = id;
             this.versionNumber = versionNumber;
+            this.versionType = versionType;
         }
     
         public String getId(){
@@ -194,26 +205,12 @@ public class UpdateChecker{
             return versionNumber;
         }
         
+        public boolean isRelease(){
+            return versionType.equals("release");
+        }
+        
         public int compare(String version){
-            String[] oldParts = version.split("\\.");
-            String[] newParts = versionNumber.split("\\.");
-            int length = Math.max(oldParts.length, newParts.length);
-            
-            for(int i = 0; i < length; i++){
-                try{
-                    int oldPart = i < oldParts.length ? Integer.parseInt(oldParts[i]) : 0;
-                    int newPart = i < newParts.length ? Integer.parseInt(newParts[i]) : 0;
-                    
-                    if(oldPart < newPart)
-                        return 1;
-                    
-                    if(oldPart > newPart)
-                        return -1;
-                }catch(NumberFormatException ex){
-                    return -2;
-                }
-            }
-            return 0;
+            return FlexVerComparator.compare(version, versionNumber);
         }
     }
 }
