@@ -25,79 +25,86 @@
 
 package ch.andre601.advancedserverlist.core.events;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import ch.andre601.advancedserverlist.core.profiles.ProfileManager;
+import ch.andre601.advancedserverlist.core.profiles.profile.ProfileEntry;
+import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 
 public class PingEventHandler{
     
-    public static <F, PL, P extends GenericPlayer<?>> void handleEvent(GenericEventWrapper<F, PL, P> event){
+    public static <P, F> void handleEvent(GenericEventWrapper<P, F> event){
         if(event.isInvalidProtocol())
             return;
         
-        PluginCore<F, PL, P> plugin = event.getPlugin();
+        PluginCore<F> plugin = event.getPlugin();
+    
+        GenericPlayer<P> player = event.createPlayer(
+            plugin.getCore().getPlayerHandler().getPlayerByIp(event.getPlayerIP()),
+            event.getProtocolVersion()
+        );
         String host = event.getVirtualHost();
         
         int online = event.getOnlinePlayers();
         int max = event.getMaxPlayers();
-        
-        P player = event.createPlayer(
-            plugin.getCore().getPlayerHandler().getPlayerByIp(event.getPlayerIP()),
-            event.getProtocolVersion()
-        );
-        GenericServer server = new GenericServer(online, max, host);
+    
+        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
+        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host);
     
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .applyReplacements(player, server)
+            .replacements(playerPlaceholders)
+            .replacements(serverPlaceholders)
             .getProfile();
         
         if(profile == null)
             return;
+    
+        ProfileEntry entry = ProfileManager.merge(profile);
         
-        if(profile.isExtraPlayersEnabled()){
-            max = online + profile.getExtraPlayers();
+        if(entry.isExtraPlayersEnabled() != null && entry.isExtraPlayersEnabled()){
+            max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
             event.setMaxPlayers(max);
         }
         
-        server = new GenericServer(online, max, host);
+        serverPlaceholders = new ServerPlaceholders(online, max, host);
         
-        if(!profile.getMOTDs().isEmpty()){
-            ServerListProfile.Motd motd = profile.getRandomMOTD();
-            
-            if(motd != null){
-                event.setMotd(
-                    ComponentParser.text(motd.getText())
-                        .applyReplacements(player, server)
-                        .modifyText(text -> event.parsePAPIPlaceholders(text, player))
-                        .toComponent()
-                );
-            }
+        if(!entry.getMOTD().isEmpty()){
+            event.setMotd(
+                ComponentParser.list(entry.getMOTD())
+                    .replacements(playerPlaceholders)
+                    .replacements(serverPlaceholders)
+                    .modifyText(text -> event.parsePAPIPlaceholders(text, player))
+                    .toComponent()
+            );
         }
         
-        if(profile.isHidePlayersEnabled()){
+        boolean hidePlayers = entry.isHidePlayersEnabled() != null && entry.isHidePlayersEnabled();
+        
+        if(hidePlayers){
             event.hidePlayers();
         }
         
-        if(!profile.getPlayerCountText().isEmpty() && !profile.isHidePlayersEnabled()){
+        if(!entry.getPlayerCountText().isEmpty() && !hidePlayers){
             event.setPlayerCount(
-                ComponentParser.text(profile.getPlayerCountText())
-                    .applyReplacements(player, server)
+                ComponentParser.text(entry.getPlayerCountText())
+                    .replacements(playerPlaceholders)
+                    .replacements(serverPlaceholders)
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toString()
             );
         }
         
-        if(!profile.getPlayers().isEmpty() && !profile.isHidePlayersEnabled()){
-            event.setPlayers(profile.getPlayers(), player, server);
+        if(!entry.getPlayers().isEmpty() && !hidePlayers){
+            event.setPlayers(entry.getPlayers(), player, playerPlaceholders, serverPlaceholders);
         }
         
-        if(!profile.getFavicon().isEmpty()){
-            String favicon = StringReplacer.replace(profile.getFavicon(), player, server);
+        if(!entry.getFavicon().isEmpty()){
+            String favicon = StringReplacer.replace(entry.getFavicon(), playerPlaceholders.getReplacements());
             
             F fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
                 try{

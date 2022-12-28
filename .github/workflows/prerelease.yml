@@ -9,7 +9,7 @@ on:
   release:
     types:
     - published
-    - released
+    - prereleased
 
 jobs:
   buildJars:
@@ -87,9 +87,9 @@ jobs:
     - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth
       uses: Kir-Antipov/mc-publish@v3.2
       with:
-        name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
+        name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }}) BETA
         version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
-        version-type: release
+        version-type: beta
         files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
         files-secondary: ""
         loaders: ${{ matrix.loaders }}

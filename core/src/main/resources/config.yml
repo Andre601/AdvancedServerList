@@ -1,6 +1,8 @@
 #
 # Used for when AdvancedServerList doesn't have a cached player to use for ${player name}
 #
+# Defaults to 'Anonymous' when not present.
+#
 unknown_player: "Anonymous"
 
 #
@@ -9,6 +11,8 @@ unknown_player: "Anonymous"
 # When set to true will AdvancedServerList not load any players from the cache.data file (if present) nor save any to it.
 # Placeholders that rely on the player being cached (such as ${player isWhitelisted}) will not work while this option is enabled.
 #
+# Defaults to false when not present.
+#
 disable_cache: false
 
 #
@@ -16,5 +20,7 @@ disable_cache: false
 #
 # When set to true will AdvancedServerList check for a new version on modrinth.com every 12 hours and inform you in the
 # console about whether it found any new update or not.
+#
+# Defaults to false when not present.
 #
 check_updates: true
