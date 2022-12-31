@@ -123,7 +123,6 @@ public class ProfileEntry{
         
         public Builder resolveMOTD(){
             List<String> motd = resolveList(node, "motd");
-            System.out.println(String.join(", ", motd));
             if(motd.size() <= 2){
                 this.motd = motd;
                 return this;
@@ -185,10 +184,8 @@ public class ProfileEntry{
     
         private List<String> resolveList(ConfigurationNode node, Object... path){
             try{
-                System.out.println("Resolved list!");
                 return node.node(path).getList(String.class);
             }catch(SerializationException ex){
-                System.out.println(ex.getMessage());
                 return Collections.emptyList();
             }
         }
