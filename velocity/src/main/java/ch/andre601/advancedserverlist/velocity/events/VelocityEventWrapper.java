@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.velocity.events;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
@@ -139,8 +140,8 @@ public class VelocityEventWrapper implements GenericEventWrapper<Player, Favicon
     }
     
     @Override
-    public GenericPlayer<Player> createPlayer(String name, int protocol){
-        return new VelocityPlayer(name, protocol);
+    public GenericPlayer<Player> createPlayer(PlayerHandler.CachedPlayer player, int protocol){
+        return new VelocityPlayer(player, protocol);
     }
     
     @Override

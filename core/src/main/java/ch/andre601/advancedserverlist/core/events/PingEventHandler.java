@@ -43,9 +43,9 @@ public class PingEventHandler{
             return;
         
         PluginCore<F> plugin = event.getPlugin();
-    
+        
         GenericPlayer<P> player = event.createPlayer(
-            plugin.getCore().getPlayerHandler().getPlayerByIp(event.getPlayerIP()),
+            plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
             event.getProtocolVersion()
         );
         String host = event.getVirtualHost();

@@ -26,110 +26,158 @@
 package ch.andre601.advancedserverlist.core.profiles.players;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.replacer.EntryList;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import com.google.gson.Gson;
+import io.leangen.geantyref.TypeToken;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class PlayerHandler{
     
     private final AdvancedServerList core;
+    private final PluginLogger logger;
     private final Path cache;
-    private final EntryList<String, String> players = new EntryList<>();
+    private List<CachedPlayer> cachedPlayers = new ArrayList<>();
+    
+    private final Type listType = new TypeToken<ArrayList<CachedPlayer>>(){}.getType();
+    private final Gson gson = new Gson();
+    
+    // UUID of MHF_Question
+    private final String defaultUUID = "606e2ff0-ed77-4842-9d6c-e1d3321c7838";
+    
+    private CachedPlayer defaultPlayer = null;
     
     public PlayerHandler(AdvancedServerList core){
         this.core = core;
-        this.cache = core.getPlugin().getFolderPath().resolve("cache.data");
+        this.logger = core.getPlugin().getPluginLogger();
+        this.cache = core.getPlugin().getFolderPath().resolve("playercache.json");
     }
     
     public void load(){
         if(!cache.toFile().exists()){
-            core.getPlugin().getPluginLogger().info("No cache.data present. Skipping...");
+            logger.info("No playercache.json file present. Skipping...");
             return;
         }
         
         if(core.getFileHandler().getBoolean("disable_cache")){
-            core.getPlugin().getPluginLogger().info("Cache disabled. Skipping player loading...");
+            logger.info("'disable_cache' is set to true. Skipping playercache.json loading...");
             return;
         }
-        
-        List<String> lines;
+    
         try{
-            lines = Files.readAllLines(cache);
+            Reader reader = Files.newBufferedReader(cache);
+            
+            cachedPlayers = gson.fromJson(reader, listType);
+            
+            reader.close();
         }catch(IOException ex){
-            core.getPlugin().getPluginLogger().warn("Encountered IOException while trying to read cache.data", ex);
+            logger.warn("Encountered IOException while reading the playercache.json file!", ex);
             return;
         }
         
-        if(lines.isEmpty()){
-            core.getPlugin().getPluginLogger().info("cache.data is empty. Skipping...");
-            return;
-        }
-        
-        for(String line : lines){
-            String[] parts = line.split("=", 2);
-            if(parts.length < 2 || parts[0].isEmpty() || parts[1].isEmpty())
-                continue;
-            
-            if(players.containsKey(parts[0]))
-                continue;
-            
-            players.add(parts[0], parts[1]);
-        }
-        
-        core.getPlugin().getPluginLogger().info("Loaded " + players.size() + " players into cache!");
+        logger.info("Loaded %d players into cache!", cachedPlayers.size());
     }
     
     public void save(){
-        if(players.isEmpty()){
-            core.getPlugin().getPluginLogger().info("No data to save. Skipping...");
+        if(cachedPlayers.isEmpty()){
+            logger.info("No players in cache to save. Skipping...");
             return;
         }
-    
+        
         if(core.getFileHandler().getBoolean("disable_cache")){
-            core.getPlugin().getPluginLogger().info("Cache disabled. Skipping player saving...");
+            logger.info("'disable_cache' is set to true. Skipping saving of cached players...");
             return;
         }
         
-        StringJoiner joiner = new StringJoiner("\n");
-        for(Map.Entry<String, String> entry : players){
-            joiner.add(entry.getKey() + "=" + entry.getValue());
-        }
-        
-        try{
-            BufferedWriter writer = Files.newBufferedWriter(cache, StandardCharsets.UTF_8);
-            
-            writer.write(joiner.toString());
-            writer.close();
-            
-            core.getPlugin().getPluginLogger().info("Successfully saved cache.data file.");
+        try(BufferedWriter writer = Files.newBufferedWriter(cache, StandardCharsets.UTF_8)){
+            gson.toJson(cachedPlayers, listType, writer);
+            logger.info("Successfully saved playercache.json file.");
         }catch(IOException ex){
-            core.getPlugin().getPluginLogger().warn("Cannot save player data to cache.data file!", ex);
+            logger.warn("Encountered IOException while saving cached players to playercache.json!", ex);
         }
+        
+        
     }
     
-    public void addPlayer(String name, String ip){
-        if(players.containsKey(name) || core.getFileHandler().getBoolean("disable_cache"))
+    public void addPlayer(String ip, String name, UUID uuid){
+        if(contains(ip) || core.getFileHandler().getBoolean("disable_cache"))
             return;
         
-        players.add(name, ip);
+        cachedPlayers.add(new CachedPlayer(ip, name, uuid));
     }
     
-    public String getPlayerByIp(String ip){
-        if(core.getFileHandler().getBoolean("disable_cache"))
-            core.getFileHandler().getString("Anonymous", "unknown_player");
+    public CachedPlayer getCachedPlayer(String key){
+        if(contains(key) || core.getFileHandler().getBoolean("disable_cache"))
+            return getDefaultPlayer();
         
-        for(Map.Entry<String, String> entry : players){
-            if(entry.getValue().equals(ip))
-                return entry.getKey();
+        for(CachedPlayer player : cachedPlayers){
+            if(player.getIp().equals(key))
+                return player;
         }
         
-        return core.getFileHandler().getString("Anonymous", "unknown_player");
+        return getDefaultPlayer();
+    }
+    
+    private boolean contains(String ip){
+    
+        for(CachedPlayer player : cachedPlayers){
+            if(player.getIp().equals(ip))
+                return true;
+        }
+        
+        return false;
+    }
+    
+    private CachedPlayer getDefaultPlayer(){
+        if(defaultPlayer != null)
+            return defaultPlayer;
+        
+        return (defaultPlayer = new CachedPlayer(
+            "0.0.0.0",
+            core.getFileHandler().getString("Anonymous", "unknown_player"),
+            convertToUUID(core.getFileHandler().getString(defaultUUID, "unknown_player_uuid"))
+        ));
+    }
+    
+    private UUID convertToUUID(String uuid){
+        try{
+            return UUID.fromString(uuid);
+        }catch(IllegalArgumentException ex){
+            // This is always a valid UUID.
+            return UUID.fromString(defaultUUID);
+        }
+    }
+    
+    @SuppressWarnings("FieldMayBeFinal")
+    public static class CachedPlayer{
+        
+        private String ip;
+        private String name;
+        private UUID uuid;
+        
+        public CachedPlayer(String ip, String name, UUID uuid){
+            this.ip = ip;
+            this.name = name;
+            this.uuid = uuid;
+        }
+        
+        public String getIp(){
+            return ip;
+        }
+        
+        public String getName(){
+            return name;
+        }
+    
+        public UUID getUuid(){
+            return uuid;
+        }
     }
 }

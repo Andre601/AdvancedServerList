@@ -26,12 +26,14 @@
 package ch.andre601.advancedserverlist.bungeecord;
 
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeePlayer extends GenericPlayer<ProxiedPlayer>{
     
-    public BungeePlayer(String name, int protocol){
-        this.name = name;
+    public BungeePlayer(PlayerHandler.CachedPlayer player, int protocol){
+        this.name = player.getName();
         this.protocol = protocol;
+        this.uuid = player.getUuid();
     }
 }

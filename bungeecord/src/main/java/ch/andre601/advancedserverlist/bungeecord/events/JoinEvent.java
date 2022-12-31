@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.bungeecord.events;
 
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -44,6 +45,8 @@ public class JoinEvent implements Listener{
     @EventHandler
     public void onJoin(PostLoginEvent event){
         InetSocketAddress address = (InetSocketAddress)event.getPlayer().getPendingConnection().getSocketAddress();
-        plugin.getCore().getPlayerHandler().addPlayer(event.getPlayer().getName(), address.getHostString());
+        ProxiedPlayer player = event.getPlayer();
+        
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.velocity.events;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
+import com.velocitypowered.api.proxy.Player;
 
 import java.net.InetSocketAddress;
 
@@ -43,6 +44,8 @@ public class JoinEvent{
     @Subscribe
     public void onJoin(PostLoginEvent event){
         InetSocketAddress address = event.getPlayer().getRemoteAddress();
-        plugin.getCore().getPlayerHandler().addPlayer(event.getPlayer().getUsername(), address.getHostString());
+        Player player = event.getPlayer();
+        
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getUsername(), player.getUniqueId());
     }
 }

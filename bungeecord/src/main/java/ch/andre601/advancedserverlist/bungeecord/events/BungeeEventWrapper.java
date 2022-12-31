@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import net.kyori.adventure.text.Component;
@@ -145,8 +146,8 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     }
     
     @Override
-    public GenericPlayer<ProxiedPlayer> createPlayer(String name, int protocol){
-        return new BungeePlayer(name, protocol);
+    public GenericPlayer<ProxiedPlayer> createPlayer(PlayerHandler.CachedPlayer player, int protocol){
+        return new BungeePlayer(player, protocol);
     }
     
     @Override

@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.paper.events;
 
 import ch.andre601.advancedserverlist.paper.PaperCore;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -46,7 +47,8 @@ public class JoinEvent implements Listener{
         InetSocketAddress address = event.getPlayer().getAddress();
         if(address == null)
             return;
-        
-        plugin.getCore().getPlayerHandler().addPlayer(event.getPlayer().getName(), address.getHostString());
+    
+        Player player = event.getPlayer();
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

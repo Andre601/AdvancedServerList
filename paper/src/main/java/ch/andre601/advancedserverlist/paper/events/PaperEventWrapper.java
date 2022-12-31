@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.paper.events;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.paper.PaperCore;
@@ -141,16 +142,10 @@ public class PaperEventWrapper implements GenericEventWrapper<OfflinePlayer, Cac
     }
     
     @Override
-    public GenericPlayer<OfflinePlayer> createPlayer(String name, int protocol){
-        OfflinePlayer player = Bukkit.getPlayerExact(name);
+    public GenericPlayer<OfflinePlayer> createPlayer(PlayerHandler.CachedPlayer player, int protocol){
+        OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
-        if(player == null){
-            player = Bukkit.getOfflinePlayer(name);
-            
-            return new PaperPlayer(player.hasPlayedBefore() ? player : null, name, protocol);
-        }
-        
-        return new PaperPlayer(player, name, protocol);
+        return new PaperPlayer(pl.hasPlayedBefore() ? pl : null, player, protocol);
     }
     
     @Override

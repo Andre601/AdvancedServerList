@@ -26,22 +26,24 @@
 package ch.andre601.advancedserverlist.spigot;
 
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import org.bukkit.OfflinePlayer;
 
 public class SpigotPlayer extends GenericPlayer<OfflinePlayer>{
     
-    public SpigotPlayer(OfflinePlayer player, String name, int protocol){
+    public SpigotPlayer(OfflinePlayer player, PlayerHandler.CachedPlayer cachedPlayer, int protocol){
         this.player = player;
-        
-        this.name = player == null ? name : player.getName();
+    
+        this.name = player == null ? cachedPlayer.getName() : player.getName();
         this.protocol = protocol;
-        
+    
+        this.uuid = player == null ? cachedPlayer.getUuid() : player.getUniqueId();
+    
         if(player == null)
             return;
-        
+    
         this.playedBefore = player.hasPlayedBefore();
         this.banned = player.isBanned();
         this.whitelisted = player.isWhitelisted();
-        this.uuid = player.getUniqueId();
     }
 }
