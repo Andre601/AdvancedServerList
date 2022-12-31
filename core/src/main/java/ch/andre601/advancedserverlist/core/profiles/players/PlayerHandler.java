@@ -114,7 +114,7 @@ public class PlayerHandler{
     }
     
     public CachedPlayer getCachedPlayer(String key){
-        if(contains(key) || core.getFileHandler().getBoolean("disable_cache"))
+        if(!contains(key) || core.getFileHandler().getBoolean("disable_cache"))
             return getDefaultPlayer();
         
         for(CachedPlayer player : cachedPlayers){
