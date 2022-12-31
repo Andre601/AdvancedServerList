@@ -77,7 +77,7 @@ public class AdvancedServerList{
     }
     
     public void disable(){
-        getPlugin().getPluginLogger().info("Saving cache.data file...");
+        getPlugin().getPluginLogger().info("Saving playercache.json file...");
         getPlayerHandler().save();
         
         if(updateChecker != null){
@@ -125,7 +125,7 @@ public class AdvancedServerList{
         plugin.loadEvents();
         getPlugin().getPluginLogger().info("Events loaded!");
     
-        getPlugin().getPluginLogger().info("Loading cache.data...");
+        getPlugin().getPluginLogger().info("Loading playercache.json...");
         getPlayerHandler().load();
     
         getPlugin().getPluginLogger().info("Loading bStats metrics. Disable it in the global config under /plugins/bstats/");
