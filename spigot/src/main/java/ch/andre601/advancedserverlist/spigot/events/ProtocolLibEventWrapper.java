@@ -27,8 +27,8 @@ package ch.andre601.advancedserverlist.spigot.events;
 
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
@@ -151,7 +151,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<OfflinePlaye
     }
     
     @Override
-    public GenericPlayer<OfflinePlayer> createPlayer(PlayerHandler.CachedPlayer player, int protocol){
+    public GenericPlayer<OfflinePlayer> createPlayer(CachedPlayer player, int protocol){
         OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
         return new SpigotPlayer(pl.hasPlayedBefore() ? pl : null, player, protocol);

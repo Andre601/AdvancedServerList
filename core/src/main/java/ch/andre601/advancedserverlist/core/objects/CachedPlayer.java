@@ -25,25 +25,30 @@
 
 package ch.andre601.advancedserverlist.core.objects;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.UUID;
 
-/*
- * Original by Imo van den Berge (aka Bergerkiller: https://github.com/Bergerkiller)
- *
- * Original Source: https://github.com/bergerhealer/BKCommonLib/blob/master/src/main/java/com/bergerkiller/bukkit/common/collections/EntryList.java
- */
-public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
-    public void add(K key, V value){
-        add(new AbstractMap.SimpleEntry<>(key, value));
+@SuppressWarnings("FieldMayBeFinal")
+public class CachedPlayer{
+    
+    private String ip;
+    private String name;
+    private UUID uuid;
+    
+    public CachedPlayer(String ip, String name, UUID uuid){
+        this.ip = ip;
+        this.name = name;
+        this.uuid = uuid;
     }
     
-    public boolean containsKey(K key){
-        for(Map.Entry<K, V> entry : this){
-            if(entry.getKey().equals(key))
-                return true;
-        }
-        return false;
+    public String getIp(){
+        return ip;
+    }
+    
+    public String getName(){
+        return name;
+    }
+    
+    public UUID getUuid(){
+        return uuid;
     }
 }

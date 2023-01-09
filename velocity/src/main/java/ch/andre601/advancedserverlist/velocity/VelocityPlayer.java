@@ -25,14 +25,14 @@
 
 package ch.andre601.advancedserverlist.velocity;
 
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 
 public class VelocityPlayer extends GenericPlayer<Player>{
     
-    public VelocityPlayer(PlayerHandler.CachedPlayer player, int protocol){
+    public VelocityPlayer(CachedPlayer player, int protocol){
         this.name = player.getName();
         this.protocol = protocol;
         this.uuid = player.getUuid();

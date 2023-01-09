@@ -27,6 +27,7 @@ package ch.andre601.advancedserverlist.core.profiles.players;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import com.google.gson.Gson;
 import io.leangen.geantyref.TypeToken;
 
@@ -154,29 +155,4 @@ public class PlayerHandler{
         }
     }
     
-    @SuppressWarnings("FieldMayBeFinal")
-    public static class CachedPlayer{
-        
-        private String ip;
-        private String name;
-        private UUID uuid;
-        
-        public CachedPlayer(String ip, String name, UUID uuid){
-            this.ip = ip;
-            this.name = name;
-            this.uuid = uuid;
-        }
-        
-        public String getIp(){
-            return ip;
-        }
-        
-        public String getName(){
-            return name;
-        }
-    
-        public UUID getUuid(){
-            return uuid;
-        }
-    }
 }

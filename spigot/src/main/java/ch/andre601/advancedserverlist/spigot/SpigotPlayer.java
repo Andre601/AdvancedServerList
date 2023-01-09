@@ -25,13 +25,13 @@
 
 package ch.andre601.advancedserverlist.spigot;
 
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import org.bukkit.OfflinePlayer;
 
 public class SpigotPlayer extends GenericPlayer<OfflinePlayer>{
     
-    public SpigotPlayer(OfflinePlayer player, PlayerHandler.CachedPlayer cachedPlayer, int protocol){
+    public SpigotPlayer(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
         this.player = player;
     
         this.name = player == null ? cachedPlayer.getName() : player.getName();
