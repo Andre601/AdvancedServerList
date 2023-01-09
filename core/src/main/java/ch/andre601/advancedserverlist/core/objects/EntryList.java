@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,27 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces;
+package ch.andre601.advancedserverlist.core.objects;
 
-public interface PluginLogger{
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Map;
+
+/*
+ * Original by Imo van den Berge (aka Bergerkiller: https://github.com/Bergerkiller)
+ *
+ * Original Source: https://github.com/bergerhealer/BKCommonLib/blob/master/src/main/java/com/bergerkiller/bukkit/common/collections/EntryList.java
+ */
+public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
+    public void add(K key, V value){
+        add(new AbstractMap.SimpleEntry<>(key, value));
+    }
     
-    void info(String msg, Object... args);
-    
-    void warn(String msg, Object... args);
-    
-    void warn(String msg, Throwable throwable);
-    
-    void warn(String msg, Throwable throwable, Object... args);
+    public boolean containsKey(K key){
+        for(Map.Entry<K, V> entry : this){
+            if(entry.getKey().equals(key))
+                return true;
+        }
+        return false;
+    }
 }

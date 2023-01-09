@@ -26,7 +26,7 @@
 package ch.andre601.advancedserverlist.core.profiles.players;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.profiles.replacer.EntryList;
+import ch.andre601.advancedserverlist.core.objects.EntryList;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

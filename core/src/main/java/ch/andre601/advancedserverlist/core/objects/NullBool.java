@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer;
-
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Map;
+package ch.andre601.advancedserverlist.core.objects;
 
 /*
- * Original by Imo van den Berge (aka Bergerkiller: https://github.com/Bergerkiller)
- *
- * Original Source: https://github.com/bergerhealer/BKCommonLib/blob/master/src/main/java/com/bergerkiller/bukkit/common/collections/EntryList.java
+ * A simple class to allow having a nullable boolean without having to deal with possible NPEs
+ * when trying to get Boolean.getValue() while it is null...
+ * 
+ * Here, it simply checks if the value is null and if it is, returns a default. Otherwise it gives
+ * the value.
  */
-public class EntryList<K, V> extends ArrayList<Map.Entry<K, V>>{
-    public void add(K key, V value){
-        add(new AbstractMap.SimpleEntry<>(key, value));
+public class NullBool{
+    
+    public static final NullBool FALSE = new NullBool(false);
+    public static final NullBool NULL = new NullBool(null);
+    
+    private final Boolean value;
+    
+    public NullBool(Boolean value){
+        this.value = value;
     }
     
-    public boolean containsKey(K key){
-        for(Map.Entry<K, V> entry : this){
-            if(entry.getKey().equals(key))
-                return true;
-        }
-        return false;
+    public boolean isNull(){
+        return value == null;
+    }
+    
+    public boolean getValue(boolean def){
+        return isNull() ? def : value;
     }
 }
