@@ -130,7 +130,7 @@ public class FileHandler{
             if(tmp == null)
                 continue;
             
-            profiles.add(ServerListProfile.Builder.resolve(tmp, logger).build());
+            profiles.add(ServerListProfile.Builder.resolve(file.getName(), tmp, logger).build());
             logger.info("Loaded " + file.getName());
         }
         

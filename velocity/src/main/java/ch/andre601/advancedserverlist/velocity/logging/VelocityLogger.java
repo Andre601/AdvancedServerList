@@ -50,4 +50,9 @@ public class VelocityLogger implements PluginLogger{
     public void warn(String msg, Throwable throwable){
         logger.warn(msg, throwable);
     }
+    
+    @Override
+    public void warn(String msg, Throwable throwable, Object... args){
+        logger.warn(String.format(msg, args), throwable);
+    }
 }

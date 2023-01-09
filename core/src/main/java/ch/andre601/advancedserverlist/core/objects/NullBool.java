@@ -23,15 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces;
+package ch.andre601.advancedserverlist.core.objects;
 
-public interface PluginLogger{
+/*
+ * A simple class to allow having a nullable boolean without having to deal with possible NPEs
+ * when trying to get Boolean.getValue() while it is null...
+ * 
+ * Here, it simply checks if the value is null and if it is, returns a default. Otherwise, it gives
+ * the value.
+ */
+public class NullBool{
     
-    void info(String msg, Object... args);
+    public static final NullBool FALSE = new NullBool(false);
+    public static final NullBool NULL = new NullBool(null);
     
-    void warn(String msg, Object... args);
+    private final Boolean value;
     
-    void warn(String msg, Throwable throwable);
+    public NullBool(Boolean value){
+        this.value = value;
+    }
     
-    void warn(String msg, Throwable throwable, Object... args);
+    public boolean isNull(){
+        return value == null;
+    }
+    
+    public boolean getValue(boolean def){
+        return isNull() ? def : value;
+    }
 }

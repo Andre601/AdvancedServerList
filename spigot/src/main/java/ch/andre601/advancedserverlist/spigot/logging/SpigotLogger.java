@@ -52,4 +52,9 @@ public class SpigotLogger implements PluginLogger{
     public void warn(String msg, Throwable throwable){
         logger.log(Level.WARNING, msg, throwable);
     }
+    
+    @Override
+    public void warn(String msg, Throwable throwable, Object... args){
+        logger.log(Level.WARNING, String.format(msg, args), throwable);
+    }
 }

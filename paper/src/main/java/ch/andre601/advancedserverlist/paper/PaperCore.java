@@ -67,18 +67,7 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
                 Class.forName("com.destroystokyo.paper.PaperConfig");
                 enable();
             }catch(ClassNotFoundException ex1){
-                getPluginLogger().warn("======================================== WARNING ========================================");
-                getPluginLogger().warn("");
-                getPluginLogger().warn("You are using the PaperMC version of AdvancedServerList on a SpigotMC server.");
-                getPluginLogger().warn("The PaperMC version is ONLY compatible with PaperMC itself due to it using exclusive");
-                getPluginLogger().warn("methods and events not available within SpigotMC.");
-                getPluginLogger().warn("");
-                getPluginLogger().warn("To avoid any exceptions and errors will AdvancedServerList disable itself now.");
-                getPluginLogger().warn("Please stop your server and either switch to PaperMC or use the Spigot version");
-                getPluginLogger().warn("of AdvancedServerList.");
-                getPluginLogger().warn("");
-                getPluginLogger().warn("======================================== WARNING ========================================");
-                
+                printSpigotWarning();
                 getServer().getPluginManager().disablePlugin(this);
             }
         }
@@ -185,5 +174,22 @@ public class PaperCore extends JavaPlugin implements ServerCore<CachedServerIcon
     
     private void enable(){
         this.core = new AdvancedServerList(this);
+    }
+    
+    private void printSpigotWarning(){
+        getPluginLogger().warn("======================================== WARNING ========================================");
+        getPluginLogger().warn("");
+        getPluginLogger().warn("You are using the Paper version of AdvancedServerList on a SpigotMC server.");
+        getPluginLogger().warn("The Paper version is ONLY compatible with Paper itself due to it using exclusive");
+        getPluginLogger().warn("methods and events not available within SpigotMC.");
+        getPluginLogger().warn("");
+        getPluginLogger().warn("To avoid any exceptions and errors will AdvancedServerList disable itself now.");
+        getPluginLogger().warn("Please stop your server and either switch to Paper or use the Spigot version");
+        getPluginLogger().warn("of AdvancedServerList.");
+        getPluginLogger().warn("");
+        getPluginLogger().warn("Paper can be downloaded here:");
+        getPluginLogger().warn("https://papermc.io/downloads");
+        getPluginLogger().warn("");
+        getPluginLogger().warn("======================================== WARNING ========================================");
     }
 }
