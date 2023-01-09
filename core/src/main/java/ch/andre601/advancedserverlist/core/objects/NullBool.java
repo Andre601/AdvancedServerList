@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,24 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces;
+package ch.andre601.advancedserverlist.core.objects;
 
-public interface PluginLogger{
+public class NullBool{
     
-    void info(String msg, Object... args);
+    public static final NullBool FALSE = new NullBool(false);
+    public static final NullBool NULL = new NullBool(null);
     
-    void warn(String msg, Object... args);
+    private final Boolean value;
     
-    void warn(String msg, Throwable throwable);
+    public NullBool(Boolean value){
+        this.value = value;
+    }
     
-    void warn(String msg, Throwable throwable, Object... args);
+    public boolean isNull(){
+        return value == null;
+    }
+    
+    public boolean getValue(boolean def){
+        return isNull() ? def : value;
+    }
 }

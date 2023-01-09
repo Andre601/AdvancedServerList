@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer;
+package ch.andre601.advancedserverlist.core.objects;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;

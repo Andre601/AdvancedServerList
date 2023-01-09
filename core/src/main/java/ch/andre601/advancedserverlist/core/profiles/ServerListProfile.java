@@ -94,6 +94,9 @@ public class ServerListProfile{
      * ...doesn't have a favicon set.
      */
     public boolean isInvalidProfile(){
+        if(profiles.isEmpty())
+            return defaultProfile.isInvalidProfile();
+        
         boolean profilesValid = false;
         
         for(ProfileEntry profile : profiles){
@@ -109,6 +112,7 @@ public class ServerListProfile{
     
     public static class Builder{
         
+        private final String fileName;
         private final ConfigurationNode node;
         private final int priority;
         private final List<Expression> expressions = new ArrayList<>();
@@ -118,14 +122,15 @@ public class ServerListProfile{
         private List<ProfileEntry> profiles = new ArrayList<>();
         private ProfileEntry defaultProfile = ProfileEntry.empty();
         
-        private Builder(ConfigurationNode node, PluginLogger logger){
+        private Builder(String fileName, ConfigurationNode node, PluginLogger logger){
+            this.fileName = fileName;
             this.node = node;
             this.priority = node.node("priority").getInt();
             this.logger = logger;
         }
         
-        public static Builder resolve(ConfigurationNode node, PluginLogger logger){
-            return new Builder(node, logger)
+        public static Builder resolve(String fileName, ConfigurationNode node, PluginLogger logger){
+            return new Builder(fileName, node, logger)
                 .resolveExpressions()
                 .resolveProfiles()
                 .resolveDefaultProfile();
@@ -136,6 +141,7 @@ public class ServerListProfile{
             try{
                 temp = node.node("conditions").getList(String.class);
             }catch(SerializationException ex){
+                logger.warn("Encountered a SerializationException while resolving conditions for %s", ex, fileName);
                 return this;
             }
             
@@ -159,7 +165,9 @@ public class ServerListProfile{
         private Builder resolveProfiles(){
             try{
                 this.profiles = node.node("profiles").getList(ProfileEntry.class);
-            }catch(SerializationException ignored){}
+            }catch(SerializationException ex){
+                logger.warn("Encountered a SerializationException while resolving the profiles entry for %s", ex, fileName);
+            }
             
             return this;
         }
@@ -167,7 +175,9 @@ public class ServerListProfile{
         private Builder resolveDefaultProfile(){
             try{
                 this.defaultProfile = node.get(ProfileEntry.class);
-            }catch(SerializationException ignored){}
+            }catch(SerializationException ex){
+                logger.warn("Encountered a SerializationException while resolving the global profile for %s", ex, fileName);
+            }
             return this;
         }
         

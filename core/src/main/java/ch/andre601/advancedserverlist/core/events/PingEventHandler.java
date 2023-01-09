@@ -66,7 +66,7 @@ public class PingEventHandler{
     
         ProfileEntry entry = ProfileManager.merge(profile);
         
-        if(entry.isExtraPlayersEnabled() != null && entry.isExtraPlayersEnabled()){
+        if(entry.isExtraPlayersEnabled().getValue(false)){
             max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
             event.setMaxPlayers(max);
         }
@@ -83,7 +83,7 @@ public class PingEventHandler{
             );
         }
         
-        boolean hidePlayers = entry.isHidePlayersEnabled() != null && entry.isHidePlayersEnabled();
+        boolean hidePlayers = entry.isHidePlayersEnabled().getValue(false);
         
         if(hidePlayers){
             event.hidePlayers();
