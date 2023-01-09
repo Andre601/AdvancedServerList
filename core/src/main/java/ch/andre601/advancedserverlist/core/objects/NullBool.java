@@ -29,7 +29,7 @@ package ch.andre601.advancedserverlist.core.objects;
  * A simple class to allow having a nullable boolean without having to deal with possible NPEs
  * when trying to get Boolean.getValue() while it is null...
  * 
- * Here, it simply checks if the value is null and if it is, returns a default. Otherwise it gives
+ * Here, it simply checks if the value is null and if it is, returns a default. Otherwise, it gives
  * the value.
  */
 public class NullBool{
