@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,15 +25,18 @@
 
 package ch.andre601.advancedserverlist.velocity;
 
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 
 public class VelocityPlayer extends GenericPlayer<Player>{
     
-    public VelocityPlayer(String name, int protocol){
-        this.name = name;
+    public VelocityPlayer(CachedPlayer player, int protocol){
+        this.name = player.getName();
         this.protocol = protocol;
+        this.uuid = player.getUuid();
+        
         this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
     }
 }

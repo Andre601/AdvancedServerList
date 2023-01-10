@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,9 +43,9 @@ public class PingEventHandler{
             return;
         
         PluginCore<F> plugin = event.getPlugin();
-    
+        
         GenericPlayer<P> player = event.createPlayer(
-            plugin.getCore().getPlayerHandler().getPlayerByIp(event.getPlayerIP()),
+            plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
             event.getProtocolVersion()
         );
         String host = event.getVirtualHost();

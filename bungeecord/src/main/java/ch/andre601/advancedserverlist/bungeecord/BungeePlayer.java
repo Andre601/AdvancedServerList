@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,15 @@
 
 package ch.andre601.advancedserverlist.bungeecord;
 
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class BungeePlayer extends GenericPlayer<ProxiedPlayer>{
     
-    public BungeePlayer(String name, int protocol){
-        this.name = name;
+    public BungeePlayer(CachedPlayer player, int protocol){
+        this.name = player.getName();
         this.protocol = protocol;
+        this.uuid = player.getUuid();
     }
 }

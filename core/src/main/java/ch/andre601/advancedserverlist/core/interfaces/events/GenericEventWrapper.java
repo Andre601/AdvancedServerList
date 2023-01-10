@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.core.interfaces.events;
 
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -69,7 +70,7 @@ public interface GenericEventWrapper<P, F>{
     
     PluginCore<F> getPlugin();
     
-    GenericPlayer<P> createPlayer(String name, int protocol);
+    GenericPlayer<P> createPlayer(CachedPlayer player, int protocol);
     
     F createFavicon(BufferedImage image) throws Exception;
     

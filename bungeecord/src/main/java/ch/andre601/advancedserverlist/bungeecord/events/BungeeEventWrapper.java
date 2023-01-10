@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
@@ -145,8 +146,8 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     }
     
     @Override
-    public GenericPlayer<ProxiedPlayer> createPlayer(String name, int protocol){
-        return new BungeePlayer(name, protocol);
+    public GenericPlayer<ProxiedPlayer> createPlayer(CachedPlayer player, int protocol){
+        return new BungeePlayer(player, protocol);
     }
     
     @Override
