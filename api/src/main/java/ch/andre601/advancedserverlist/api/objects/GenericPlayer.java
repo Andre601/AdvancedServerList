@@ -126,7 +126,7 @@ public abstract class GenericPlayer<T>{
     
     /**
      * Returns the UUID of this player.
-     * <br>This is only usable on Spigot and Paper as they keep offline player data to use.
+     * <br>The UUID will be retrieved from the plugin's player cache. If not present will a default value be used.
      *
      * @return UUID from the player.
      */
