@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.api.objects;
 
+import java.util.UUID;
+
 /**
  * A placeholder {@link GenericPlayer GenericPlayer instance} used for platforms that do not have any form of a persistent
  * player data storage.
@@ -36,5 +38,6 @@ public class DummyPlayer extends GenericPlayer<Object>{
     public DummyPlayer(){
         this.name = "Dummy";
         this.protocol = 0;
+        this.uuid = UUID.fromString("606e2ff0-ed77-4842-9d6c-e1d3321c7838");
     }
 }

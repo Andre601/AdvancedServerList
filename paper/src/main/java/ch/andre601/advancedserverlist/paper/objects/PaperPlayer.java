@@ -27,7 +27,6 @@ package ch.andre601.advancedserverlist.paper.objects;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import org.bukkit.OfflinePlayer;
 
 public class PaperPlayer extends GenericPlayer<OfflinePlayer>{

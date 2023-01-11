@@ -42,19 +42,13 @@ public class PingEventHandler{
             return;
         
         PluginCore<F, PL, P> plugin = event.getPlugin();
-        
-        GenericPlayer<P> player = event.createPlayer(
-            plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
-            event.getProtocolVersion()
-        );
-        PluginCore<F, PL, P> plugin = event.getPlugin();
         String host = event.getVirtualHost();
         
         int online = event.getOnlinePlayers();
         int max = event.getMaxPlayers();
         
         P player = event.createPlayer(
-            plugin.getCore().getPlayerHandler().getPlayerByIp(event.getPlayerIP()),
+            plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
             event.getProtocolVersion()
         );
         GenericServer server = new GenericServer(online, max, host);

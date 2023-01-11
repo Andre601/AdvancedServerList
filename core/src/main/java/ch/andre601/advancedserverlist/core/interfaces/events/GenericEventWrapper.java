@@ -29,9 +29,6 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import net.kyori.adventure.text.Component;
 
 import java.awt.image.BufferedImage;
@@ -72,7 +69,7 @@ public interface GenericEventWrapper<F, PL, P extends GenericPlayer<?>>{
     
     PluginCore<F, PL, P> getPlugin();
     
-    GenericPlayer<P> createPlayer(CachedPlayer player, int protocol);
+    P createPlayer(CachedPlayer player, int protocol);
     
     F createFavicon(BufferedImage image) throws Exception;
     

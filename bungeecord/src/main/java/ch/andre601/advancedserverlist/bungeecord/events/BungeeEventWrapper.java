@@ -30,12 +30,12 @@ import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
 import java.awt.image.BufferedImage;
@@ -142,7 +142,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, ServerPi
     }
     
     @Override
-    public GenericPlayer<ProxiedPlayer> createPlayer(CachedPlayer player, int protocol){
+    public BungeePlayer createPlayer(CachedPlayer player, int protocol){
         return new BungeePlayer(player, protocol);
     }
     

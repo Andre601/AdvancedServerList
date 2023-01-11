@@ -29,6 +29,8 @@ import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
+import java.util.Locale;
+
 public class PlayerPlaceholders extends PlaceholderProvider{
     
     public PlayerPlaceholders(){
@@ -37,13 +39,11 @@ public class PlayerPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
-        if(placeholder.equals("name")){
-            return player.getName();
-        }else
-        if(placeholder.equals("protocol")){
-            return String.valueOf(player.getProtocol());
-        }else{
-            return null;
-        }
+        return switch(placeholder.toLowerCase(Locale.ROOT)){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "uuid" -> String.valueOf(player.getUuid());
+            default -> null;
+        };
     }
 }

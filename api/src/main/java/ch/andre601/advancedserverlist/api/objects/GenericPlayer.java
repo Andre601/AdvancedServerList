@@ -128,7 +128,7 @@ public abstract class GenericPlayer<T>{
      * Returns the UUID of this player.
      * <br>This is only usable on Spigot and Paper as they keep offline player data to use.
      *
-     * @return Possibly-null UUID from the player.
+     * @return UUID from the player.
      */
     public UUID getUuid(){
         return uuid;

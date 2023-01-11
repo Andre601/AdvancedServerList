@@ -40,7 +40,9 @@ public class PlayerPlaceholders extends PlaceholderProvider{
         return switch(placeholder){
             case "name" -> player.getName();
             case "protocol" -> String.valueOf(player.getProtocol());
+            case "uuid" -> String.valueOf(player.getUuid());
             case "version" -> player.getVersion();
+            default -> null;
         };
     }
 }

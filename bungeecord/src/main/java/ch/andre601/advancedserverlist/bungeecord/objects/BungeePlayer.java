@@ -27,25 +27,13 @@ package ch.andre601.advancedserverlist.bungeecord.objects;
 
 import ch.andre601.advancedserverlist.api.objects.DummyPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 
 public class BungeePlayer extends GenericPlayer<DummyPlayer>{
     
-    private final String name;
-    
-    private final int protocol;
-    
-    public BungeePlayer(String name, int protocol){
-        this.name = name;
+    public BungeePlayer(CachedPlayer player, int protocol){
+        this.name = player.getName();
         this.protocol = protocol;
-    }
-    
-    @Override
-    public String getName(){
-        return name;
-    }
-    
-    @Override
-    public int getProtocol(){
-        return protocol;
+        this.uuid = player.getUuid();
     }
 }

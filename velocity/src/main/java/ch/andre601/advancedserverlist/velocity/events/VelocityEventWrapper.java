@@ -137,7 +137,7 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Server
     }
     
     @Override
-    public GenericPlayer<Player> createPlayer(CachedPlayer player, int protocol){
+    public VelocityPlayer createPlayer(CachedPlayer player, int protocol){
         return new VelocityPlayer(player, protocol);
     }
     

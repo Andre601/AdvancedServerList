@@ -27,6 +27,7 @@ package ch.andre601.advancedserverlist.velocity.objects;
 
 import ch.andre601.advancedserverlist.api.objects.DummyPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import com.velocitypowered.api.network.ProtocolVersion;
 
 public class VelocityPlayer extends GenericPlayer<DummyPlayer>{

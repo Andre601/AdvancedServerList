@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.paper.events;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.paper.PaperCore;
 import ch.andre601.advancedserverlist.paper.objects.PaperPlayer;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
@@ -140,7 +141,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public GenericPlayer<OfflinePlayer> createPlayer(CachedPlayer player, int protocol){
+    public PaperPlayer createPlayer(CachedPlayer player, int protocol){
         OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
         return new PaperPlayer(pl.hasPlayedBefore() ? pl : null, player, protocol);
