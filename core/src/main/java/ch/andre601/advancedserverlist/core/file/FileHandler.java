@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -130,7 +130,7 @@ public class FileHandler{
             if(tmp == null)
                 continue;
             
-            profiles.add(ServerListProfile.Builder.resolve(tmp, logger).build());
+            profiles.add(ServerListProfile.Builder.resolve(file.getName(), tmp, logger).build());
             logger.info("Loaded " + file.getName());
         }
         

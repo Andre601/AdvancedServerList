@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.profiles.profile;
 
+import ch.andre601.advancedserverlist.core.objects.NullBool;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -38,13 +39,13 @@ public class ProfileEntry{
     private final List<String> players;
     private final String playerCountText;
     private final String favicon;
-    private final Boolean hidePlayersEnabled;
-    private final Boolean extraPlayersEnabled;
+    private final NullBool hidePlayersEnabled;
+    private final NullBool extraPlayersEnabled;
     private final Integer extraPlayersCount;
     
     public ProfileEntry(List<String> motd, List<String> players,
-                        String playerCountText, String favicon, Boolean hidePlayersEnabled,
-                        Boolean extraPlayersEnabled, Integer extraPlayersCount){
+                        String playerCountText, String favicon, NullBool hidePlayersEnabled,
+                        NullBool extraPlayersEnabled, Integer extraPlayersCount){
         this.motd = motd;
         this.players = players;
         this.playerCountText = playerCountText;
@@ -56,7 +57,7 @@ public class ProfileEntry{
     
     public static ProfileEntry empty(){
         return new ProfileEntry(Collections.emptyList(), Collections.emptyList(), "", "",
-            false, false, 0);
+            NullBool.FALSE, NullBool.FALSE, 0);
     }
     
     public List<String> getMOTD(){
@@ -75,11 +76,11 @@ public class ProfileEntry{
         return favicon;
     }
     
-    public Boolean isHidePlayersEnabled(){
+    public NullBool isHidePlayersEnabled(){
         return hidePlayersEnabled;
     }
     
-    public Boolean isExtraPlayersEnabled(){
+    public NullBool isExtraPlayersEnabled(){
         return extraPlayersEnabled;
     }
     
@@ -90,7 +91,7 @@ public class ProfileEntry{
     public boolean isInvalidProfile(){
         return getMOTD().isEmpty() &&
             getPlayers().isEmpty() &&
-            (getPlayerCountText().isEmpty() && !isHidePlayersEnabled()) &&
+            (getPlayerCountText().isEmpty() && !isHidePlayersEnabled().getValue(false)) &&
             getFavicon().isEmpty();
     }
     
@@ -102,8 +103,8 @@ public class ProfileEntry{
         private List<String> players = new ArrayList<>();
         private String playerCountText = null;
         private String favicon = null;
-        private Boolean hidePlayersEnabled = false;
-        private Boolean extraPlayersEnabled = false;
+        private NullBool hidePlayersEnabled = NullBool.FALSE;
+        private NullBool extraPlayersEnabled = NullBool.FALSE;
         private Integer extraPlayersCount = 0;
     
         private Builder(ConfigurationNode node){
@@ -149,21 +150,21 @@ public class ProfileEntry{
         
         public Builder resolveHidePlayersEnabled(){
             if(node.node("playerCount", "hidePlayers").virtual()){
-                this.hidePlayersEnabled = null;
+                this.hidePlayersEnabled = NullBool.NULL;
                 return this;
             }
-            
-            this.hidePlayersEnabled = node.node("playerCount", "hidePlayers").getBoolean();
+    
+            this.hidePlayersEnabled = new NullBool(node.node("playerCount", "hidePlayers").getBoolean());
             return this;
         }
         
         public Builder resolveExtraPlayersEnabled(){
             if(node.node("playerCount", "extraPlayers", "enabled").virtual()){
-                this.extraPlayersEnabled = null;
+                this.extraPlayersEnabled = NullBool.NULL;
                 return this;
             }
             
-            this.extraPlayersEnabled = node.node("playerCount", "extraPlayers", "enabled").getBoolean();
+            this.extraPlayersEnabled = new NullBool(node.node("playerCount", "extraPlayers", "enabled").getBoolean());
             return this;
         }
         

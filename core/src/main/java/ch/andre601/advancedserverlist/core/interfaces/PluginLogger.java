@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,4 +32,6 @@ public interface PluginLogger{
     void warn(String msg, Object... args);
     
     void warn(String msg, Throwable throwable);
+    
+    void warn(String msg, Throwable throwable, Object... args);
 }

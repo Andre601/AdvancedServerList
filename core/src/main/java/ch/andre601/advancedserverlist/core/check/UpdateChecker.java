@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -97,11 +97,18 @@ public class UpdateChecker{
     
     public void disable(){
         executor.shutdown();
+        client.dispatcher().executorService().shutdown();
         try{
             if(!executor.awaitTermination(1, TimeUnit.SECONDS)){
                 executor.shutdownNow();
                 if(!executor.awaitTermination(1, TimeUnit.SECONDS))
                     logger.warn("Scheduler didn't terminate in time!");
+            }
+            
+            if(!client.dispatcher().executorService().awaitTermination(1, TimeUnit.SECONDS)){
+                client.dispatcher().executorService().shutdownNow();
+                if(!client.dispatcher().executorService().awaitTermination(1, TimeUnit.SECONDS))
+                    logger.warn("OkHttp's Scheduler didn't terminate in time!");
             }
         }catch(InterruptedException ex){
             executor.shutdownNow();

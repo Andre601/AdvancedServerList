@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -87,7 +87,7 @@ public class AdvancedServerList{
     }
     
     public void disable(){
-        getPlugin().getPluginLogger().info("Saving cache.data file...");
+        getPlugin().getPluginLogger().info("Saving playercache.json file...");
         getPlayerHandler().save();
         
         if(updateChecker != null){
@@ -135,7 +135,7 @@ public class AdvancedServerList{
         plugin.loadEvents();
         getPlugin().getPluginLogger().info("Events loaded!");
     
-        getPlugin().getPluginLogger().info("Loading cache.data...");
+        getPlugin().getPluginLogger().info("Loading playercache.json...");
         getPlayerHandler().load();
     
         getPlugin().getPluginLogger().info("Loading bStats metrics. Disable it in the global config under /plugins/bstats/");

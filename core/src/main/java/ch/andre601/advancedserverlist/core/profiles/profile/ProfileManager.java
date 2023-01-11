@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.core.profiles.profile;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
+import ch.andre601.advancedserverlist.core.objects.NullBool;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 
 import java.util.List;
@@ -78,12 +79,12 @@ public class ProfileManager{
         List<String> players = resolvePlayers(entry, defEntry);
         String playerCountText = resolvePlayerCountText(entry, defEntry);
         String favicon = resolveFavicon(entry, defEntry);
-        Boolean isHidePlayersEnabled = resolveHidePlayersEnabled(entry, defEntry);
-        Boolean isExtraPlayersEnabled = resolveExtraPlayersEnabled(entry, defEntry);
+        boolean isHidePlayersEnabled = resolveHidePlayersEnabled(entry, defEntry);
+        boolean isExtraPlayersEnabled = resolveExtraPlayersEnabled(entry, defEntry);
         Integer extraPlayersCount = resolveExtraPlayersCount(entry, defEntry);
         
-        return new ProfileEntry(motd, players, playerCountText, favicon, isHidePlayersEnabled, isExtraPlayersEnabled,
-            extraPlayersCount);
+        return new ProfileEntry(motd, players, playerCountText, favicon, 
+            new NullBool(isHidePlayersEnabled), new NullBool(isExtraPlayersEnabled), extraPlayersCount);
     }
     
     private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
@@ -114,23 +115,23 @@ public class ProfileManager{
         return profile.getFavicon();
     }
     
-    private static Boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isHidePlayersEnabled() == null)
-            return defaultProfile.isHidePlayersEnabled();
+    private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null || profile.isHidePlayersEnabled().isNull())
+            return defaultProfile.isHidePlayersEnabled().getValue(false);
         
-        return profile.isHidePlayersEnabled();
+        return profile.isHidePlayersEnabled().getValue(false);
     }
     
-    private static Boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isExtraPlayersEnabled() == null)
-            return defaultProfile.isExtraPlayersEnabled();
+    private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null || profile.isExtraPlayersEnabled().isNull())
+            return defaultProfile.isExtraPlayersEnabled().getValue(false);
         
-        return profile.isExtraPlayersEnabled();
+        return profile.isExtraPlayersEnabled().getValue(false);
     }
     
     private static Integer resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
         if(profile == null || profile.getExtraPlayersCount() == null)
-            return defaultProfile.getExtraPlayersCount();
+            return defaultProfile.getExtraPlayersCount() == null ? 0 : defaultProfile.getExtraPlayersCount();
         
         return profile.getExtraPlayersCount();
     }

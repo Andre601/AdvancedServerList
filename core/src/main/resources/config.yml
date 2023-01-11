@@ -6,6 +6,14 @@
 unknown_player: "Anonymous"
 
 #
+# UUID used for when AdvancedServerList doesn't have a cached player to use for the ${player uuid}
+# placeholder.
+#
+# Defaults to the UUID of MHF_Question (606e2ff0-ed77-4842-9d6c-e1d3321c7838) when not present.
+#
+unknown_player_uuid: "606e2ff0-ed77-4842-9d6c-e1d3321c7838"
+
+#
 # Should the Caching of players be disabled?
 #
 # When set to true will AdvancedServerList not load any players from the cache.data file (if present) nor save any to it.

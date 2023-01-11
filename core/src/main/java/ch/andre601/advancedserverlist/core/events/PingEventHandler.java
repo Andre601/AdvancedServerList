@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,12 @@ public class PingEventHandler{
             return;
         
         PluginCore<F, PL, P> plugin = event.getPlugin();
+        
+        GenericPlayer<P> player = event.createPlayer(
+            plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
+            event.getProtocolVersion()
+        );
+        PluginCore<F, PL, P> plugin = event.getPlugin();
         String host = event.getVirtualHost();
         
         int online = event.getOnlinePlayers();
@@ -62,7 +68,7 @@ public class PingEventHandler{
     
         ProfileEntry entry = ProfileManager.merge(profile);
         
-        if(entry.isExtraPlayersEnabled() != null && entry.isExtraPlayersEnabled()){
+        if(entry.isExtraPlayersEnabled().getValue(false)){
             max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
             event.setMaxPlayers(max);
         }
@@ -78,7 +84,7 @@ public class PingEventHandler{
             );
         }
         
-        boolean hidePlayers = entry.isHidePlayersEnabled() != null && entry.isHidePlayersEnabled();
+        boolean hidePlayers = entry.isHidePlayersEnabled().getValue(false);
         
         if(hidePlayers){
             event.hidePlayers();

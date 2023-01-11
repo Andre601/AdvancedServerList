@@ -35,6 +35,7 @@ import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
 import java.awt.image.BufferedImage;
@@ -141,8 +142,8 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, ServerPi
     }
     
     @Override
-    public BungeePlayer createPlayer(String name, int protocol){
-        return new BungeePlayer(name, protocol);
+    public GenericPlayer<ProxiedPlayer> createPlayer(CachedPlayer player, int protocol){
+        return new BungeePlayer(player, protocol);
     }
     
     @Override

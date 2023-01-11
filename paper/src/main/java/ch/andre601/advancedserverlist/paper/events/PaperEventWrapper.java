@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -140,16 +140,10 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public PaperPlayer createPlayer(String name, int protocol){
-        OfflinePlayer player = Bukkit.getPlayerExact(name);
+    public GenericPlayer<OfflinePlayer> createPlayer(CachedPlayer player, int protocol){
+        OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
-        if(player == null){
-            player = Bukkit.getOfflinePlayer(name);
-            
-            return new PaperPlayer(player.hasPlayedBefore() ? player : null, name, protocol);
-        }
-        
-        return new PaperPlayer(player, name, protocol);
+        return new PaperPlayer(pl.hasPlayedBefore() ? pl : null, player, protocol);
     }
     
     @Override

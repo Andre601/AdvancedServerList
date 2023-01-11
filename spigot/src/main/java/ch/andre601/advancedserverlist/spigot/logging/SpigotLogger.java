@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,5 +51,10 @@ public class SpigotLogger implements PluginLogger{
     @Override
     public void warn(String msg, Throwable throwable){
         logger.log(Level.WARNING, msg, throwable);
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable, Object... args){
+        logger.log(Level.WARNING, String.format(msg, args), throwable);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Andre_601
+ * Copyright (c) 2022-2023 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.spigot.events;
 
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -45,7 +46,8 @@ public class JoinEvent implements Listener{
         InetSocketAddress address = event.getPlayer().getAddress();
         if(address == null)
             return;
-        
-        plugin.getCore().getPlayerHandler().addPlayer(event.getPlayer().getName(), address.getHostString());
+    
+        Player player = event.getPlayer();
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

@@ -23,32 +23,32 @@
  *
  */
 
-package ch.andre601.advancedserverlist.paper.events;
+package ch.andre601.advancedserverlist.core.objects;
 
-import ch.andre601.advancedserverlist.paper.PaperCore;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import java.util.UUID;
 
-import java.net.InetSocketAddress;
-
-public class JoinEvent implements Listener{
+@SuppressWarnings("FieldMayBeFinal")
+public class CachedPlayer{
     
-    private final PaperCore plugin;
+    private String ip;
+    private String name;
+    private UUID uuid;
     
-    public JoinEvent(PaperCore plugin){
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public CachedPlayer(String ip, String name, UUID uuid){
+        this.ip = ip;
+        this.name = name;
+        this.uuid = uuid;
     }
     
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event){
-        InetSocketAddress address = event.getPlayer().getAddress();
-        if(address == null)
-            return;
+    public String getIp(){
+        return ip;
+    }
     
-        Player player = event.getPlayer();
-        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
+    public String getName(){
+        return name;
+    }
+    
+    public UUID getUuid(){
+        return uuid;
     }
 }
