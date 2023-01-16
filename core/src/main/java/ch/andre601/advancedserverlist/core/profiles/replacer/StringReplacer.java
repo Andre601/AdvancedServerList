@@ -59,6 +59,8 @@ public class StringReplacer{
                 continue;
             }
             
+            i++;
+            
             boolean identified = false;
             boolean invalid = true;
             

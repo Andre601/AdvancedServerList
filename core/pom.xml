@@ -57,11 +57,6 @@
             <version>${plugin.version}</version>
         </dependency>
         <dependency>
-            <groupId>ch.andre601.advancedserverlist</groupId>
-            <artifactId>parent</artifactId>
-            <version>parent</version>
-        </dependency>
-        <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>configurate-yaml</artifactId>
             <version>4.1.2</version>
