@@ -59,7 +59,7 @@ public class ComponentParser{
         return new ComponentParser(String.join("\n", lines));
     }
     
-    public <P extends GenericPlayer<?>> ComponentParser applyReplacements(P player, GenericServer server){
+    public ComponentParser applyReplacements(GenericPlayer player, GenericServer server){
         text = StringReplacer.replace(text, player, server);
         return this;
     }

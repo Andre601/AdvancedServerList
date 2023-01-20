@@ -36,7 +36,7 @@ public class ServerPlaceholders extends PlaceholderProvider{
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
         return switch(placeholder){
             case "playersOnline" -> String.valueOf(server.getPlayersOnline());
             case "playersMax" -> String.valueOf(server.getPlayersMax());

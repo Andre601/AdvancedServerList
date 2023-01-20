@@ -34,7 +34,7 @@ import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface PluginCore<F, PL, P extends GenericPlayer<?>>{
+public interface PluginCore<F, PL, P extends GenericPlayer>{
     
     void loadCommands();
     

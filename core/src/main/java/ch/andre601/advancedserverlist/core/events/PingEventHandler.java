@@ -30,14 +30,14 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
+import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
-import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 public class PingEventHandler{
     
-    public static <F, PL, P extends GenericPlayer<?>> void handleEvent(GenericEventWrapper<F, PL, P> event){
+    public static <F, PL, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, PL, P> event){
         if(event.isInvalidProtocol())
             return;
         

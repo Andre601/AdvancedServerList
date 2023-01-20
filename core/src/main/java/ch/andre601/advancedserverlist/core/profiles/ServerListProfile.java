@@ -58,7 +58,7 @@ public class ServerListProfile{
         return priority;
     }
     
-    public <P extends GenericPlayer<?>> boolean evalConditions(P player, GenericServer server){
+    public boolean evalConditions(GenericPlayer player, GenericServer server){
         if(expressions.isEmpty())
             return true;
         

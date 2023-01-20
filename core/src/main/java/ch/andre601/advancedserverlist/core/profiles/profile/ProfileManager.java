@@ -37,7 +37,7 @@ public class ProfileManager{
     
     private final AdvancedServerList core;
     
-    private GenericPlayer<?> player;
+    private GenericPlayer player;
     private GenericServer server;
     
     private ProfileManager(AdvancedServerList core){
@@ -48,7 +48,7 @@ public class ProfileManager{
         return new ProfileManager(core);
     }
     
-    public <P extends GenericPlayer<?>> ProfileManager applyReplacements(P player, GenericServer server){
+    public ProfileManager applyReplacements(GenericPlayer player, GenericServer server){
         this.player = player;
         this.server = server;
         

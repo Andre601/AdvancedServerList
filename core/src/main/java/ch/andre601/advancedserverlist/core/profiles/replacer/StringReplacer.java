@@ -32,7 +32,7 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
 public class StringReplacer{
     
-    public static <P extends GenericPlayer<?>> String replace(String input, P player, GenericServer server){
+    public static String replace(String input, GenericPlayer player, GenericServer server){
         char[] chars = input.toCharArray();
         StringBuilder builder = new StringBuilder(input.length());
         

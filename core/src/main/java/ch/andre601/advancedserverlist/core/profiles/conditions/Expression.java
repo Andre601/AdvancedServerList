@@ -41,7 +41,7 @@ public class Expression{
         resolveExpression(expression);
     }
     
-    public <P extends GenericPlayer<?>> boolean evaluate(P player, GenericServer server){
+    public boolean evaluate(GenericPlayer player, GenericServer server){
         String newLeft = StringReplacer.replace(left, player, server);
         String newRight = StringReplacer.replace(right, player, server);
         

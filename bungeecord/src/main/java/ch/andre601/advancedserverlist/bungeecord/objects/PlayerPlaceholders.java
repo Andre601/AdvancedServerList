@@ -38,7 +38,7 @@ public class PlayerPlaceholders extends PlaceholderProvider{
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
         return switch(placeholder.toLowerCase(Locale.ROOT)){
             case "name" -> player.getName();
             case "protocol" -> String.valueOf(player.getProtocol());

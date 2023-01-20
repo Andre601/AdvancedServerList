@@ -28,109 +28,108 @@ package ch.andre601.advancedserverlist.api.objects;
 import java.util.UUID;
 
 /**
- * Abstract class used to wrap around some generic player data and a Player instance itself.
- * <br>AdvancedServerList already provides its own set of players to use based on the platform:
+ * Abstract class used by the different versions of AdvancedServerList to extend on.
+ * 
+ * <p>No matter the platform will the following values <b>always</b> be present:
  * <ul>
- *     <li>BungeeCord: BungeePlayer*</li>
- *     <li>Paper: PaperPlayer</li>
- *     <li>Spigot: SpigotPlayer</li>
- *     <li>Velocity: VelocityPlayer*</li>
+ *     <li>{@link #getName() Name of the player}</li>
+ *     <li>{@link #getProtocol() Protocol version of the player}</li>
+ *     <li>{@link #getUuid() UUID of the player}</li>
  * </ul>
- * *These instances use the DummyPlayer instance as they don't have any persistent player data for offline players.
- *
- * @param <T>
- *        The Player instance to wrap this class around.
+ * Any other value may not be updated and default to a value such as {@code null} for platforms that don't offer any form
+ * of offline player data retrieval.
  */
-public abstract class GenericPlayer<T>{
-    
-    protected T player = null;
+public abstract class GenericPlayer{
     protected String name = null;
-    protected String version = "version";
     protected int protocol = -1;
+    protected UUID uuid = null;
+    
+    protected String version = null;
     protected boolean playedBefore = false;
     protected boolean banned = false;
     protected boolean whitelisted = false;
-    protected UUID uuid = null;
     
     /**
-     * Returns an instance of the Player used for the GenericPlayer instance.
-     * <br>This is only used for the Spigot and Paper version as those allow the retrieval of offline player data
-     * through their OfflinePlayer class.
-     *
-     * @return Possibly-null instance of the Player type used for this GenericPlayer.
-     */
-    public T getPlayer(){
-        return player;
-    }
-    
-    /**
-     * Gets the name of the player.
-     * <br>On BungeeCord and velocity will this be whatever name AdvancedServerList has last saved to the cache. On Spigot
-     * and Paper can this be of an OfflinePlayer (if present) or the same as with BungeeCord and Velocity.
-     *
-     * @return String containing the name of the player.
+     * Returns the name of the player.
+     * <br>Note that on Spigot, Paper and other forks can the name differ from the one cached by AdvancedServerList,
+     * if the plugin was able to retrieve an OfflinePlayer instance from the server. On BungeeCord and Velocity will
+     * the returned String always be the name from the cache.
+     * 
+     * <p>Name may be whatever has been defined in AdvancedServerList's config.yml, should the player not be cached yet
+     * by AdvancedServerList.
+     * 
+     * @return String representing the player's name.
      */
     public String getName(){
         return name;
     }
     
     /**
-     * Returns a String containing the readable MC version this player is using.
-     * <br>This is only used on Velocity and will return {@code null} for the other Player types.
-     *
-     * @return Possibly-null String containing the MC version the player is using.
-     */
-    public String getVersion(){
-        return version;
-    }
-    
-    /**
-     * Returns the numerical id of the Minecraft protocol version.
-     * <br>Each release has its own unique protocol version represented by an integer.
-     *
-     * @return Integer representing the numerical protocol version the player uses.
+     * Returns the protocol ID the player is using. The protocol ID is an integer used by Minecraft to determine what
+     * version a server or client is running.
+     * 
+     * @return Integer representing the protocol version of this player.
      */
     public int getProtocol(){
         return protocol;
     }
     
     /**
-     * Returns whether this player has played on the server before.
-     * <br>This is only usable on Spigot and Paper as they keep offline player data to use.
+     * Returns the Unique ID associated with this player.
      *
-     * @return Whether this player has played before on this server. Always false for BungeeCord and Velocity.
+     * <p>UUID may be whatever has been defined in AdvancedServerList's config.yml, should the player not be cached yet
+     * by AdvancedServerList.
+     * 
+     * @return UUID of the player.
      */
-    public boolean hasPlayedBefore(){
+    public UUID getUuid(){
+        return uuid;
+    }
+    
+    /**
+     * Returns the {@link #getProtocol() protocol version} in a readable MC version format (i.e. 1.19.3).
+     * 
+     * <p>This only works on Velocity and will return {@code null} for any other platform.
+     * 
+     * @return The readable MC version the player uses.
+     */
+    public String getVersion(){
+        return version;
+    }
+    
+    /**
+     * Returns whether this player has played on the Server before.
+     * 
+     * <p>The returned boolean is <b>always</b> false on BungeeCord and Velocity due to a lack of any offline player data
+     * storage.
+     * 
+     * @return Boolean indicating whether this player has played on this Server before.
+     */
+    public boolean hasPlayedBefore() {
         return playedBefore;
     }
     
     /**
-     * Returns whether this player has been banned from this server.
-     * <br>This is only usable on Spigot and Paper as they keep offline player data to use.
+     * Returns whether this player is banned on the server.
      *
-     * @return Whether this player has played before on this server. Always false for BungeeCord and Velocity.
+     * <p>The returned boolean is <b>always</b> false on BungeeCord and Velocity due to a lack of any offline player data
+     * storage.
+     * 
+     * @return Boolean indicating whether this player was banned from the server.
      */
     public boolean isBanned(){
         return banned;
     }
     
     /**
-     * Returns whether this player is whitelisted on this server.
-     * <br>This is only usable on Spigot and Paper as they keep offline player data to use.
+     * Returns whether this player is whitelisted on the server.
      *
-     * @return Whether this player is whitelisted on this server. Always false for BungeeCord and Velocity.
+     * <p>The returned boolean is <b>always</b> false on BungeeCord and Velocity due to a lack of any offline player data
+     * storage.
+     * 
+     * @return Boolean indicating whether this player was banned from the server.
      */
     public boolean isWhitelisted(){
         return whitelisted;
-    }
-    
-    /**
-     * Returns the UUID of this player.
-     * <br>The UUID will be retrieved from the plugin's player cache. If not present will a default value be used.
-     *
-     * @return UUID from the player.
-     */
-    public UUID getUuid(){
-        return uuid;
     }
 }

@@ -31,19 +31,21 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
 public class PlayerPlaceholders extends PlaceholderProvider{
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        SpigotPlayer spigotPlayer = (SpigotPlayer)player;
+        
         return switch(placeholder){
-            case "name" -> player.getName();
-            case "protocol" -> String.valueOf(player.getProtocol());
-            case "uuid" -> String.valueOf(player.getUuid());
-            case "hasPlayedBefore" -> returnValue(player, player.hasPlayedBefore());
-            case "isBanned" -> returnValue(player, player.isBanned());
-            case "isWhitelisted" -> returnValue(player, player.isWhitelisted());
+            case "name" -> spigotPlayer.getName();
+            case "protocol" -> String.valueOf(spigotPlayer.getProtocol());
+            case "uuid" -> String.valueOf(spigotPlayer.getUuid());
+            case "hasPlayedBefore" -> returnValue(spigotPlayer, player.hasPlayedBefore());
+            case "isBanned" -> returnValue(spigotPlayer, player.isBanned());
+            case "isWhitelisted" -> returnValue(spigotPlayer, player.isWhitelisted());
             default -> null;
         };
     }
     
-    private <P extends GenericPlayer<?>> String returnValue(P player, Object value){
+    private String returnValue(SpigotPlayer player, Object value){
         return player.getPlayer() == null ? null : String.valueOf(value);
     }
 }

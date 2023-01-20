@@ -25,11 +25,10 @@
 
 package ch.andre601.advancedserverlist.bungeecord.objects;
 
-import ch.andre601.advancedserverlist.api.objects.DummyPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 
-public class BungeePlayer extends GenericPlayer<DummyPlayer>{
+public class BungeePlayer extends GenericPlayer{
     
     public BungeePlayer(CachedPlayer player, int protocol){
         this.name = player.getName();

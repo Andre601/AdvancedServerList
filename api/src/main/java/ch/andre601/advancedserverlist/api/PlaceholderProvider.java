@@ -30,7 +30,11 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
 /**
  * Abstract class that is used to provide your own Placeholder patterns for AdvancedServerList to parse.
- * <br>It is important to provide a valid identifier for the placeholder.
+ * 
+ * <p>In order for your class to be considered a valid PlaceholderProvider will you need to set the
+ * {@link #identifier identifier} to a non-null, non-empty value without having any spaces in it.
+ * <br>Once set, use {@link ch.andre601.advancedserverlist.api.AdvancedServerListAPI#addPlaceholderProvider(PlaceholderProvider) AdvancedServerListAPI#addPlaceholderProvider(PlaceholderProvider)}
+ * to register your class for AdvancedServerList to use.
  */
 public abstract class PlaceholderProvider{
     
@@ -70,7 +74,7 @@ public abstract class PlaceholderProvider{
      *
      * @return Parsed String based on the PlaceholderProvider or {@code null} for invalid placeholders.
      */
-    public abstract String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server);
+    public abstract String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server);
     
     /**
      * Returns the identifier used by this instance.

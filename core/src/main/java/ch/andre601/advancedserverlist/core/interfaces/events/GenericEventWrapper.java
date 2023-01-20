@@ -35,7 +35,7 @@ import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-public interface GenericEventWrapper<F, PL, P extends GenericPlayer<?>>{
+public interface GenericEventWrapper<F, PL, P extends GenericPlayer>{
     
     void setMaxPlayers(int maxPlayers);
     

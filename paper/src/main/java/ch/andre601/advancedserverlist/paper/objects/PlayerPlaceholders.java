@@ -36,19 +36,21 @@ public class PlayerPlaceholders extends PlaceholderProvider{
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer<?> player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        PaperPlayer paperPlayer = (PaperPlayer)player;
+        
         return switch(placeholder){
-            case "name" -> player.getName();
-            case "protocol" -> String.valueOf(player.getProtocol());
-            case "uuid" -> String.valueOf(player.getUuid());
-            case "hasPlayedBefore" -> returnValue(player, player.hasPlayedBefore());
-            case "isBanned" -> returnValue(player, player.isBanned());
-            case "isWhitelisted" -> returnValue(player, player.isWhitelisted());
+            case "name" -> paperPlayer.getName();
+            case "protocol" -> String.valueOf(paperPlayer.getProtocol());
+            case "uuid" -> String.valueOf(paperPlayer.getUuid());
+            case "hasPlayedBefore" -> returnValue(paperPlayer, player.hasPlayedBefore());
+            case "isBanned" -> returnValue(paperPlayer, player.isBanned());
+            case "isWhitelisted" -> returnValue(paperPlayer, player.isWhitelisted());
             default -> null;
         };
     }
     
-    private <P extends GenericPlayer<?>> String returnValue(P player, Object value){
+    private String returnValue(PaperPlayer player, Object value){
         return player.getPlayer() == null ? null : String.valueOf(value);
     }
 }

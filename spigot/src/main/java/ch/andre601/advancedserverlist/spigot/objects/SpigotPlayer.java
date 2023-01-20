@@ -29,7 +29,9 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import org.bukkit.OfflinePlayer;
 
-public class SpigotPlayer extends GenericPlayer<OfflinePlayer>{
+public class SpigotPlayer extends GenericPlayer{
+    
+    private final OfflinePlayer player;
     
     public SpigotPlayer(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
         this.player = player;
@@ -45,5 +47,9 @@ public class SpigotPlayer extends GenericPlayer<OfflinePlayer>{
         this.playedBefore = player.hasPlayedBefore();
         this.banned = player.isBanned();
         this.whitelisted = player.isWhitelisted();
+    }
+    
+    public OfflinePlayer getPlayer(){
+        return player;
     }
 }
