@@ -42,7 +42,7 @@ public class PlayerPlaceholders extends PlaceholderProvider{
         return switch(placeholder){
             case "name" -> paperPlayer.getName();
             case "protocol" -> String.valueOf(paperPlayer.getProtocol());
-            case "uuid" -> String.valueOf(paperPlayer.getUuid());
+            case "uuid" -> String.valueOf(paperPlayer.getUUID());
             case "hasPlayedBefore" -> returnValue(paperPlayer, player.hasPlayedBefore());
             case "isBanned" -> returnValue(paperPlayer, player.isBanned());
             case "isWhitelisted" -> returnValue(paperPlayer, player.isWhitelisted());

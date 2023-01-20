@@ -42,7 +42,7 @@ public class PlayerPlaceholders extends PlaceholderProvider{
         return switch(placeholder.toLowerCase(Locale.ROOT)){
             case "name" -> player.getName();
             case "protocol" -> String.valueOf(player.getProtocol());
-            case "uuid" -> String.valueOf(player.getUuid());
+            case "uuid" -> String.valueOf(player.getUUID());
             default -> null;
         };
     }

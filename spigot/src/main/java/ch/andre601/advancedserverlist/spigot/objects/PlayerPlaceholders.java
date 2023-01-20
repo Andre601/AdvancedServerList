@@ -37,7 +37,7 @@ public class PlayerPlaceholders extends PlaceholderProvider{
         return switch(placeholder){
             case "name" -> spigotPlayer.getName();
             case "protocol" -> String.valueOf(spigotPlayer.getProtocol());
-            case "uuid" -> String.valueOf(spigotPlayer.getUuid());
+            case "uuid" -> String.valueOf(spigotPlayer.getUUID());
             case "hasPlayedBefore" -> returnValue(spigotPlayer, player.hasPlayedBefore());
             case "isBanned" -> returnValue(spigotPlayer, player.isBanned());
             case "isWhitelisted" -> returnValue(spigotPlayer, player.isWhitelisted());

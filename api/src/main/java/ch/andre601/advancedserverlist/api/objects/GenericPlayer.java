@@ -28,16 +28,17 @@ package ch.andre601.advancedserverlist.api.objects;
 import java.util.UUID;
 
 /**
- * Abstract class used by the different versions of AdvancedServerList to extend on.
+ * A basic abstract class used to store generic player data with to use in placeholder resolving.
+ * <br>The different variants of AdvancedServerList extend their own class with this one and may or may not use all values
+ * available here.
  * 
- * <p>No matter the platform will the following values <b>always</b> be present:
+ * <p>The following values will always be present, no matter the platform this class is used on:
  * <ul>
- *     <li>{@link #getName() Name of the player}</li>
- *     <li>{@link #getProtocol() Protocol version of the player}</li>
- *     <li>{@link #getUuid() UUID of the player}</li>
+ *     <li>{@link #getName() Name of Player}</li>
+ *     <li>{@link #getProtocol() Protocol version of Player}</li>
+ *     <li>{@link #getUUID() UUID of Player}</li>
  * </ul>
- * Any other value may not be updated and default to a value such as {@code null} for platforms that don't offer any form
- * of offline player data retrieval.
+ * Any other value is not guaranteed to be accurate or even be set.
  */
 public abstract class GenericPlayer{
     protected String name = null;
@@ -82,7 +83,7 @@ public abstract class GenericPlayer{
      * 
      * @return UUID of the player.
      */
-    public UUID getUuid(){
+    public UUID getUUID(){
         return uuid;
     }
     
