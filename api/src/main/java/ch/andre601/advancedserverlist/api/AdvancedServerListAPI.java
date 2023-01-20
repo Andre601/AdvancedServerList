@@ -62,6 +62,9 @@ public class AdvancedServerListAPI{
      *     <li>The identifier does not contain any spaces.</li>
      *     <li>A PlaceholderProvider with the same identifier doesn't exist already.</li>
      * </ul>
+     * Not passing any of the above checks results in a
+     * {@link ch.andre601.advancedserverlist.api.exceptions.InvalidPlaceholderProviderException InvalidPlaceholderProviderException}
+     * being thrown.
      *
      * @param placeholderProvider
      *        The {@link PlaceholderProvider PlaceholderProvider} to add.
@@ -71,8 +74,9 @@ public class AdvancedServerListAPI{
      *         the identifier contains spaces or another provider with the same identifier is already loaded.
      */
     public void addPlaceholderProvider(PlaceholderProvider placeholderProvider){
+        CheckUtil.notEmpty(placeholderProvider.getIdentifier(), "Identifier");
+        
         String identifier = placeholderProvider.getIdentifier().toLowerCase(Locale.ROOT);
-        CheckUtil.notEmpty(identifier, "Identifier");
         CheckUtil.check(identifier.contains(" "), "Identifier may not contain spaces.");
         CheckUtil.check(placeholderProviders.containsKey(identifier), "A PlaceholderProvider with name " + identifier + " already exists.");
         

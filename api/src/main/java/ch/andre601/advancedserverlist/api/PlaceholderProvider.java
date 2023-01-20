@@ -36,19 +36,30 @@ public abstract class PlaceholderProvider{
     
     /**
      * String used for the identification of the placeholder. Cannot be null, empty or contain spaces.
+     * <br>Set an identifier inside your class' constructor.
+     * 
+     * <h2>Example</h2>
+     * <pre>{@code 
+     * public class Example extends PlaceholderProvider {
+     *     
+     *     public Example() {
+     *         this.identifier = "example";
+     *     }
+     *     
+     *     public String parsePlaceholders(String placeholder, GenericPlayer<?> player, GenericServer server) {
+     *         return "This is an example";
+     *     }
+     * }
+     * }</pre>
      */
     protected String identifier = null;
     
     /**
-     * This method is called by the StringReplacer class of AdvancedServerList to parse any appearances of
-     * {@code ${identifier values}} into possible replacement values.
-     * <br>AdvancedServerList does this by going through the full String and check for any placeholder pattern to appear.
-     * When found will it look up any available PlaceholderProvider instance and see if the identifier matches. When it does
-     * will this method be called on that provider.
-     *
-     * <p><b>Note!</b>
-     * <br>What is returned is up to the respective PlaceholderProvider. Returning {@code null} will be seen as an
-     * invalid placeholder being provided, resulting in the placeholder itself being used and not the replacement.
+     * Method called by AdvancedServerList's StringReplacer class to replace any appearances of
+     * {@code ${<identifier> <placeholder>}} with whatever value a PlaceholderProvider may return.
+     * 
+     * <p>Returning {@code null} will be treated as an invalid placeholder, returning the full placeholder as-is without
+     * any changes made.
      *
      * @param  placeholder
      *         The part of the placeholder after the identifier ({@code ${<identifier> <placeholder>}}
