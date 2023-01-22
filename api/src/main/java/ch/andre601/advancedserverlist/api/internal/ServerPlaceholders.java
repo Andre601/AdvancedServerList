@@ -32,7 +32,7 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 public class ServerPlaceholders extends PlaceholderProvider{
     
     public ServerPlaceholders(){
-        this.identifier = "server";
+        super("server");
     }
     
     @Override

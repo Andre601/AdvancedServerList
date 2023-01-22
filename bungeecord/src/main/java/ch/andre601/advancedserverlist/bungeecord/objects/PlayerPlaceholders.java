@@ -34,7 +34,7 @@ import java.util.Locale;
 public class PlayerPlaceholders extends PlaceholderProvider{
     
     public PlayerPlaceholders(){
-        this.identifier = "player";
+        super("player");
     }
     
     @Override

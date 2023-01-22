@@ -30,6 +30,11 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
 public class PlayerPlaceholders extends PlaceholderProvider{
+    
+    public PlayerPlaceholders(){
+        super("player");
+    }
+    
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
         SpigotPlayer spigotPlayer = (SpigotPlayer)player;

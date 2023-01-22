@@ -38,25 +38,35 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
  */
 public abstract class PlaceholderProvider{
     
+    private final String identifier;
+    
     /**
-     * String used for the identification of the placeholder. Cannot be null, empty or contain spaces.
-     * <br>Set an identifier inside your class' constructor.
+     * Constructor used to set the identifier for the class extending the PlaceholderProvider class.
      * 
      * <h2>Example</h2>
-     * <pre>{@code 
-     * public class Example extends PlaceholderProvider {
+     * <pre>{@code
+     * public class MyPlaceholders extends PlaceholderProvider {
      *     
-     *     public Example() {
-     *         this.identifier = "example";
+     *     public MyPlaceholders() {
+     *         super("myplaceholders");
      *     }
      *     
-     *     public String parsePlaceholders(String placeholder, GenericPlayer<?> player, GenericServer server) {
-     *         return "This is an example";
+     *     @Override
+     *     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server) {
+     *         if(placeholder.equals("hello")
+     *             return "Hi!";
+     *         
+     *         return null;
      *     }
      * }
      * }</pre>
+     * 
+     * @param identifier
+     *        The identifier to use for the placeholder. Shouldn't be null nor empty.
      */
-    protected String identifier = null;
+    public PlaceholderProvider(String identifier){
+        this.identifier = identifier;
+    }
     
     /**
      * Method called by AdvancedServerList's StringReplacer class to replace any appearances of
