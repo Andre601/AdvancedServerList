@@ -25,20 +25,107 @@
 
 package ch.andre601.advancedserverlist.core.profiles.replacer;
 
-import java.util.Map;
+import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
 public class StringReplacer{
     
-    public static String replace(String input, Map<String, Object> replacements){
-        StringBuilder output = new StringBuilder(input);
-        int index;
-        for(Map.Entry<String, Object> entry : replacements.entrySet()){
-            index = 0;
-            while((index = output.indexOf(entry.getKey(), index)) != -1){
-                output.replace(index, index + entry.getKey().length(), String.valueOf(entry.getValue()));
-                index += String.valueOf(entry.getValue()).length();
+    public static String replace(String input, GenericPlayer player, GenericServer server){
+        char[] chars = input.toCharArray();
+        StringBuilder builder = new StringBuilder(input.length());
+        
+        StringBuilder identifier = new StringBuilder();
+        StringBuilder placeholder = new StringBuilder();
+        
+        AdvancedServerListAPI api = AdvancedServerListAPI.get();
+        
+        for(int i = 0; i < chars.length; i++){
+            char c = chars[i];
+            char next = (i == (chars.length - 1)) ? '\0' : chars[i + 1];
+            
+            if(c != '$' || i + 2 >= chars.length){
+                builder.append(c);
+                continue;
             }
+            
+            if(next != '{'){
+                if(next == '\0')
+                    continue;
+                
+                builder.append(next);
+                i++;
+                continue;
+            }
+            
+            i++;
+            
+            boolean identified = false;
+            boolean invalid = true;
+            
+            while(++i < chars.length){
+                final char id = chars[i];
+                
+                if(id == '}'){
+                    invalid = false;
+                    break;
+                }
+                
+                if(id == ' ' && !identified){
+                    identified = true;
+                    continue;
+                }
+                
+                if(identified){
+                    placeholder.append(id);
+                }else{
+                    identifier.append(id);
+                }
+            }
+            
+            String identifierString = identifier.toString();
+            String placeholderString = placeholder.toString();
+            
+            identifier.setLength(0);
+            placeholder.setLength(0);
+            
+            if(invalid){
+                builder.append("${").append(identifierString);
+                
+                if(identified){
+                    builder.append(' ').append(placeholderString);
+                }
+                continue;
+            }
+            
+            PlaceholderProvider provider = api.retrievePlaceholderProvider(identifierString);
+            if(provider == null){
+                builder.append("${").append(identifierString);
+    
+                if(identified){
+                    builder.append(' ').append(placeholderString);
+                }
+                
+                builder.append('}');
+                continue;
+            }
+            
+            String replacement = provider.parsePlaceholder(placeholderString, player, server);
+            if(replacement == null){
+                builder.append("${").append(identifierString);
+    
+                if(identified){
+                    builder.append(' ').append(placeholderString);
+                }
+    
+                builder.append('}');
+                continue;
+            }
+            
+            builder.append(replacement);
         }
-        return output.toString();
+        
+        return builder.toString();
     }
 }

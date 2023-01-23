@@ -25,40 +25,36 @@
 
 package ch.andre601.advancedserverlist.core.events;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
+import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
-import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 
 public class PingEventHandler{
     
-    public static <P, F> void handleEvent(GenericEventWrapper<P, F> event){
+    public static <F, PL, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, PL, P> event){
         if(event.isInvalidProtocol())
             return;
         
-        PluginCore<F> plugin = event.getPlugin();
-        
-        GenericPlayer<P> player = event.createPlayer(
-            plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
-            event.getProtocolVersion()
-        );
+        PluginCore<F, PL, P> plugin = event.getPlugin();
         String host = event.getVirtualHost();
         
         int online = event.getOnlinePlayers();
         int max = event.getMaxPlayers();
-    
-        PlayerPlaceholders playerPlaceholders = new PlayerPlaceholders(player);
-        ServerPlaceholders serverPlaceholders = new ServerPlaceholders(online, max, host);
+        
+        P player = event.createPlayer(
+            plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
+            event.getProtocolVersion()
+        );
+        GenericServer server = new GenericServer(online, max, host);
     
         ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .replacements(playerPlaceholders)
-            .replacements(serverPlaceholders)
+            .applyReplacements(player, server)
             .getProfile();
         
         if(profile == null)
@@ -71,13 +67,12 @@ public class PingEventHandler{
             event.setMaxPlayers(max);
         }
         
-        serverPlaceholders = new ServerPlaceholders(online, max, host);
+        server = new GenericServer(online, max, host);
         
         if(!entry.getMOTD().isEmpty()){
             event.setMotd(
                 ComponentParser.list(entry.getMOTD())
-                    .replacements(playerPlaceholders)
-                    .replacements(serverPlaceholders)
+                    .applyReplacements(player, server)
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toComponent()
             );
@@ -92,19 +87,18 @@ public class PingEventHandler{
         if(!entry.getPlayerCountText().isEmpty() && !hidePlayers){
             event.setPlayerCount(
                 ComponentParser.text(entry.getPlayerCountText())
-                    .replacements(playerPlaceholders)
-                    .replacements(serverPlaceholders)
+                    .applyReplacements(player, server)
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toString()
             );
         }
         
         if(!entry.getPlayers().isEmpty() && !hidePlayers){
-            event.setPlayers(entry.getPlayers(), player, playerPlaceholders, serverPlaceholders);
+            event.setPlayers(entry.getPlayers(), player, server);
         }
         
         if(!entry.getFavicon().isEmpty()){
-            String favicon = StringReplacer.replace(entry.getFavicon(), playerPlaceholders.getReplacements());
+            String favicon = StringReplacer.replace(entry.getFavicon(), player, server);
             
             F fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
                 try{

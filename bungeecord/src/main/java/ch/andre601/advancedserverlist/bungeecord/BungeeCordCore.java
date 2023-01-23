@@ -25,16 +25,18 @@
 
 package ch.andre601.advancedserverlist.bungeecord;
 
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.bungeecord.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bungeecord.events.JoinEvent;
 import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
 import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayer;
+import ch.andre601.advancedserverlist.bungeecord.objects.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.interfaces.core.ProxyCore;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -46,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerPing.PlayerInfo>{
+public class BungeeCordCore extends Plugin implements PluginCore<Favicon, ServerPing.PlayerInfo, BungeePlayer>{
     
     private AdvancedServerList core;
     private FaviconHandler<Favicon> faviconHandler = null;
@@ -54,7 +56,7 @@ public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerP
     
     @Override
     public void onEnable(){
-        this.core = new AdvancedServerList(this);
+        this.core = new AdvancedServerList(this, new PlayerPlaceholders());
     }
     
     @Override
@@ -128,13 +130,12 @@ public class BungeeCordCore extends Plugin implements ProxyCore<Favicon, ServerP
     }
     
     @Override
-    public List<ServerPing.PlayerInfo> createPlayers(List<String> lines, Placeholders... placeholders){
+    public List<ServerPing.PlayerInfo> createPlayers(List<String> lines, BungeePlayer player, GenericServer server){
         List<ServerPing.PlayerInfo> players = new ArrayList<>(lines.size());
         
         for(String line : lines){
             String parsed = ComponentParser.text(line)
-                .replacements(placeholders[0])
-                .replacements(placeholders[1])
+                .applyReplacements(player, server)
                 .toString();
             
             players.add(new ServerPing.PlayerInfo(parsed, UUID.randomUUID()));

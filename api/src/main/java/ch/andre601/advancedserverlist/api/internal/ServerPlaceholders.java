@@ -23,11 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
+package ch.andre601.advancedserverlist.api.internal;
 
-import java.util.Map;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public interface Placeholders{
+public class ServerPlaceholders extends PlaceholderProvider{
     
-    Map<String, Object> getReplacements();
+    public ServerPlaceholders(){
+        super("server");
+    }
+    
+    @Override
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        return switch(placeholder){
+            case "playersOnline" -> String.valueOf(server.getPlayersOnline());
+            case "playersMax" -> String.valueOf(server.getPlayersMax());
+            case "host" -> server.getHost();
+            default -> null;
+        };
+    }
 }

@@ -23,27 +23,15 @@
  *
  */
 
-package ch.andre601.advancedserverlist.paper;
+package ch.andre601.advancedserverlist.api.exceptions;
 
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import org.bukkit.OfflinePlayer;
-
-public class PaperPlayer extends GenericPlayer<OfflinePlayer>{
+/**
+ * RuntimeException thrown whenever an invalid {@link ch.andre601.advancedserverlist.api.PlaceholderProvider PlaceholderProvider}
+ * has been given.
+ */
+public class InvalidPlaceholderProviderException extends RuntimeException{
     
-    public PaperPlayer(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
-        this.player = player;
-        
-        this.name = player == null ? cachedPlayer.getName() : player.getName();
-        this.protocol = protocol;
-        
-        this.uuid = player == null ? cachedPlayer.getUuid() : player.getUniqueId();
-        
-        if(player == null)
-            return;
-        
-        this.playedBefore = player.hasPlayedBefore();
-        this.banned = player.isBanned();
-        this.whitelisted = player.isWhitelisted();
+    public InvalidPlaceholderProviderException(String msg){
+        super(msg);
     }
 }

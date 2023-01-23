@@ -23,50 +23,18 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.players;
+package ch.andre601.advancedserverlist.api.internal;
 
-import java.util.UUID;
+import ch.andre601.advancedserverlist.api.exceptions.InvalidPlaceholderProviderException;
 
-public abstract class GenericPlayer<T>{
+public class CheckUtil{
     
-    protected T player = null;
-    protected String name = null;
-    protected String version = null;
-    protected int protocol = -1;
-    protected boolean playedBefore = false;
-    protected boolean banned = false;
-    protected boolean whitelisted = false;
-    protected UUID uuid = null;
-    
-    public T getPlayer(){
-        return player;
+    public static void notEmpty(String text, String name){
+        check(text == null || text.isEmpty(), name + " may not be null or empty.");
     }
     
-    public String getName(){
-        return name;
-    }
-    
-    public int getProtocol(){
-        return protocol;
-    }
-    
-    public String getVersion(){
-        return version;
-    }
-    
-    public boolean hasPlayedBefore(){
-        return playedBefore;
-    }
-    
-    public boolean isBanned(){
-        return banned;
-    }
-    
-    public boolean isWhitelisted(){
-        return whitelisted;
-    }
-    
-    public UUID getUniqueId(){
-        return uuid;
+    public static void check(boolean condition, String msg){
+        if(condition)
+            throw new InvalidPlaceholderProviderException(msg);
     }
 }

@@ -25,20 +25,20 @@
 
 package ch.andre601.advancedserverlist.core.profiles.profile;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.objects.NullBool;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ProfileManager{
     
     private final AdvancedServerList core;
     
-    private final Map<String, Object> replacements = new HashMap<>();
+    private GenericPlayer player;
+    private GenericServer server;
     
     private ProfileManager(AdvancedServerList core){
         this.core = core;
@@ -48,8 +48,10 @@ public class ProfileManager{
         return new ProfileManager(core);
     }
     
-    public ProfileManager replacements(Placeholders placeholders){
-        this.replacements.putAll(placeholders.getReplacements());
+    public ProfileManager applyReplacements(GenericPlayer player, GenericServer server){
+        this.player = player;
+        this.server = server;
+        
         return this;
     }
     
@@ -58,7 +60,7 @@ public class ProfileManager{
             if(profile.isInvalidProfile())
                 continue;
             
-            if(profile.evaluateConditions(replacements))
+            if(profile.evalConditions(player, server))
                 return profile;
         }
         

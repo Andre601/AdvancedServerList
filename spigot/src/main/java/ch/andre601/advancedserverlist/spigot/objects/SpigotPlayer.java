@@ -23,35 +23,33 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
+package ch.andre601.advancedserverlist.spigot.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import org.bukkit.OfflinePlayer;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class PlayerPlaceholders implements Placeholders{
+public class SpigotPlayer extends GenericPlayer{
     
-    private final Map<String, Object> replacements = new HashMap<>();
+    private final OfflinePlayer player;
     
-    public PlayerPlaceholders(GenericPlayer<?> player){
-        this.replacements.put("${player name}", player.getName());
-        this.replacements.put("${player protocol}", player.getProtocol());
-        this.replacements.put("${player uuid}", player.getUniqueId());
-        
-        if(player.getVersion() != null)
-            this.replacements.put("${player version}", player.getVersion());
-        
-        if(player.getPlayer() == null)
+    public SpigotPlayer(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
+        this.player = player;
+    
+        this.name = player == null ? cachedPlayer.getName() : player.getName();
+        this.protocol = protocol;
+    
+        this.uuid = player == null ? cachedPlayer.getUuid() : player.getUniqueId();
+    
+        if(player == null)
             return;
-        
-        this.replacements.put("${player hasPlayedBefore}", player.hasPlayedBefore());
-        this.replacements.put("${player isBanned}", player.isBanned());
-        this.replacements.put("${player isWhitelisted}", player.isWhitelisted());
+    
+        this.playedBefore = player.hasPlayedBefore();
+        this.banned = player.isBanned();
+        this.whitelisted = player.isWhitelisted();
     }
     
-    @Override
-    public Map<String, Object> getReplacements(){
-        return replacements;
+    public OfflinePlayer getPlayer(){
+        return player;
     }
 }

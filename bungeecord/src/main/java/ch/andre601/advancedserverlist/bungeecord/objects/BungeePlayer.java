@@ -23,13 +23,12 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord;
+package ch.andre601.advancedserverlist.bungeecord.objects;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-public class BungeePlayer extends GenericPlayer<ProxiedPlayer>{
+public class BungeePlayer extends GenericPlayer{
     
     public BungeePlayer(CachedPlayer player, int protocol){
         this.name = player.getName();

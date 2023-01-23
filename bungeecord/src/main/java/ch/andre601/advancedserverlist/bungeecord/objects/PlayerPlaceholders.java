@@ -23,12 +23,27 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.bungeecord.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-import java.util.List;
+import java.util.Locale;
 
-public interface ServerCore<F, P, P2> extends PluginCore<F>{
-    List<P> createPlayers(List<String> lines, P2 player, Placeholders... placeholders);
+public class PlayerPlaceholders extends PlaceholderProvider{
+    
+    public PlayerPlaceholders(){
+        super("player");
+    }
+    
+    @Override
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        return switch(placeholder.toLowerCase(Locale.ROOT)){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "uuid" -> String.valueOf(player.getUUID());
+            default -> null;
+        };
+    }
 }

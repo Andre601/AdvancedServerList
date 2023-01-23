@@ -23,12 +23,32 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.paper.objects;
 
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.Placeholders;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import org.bukkit.OfflinePlayer;
 
-import java.util.List;
-
-public interface ProxyCore<F, P> extends PluginCore<F>{
-    List<P> createPlayers(List<String> lines, Placeholders... placeholders);
+public class PaperPlayer extends GenericPlayer{
+    
+    private final OfflinePlayer player;
+    
+    public PaperPlayer(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
+        this.player = player;
+        
+        this.name = player == null ? cachedPlayer.getName() : player.getName();
+        this.protocol = protocol;
+        this.uuid = player == null ? cachedPlayer.getUuid() : player.getUniqueId();
+        
+        if(player == null)
+            return;
+        
+        this.playedBefore = player.hasPlayedBefore();
+        this.banned = player.isBanned();
+        this.whitelisted = player.isWhitelisted();
+    }
+    
+    public OfflinePlayer getPlayer(){
+        return player;
+    }
 }

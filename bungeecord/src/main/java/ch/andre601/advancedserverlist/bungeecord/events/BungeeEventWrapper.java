@@ -25,27 +25,24 @@
 
 package ch.andre601.advancedserverlist.bungeecord.events;
 
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import ch.andre601.advancedserverlist.bungeecord.BungeePlayer;
-import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayer;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayer;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.PlayerPlaceholders;
-import ch.andre601.advancedserverlist.core.profiles.replacer.placeholders.ServerPlaceholders;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
 import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Favicon>{
+public class BungeeEventWrapper implements GenericEventWrapper<Favicon, ServerPing.PlayerInfo, BungeePlayer>{
     
     private final BungeeCordCore plugin;
     private final ProxyPingEvent event;
@@ -81,9 +78,8 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     }
     
     @Override
-    public void setPlayers(List<String> players, GenericPlayer<ProxiedPlayer> player, PlayerPlaceholders playerPlaceholders, ServerPlaceholders serverPlaceholders){
-        ServerPing.PlayerInfo[] playerInfos = plugin.createPlayers(players, playerPlaceholders, serverPlaceholders)
-            .toArray(new ServerPing.PlayerInfo[0]);
+    public void setPlayers(List<String> players, BungeePlayer player, GenericServer server){
+        ServerPing.PlayerInfo[] playerInfos = plugin.createPlayers(players, player, server).toArray(new ServerPing.PlayerInfo[0]);
         
         if(playerInfos.length > 0)
             ping.getPlayers().setSample(playerInfos);
@@ -131,7 +127,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, GenericPlayer<ProxiedPlayer> player){
+    public String parsePAPIPlaceholders(String text, BungeePlayer player){
         return text;
     }
     
@@ -141,12 +137,12 @@ public class BungeeEventWrapper implements GenericEventWrapper<ProxiedPlayer, Fa
     }
     
     @Override
-    public PluginCore<Favicon> getPlugin(){
+    public PluginCore<Favicon, ServerPing.PlayerInfo, BungeePlayer> getPlugin(){
         return plugin;
     }
     
     @Override
-    public GenericPlayer<ProxiedPlayer> createPlayer(CachedPlayer player, int protocol){
+    public BungeePlayer createPlayer(CachedPlayer player, int protocol){
         return new BungeePlayer(player, protocol);
     }
     

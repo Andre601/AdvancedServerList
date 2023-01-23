@@ -27,29 +27,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>ch.andre601.advancedserverlist</groupId>
+        <version>parent</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ch.andre601.advancedserverlist</groupId>
-    <artifactId>parent</artifactId>
-    <packaging>pom</packaging>
-    <version>parent</version>
+    <artifactId>api</artifactId>
+    <packaging>jar</packaging>
+    <version>${plugin.version}</version>
+    <description>${plugin.description}</description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
-        <plugin.version>2.0.0</plugin.version>
-        <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
-        
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    
+    <build>
+        <finalName>AdvancedServerList-API-${plugin.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+            </plugin>
+        </plugins>
+    </build>
 
-    <modules>
-        <module>api</module>
-        <module>core</module>
-        <module>bungeecord</module>
-        <module>paper</module>
-        <module>spigot</module>
-        <module>velocity</module>
-    </modules>
 </project>

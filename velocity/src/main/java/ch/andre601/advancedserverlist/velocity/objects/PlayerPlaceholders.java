@@ -23,25 +23,26 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.replacer.placeholders;
+package ch.andre601.advancedserverlist.velocity.objects;
 
-import java.util.HashMap;
-import java.util.Map;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class ServerPlaceholders implements Placeholders{
+public class PlayerPlaceholders extends PlaceholderProvider{
     
-    private final Map<String, Object> replacements = new HashMap<>();
-    
-    public ServerPlaceholders(int online, int max, String host){
-        this.replacements.put("${server playersOnline}", online);
-        this.replacements.put("${server playersMax}", max);
-        
-        if(host != null)
-            this.replacements.put("${server host}", host);
+    public PlayerPlaceholders(){
+        super("player");
     }
     
     @Override
-    public Map<String, Object> getReplacements(){
-        return this.replacements;
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        return switch(placeholder){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "uuid" -> String.valueOf(player.getUUID());
+            case "version" -> player.getVersion();
+            default -> null;
+        };
     }
 }

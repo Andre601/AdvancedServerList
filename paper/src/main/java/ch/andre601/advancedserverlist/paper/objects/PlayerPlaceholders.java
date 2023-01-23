@@ -23,40 +23,34 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.paper.objects;
 
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 
-import java.nio.file.Path;
-import java.util.List;
-
-public interface PluginCore<F, PL, P extends GenericPlayer>{
+public class PlayerPlaceholders extends PlaceholderProvider{
     
-    void loadCommands();
+    public PlayerPlaceholders(){
+        super("player");
+    }
     
-    void loadEvents();
+    @Override
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        PaperPlayer paperPlayer = (PaperPlayer)player;
+        
+        return switch(placeholder){
+            case "name" -> paperPlayer.getName();
+            case "protocol" -> String.valueOf(paperPlayer.getProtocol());
+            case "uuid" -> String.valueOf(paperPlayer.getUUID());
+            case "hasPlayedBefore" -> returnValue(paperPlayer, player.hasPlayedBefore());
+            case "isBanned" -> returnValue(paperPlayer, player.isBanned());
+            case "isWhitelisted" -> returnValue(paperPlayer, player.isWhitelisted());
+            default -> null;
+        };
+    }
     
-    void loadMetrics();
-    
-    void clearFaviconCache();
-    
-    AdvancedServerList getCore();
-    
-    Path getFolderPath();
-    
-    PluginLogger getPluginLogger();
-    
-    FaviconHandler<F> getFaviconHandler();
-    
-    String getPlatformName();
-    
-    String getPlatformVersion();
-    
-    String getLoader();
-    
-    List<PL> createPlayers(List<String> lines, P player, GenericServer server);
+    private String returnValue(PaperPlayer player, Object value){
+        return player.getPlayer() == null ? null : String.valueOf(value);
+    }
 }
