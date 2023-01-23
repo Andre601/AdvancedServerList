@@ -1,0 +1,41 @@
+name: API support
+description: Ask for help with the API.
+
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        ## Before opening
+        Please make sure you've checked the following things first:
+        
+        - You're using the latest release of AdvancedServerList [[Download from Modrinth](https://modrinth.com/plugin/advancedserverlist)] and the right API version.
+        - You're using a supported Proxy/Server version. As of right now is only 1.19.x supported.
+        - The Feature you suggest hasn't been suggested before.
+  - type: dropdown
+    attributes:
+      label: Platforms
+      description: On what platform(s) are you using the API?
+      multiple: true
+      options:
+        - Proxy (BungeeCord, Waterfall, ...)
+        - Proxy (Velocity)
+        - Server (Spigot, Paper, ...)
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description
+      description: |-
+        Give a detailed description of what exactly you try to do, what steps you did and what you need help with.
+      placeholder: I tried to...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Code
+      description: |-
+        Provide code-snippets to help us better understand what you tried.
+        The code is automatically parsed as Java Code.
+      render: java
+    validations:
+      required: true
