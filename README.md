@@ -42,6 +42,8 @@ The format is `${<target> <identifier>}` which was adopted from BungeeTabListPlu
 
 When using the SpigotMC/PaperMC version can you also use placeholders from [PlaceholderAPI][placeholderapi] using its `%<identifier>_<values>%` placeholder format. PlaceholderAPI needs to be installed for that.
 
+If you're a plugin dev can you even add your own custom placeholders through AdvancedServerList's own API.
+
 > [*Read More*][placeholders]
 
 ### Formatting
@@ -84,12 +86,10 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 </a>
 
 <!-- Links -->
-[profiles]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles
-[conditions]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#conditions
-[placeholders]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#placeholders
-[minimessage]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#minimessage
-
-[placeholderapi]: https://www.spigotmc.org/resources/6245/
+[profiles]: https://www.andre601.ch/AdvancedServerList/profiles/
+[conditions]: https://www.andre601.ch/AdvancedServerList/profiles/#conditions
+[placeholders]: https://www.andre601.ch/AdvancedServerList/profiles/placeholders/
+[minimessage]: https://www.andre601.ch/AdvancedServerList/profiles/formatting/
 
 [modrinth]: https://modrinth.com/plugin/advancedserverlist
 
