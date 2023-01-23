@@ -76,14 +76,10 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 </a>
 
 <!-- Links -->
-[profiles]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles
-[conditions]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#conditions
-[placeholders]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#placeholders
-[minimessage]: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#minimessage
-
-[placeholderapi]: https://www.spigotmc.org/resources/6245/
-
-[modrinth]: https://modrinth.com/plugin/advancedserverlist
+[profiles]: https://andre601.ch/AdvancedServerList/profiles
+[conditions]: https://andre601.ch/AdvancedServerList/profiles/#conditions
+[placeholders]: https://andre601.ch/AdvancedServerList/profiles/placeholders
+[minimessage]: https://andre601.ch/AdvancedServerList/profiles/formatting
 
 [protocollib]: https://www.spigotmc.org/resources/1997/
 [placeholderapi]: https://www.spigotmc.org/resources/6245/
