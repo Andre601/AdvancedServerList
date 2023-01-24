@@ -31,42 +31,13 @@ import ch.andre601.advancedserverlist.api.objects.NullBool;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ProfileManager{
-    
-    private final AdvancedServerList core;
-    
-    private GenericPlayer player;
-    private GenericServer server;
-    
-    private ProfileManager(AdvancedServerList core){
-        this.core = core;
-    }
-    
-    public static ProfileManager get(AdvancedServerList core){
-        return new ProfileManager(core);
-    }
-    
-    public ProfileManager applyReplacements(GenericPlayer player, GenericServer server){
-        this.player = player;
-        this.server = server;
-        
-        return this;
-    }
-    
-    public ServerListProfile getProfile(){
-        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.isInvalidProfile())
-                continue;
-            
-            if(profile.evalConditions(player, server))
-                return profile;
-        }
-        
-        return null;
-    }
     
     /*
      * Convenience method to get a ProfileEntry instance with values merged.
@@ -86,6 +57,36 @@ public class ProfileManager{
         
         return new ProfileEntry(motd, players, playerCountText, favicon, 
             new NullBool(isHidePlayersEnabled), new NullBool(isExtraPlayersEnabled), extraPlayersCount);
+    }
+    
+    public static ServerListProfile resolveProfile(AdvancedServerList core, GenericPlayer player, GenericServer server){
+        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
+            if(profile.isInvalidProfile())
+                continue;
+            
+            if(profile.evalConditions(player, server))
+                return profile;
+        }
+        
+        return null;
+    }
+    
+    public static ProfileEntry retrieveProfileEntry(ConfigurationNode node){
+        List<String> motd = resolveList(node, "motd");
+        List<String> players = resolveList(node, "playerCount", "hover");
+        String playerCountText = node.node("playerCount", "text").getString("");
+        NullBool hidePlayers = resolveNullBool(node, "playerCount", "hidePlayers");
+        NullBool extraPlayersEnabled = resolveNullBool(node, "playerCount", "extraPlayers", "enabled");
+        Integer extraPlayers = resolveNullableInt(node);
+        
+        return new ProfileEntry.Builder()
+            .setMotd(motd.size() <= 2 ? motd : motd.subList(0, 2))
+            .setPlayers(players)
+            .setPlayerCountText(playerCountText)
+            .setHidePlayersEnabled(hidePlayers)
+            .setExtraPlayersEnabled(extraPlayersEnabled)
+            .setExtraPlayerCount(extraPlayers)
+            .build();
     }
     
     private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
@@ -137,4 +138,25 @@ public class ProfileManager{
         return profile.getExtraPlayersCount();
     }
     
+    private static List<String> resolveList(ConfigurationNode node, Object... path){
+        try{
+            return node.node(path).getList(String.class);
+        }catch(SerializationException ex){
+            return Collections.emptyList();
+        }
+    }
+    
+    private static NullBool resolveNullBool(ConfigurationNode node, Object... path){
+        if(node.node(path).virtual())
+            return NullBool.NULL;
+        
+        return new NullBool(node.node(path).getBoolean());
+    }
+    
+    private static Integer resolveNullableInt(ConfigurationNode node){
+        if(node.node("playerCount", "extraPlayers", "amount").virtual())
+            return null;
+        
+        return node.node("playerCount", "extraPlayers", "amount").getInt();
+    }
 }

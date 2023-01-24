@@ -345,7 +345,7 @@ public class ProfileEntry{
          * 
          * @return This Builder after the extra player count has been set. Useful for chaining.
          */
-        public Builder setExtraPlayerCount(int extraPlayersCount){
+        public Builder setExtraPlayerCount(Integer extraPlayersCount){
             this.extraPlayersCount = extraPlayersCount;
             return this;
         }

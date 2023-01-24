@@ -54,9 +54,7 @@ public class PingEventHandler{
         );
         GenericServer server = new GenericServer(online, max, host);
     
-        ServerListProfile profile = ProfileManager.get(plugin.getCore())
-            .applyReplacements(player, server)
-            .getProfile();
+        ServerListProfile profile = ProfileManager.resolveProfile(plugin.getCore(), player, server);
         
         if(profile == null)
             return;
