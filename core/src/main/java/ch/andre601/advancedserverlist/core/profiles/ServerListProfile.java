@@ -27,9 +27,9 @@ package ch.andre601.advancedserverlist.core.profiles;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.Expression;
-import ch.andre601.advancedserverlist.core.profiles.profile.ProfileEntry;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -96,19 +96,19 @@ public class ServerListProfile{
      */
     public boolean isInvalidProfile(){
         if(profiles.isEmpty())
-            return defaultProfile.isInvalidProfile();
+            return defaultProfile.isInvalid();
         
         boolean profilesValid = false;
         
         for(ProfileEntry profile : profiles){
-            if(profile.isInvalidProfile())
+            if(profile.isInvalid())
                 continue;
             
             profilesValid = true;
             break;
         }
     
-        return !profilesValid && defaultProfile.isInvalidProfile();
+        return !profilesValid && defaultProfile.isInvalid();
     }
     
     public static class Builder{

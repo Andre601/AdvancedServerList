@@ -25,13 +25,14 @@
 
 package ch.andre601.advancedserverlist.core.events;
 
+import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.core.profiles.profile.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
@@ -41,7 +42,7 @@ public class PingEventHandler{
         if(event.isInvalidProtocol())
             return;
         
-        PluginCore<F, PL, P> plugin = event.getPlugin();
+        PluginCore<F> plugin = event.getPlugin();
         String host = event.getVirtualHost();
         
         int online = event.getOnlinePlayers();
@@ -59,26 +60,32 @@ public class PingEventHandler{
         
         if(profile == null)
             return;
-    
-        ProfileEntry entry = ProfileManager.merge(profile);
         
-        if(entry.isExtraPlayersEnabled().getValue(false)){
+        GenericProfileEntryEvent e = event.callEvent(ProfileManager.merge(profile));
+        if(e == null || e.isCancelled())
+            return;
+        
+        ProfileEntry entry = e.getEntry();
+        if(entry.isInvalid())
+            return;
+        
+        if(entry.isExtraPlayersEnabled().getOrDefault(false)){
             max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
             event.setMaxPlayers(max);
         }
         
-        server = new GenericServer(online, max, host);
+        GenericServer finalServer = new GenericServer(online, max, host);
         
-        if(!entry.getMOTD().isEmpty()){
+        if(!entry.getMotd().isEmpty()){
             event.setMotd(
-                ComponentParser.list(entry.getMOTD())
-                    .applyReplacements(player, server)
+                ComponentParser.list(entry.getMotd())
+                    .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toComponent()
             );
         }
         
-        boolean hidePlayers = entry.isHidePlayersEnabled().getValue(false);
+        boolean hidePlayers = entry.isHidePlayersEnabled().getOrDefault(false);
         
         if(hidePlayers){
             event.hidePlayers();
@@ -87,7 +94,7 @@ public class PingEventHandler{
         if(!entry.getPlayerCountText().isEmpty() && !hidePlayers){
             event.setPlayerCount(
                 ComponentParser.text(entry.getPlayerCountText())
-                    .applyReplacements(player, server)
+                    .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toString()
             );

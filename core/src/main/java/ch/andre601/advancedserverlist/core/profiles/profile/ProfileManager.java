@@ -27,9 +27,10 @@ package ch.andre601.advancedserverlist.core.profiles.profile;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.objects.NullBool;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.objects.NullBool;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
 import java.util.List;
 
@@ -88,10 +89,10 @@ public class ProfileManager{
     }
     
     private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getMOTD().isEmpty())
-            return defaultProfile.getMOTD();
+        if(profile == null || profile.getMotd().isEmpty())
+            return defaultProfile.getMotd();
         
-        return profile.getMOTD();
+        return profile.getMotd();
     }
     
     private static List<String> resolvePlayers(ProfileEntry profile, ProfileEntry defaultProfile){
@@ -117,16 +118,16 @@ public class ProfileManager{
     
     private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
         if(profile == null || profile.isHidePlayersEnabled().isNull())
-            return defaultProfile.isHidePlayersEnabled().getValue(false);
+            return defaultProfile.isHidePlayersEnabled().getOrDefault(false);
         
-        return profile.isHidePlayersEnabled().getValue(false);
+        return profile.isHidePlayersEnabled().getOrDefault(false);
     }
     
     private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
         if(profile == null || profile.isExtraPlayersEnabled().isNull())
-            return defaultProfile.isExtraPlayersEnabled().getValue(false);
+            return defaultProfile.isExtraPlayersEnabled().getOrDefault(false);
         
-        return profile.isExtraPlayersEnabled().getValue(false);
+        return profile.isExtraPlayersEnabled().getOrDefault(false);
     }
     
     private static Integer resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){

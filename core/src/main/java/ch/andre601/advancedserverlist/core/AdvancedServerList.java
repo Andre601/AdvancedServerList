@@ -41,7 +41,7 @@ import java.util.Properties;
 
 public class AdvancedServerList{
     
-    private final PluginCore<?, ?, ?> plugin;
+    private final PluginCore<?> plugin;
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
@@ -51,7 +51,7 @@ public class AdvancedServerList{
     
     private String version;
     
-    public AdvancedServerList(PluginCore<?, ?, ?> plugin, PlaceholderProvider player){
+    public AdvancedServerList(PluginCore<?> plugin, PlaceholderProvider player){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
@@ -62,7 +62,7 @@ public class AdvancedServerList{
         load();
     }
     
-    public PluginCore<?, ?, ?> getPlugin(){
+    public PluginCore<?> getPlugin(){
         return plugin;
     }
     

@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPing.CompressedImage, WrappedGameProfile, SpigotPlayer>{
+public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPing.CompressedImage>{
     
     private final PluginLogger logger = new SpigotLogger(getLogger());
     
@@ -145,27 +145,6 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     @Override
     public String getLoader(){
         return "spigot";
-    }
-    
-    @Override
-    public List<WrappedGameProfile> createPlayers(List<String> lines, SpigotPlayer player, GenericServer server){
-        List<WrappedGameProfile> players = new ArrayList<>(lines.size());
-        
-        for(String line : lines){
-            String parsed = ComponentParser.text(line)
-                .applyReplacements(player, server)
-                .modifyText(text -> {
-                    if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                        return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
-                    
-                    return text;
-                })
-                .toString();
-            
-            players.add(new WrappedGameProfile(UUID.randomUUID(), parsed));
-        }
-        
-        return players;
     }
     
     private void printPaperInfo(){

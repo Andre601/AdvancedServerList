@@ -25,16 +25,13 @@
 
 package ch.andre601.advancedserverlist.core.interfaces.core;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 
 import java.nio.file.Path;
-import java.util.List;
 
-public interface PluginCore<F, PL, P extends GenericPlayer>{
+public interface PluginCore<F>{
     
     void loadCommands();
     
@@ -57,6 +54,4 @@ public interface PluginCore<F, PL, P extends GenericPlayer>{
     String getPlatformVersion();
     
     String getLoader();
-    
-    List<PL> createPlayers(List<String> lines, P player, GenericServer server);
 }

@@ -37,6 +37,7 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -48,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class BungeeCordCore extends Plugin implements PluginCore<Favicon, ServerPing.PlayerInfo, BungeePlayer>{
+public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
     private AdvancedServerList core;
     private FaviconHandler<Favicon> faviconHandler = null;
@@ -127,20 +128,5 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon, Server
     @Override
     public String getLoader(){
         return "bungeecord";
-    }
-    
-    @Override
-    public List<ServerPing.PlayerInfo> createPlayers(List<String> lines, BungeePlayer player, GenericServer server){
-        List<ServerPing.PlayerInfo> players = new ArrayList<>(lines.size());
-        
-        for(String line : lines){
-            String parsed = ComponentParser.text(line)
-                .applyReplacements(player, server)
-                .toString();
-            
-            players.add(new ServerPing.PlayerInfo(parsed, UUID.randomUUID()));
-        }
-        
-        return players;
     }
 }

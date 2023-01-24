@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class VelocityCore implements PluginCore<Favicon, ServerPing.SamplePlayer, VelocityPlayer>{
+public class VelocityCore implements PluginCore<Favicon>{
     
     private final PluginLogger logger;
     private final ProxyServer proxy;
@@ -136,21 +136,6 @@ public class VelocityCore implements PluginCore<Favicon, ServerPing.SamplePlayer
             faviconHandler = new FaviconHandler<>(core);
         
         return faviconHandler;
-    }
-    
-    @Override
-    public List<ServerPing.SamplePlayer> createPlayers(List<String> lines, VelocityPlayer player, GenericServer server){
-        List<ServerPing.SamplePlayer> players = new ArrayList<>(lines.size());
-        
-        for(String line : lines){
-            String parsed = ComponentParser.text(line)
-                .applyReplacements(player, server)
-                .toString();
-            
-            players.add(new ServerPing.SamplePlayer(parsed, UUID.randomUUID()));
-        }
-        
-        return players;
     }
     
     @Override
