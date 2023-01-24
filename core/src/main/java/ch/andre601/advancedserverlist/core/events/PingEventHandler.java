@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.events;
 
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
@@ -38,7 +38,7 @@ import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 public class PingEventHandler{
     
-    public static <F, PL, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, PL, P> event){
+    public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
         if(event.isInvalidProtocol())
             return;
         
@@ -59,7 +59,7 @@ public class PingEventHandler{
         if(profile == null)
             return;
         
-        GenericProfileEntryEvent e = event.callEvent(ProfileManager.merge(profile));
+        GenericServerListEvent e = event.callEvent(ProfileManager.merge(profile));
         if(e == null || e.isCancelled())
             return;
         

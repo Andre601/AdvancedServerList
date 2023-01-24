@@ -26,14 +26,14 @@
 package ch.andre601.advancedserverlist.bungeecord.events;
 
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import net.md_5.bungee.api.plugin.Event;
 
 /**
  * Called <b>before</b> AdvancedServerList modifies the server list.
  * <br>The provided {@link #getEntry() ProfileEntry} will be the one used for the server list.
  */
-public class PreServerListSetEvent extends Event implements GenericProfileEntryEvent{
+public class PreServerListSetEvent extends Event implements GenericServerListEvent{
     
     private ProfileEntry entry;
     private boolean cancelled = false;

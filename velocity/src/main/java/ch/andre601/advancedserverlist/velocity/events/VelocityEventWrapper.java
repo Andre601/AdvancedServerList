@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.velocity.events;
 
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-public class VelocityEventWrapper implements GenericEventWrapper<Favicon, ServerPing.SamplePlayer, VelocityPlayer>{
+public class VelocityEventWrapper implements GenericEventWrapper<Favicon, VelocityPlayer>{
     
     private final VelocityCore plugin;
     private final ProxyPingEvent event;
@@ -60,7 +60,7 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Server
     }
     
     @Override
-    public GenericProfileEntryEvent callEvent(ProfileEntry entry){
+    public GenericServerListEvent callEvent(ProfileEntry entry){
         PreServerListSetEvent event = new PreServerListSetEvent(entry);
         try{
             plugin.getProxy().getEventManager().fire(event).get();

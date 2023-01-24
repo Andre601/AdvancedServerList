@@ -29,7 +29,7 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayer;
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -47,7 +47,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.UUID;
 
-public class BungeeEventWrapper implements GenericEventWrapper<Favicon, ServerPing.PlayerInfo, BungeePlayer>{
+public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePlayer>{
     
     private final BungeeCordCore plugin;
     private final ProxyPingEvent event;
@@ -62,7 +62,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, ServerPi
     }
     
     @Override
-    public GenericProfileEntryEvent callEvent(ProfileEntry entry){
+    public GenericServerListEvent callEvent(ProfileEntry entry){
         PreServerListSetEvent event = new PreServerListSetEvent(entry);
         plugin.getProxy().getPluginManager().callEvent(event);
         

@@ -28,7 +28,7 @@ package ch.andre601.advancedserverlist.core.interfaces.events;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import net.kyori.adventure.text.Component;
@@ -37,9 +37,9 @@ import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-public interface GenericEventWrapper<F, PL, P extends GenericPlayer>{
+public interface GenericEventWrapper<F, P extends GenericPlayer>{
     
-    GenericProfileEntryEvent callEvent(ProfileEntry entry);
+    GenericServerListEvent callEvent(ProfileEntry entry);
     
     void setMaxPlayers(int maxPlayers);
     

@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.paper.events;
 
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, PlayerProfile, PaperPlayer>{
+public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, PaperPlayer>{
     
     private final PaperCore plugin;
     private final PaperServerListPingEvent event;
@@ -59,7 +59,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public GenericProfileEntryEvent callEvent(ProfileEntry entry){
+    public GenericServerListEvent callEvent(ProfileEntry entry){
         PreServerListSetEvent event = new PreServerListSetEvent(entry);
         plugin.getServer().getPluginManager().callEvent(event);
         

@@ -32,7 +32,7 @@ import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
  * <br>This allows the plugin to pull common info such as ProfileEntry or if the event has been cancelled by another
  * plugin.
  */
-public interface GenericProfileEntryEvent{
+public interface GenericServerListEvent{
     
     /**
      * Gets the {@link ProfileEntry} currently set.

@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.spigot.events;
 
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, WrappedGameProfile, SpigotPlayer>{
+public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, SpigotPlayer>{
     
     private final SpigotCore plugin;
     private final PacketEvent event;
@@ -67,7 +67,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public GenericProfileEntryEvent callEvent(ProfileEntry entry){
+    public GenericServerListEvent callEvent(ProfileEntry entry){
         PreServerListSetEvent event = new PreServerListSetEvent(entry);
         plugin.getServer().getPluginManager().callEvent(event);
         

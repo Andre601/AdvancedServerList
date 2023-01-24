@@ -26,7 +26,7 @@
 package ch.andre601.advancedserverlist.spigot.events;
 
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
-import ch.andre601.advancedserverlist.api.events.GenericProfileEntryEvent;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -36,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
  * Called <b>before</b> AdvancedServerList modifies the server list.
  * <br>The provided {@link #getEntry() ProfileEntry} will be the one used for the server list.
  */
-public class PreServerListSetEvent extends Event implements GenericProfileEntryEvent, Cancellable{
+public class PreServerListSetEvent extends Event implements GenericServerListEvent, Cancellable{
     
     private final HandlerList handlers = new HandlerList();
     
