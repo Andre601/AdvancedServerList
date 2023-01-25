@@ -31,11 +31,24 @@ import com.velocitypowered.api.network.ProtocolVersion;
 
 public class VelocityPlayer extends GenericPlayer{
     
+    private final String version;
+    
     public VelocityPlayer(CachedPlayer player, int protocol){
         this.name = player.getName();
         this.protocol = protocol;
         this.uuid = player.getUuid();
         
         this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
+    }
+    
+    /**
+     * Returns the {@link #getProtocol() protocol version} in a readable MC version format (i.e. 1.19.3).
+     *
+     * <p>This only works on Velocity and will return {@code null} for any other platform.
+     *
+     * @return The readable MC version the player uses.
+     */
+    public String getVersion(){
+        return version;
     }
 }

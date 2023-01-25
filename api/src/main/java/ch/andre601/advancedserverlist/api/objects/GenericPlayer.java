@@ -45,7 +45,6 @@ public abstract class GenericPlayer{
     protected int protocol = -1;
     protected UUID uuid = null;
     
-    protected String version = null;
     protected boolean playedBefore = false;
     protected boolean banned = false;
     protected boolean whitelisted = false;
@@ -85,17 +84,6 @@ public abstract class GenericPlayer{
      */
     public UUID getUUID(){
         return uuid;
-    }
-    
-    /**
-     * Returns the {@link #getProtocol() protocol version} in a readable MC version format (i.e. 1.19.3).
-     * 
-     * <p>This only works on Velocity and will return {@code null} for any other platform.
-     * 
-     * @return The readable MC version the player uses.
-     */
-    public String getVersion(){
-        return version;
     }
     
     /**
