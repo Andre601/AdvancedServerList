@@ -187,7 +187,7 @@ public class ProfileEntry{
     
     /**
      * Whether this ProfileEntry is invalid or not.
-     * <br>The ProfileEntry is considered invalid if all of the following are true:
+     * <br>The ProfileEntry is considered invalid if all the following is true:
      * <ul>
      *     <li>{@link #getMotd() motd} is empty</li>
      *     <li>{@link #getPlayers() players} is empty</li>
