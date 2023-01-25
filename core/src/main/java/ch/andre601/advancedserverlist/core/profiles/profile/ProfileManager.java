@@ -80,7 +80,7 @@ public class ProfileManager{
         Integer extraPlayers = resolveNullableInt(node);
         
         return new ProfileEntry.Builder()
-            .setMotd(motd.size() <= 2 ? motd : motd.subList(0, 2))
+            .setMotd(motd)
             .setPlayers(players)
             .setPlayerCountText(playerCountText)
             .setHidePlayersEnabled(hidePlayers)
