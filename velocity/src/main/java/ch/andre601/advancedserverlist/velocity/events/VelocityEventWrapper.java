@@ -34,7 +34,7 @@ import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
-import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayer;
+import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerImpl;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-public class VelocityEventWrapper implements GenericEventWrapper<Favicon, VelocityPlayer>{
+public class VelocityEventWrapper implements GenericEventWrapper<Favicon, VelocityPlayerImpl>{
     
     private final VelocityCore plugin;
     private final ProxyPingEvent event;
@@ -61,7 +61,7 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     
     @Override
     public GenericServerListEvent callEvent(ProfileEntry entry){
-        PreServerListSetEvent event = new PreServerListSetEvent(entry);
+        PreServerListSetEventImpl event = new PreServerListSetEventImpl(entry);
         try{
             plugin.getProxy().getEventManager().fire(event).get();
         }catch(InterruptedException | ExecutionException ignored){
@@ -92,7 +92,7 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     }
     
     @Override
-    public void setPlayers(List<String> lines, VelocityPlayer player, GenericServer server){
+    public void setPlayers(List<String> lines, VelocityPlayerImpl player, GenericServer server){
         ServerPing.SamplePlayer[] players = new ServerPing.SamplePlayer[lines.size()];
         
         for(int i = 0; i < players.length; i++){
@@ -147,7 +147,7 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, VelocityPlayer player){
+    public String parsePAPIPlaceholders(String text, VelocityPlayerImpl player){
         return text;
     }
     
@@ -162,8 +162,8 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     }
     
     @Override
-    public VelocityPlayer createPlayer(CachedPlayer player, int protocol){
-        return new VelocityPlayer(player, protocol);
+    public VelocityPlayerImpl createPlayer(CachedPlayer player, int protocol){
+        return new VelocityPlayerImpl(player, protocol);
     }
     
     @Override

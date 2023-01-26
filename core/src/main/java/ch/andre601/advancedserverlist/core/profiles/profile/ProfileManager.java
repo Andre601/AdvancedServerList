@@ -56,7 +56,7 @@ public class ProfileManager{
         Integer extraPlayersCount = resolveExtraPlayersCount(entry, defEntry);
         
         return new ProfileEntry(motd, players, playerCountText, favicon, 
-            new NullBool(isHidePlayersEnabled), new NullBool(isExtraPlayersEnabled), extraPlayersCount);
+            NullBool.resolve(isHidePlayersEnabled), NullBool.resolve(isExtraPlayersEnabled), extraPlayersCount);
     }
     
     public static ServerListProfile resolveProfile(AdvancedServerList core, GenericPlayer player, GenericServer server){
@@ -118,14 +118,14 @@ public class ProfileManager{
     }
     
     private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isHidePlayersEnabled().isNull())
+        if(profile == null || profile.isHidePlayersEnabled().isNotSet())
             return defaultProfile.isHidePlayersEnabled().getOrDefault(false);
         
         return profile.isHidePlayersEnabled().getOrDefault(false);
     }
     
     private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isExtraPlayersEnabled().isNull())
+        if(profile == null || profile.isExtraPlayersEnabled().isNotSet())
             return defaultProfile.isExtraPlayersEnabled().getOrDefault(false);
         
         return profile.isExtraPlayersEnabled().getOrDefault(false);
@@ -148,9 +148,9 @@ public class ProfileManager{
     
     private static NullBool resolveNullBool(ConfigurationNode node, Object... path){
         if(node.node(path).virtual())
-            return NullBool.NULL;
+            return NullBool.NOT_SET;
         
-        return new NullBool(node.node(path).getBoolean());
+        return NullBool.resolve(node.node(path).getBoolean());
     }
     
     private static Integer resolveNullableInt(ConfigurationNode node){

@@ -25,14 +25,25 @@
 
 package ch.andre601.advancedserverlist.bungeecord.objects;
 
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class BungeePlayer extends GenericPlayer{
+import java.util.Locale;
+
+public class BungeePlayerPlaceholders extends PlaceholderProvider{
     
-    public BungeePlayer(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
+    public BungeePlayerPlaceholders(){
+        super("player");
+    }
+    
+    @Override
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        return switch(placeholder.toLowerCase(Locale.ROOT)){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "uuid" -> String.valueOf(player.getUUID());
+            default -> null;
+        };
     }
 }

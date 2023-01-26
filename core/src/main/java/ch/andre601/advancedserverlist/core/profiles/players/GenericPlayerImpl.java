@@ -23,31 +23,30 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.objects;
+package ch.andre601.advancedserverlist.core.profiles.players;
 
-/*
- * A simple class to allow having a nullable boolean without having to deal with possible NPEs
- * when trying to get Boolean.getValue() while it is null...
- * 
- * Here, it simply checks if the value is null and if it is, returns a default. Otherwise, it gives
- * the value.
- */
-public class NullBool{
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+
+import java.util.UUID;
+
+public abstract class GenericPlayerImpl implements GenericPlayer{
     
-    public static final NullBool FALSE = new NullBool(false);
-    public static final NullBool NULL = new NullBool(null);
+    protected String name = null;
+    protected int protocol = 0;
+    protected UUID uuid = null;
     
-    private final Boolean value;
-    
-    public NullBool(Boolean value){
-        this.value = value;
+    @Override
+    public String getName(){
+        return name;
     }
     
-    public boolean isNull(){
-        return value == null;
+    @Override
+    public int getProtocol(){
+        return protocol;
     }
     
-    public boolean getValue(boolean def){
-        return isNull() ? def : value;
+    @Override
+    public UUID getUUID(){
+        return uuid;
     }
 }

@@ -23,33 +23,16 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.objects;
+package ch.andre601.advancedserverlist.velocity.events;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import org.bukkit.OfflinePlayer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
-public class SpigotPlayer extends GenericPlayer{
-    
-    private final OfflinePlayer player;
-    
-    public SpigotPlayer(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
-        this.player = player;
-    
-        this.name = player == null ? cachedPlayer.getName() : player.getName();
-        this.protocol = protocol;
-    
-        this.uuid = player == null ? cachedPlayer.getUuid() : player.getUniqueId();
-    
-        if(player == null)
-            return;
-    
-        this.playedBefore = player.hasPlayedBefore();
-        this.banned = player.isBanned();
-        this.whitelisted = player.isWhitelisted();
-    }
-    
-    public OfflinePlayer getPlayer(){
-        return player;
+/**
+ * Called <b>before</b> AdvancedServerList modifies the server list.
+ * <br>The provided {@link #getEntry() ProfileEntry} will be the one used for the server list.
+ */
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

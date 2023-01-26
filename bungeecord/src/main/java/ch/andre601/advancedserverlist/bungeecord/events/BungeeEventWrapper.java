@@ -28,7 +28,7 @@ package ch.andre601.advancedserverlist.bungeecord.events;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayer;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerImpl;
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
@@ -47,7 +47,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.UUID;
 
-public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePlayer>{
+public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePlayerImpl>{
     
     private final BungeeCordCore plugin;
     private final ProxyPingEvent event;
@@ -63,7 +63,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     
     @Override
     public GenericServerListEvent callEvent(ProfileEntry entry){
-        PreServerListSetEvent event = new PreServerListSetEvent(entry);
+        PreServerListSetEventImpl event = new PreServerListSetEventImpl(entry);
         plugin.getProxy().getPluginManager().callEvent(event);
         
         return event;
@@ -91,7 +91,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     }
     
     @Override
-    public void setPlayers(List<String> lines, BungeePlayer player, GenericServer server){
+    public void setPlayers(List<String> lines, BungeePlayerImpl player, GenericServer server){
         ServerPing.PlayerInfo[] players = new ServerPing.PlayerInfo[lines.size()];
         
         for(int i = 0; i < players.length; i++){
@@ -149,7 +149,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, BungeePlayer player){
+    public String parsePAPIPlaceholders(String text, BungeePlayerImpl player){
         return text;
     }
     
@@ -164,8 +164,8 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     }
     
     @Override
-    public BungeePlayer createPlayer(CachedPlayer player, int protocol){
-        return new BungeePlayer(player, protocol);
+    public BungeePlayerImpl createPlayer(CachedPlayer player, int protocol){
+        return new BungeePlayerImpl(player, protocol);
     }
     
     @Override

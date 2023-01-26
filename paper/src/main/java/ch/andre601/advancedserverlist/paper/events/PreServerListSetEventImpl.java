@@ -23,27 +23,18 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.objects;
+package ch.andre601.advancedserverlist.paper.events;
 
-import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.spigot.events.PreServerListSetEvent;
 
-import java.util.Locale;
-
-public class PlayerPlaceholders extends PlaceholderProvider{
+/**
+ * Called <b>before</b> AdvancedServerList modifies the server list.
+ * <br>The provided {@link #getEntry() ProfileEntry} will be the one used for the server list.
+ */
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
     
-    public PlayerPlaceholders(){
-        super("player");
-    }
-    
-    @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        return switch(placeholder.toLowerCase(Locale.ROOT)){
-            case "name" -> player.getName();
-            case "protocol" -> String.valueOf(player.getProtocol());
-            case "uuid" -> String.valueOf(player.getUUID());
-            default -> null;
-        };
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

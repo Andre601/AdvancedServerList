@@ -23,18 +23,16 @@
  *
  */
 
-package ch.andre601.advancedserverlist.api.internal;
+package ch.andre601.advancedserverlist.bungeecord.objects;
 
-import ch.andre601.advancedserverlist.api.exceptions.InvalidPlaceholderProviderException;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
 
-public class CheckUtil{
+public class BungeePlayerImpl extends GenericPlayerImpl{
     
-    public static void notEmpty(String text, String name){
-        check(text == null || text.isEmpty(), name + " may not be null or empty.");
-    }
-    
-    public static void check(boolean condition, String msg){
-        if(condition)
-            throw new InvalidPlaceholderProviderException(msg);
+    public BungeePlayerImpl(CachedPlayer player, int protocol){
+        this.name = player.getName();
+        this.protocol = protocol;
+        this.uuid = player.getUuid();
     }
 }

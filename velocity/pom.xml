@@ -58,6 +58,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>ch.andre601.asl-api</groupId>
+            <artifactId>platform-velocity</artifactId>
+            <version>${api.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
             <version>3.1.2-SNAPSHOT</version>

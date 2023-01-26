@@ -62,6 +62,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>ch.andre601.asl-api</groupId>
+            <artifactId>platform-spigot</artifactId>
+            <version>${api.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>

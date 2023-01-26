@@ -34,7 +34,7 @@ import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.paper.PaperCore;
-import ch.andre601.advancedserverlist.paper.objects.PaperPlayer;
+import ch.andre601.advancedserverlist.paper.objects.PaperPlayerImpl;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, PaperPlayer>{
+public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, PaperPlayerImpl>{
     
     private final PaperCore plugin;
     private final PaperServerListPingEvent event;
@@ -60,7 +60,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     
     @Override
     public GenericServerListEvent callEvent(ProfileEntry entry){
-        PreServerListSetEvent event = new PreServerListSetEvent(entry);
+        PreServerListSetEventImpl event = new PreServerListSetEventImpl(entry);
         plugin.getServer().getPluginManager().callEvent(event);
         
         return event;
@@ -88,7 +88,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public void setPlayers(List<String> lines, PaperPlayer player, GenericServer server){
+    public void setPlayers(List<String> lines, PaperPlayerImpl player, GenericServer server){
         event.getPlayerSample().clear();
         List<PlayerProfile> players = new ArrayList<>(lines.size());
         
@@ -150,7 +150,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, PaperPlayer player){
+    public String parsePAPIPlaceholders(String text, PaperPlayerImpl player){
         if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
         
@@ -168,10 +168,10 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public PaperPlayer createPlayer(CachedPlayer player, int protocol){
+    public PaperPlayerImpl createPlayer(CachedPlayer player, int protocol){
         OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
-        return new PaperPlayer(pl.hasPlayedBefore() ? pl : null, player, protocol);
+        return new PaperPlayerImpl(pl.hasPlayedBefore() ? pl : null, player, protocol);
     }
     
     @Override

@@ -41,7 +41,7 @@ public class PlayerPlaceholders extends PlaceholderProvider{
             case "name" -> player.getName();
             case "protocol" -> String.valueOf(player.getProtocol());
             case "uuid" -> String.valueOf(player.getUUID());
-            case "version" -> ((VelocityPlayer)player).getVersion();
+            case "version" -> ((VelocityPlayerImpl)player).getVersion();
             default -> null;
         };
     }

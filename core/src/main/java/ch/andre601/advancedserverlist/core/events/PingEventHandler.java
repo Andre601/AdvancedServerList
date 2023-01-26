@@ -31,6 +31,7 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
+import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
@@ -52,8 +53,8 @@ public class PingEventHandler{
             plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
             event.getProtocolVersion()
         );
-        GenericServer server = new GenericServer(online, max, host);
-    
+        GenericServer server = new GenericServerImpl(online, max, host);
+        
         ServerListProfile profile = ProfileManager.resolveProfile(plugin.getCore(), player, server);
         
         if(profile == null)
@@ -72,7 +73,7 @@ public class PingEventHandler{
             event.setMaxPlayers(max);
         }
         
-        GenericServer finalServer = new GenericServer(online, max, host);
+        GenericServer finalServer = new GenericServerImpl(online, max, host);
         
         if(!entry.getMotd().isEmpty()){
             event.setMotd(

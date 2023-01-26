@@ -52,9 +52,10 @@
     
     <dependencies>
         <dependency>
-            <groupId>ch.andre601.advancedserverlist</groupId>
+            <groupId>ch.andre601.asl-api</groupId>
             <artifactId>api</artifactId>
-            <version>${plugin.version}</version>
+            <version>${api.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.spongepowered</groupId>

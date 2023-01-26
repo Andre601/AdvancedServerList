@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.api.internal;
+package ch.andre601.advancedserverlist.core.objects;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
@@ -36,11 +36,11 @@ public class ServerPlaceholders extends PlaceholderProvider{
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+    public String parsePlaceholder(String placeholder, GenericPlayer genericPlayer, GenericServer genericServer){
         return switch(placeholder){
-            case "playersOnline" -> String.valueOf(server.getPlayersOnline());
-            case "playersMax" -> String.valueOf(server.getPlayersMax());
-            case "host" -> server.getHost();
+            case "playersOnline" -> String.valueOf(genericServer.getPlayersOnline());
+            case "playersMax" -> String.valueOf(genericServer.getPlayersMax());
+            case "host" -> genericServer.getHost();
             default -> null;
         };
     }
