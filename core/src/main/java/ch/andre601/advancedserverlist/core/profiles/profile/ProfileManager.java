@@ -75,6 +75,7 @@ public class ProfileManager{
         List<String> motd = resolveList(node, "motd");
         List<String> players = resolveList(node, "playerCount", "hover");
         String playerCountText = node.node("playerCount", "text").getString("");
+        String favicon = node.node("favicon").getString("");
         NullBool hidePlayers = resolveNullBool(node, "playerCount", "hidePlayers");
         NullBool extraPlayersEnabled = resolveNullBool(node, "playerCount", "extraPlayers", "enabled");
         Integer extraPlayers = resolveNullableInt(node);
@@ -83,6 +84,7 @@ public class ProfileManager{
             .setMotd(motd)
             .setPlayers(players)
             .setPlayerCountText(playerCountText)
+            .setFavicon(favicon)
             .setHidePlayersEnabled(hidePlayers)
             .setExtraPlayersEnabled(extraPlayersEnabled)
             .setExtraPlayerCount(extraPlayers)
