@@ -68,14 +68,14 @@ public class PingEventHandler{
         if(entry.isInvalid())
             return;
         
-        if(entry.isExtraPlayersEnabled().getOrDefault(false)){
+        if(ProfileManager.checkOption(entry.isExtraPlayersEnabled())){
             max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
             event.setMaxPlayers(max);
         }
         
         GenericServer finalServer = new GenericServerImpl(online, max, host);
         
-        if(!entry.getMotd().isEmpty()){
+        if(ProfileManager.checkOption(entry.getMotd())){
             event.setMotd(
                 ComponentParser.list(entry.getMotd())
                     .modifyText(text -> StringReplacer.replace(text, player, finalServer))
@@ -84,13 +84,13 @@ public class PingEventHandler{
             );
         }
         
-        boolean hidePlayers = entry.isHidePlayersEnabled().getOrDefault(false);
+        boolean hidePlayers = ProfileManager.checkOption(entry.isHidePlayersEnabled());
         
         if(hidePlayers){
             event.hidePlayers();
         }
         
-        if(!entry.getPlayerCountText().isEmpty() && !hidePlayers){
+        if(ProfileManager.checkOption(entry.getPlayerCountText()) && !hidePlayers){
             event.setPlayerCount(
                 ComponentParser.text(entry.getPlayerCountText())
                     .modifyText(text -> StringReplacer.replace(text, player, finalServer))
@@ -99,11 +99,11 @@ public class PingEventHandler{
             );
         }
         
-        if(!entry.getPlayers().isEmpty() && !hidePlayers){
+        if(ProfileManager.checkOption(entry.getPlayers()) && !hidePlayers){
             event.setPlayers(entry.getPlayers(), player, server);
         }
         
-        if(!entry.getFavicon().isEmpty()){
+        if(ProfileManager.checkOption(entry.getFavicon())){
             String favicon = StringReplacer.replace(entry.getFavicon(), player, server);
             
             F fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {

@@ -89,43 +89,60 @@ public class ProfileManager{
             .build();
     }
     
+    public static boolean checkOption(Object obj){
+        if(obj == null)
+            return false;
+        
+        if(obj instanceof List<?> list){
+            return !list.isEmpty(); // Check if list isn't empty
+        }else
+        if(obj instanceof String str){
+            return !str.isEmpty(); // Check if list is not empty
+        }else
+        if(obj instanceof NullBool nb){
+            return nb.getOrDefault(false); // Return NullBool's value
+        }
+        
+        return false;
+    }
+    
     private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getMotd().isEmpty())
+        if(profile == null || !checkOption(profile.getMotd()))
             return defaultProfile.getMotd();
         
         return profile.getMotd();
     }
     
     private static List<String> resolvePlayers(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getPlayers().isEmpty())
+        if(profile == null || !checkOption(profile.getPlayers()))
             return defaultProfile.getPlayers();
         
         return profile.getPlayers();
     }
     
     private static String resolvePlayerCountText(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getPlayerCountText().isEmpty())
+        if(profile == null || !checkOption(profile.getPlayerCountText()))
             return defaultProfile.getPlayerCountText();
         
         return profile.getPlayerCountText();
     }
     
     private static String resolveFavicon(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getFavicon().isEmpty())
+        if(profile == null || !checkOption(profile.getFavicon()))
             return defaultProfile.getFavicon();
         
         return profile.getFavicon();
     }
     
     private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isHidePlayersEnabled().isNotSet())
+        if(profile == null || !checkOption(profile.isHidePlayersEnabled()))
             return defaultProfile.isHidePlayersEnabled().getOrDefault(false);
         
         return profile.isHidePlayersEnabled().getOrDefault(false);
     }
     
     private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isExtraPlayersEnabled().isNotSet())
+        if(profile == null || !checkOption(profile.isExtraPlayersEnabled()))
             return defaultProfile.isExtraPlayersEnabled().getOrDefault(false);
         
         return profile.isExtraPlayersEnabled().getOrDefault(false);
