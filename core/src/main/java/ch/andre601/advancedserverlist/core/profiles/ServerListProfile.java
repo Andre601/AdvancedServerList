@@ -150,7 +150,7 @@ public class ServerListProfile{
                 return this;
             
             for(String str : temp){
-                Expression expr = Expression.resolveExpression(str);
+                Expression expr = Expression.resolve(str);
                 
                 if(expr.getResult() != Expression.ExpressionResult.VALID){
                     logger.warn("Found invalid expression in condition '%s'! Reason: %s", str, expr.getResult().getMessage());

@@ -48,7 +48,7 @@ public class Expression{
         return new Expression(result, null, Operator.UNKNOWN, null);
     }
     
-    public static Expression resolveExpression(String expression){
+    public static Expression resolve(String expression){
         Operator operator = Operator.UNKNOWN;
         
         if(expression == null || expression.isEmpty()){
