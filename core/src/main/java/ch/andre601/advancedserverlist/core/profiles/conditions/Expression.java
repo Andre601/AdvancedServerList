@@ -31,37 +31,34 @@ import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 public class Expression{
     
-    private ExpressionResult result = ExpressionResult.VALID;
+    private final ExpressionResult result;
     
-    private String left;
-    private Operator operator = Operator.UNKNOWN;
-    private String right;
+    private final String left;
+    private final Operator operator;
+    private final String right;
     
-    public Expression(String expression){
-        resolveExpression(expression);
+    private Expression(ExpressionResult result, String left, Operator operator, String right){
+        this.result = result;
+        this.left = left;
+        this.operator = operator;
+        this.right = right;
     }
     
-    public boolean evaluate(GenericPlayer player, GenericServer server){
-        String newLeft = StringReplacer.replace(left, player, server);
-        String newRight = StringReplacer.replace(right, player, server);
+    public static Expression createInvalid(ExpressionResult result){
+        return new Expression(result, null, Operator.UNKNOWN, null);
+    }
+    
+    public static Expression resolveExpression(String expression){
+        Operator operator = Operator.UNKNOWN;
         
-        return operator.evaluate(newLeft, newRight);
-    }
-    
-    public ExpressionResult getResult(){
-        return result;
-    }
-    
-    private void resolveExpression(String expression){
         if(expression == null || expression.isEmpty()){
-            result = ExpressionResult.INVALID_NO_EXPRESSION;
-            return;
+            return Expression.createInvalid(ExpressionResult.INVALID_NO_EXPRESSION);
         }
         
         char[] chars = expression.toCharArray();
         
-        StringBuilder left = new StringBuilder();
-        StringBuilder right = new StringBuilder();
+        StringBuilder leftBuilder = new StringBuilder();
+        StringBuilder rightBuilder = new StringBuilder();
         
         boolean foundOperator = false;
         
@@ -81,19 +78,28 @@ public class Expression{
             }
             
             if(foundOperator){
-                right.append(c);
+                rightBuilder.append(c);
             }else{
-                left.append(c);
+                leftBuilder.append(c);
             }
         }
         
-        if(left.isEmpty() || right.isEmpty()){
-            result = ExpressionResult.INVALID_EMPTY_PARTS;
-            return;
+        if(leftBuilder.isEmpty() || rightBuilder.isEmpty()){
+            return Expression.createInvalid(ExpressionResult.INVALID_EMPTY_PARTS);
         }
         
-        this.left = left.toString().trim();
-        this.right = right.toString().trim();
+        return new Expression(ExpressionResult.VALID, leftBuilder.toString().trim(), operator, rightBuilder.toString().trim());
+    }
+    
+    public boolean evaluate(GenericPlayer player, GenericServer server){
+        String newLeft = StringReplacer.replace(left, player, server);
+        String newRight = StringReplacer.replace(right, player, server);
+        
+        return operator.evaluate(newLeft, newRight);
+    }
+    
+    public ExpressionResult getResult(){
+        return result;
     }
     
     public enum Operator{
