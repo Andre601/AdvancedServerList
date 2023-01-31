@@ -92,8 +92,8 @@ public class Expression{
             return;
         }
         
-        this.left = left.toString();
-        this.right = right.toString();
+        this.left = left.toString().trim();
+        this.right = right.toString().trim();
     }
     
     public enum Operator{
