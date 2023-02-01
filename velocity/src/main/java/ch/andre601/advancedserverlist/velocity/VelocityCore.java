@@ -33,7 +33,7 @@ import ch.andre601.advancedserverlist.velocity.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.velocity.events.JoinEvent;
 import ch.andre601.advancedserverlist.velocity.events.PingEvent;
 import ch.andre601.advancedserverlist.velocity.logging.VelocityLogger;
-import ch.andre601.advancedserverlist.velocity.objects.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerPlaceholders;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
@@ -69,7 +69,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     
     @Subscribe
     public void init(ProxyInitializeEvent event){
-        this.core = new AdvancedServerList(this, new PlayerPlaceholders());
+        this.core = new AdvancedServerList(this, new VelocityPlayerPlaceholders());
     }
     
     @Subscribe

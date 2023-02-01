@@ -23,34 +23,26 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.objects;
+package ch.andre601.advancedserverlist.velocity.objects;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class PlayerPlaceholders extends PlaceholderProvider{
+public class VelocityPlayerPlaceholders extends PlaceholderProvider{
     
-    public PlayerPlaceholders(){
+    public VelocityPlayerPlaceholders(){
         super("player");
     }
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        SpigotPlayer spigotPlayer = (SpigotPlayer)player;
-        
         return switch(placeholder){
-            case "name" -> spigotPlayer.getName();
-            case "protocol" -> String.valueOf(spigotPlayer.getProtocol());
-            case "uuid" -> String.valueOf(spigotPlayer.getUUID());
-            case "hasPlayedBefore" -> returnValue(spigotPlayer, spigotPlayer.hasPlayedBefore());
-            case "isBanned" -> returnValue(spigotPlayer, spigotPlayer.isBanned());
-            case "isWhitelisted" -> returnValue(spigotPlayer, spigotPlayer.isWhitelisted());
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "uuid" -> String.valueOf(player.getUUID());
+            case "version" -> ((VelocityPlayerImpl)player).getVersion();
             default -> null;
         };
-    }
-    
-    private String returnValue(SpigotPlayer player, Object value){
-        return player.getPlayer() == null ? null : String.valueOf(value);
     }
 }

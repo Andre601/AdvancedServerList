@@ -32,7 +32,7 @@ import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.spigot.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import ch.andre601.advancedserverlist.spigot.logging.SpigotLogger;
-import ch.andre601.advancedserverlist.spigot.objects.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayerPlaceholders;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -63,7 +63,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
             }catch(ClassNotFoundException ignored){}
         }
         
-        this.core = new AdvancedServerList(this, new PlayerPlaceholders());
+        this.core = new AdvancedServerList(this, new SpigotPlayerPlaceholders());
     }
     
     @Override

@@ -23,30 +23,29 @@
  *
  */
 
-package ch.andre601.advancedserverlist.paper.objects;
+package ch.andre601.advancedserverlist.spigot.objects;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 
-public class PlayerPlaceholders extends PlaceholderProvider{
+public class SpigotPlayerPlaceholders extends PlaceholderProvider{
     
-    public PlayerPlaceholders(){
+    public SpigotPlayerPlaceholders(){
         super("player");
     }
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        SpigotPlayer paperPlayer = (SpigotPlayer)player;
+        SpigotPlayer spigotPlayer = (SpigotPlayer)player;
         
         return switch(placeholder){
-            case "name" -> paperPlayer.getName();
-            case "protocol" -> String.valueOf(paperPlayer.getProtocol());
-            case "uuid" -> String.valueOf(paperPlayer.getUUID());
-            case "hasPlayedBefore" -> returnValue(paperPlayer, paperPlayer.hasPlayedBefore());
-            case "isBanned" -> returnValue(paperPlayer, paperPlayer.isBanned());
-            case "isWhitelisted" -> returnValue(paperPlayer, paperPlayer.isWhitelisted());
+            case "name" -> spigotPlayer.getName();
+            case "protocol" -> String.valueOf(spigotPlayer.getProtocol());
+            case "uuid" -> String.valueOf(spigotPlayer.getUUID());
+            case "hasPlayedBefore" -> returnValue(spigotPlayer, spigotPlayer.hasPlayedBefore());
+            case "isBanned" -> returnValue(spigotPlayer, spigotPlayer.isBanned());
+            case "isWhitelisted" -> returnValue(spigotPlayer, spigotPlayer.isWhitelisted());
             default -> null;
         };
     }
