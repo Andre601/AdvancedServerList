@@ -37,10 +37,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
-        <plugin.version>2.1.0</plugin.version>
+        <plugin.version>2.2.0</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
         
-        <api.version>95b903559c</api.version>
+        <api.version>v2.0.0</api.version>
         
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>

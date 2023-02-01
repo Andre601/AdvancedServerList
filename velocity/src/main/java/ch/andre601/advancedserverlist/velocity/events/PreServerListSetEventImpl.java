@@ -27,10 +27,6 @@ package ch.andre601.advancedserverlist.velocity.events;
 
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
-/**
- * Called <b>before</b> AdvancedServerList modifies the server list.
- * <br>The provided {@link #getEntry() ProfileEntry} will be the one used for the server list.
- */
 public class PreServerListSetEventImpl extends PreServerListSetEvent{
     public PreServerListSetEventImpl(ProfileEntry entry){
         super(entry);
