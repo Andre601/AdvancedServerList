@@ -34,7 +34,7 @@ They are ordered newest to oldest.
 
 ## v1.0.0
 
-### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v2-added }
+### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v1-added }
 
 - `AdvancedServerListAPI`
     - Main class used to add your own `PlaceholderProvider` instances.
