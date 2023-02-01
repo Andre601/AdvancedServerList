@@ -3,14 +3,14 @@
 This page lists the recent changes made towards the AdvancedServerListAPI.  
 They are ordered newest to oldest.
 
-## v1.1.0
+## v2.0.0
 
-### :octicons-alert-24:{ .changelog-breaking title="Breaking Changes" } Breaking Changes { #v110-breaking }
+### :octicons-alert-24:{ .changelog-breaking title="Breaking Changes" } Breaking Changes { #v2-breaking }
 
 - `platform-paper` has been removed. It used the same code as `platform-spigot` and was therefore considered duplicate code and useless.
 - `core` has been removed. The `CachedPlayer` is no longer needed in the platform-specific APIs.
 
-### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v110-added }
+### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v2-added }
 
 - `PreServerListSetEvent` to the different platform-specific APIs.
     - Called before AdvancedServerList alters the server list.
@@ -20,7 +20,7 @@ They are ordered newest to oldest.
   - Own instances can be made using the nested `Builder` class.
   - Has methods to create a Builder instance from itself, or make a copy from another ProfileEntry-instance.
 
-### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v110-changed }
+### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v2-changed }
 
 - Converted `GenericPlayer`, `GenericServer`, `BungeePlayer`, `SpigotPlayer` and `VelocityPlayer` into interfaces.
     - `GenericPlayer` no longer has `getVersion()`, `hasPlayedBefore()`, `isBanned()` and `isWhitelisted()`. They have been moved to `VelocityPlayer` (Only `getVersion()`) and `SpigotPlayer` respectively.
@@ -28,13 +28,13 @@ They are ordered newest to oldest.
     - Contains `TRUE`, `FALSE` and `NOT_SET`.
     - `isNull()` is now `isNotSet()`.
 
-### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v110-removed }
+### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v2-removed }
 
 - `UnsupportedAPIAccessException` as it is no longer used in the API itself.
 
 ## v1.0.0
 
-### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v100-added }
+### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v2-added }
 
 - `AdvancedServerListAPI`
     - Main class used to add your own `PlaceholderProvider` instances.
