@@ -25,12 +25,16 @@
 
 package ch.andre601.advancedserverlist.spigot.events;
 
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
+import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
+import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayerImpl;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.AdventureComponentConverter;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
@@ -41,10 +45,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, WrappedGameProfile, SpigotPlayer>{
+public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, SpigotPlayerImpl>{
     
     private final SpigotCore plugin;
     private final PacketEvent event;
@@ -58,6 +64,14 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
         this.ping = event.getPacket().getServerPings().read(0);
         
         this.hostAddresses = hostAddresses;
+    }
+    
+    @Override
+    public GenericServerListEvent callEvent(ProfileEntry entry){
+        PreServerListSetEventImpl event = new PreServerListSetEventImpl(entry);
+        plugin.getServer().getPluginManager().callEvent(event);
+        
+        return event;
     }
     
     @Override
@@ -82,10 +96,24 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public void setPlayers(List<String> players, SpigotPlayer player, GenericServer server){
-        ping.setPlayers(
-            plugin.createPlayers(players, player, server)
-        );
+    public void setPlayers(List<String> lines, SpigotPlayerImpl player, GenericServer server){
+        List<WrappedGameProfile> players = new ArrayList<>(lines.size());
+        
+        for(String line : lines){
+            String parsed = ComponentParser.text(line)
+                .modifyText(text -> StringReplacer.replace(text, player, server))
+                .modifyText(text -> {
+                    if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+                        return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
+                    
+                    return text;
+                })
+                .toString();
+            
+            players.add(new WrappedGameProfile(UUID.randomUUID(), parsed));
+        }
+        
+        ping.setPlayers(players);
     }
     
     @Override
@@ -128,7 +156,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, SpigotPlayer player){
+    public String parsePAPIPlaceholders(String text, SpigotPlayerImpl player){
         if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
         
@@ -145,15 +173,15 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public PluginCore<WrappedServerPing.CompressedImage, WrappedGameProfile, SpigotPlayer> getPlugin(){
+    public PluginCore<WrappedServerPing.CompressedImage> getPlugin(){
         return plugin;
     }
     
     @Override
-    public SpigotPlayer createPlayer(CachedPlayer player, int protocol){
+    public SpigotPlayerImpl createPlayer(CachedPlayer player, int protocol){
         OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
-        return new SpigotPlayer(pl.hasPlayedBefore() ? pl : null, player, protocol);
+        return new SpigotPlayerImpl(pl.hasPlayedBefore() ? pl : null, player, protocol);
     }
     
     @Override

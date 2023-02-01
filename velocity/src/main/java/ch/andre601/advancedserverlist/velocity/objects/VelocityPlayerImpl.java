@@ -23,18 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.api.internal;
+package ch.andre601.advancedserverlist.velocity.objects;
 
-import ch.andre601.advancedserverlist.api.exceptions.InvalidPlaceholderProviderException;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
+import com.velocitypowered.api.network.ProtocolVersion;
 
-public class CheckUtil{
+public class VelocityPlayerImpl extends GenericPlayerImpl implements VelocityPlayer{
     
-    public static void notEmpty(String text, String name){
-        check(text == null || text.isEmpty(), name + " may not be null or empty.");
+    private final String version;
+    
+    public VelocityPlayerImpl(CachedPlayer player, int protocol){
+        this.name = player.getName();
+        this.protocol = protocol;
+        this.uuid = player.getUuid();
+        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
     }
     
-    public static void check(boolean condition, String msg){
-        if(condition)
-            throw new InvalidPlaceholderProviderException(msg);
+    @Override
+    public String getVersion(){
+        return version;
     }
 }

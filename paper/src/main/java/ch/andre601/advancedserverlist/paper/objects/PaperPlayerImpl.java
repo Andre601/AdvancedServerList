@@ -25,15 +25,19 @@
 
 package ch.andre601.advancedserverlist.paper.objects;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
+import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 import org.bukkit.OfflinePlayer;
 
-public class PaperPlayer extends GenericPlayer{
+public class PaperPlayerImpl extends GenericPlayerImpl implements SpigotPlayer{
     
     private final OfflinePlayer player;
+    private boolean playedBefore = false;
+    private boolean banned = false;
+    private boolean whitelisted = false;
     
-    public PaperPlayer(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
+    public PaperPlayerImpl(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
         this.player = player;
         
         this.name = player == null ? cachedPlayer.getName() : player.getName();
@@ -48,7 +52,23 @@ public class PaperPlayer extends GenericPlayer{
         this.whitelisted = player.isWhitelisted();
     }
     
+    @Override
     public OfflinePlayer getPlayer(){
         return player;
+    }
+    
+    @Override
+    public boolean hasPlayedBefore(){
+        return playedBefore;
+    }
+    
+    @Override
+    public boolean isBanned(){
+        return banned;
+    }
+    
+    @Override
+    public boolean isWhitelisted(){
+        return whitelisted;
     }
 }

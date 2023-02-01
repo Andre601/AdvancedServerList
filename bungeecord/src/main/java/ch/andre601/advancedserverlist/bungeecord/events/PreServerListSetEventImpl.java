@@ -23,19 +23,13 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.bungeecord.events;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import com.velocitypowered.api.network.ProtocolVersion;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
-public class VelocityPlayer extends GenericPlayer{
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
     
-    public VelocityPlayer(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
-        
-        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

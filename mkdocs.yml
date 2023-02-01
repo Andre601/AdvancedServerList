@@ -98,7 +98,9 @@ nav:
     - profiles/index.md
     - Formatting: profiles/formatting.md
     - Placeholders: profiles/placeholders.md
-  - API: api.md
+  - API:
+    - api/index.md
+    - Changelog: api/changelog.md
   - Examples: examples.md
 
 # +--------------------------------------------------------------------------------------------------------+
@@ -482,6 +484,7 @@ markdown_extensions:
   - markdown.extensions.admonition:
   - markdown.extensions.toc:
       permalink: true
+  - markdown.extensions.attr_list:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg

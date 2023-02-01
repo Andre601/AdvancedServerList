@@ -23,47 +23,33 @@
  *
  */
 
-package ch.andre601.advancedserverlist.api.objects;
+package ch.andre601.advancedserverlist.core.objects;
 
-/**
- * Simple class used to wrap around some generic server data such as online player count, amount of total players that
- * can join and the host (IP/Domain) that got pinged by the player.
- */
-public class GenericServer{
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
+
+public class GenericServerImpl implements GenericServer{
     
-    private final int playersOnline;
-    private final int playersMax;
+    private final int online;
+    private final int max;
     private final String host;
     
-    public GenericServer(int playersOnline, int playersMax, String host){
-        this.playersOnline = playersOnline;
-        this.playersMax = playersMax;
+    public GenericServerImpl(int online, int max, String host){
+        this.online = online;
+        this.max = max;
         this.host = host;
     }
     
-    /**
-     * Returns the number of players currently online on the server.
-     *
-     * @return Number of players online on the server.
-     */
+    @Override
     public int getPlayersOnline(){
-        return playersOnline;
+        return online;
     }
     
-    /**
-     * Returns the number of total players that can join the server.
-     *
-     * @return Number of total players that can join the server.
-     */
+    @Override
     public int getPlayersMax(){
-        return playersMax;
+        return max;
     }
     
-    /**
-     * Returns the IP/Domain that got pinged by the player.
-     *
-     * @return Possibly-null String containing the IP/Domain that got pinged by the player.
-     */
+    @Override
     public String getHost(){
         return host;
     }

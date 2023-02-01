@@ -23,25 +23,30 @@
  *
  */
 
-package ch.andre601.advancedserverlist.api.internal;
+package ch.andre601.advancedserverlist.core.profiles.players;
 
-import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-public class ServerPlaceholders extends PlaceholderProvider{
+import java.util.UUID;
+
+public abstract class GenericPlayerImpl implements GenericPlayer{
     
-    public ServerPlaceholders(){
-        super("server");
+    protected String name = null;
+    protected int protocol = 0;
+    protected UUID uuid = null;
+    
+    @Override
+    public String getName(){
+        return name;
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        return switch(placeholder){
-            case "playersOnline" -> String.valueOf(server.getPlayersOnline());
-            case "playersMax" -> String.valueOf(server.getPlayersMax());
-            case "host" -> server.getHost();
-            default -> null;
-        };
+    public int getProtocol(){
+        return protocol;
+    }
+    
+    @Override
+    public UUID getUUID(){
+        return uuid;
     }
 }

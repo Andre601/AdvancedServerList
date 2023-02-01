@@ -37,15 +37,23 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
-        <plugin.version>2.0.0</plugin.version>
+        <plugin.version>2.2.0</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
+        
+        <api.version>v2.0.0</api.version>
         
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
-
+    
+    <repositories>
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io/</url>
+        </repository>
+    </repositories>
+    
     <modules>
-        <module>api</module>
         <module>core</module>
         <module>bungeecord</module>
         <module>paper</module>

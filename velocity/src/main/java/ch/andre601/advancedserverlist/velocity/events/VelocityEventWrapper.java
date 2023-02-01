@@ -25,12 +25,16 @@
 
 package ch.andre601.advancedserverlist.velocity.events;
 
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
+import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
-import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayer;
+import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerImpl;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
@@ -38,8 +42,10 @@ import net.kyori.adventure.text.Component;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
-public class VelocityEventWrapper implements GenericEventWrapper<Favicon, ServerPing.SamplePlayer, VelocityPlayer>{
+public class VelocityEventWrapper implements GenericEventWrapper<Favicon, VelocityPlayerImpl>{
     
     private final VelocityCore plugin;
     private final ProxyPingEvent event;
@@ -51,6 +57,18 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Server
         this.event = event;
         this.builder = event.getPing().asBuilder();
         this.protocol = event.getPing().getVersion();
+    }
+    
+    @Override
+    public GenericServerListEvent callEvent(ProfileEntry entry){
+        PreServerListSetEventImpl event = new PreServerListSetEventImpl(entry);
+        try{
+            plugin.getProxy().getEventManager().fire(event).get();
+        }catch(InterruptedException | ExecutionException ignored){
+            return null;
+        }
+        
+        return event;
     }
     
     @Override
@@ -74,12 +92,19 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Server
     }
     
     @Override
-    public void setPlayers(List<String> players, VelocityPlayer player, GenericServer server){
-        ServerPing.SamplePlayer[] playerSamples = plugin.createPlayers(players, player, server)
-            .toArray(new ServerPing.SamplePlayer[0]);
+    public void setPlayers(List<String> lines, VelocityPlayerImpl player, GenericServer server){
+        ServerPing.SamplePlayer[] players = new ServerPing.SamplePlayer[lines.size()];
         
-        if(playerSamples.length > 0)
-            builder.clearSamplePlayers().samplePlayers(playerSamples);
+        for(int i = 0; i < players.length; i++){
+            String parsed = ComponentParser.text(lines.get(i))
+                .modifyText(text -> StringReplacer.replace(text, player, server))
+                .toString();
+            
+            players[i] = new ServerPing.SamplePlayer(parsed, UUID.randomUUID());
+        }
+        
+        if(players.length > 0)
+            builder.clearSamplePlayers().samplePlayers(players);
     }
     
     @Override
@@ -122,7 +147,7 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Server
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, VelocityPlayer player){
+    public String parsePAPIPlaceholders(String text, VelocityPlayerImpl player){
         return text;
     }
     
@@ -132,13 +157,13 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Server
     }
     
     @Override
-    public PluginCore<Favicon, ServerPing.SamplePlayer, VelocityPlayer> getPlugin(){
+    public PluginCore<Favicon> getPlugin(){
         return plugin;
     }
     
     @Override
-    public VelocityPlayer createPlayer(CachedPlayer player, int protocol){
-        return new VelocityPlayer(player, protocol);
+    public VelocityPlayerImpl createPlayer(CachedPlayer player, int protocol){
+        return new VelocityPlayerImpl(player, protocol);
     }
     
     @Override

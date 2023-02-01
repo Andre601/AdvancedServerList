@@ -33,6 +33,9 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 public class StringReplacer{
     
     public static String replace(String input, GenericPlayer player, GenericServer server){
+        if(input == null)
+            return null;
+        
         char[] chars = input.toCharArray();
         StringBuilder builder = new StringBuilder(input.length());
         

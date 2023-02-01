@@ -23,35 +23,16 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.bungeecord.objects;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
 
-import java.nio.file.Path;
-
-public interface PluginCore<F>{
+public class BungeePlayerImpl extends GenericPlayerImpl{
     
-    void loadCommands();
-    
-    void loadEvents();
-    
-    void loadMetrics();
-    
-    void clearFaviconCache();
-    
-    AdvancedServerList getCore();
-    
-    Path getFolderPath();
-    
-    PluginLogger getPluginLogger();
-    
-    FaviconHandler<F> getFaviconHandler();
-    
-    String getPlatformName();
-    
-    String getPlatformVersion();
-    
-    String getLoader();
+    public BungeePlayerImpl(CachedPlayer player, int protocol){
+        this.name = player.getName();
+        this.protocol = protocol;
+        this.uuid = player.getUuid();
+    }
 }

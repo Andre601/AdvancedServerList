@@ -23,16 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.objects;
+package ch.andre601.advancedserverlist.paper.events;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.spigot.events.PreServerListSetEvent;
 
-public class BungeePlayer extends GenericPlayer{
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
     
-    public BungeePlayer(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

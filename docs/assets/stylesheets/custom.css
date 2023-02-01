@@ -6,3 +6,19 @@
     padding-right: unset;
     padding-left: unset;
 }
+
+.changelog-added {
+    color: #2ea043;
+}
+
+.changelog-removed {
+    color: #f85149;
+}
+
+.changelog-changed {
+    color: #1f6feb;
+}
+
+.changelog-breaking {
+    color: #9e6a03
+}

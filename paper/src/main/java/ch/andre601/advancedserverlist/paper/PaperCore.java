@@ -25,33 +25,24 @@
 
 package ch.andre601.advancedserverlist.paper;
 
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.paper.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.paper.events.JoinEvent;
 import ch.andre601.advancedserverlist.paper.events.PingEvent;
 import ch.andre601.advancedserverlist.paper.logging.PaperLogger;
-import ch.andre601.advancedserverlist.paper.objects.PaperPlayer;
 import ch.andre601.advancedserverlist.paper.objects.PlayerPlaceholders;
-import com.destroystokyo.paper.profile.PlayerProfile;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
-import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
-public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon, PlayerProfile, PaperPlayer>{
+public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon>{
     
     private final PluginLogger logger = new PaperLogger(getLogger());
     
@@ -149,27 +140,6 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
     @Override
     public String getLoader(){
         return "paper";
-    }
-    
-    @Override
-    public List<PlayerProfile> createPlayers(List<String> lines, PaperPlayer player, GenericServer server){
-        List<PlayerProfile> players = new ArrayList<>(lines.size());
-        
-        for(String line : lines){
-            String parsed = ComponentParser.text(line)
-                .applyReplacements(player, server)
-                .modifyText(text -> {
-                    if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-                        return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
-                    
-                    return text;
-                })
-                .toString();
-            
-            players.add(Bukkit.createProfile(UUID.randomUUID(), parsed));
-        }
-        
-        return players;
     }
     
     private void enable(){

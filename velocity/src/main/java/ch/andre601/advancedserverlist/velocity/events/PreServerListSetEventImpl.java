@@ -23,27 +23,12 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.objects;
+package ch.andre601.advancedserverlist.velocity.events;
 
-import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
-import java.util.Locale;
-
-public class PlayerPlaceholders extends PlaceholderProvider{
-    
-    public PlayerPlaceholders(){
-        super("player");
-    }
-    
-    @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        return switch(placeholder.toLowerCase(Locale.ROOT)){
-            case "name" -> player.getName();
-            case "protocol" -> String.valueOf(player.getProtocol());
-            case "uuid" -> String.valueOf(player.getUUID());
-            default -> null;
-        };
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

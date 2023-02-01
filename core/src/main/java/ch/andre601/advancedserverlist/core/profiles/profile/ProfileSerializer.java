@@ -29,6 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
 import java.lang.reflect.Type;
 
@@ -37,7 +38,7 @@ public class ProfileSerializer implements TypeSerializer<ProfileEntry>{
     
     @Override
     public ProfileEntry deserialize(Type type, ConfigurationNode node){
-        return ProfileEntry.Builder.resolve(node).build();
+        return ProfileManager.retrieveProfileEntry(node);
     }
     
     @Override
@@ -47,7 +48,7 @@ public class ProfileSerializer implements TypeSerializer<ProfileEntry>{
             return;
         }
         
-        node.node("motd").set(profile.getMOTD());
+        node.node("motd").set(profile.getMotd());
         node.node("playerCount", "hover").set(profile.getPlayers());
         node.node("playerCount", "text").set(profile.getPlayerCountText());
         node.node("favicon").set(profile.getFavicon());

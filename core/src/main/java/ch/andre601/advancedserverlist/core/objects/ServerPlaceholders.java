@@ -23,15 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.api.exceptions;
+package ch.andre601.advancedserverlist.core.objects;
 
-/**
- * RuntimeException thrown whenever an invalid {@link ch.andre601.advancedserverlist.api.PlaceholderProvider PlaceholderProvider}
- * has been given.
- */
-public class InvalidPlaceholderProviderException extends RuntimeException{
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
+
+public class ServerPlaceholders extends PlaceholderProvider{
     
-    public InvalidPlaceholderProviderException(String msg){
-        super(msg);
+    public ServerPlaceholders(){
+        super("server");
+    }
+    
+    @Override
+    public String parsePlaceholder(String placeholder, GenericPlayer genericPlayer, GenericServer genericServer){
+        return switch(placeholder){
+            case "playersOnline" -> String.valueOf(genericServer.getPlayersOnline());
+            case "playersMax" -> String.valueOf(genericServer.getPlayersMax());
+            case "host" -> genericServer.getHost();
+            default -> null;
+        };
     }
 }

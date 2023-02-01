@@ -27,45 +27,17 @@ package ch.andre601.advancedserverlist.core.profiles.profile;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.objects.NullBool;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.objects.NullBool;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ProfileManager{
-    
-    private final AdvancedServerList core;
-    
-    private GenericPlayer player;
-    private GenericServer server;
-    
-    private ProfileManager(AdvancedServerList core){
-        this.core = core;
-    }
-    
-    public static ProfileManager get(AdvancedServerList core){
-        return new ProfileManager(core);
-    }
-    
-    public ProfileManager applyReplacements(GenericPlayer player, GenericServer server){
-        this.player = player;
-        this.server = server;
-        
-        return this;
-    }
-    
-    public ServerListProfile getProfile(){
-        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
-            if(profile.isInvalidProfile())
-                continue;
-            
-            if(profile.evalConditions(player, server))
-                return profile;
-        }
-        
-        return null;
-    }
     
     /*
      * Convenience method to get a ProfileEntry instance with values merged.
@@ -84,49 +56,98 @@ public class ProfileManager{
         Integer extraPlayersCount = resolveExtraPlayersCount(entry, defEntry);
         
         return new ProfileEntry(motd, players, playerCountText, favicon, 
-            new NullBool(isHidePlayersEnabled), new NullBool(isExtraPlayersEnabled), extraPlayersCount);
+            NullBool.resolve(isHidePlayersEnabled), NullBool.resolve(isExtraPlayersEnabled), extraPlayersCount);
+    }
+    
+    public static ServerListProfile resolveProfile(AdvancedServerList core, GenericPlayer player, GenericServer server){
+        for(ServerListProfile profile : core.getFileHandler().getProfiles()){
+            if(profile.isInvalidProfile())
+                continue;
+            
+            if(profile.evalConditions(player, server))
+                return profile;
+        }
+        
+        return null;
+    }
+    
+    public static ProfileEntry retrieveProfileEntry(ConfigurationNode node){
+        List<String> motd = resolveList(node, "motd");
+        List<String> players = resolveList(node, "playerCount", "hover");
+        String playerCountText = node.node("playerCount", "text").getString("");
+        String favicon = node.node("favicon").getString("");
+        NullBool hidePlayers = resolveNullBool(node, "playerCount", "hidePlayers");
+        NullBool extraPlayersEnabled = resolveNullBool(node, "playerCount", "extraPlayers", "enabled");
+        Integer extraPlayers = resolveNullableInt(node);
+        
+        return new ProfileEntry.Builder()
+            .setMotd(motd)
+            .setPlayers(players)
+            .setPlayerCountText(playerCountText)
+            .setFavicon(favicon)
+            .setHidePlayersEnabled(hidePlayers)
+            .setExtraPlayersEnabled(extraPlayersEnabled)
+            .setExtraPlayerCount(extraPlayers)
+            .build();
+    }
+    
+    public static boolean checkOption(Object obj){
+        if(obj == null)
+            return false;
+        
+        if(obj instanceof List<?> list){
+            return !list.isEmpty(); // Check if list isn't empty
+        }else
+        if(obj instanceof String str){
+            return !str.isEmpty(); // Check if list is not empty
+        }else
+        if(obj instanceof NullBool nb){
+            return nb.getOrDefault(false); // Return NullBool's value
+        }
+        
+        return false;
     }
     
     private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getMOTD().isEmpty())
-            return defaultProfile.getMOTD();
+        if(profile == null || !checkOption(profile.getMotd()))
+            return defaultProfile.getMotd();
         
-        return profile.getMOTD();
+        return profile.getMotd();
     }
     
     private static List<String> resolvePlayers(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getPlayers().isEmpty())
+        if(profile == null || !checkOption(profile.getPlayers()))
             return defaultProfile.getPlayers();
         
         return profile.getPlayers();
     }
     
     private static String resolvePlayerCountText(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getPlayerCountText().isEmpty())
+        if(profile == null || !checkOption(profile.getPlayerCountText()))
             return defaultProfile.getPlayerCountText();
         
         return profile.getPlayerCountText();
     }
     
     private static String resolveFavicon(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getFavicon().isEmpty())
+        if(profile == null || !checkOption(profile.getFavicon()))
             return defaultProfile.getFavicon();
         
         return profile.getFavicon();
     }
     
     private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isHidePlayersEnabled().isNull())
-            return defaultProfile.isHidePlayersEnabled().getValue(false);
+        if(profile == null || !checkOption(profile.isHidePlayersEnabled()))
+            return defaultProfile.isHidePlayersEnabled().getOrDefault(false);
         
-        return profile.isHidePlayersEnabled().getValue(false);
+        return profile.isHidePlayersEnabled().getOrDefault(false);
     }
     
     private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.isExtraPlayersEnabled().isNull())
-            return defaultProfile.isExtraPlayersEnabled().getValue(false);
+        if(profile == null || !checkOption(profile.isExtraPlayersEnabled()))
+            return defaultProfile.isExtraPlayersEnabled().getOrDefault(false);
         
-        return profile.isExtraPlayersEnabled().getValue(false);
+        return profile.isExtraPlayersEnabled().getOrDefault(false);
     }
     
     private static Integer resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
@@ -136,4 +157,25 @@ public class ProfileManager{
         return profile.getExtraPlayersCount();
     }
     
+    private static List<String> resolveList(ConfigurationNode node, Object... path){
+        try{
+            return node.node(path).getList(String.class);
+        }catch(SerializationException ex){
+            return Collections.emptyList();
+        }
+    }
+    
+    private static NullBool resolveNullBool(ConfigurationNode node, Object... path){
+        if(node.node(path).virtual())
+            return NullBool.NOT_SET;
+        
+        return NullBool.resolve(node.node(path).getBoolean());
+    }
+    
+    private static Integer resolveNullableInt(ConfigurationNode node){
+        if(node.node("playerCount", "extraPlayers", "amount").virtual())
+            return null;
+        
+        return node.node("playerCount", "extraPlayers", "amount").getInt();
+    }
 }

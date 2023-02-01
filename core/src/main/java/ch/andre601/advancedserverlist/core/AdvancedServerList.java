@@ -27,11 +27,11 @@ package ch.andre601.advancedserverlist.core;
 
 import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.api.internal.ServerPlaceholders;
 import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.objects.ServerPlaceholders;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ import java.util.Properties;
 
 public class AdvancedServerList{
     
-    private final PluginCore<?, ?, ?> plugin;
+    private final PluginCore<?> plugin;
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
@@ -51,18 +51,19 @@ public class AdvancedServerList{
     
     private String version;
     
-    public AdvancedServerList(PluginCore<?, ?, ?> plugin, PlaceholderProvider player){
+    public AdvancedServerList(PluginCore<?> plugin, PlaceholderProvider player){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
+        
         this.api.addPlaceholderProvider(player);
         this.api.addPlaceholderProvider(new ServerPlaceholders());
         
         load();
     }
     
-    public PluginCore<?, ?, ?> getPlugin(){
+    public PluginCore<?> getPlugin(){
         return plugin;
     }
     

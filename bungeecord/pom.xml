@@ -59,6 +59,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>ch.andre601.asl-api</groupId>
+            <artifactId>platform-bungeecord</artifactId>
+            <version>${api.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
