@@ -1,7 +1,7 @@
 # API
 
 AdvancedServerList v2 introduced a new API that plugins can hook into to use.  
-As of right now is it only providing a way to add your own placeholders for it to use.
+It provides a way for your plugin to provide its own placeholders that should be parsed by AdvancedServerList and also an event to modify the server list.
 
 ## Add dependency
 
