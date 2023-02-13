@@ -1,6 +1,6 @@
 # AdvancedServerList
 <a href="https://modrinth.com/plugin/advancedserverlist" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/cozy/available/modrinth_vector.svg" height="64" align="right" alt="modrinth" title="Available on Modrinth">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_vector.svg" height="64" align="right" alt="modrinth" title="Available on Modrinth">
 </a>
 
 AdvancedServerList is a plugin that allowys you to customize your server's MOTD, favicon, Player count text and player count hover displayed in a player's multiplayer server list based on conditions and priorities.
@@ -8,19 +8,19 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
 ## Supported Platforms
 
 <a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/spigot_vector.svg" height="64" alt="platform-spigot" title="Tested on Spigot">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/spigot_vector.svg" height="64" alt="platform-spigot" title="Tested on Spigot">
 </a>
 <a href="https://papermc.io" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/paper_vector.svg" height="64" alt="platform-paper" title="Tested on Paper">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/paper_vector.svg" height="64" alt="platform-paper" title="Tested on Paper">
 </a>
 <a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/bungeecord_vector.svg" height="64" alt="platform-bungeecord" title="Tested on BungeeCord">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/bungeecord_vector.svg" height="64" alt="platform-bungeecord" title="Tested on BungeeCord">
 </a>
 <a href="https://www.papermc.io" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/waterfall_vector.svg" height="64" alt="platform-waterfall" title="Tested on Waterfall">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/waterfall_vector.svg" height="64" alt="platform-waterfall" title="Tested on Waterfall">
 </a>
 <a href="https://velocitypowered.com" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/velocity_vector.svg" height="64" alt="platform-velocity" title="Tested on Velocity">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/velocity_vector.svg" height="64" alt="platform-velocity" title="Tested on Velocity">
 </a>
 
 ## What is a Server List Profile?
@@ -71,18 +71,18 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 ## Screenshots
 
 <a href="https://modrinth.com/plugin/advancedserverlist/gallery" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/cozy/documentation/modrinth-gallery_vector.svg" height="64" alt="gallery" title="Check out the Gallery">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/documentation/modrinth-gallery_vector.svg" height="64" alt="gallery" title="Check out the Gallery">
 </a>
 
 ## Support
 <a href="https://discord.gg/6dazXp6" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/social/discord-singular_vector.svg" height="64" alt="discord" title="Join my Discord Server">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/social/discord-singular_vector.svg" height="64" alt="discord" title="Join my Discord Server">
 </a>
 <a href="https://app.revolt.chat/invite/74TpERXA" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/social/revolt-singular_vector.svg" height="64" alt="revolt" title="Join my Revolt Server">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/social/revolt-singular_vector.svg" height="64" alt="revolt" title="Join my Revolt Server">
 </a>
 <a href="https://blobfox.coffee/@andre_601" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/social/mastodon-singular_vector.svg" height="64" alt="mastodon" title="Chat with me on Mastodon">
+  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/social/mastodon-singular_vector.svg" height="64" alt="mastodon" title="Chat with me on Mastodon">
 </a>
 
 <!-- Links -->
