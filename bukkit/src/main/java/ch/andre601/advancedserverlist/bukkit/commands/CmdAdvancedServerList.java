@@ -23,9 +23,12 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.commands;
+package ch.andre601.advancedserverlist.bukkit.commands;
 
-import ch.andre601.advancedserverlist.spigot.SpigotCore;
+import ch.andre601.advancedserverlist.core.interfaces.CmdSender;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.paper.commands.PaperCmdSender;
+import ch.andre601.advancedserverlist.spigot.commands.SpigotCmdSender;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,18 +37,27 @@ import org.jetbrains.annotations.NotNull;
 
 public class CmdAdvancedServerList implements CommandExecutor{
     
-    SpigotCore plugin;
-    BukkitAudiences bukkitAudiences;
+    private final PluginCore<?> plugin;
+    private final BukkitAudiences audiences;
     
-    public CmdAdvancedServerList(SpigotCore plugin){
+    public CmdAdvancedServerList(PluginCore<?> plugin){
         this.plugin = plugin;
-        bukkitAudiences = BukkitAudiences.create(plugin);
+        this.audiences = null;
     }
     
+    public CmdAdvancedServerList(PluginCore<?> plugin, BukkitAudiences audiences){
+        this.plugin = plugin;
+        this.audiences = audiences;
+    }
+    
+    
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args){
-        plugin.getCore().getCommandHandler().handle(new SpigotCmdSender(sender, bukkitAudiences), args);
-        
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args){
+        plugin.getCore().getCommandHandler().handle(getSender(sender), args);
         return true;
+    }
+    
+    private CmdSender getSender(CommandSender sender){
+        return audiences == null ? new PaperCmdSender(sender) : new SpigotCmdSender(sender, audiences);
     }
 }

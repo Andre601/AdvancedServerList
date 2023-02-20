@@ -28,7 +28,7 @@ package ch.andre601.advancedserverlist.bukkit.objects;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayer;
+import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 
 public class PlayerPlaceholders extends PlaceholderProvider{
     
@@ -38,7 +38,7 @@ public class PlayerPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        BukkitPlayer bukkitPlayer = (BukkitPlayer)player;
+        SpigotPlayer bukkitPlayer = (SpigotPlayer)player;
         
         return switch(placeholder){
             case "name" -> bukkitPlayer.getName();
@@ -51,7 +51,7 @@ public class PlayerPlaceholders extends PlaceholderProvider{
         };
     }
     
-    private String returnValue(BukkitPlayer player, Object value){
+    private String returnValue(SpigotPlayer player, Object value){
         return player.getPlayer() == null ? null : String.valueOf(value);
     }
 }

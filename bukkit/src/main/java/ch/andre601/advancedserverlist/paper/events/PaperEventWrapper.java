@@ -23,48 +23,40 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.events;
+package ch.andre601.advancedserverlist.paper.events;
 
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.events.PreServerListSetEventImpl;
+import ch.andre601.advancedserverlist.bukkit.objects.SpigotPlayerImpl;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
-import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.bukkit.objects.SpigotPlayerImpl;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.AdventureComponentConverter;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.comphenix.protocol.wrappers.WrappedServerPing;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import com.destroystokyo.paper.profile.PlayerProfile;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.util.CachedServerIcon;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, SpigotPlayerImpl>{
+public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, SpigotPlayerImpl>{
     
-    private final SpigotCore plugin;
-    private final PacketEvent event;
-    private final WrappedServerPing ping;
+    private final PaperCore plugin;
+    private final PaperServerListPingEvent event;
     
-    private final Map<String, String> hostAddresses;
-    
-    public ProtocolLibEventWrapper(SpigotCore plugin, PacketEvent event, Map<String, String> hostAddresses){
+    public PaperEventWrapper(PaperCore plugin, PaperServerListPingEvent event){
         this.plugin = plugin;
         this.event = event;
-        this.ping = event.getPacket().getServerPings().read(0);
-        
-        this.hostAddresses = hostAddresses;
     }
     
     @Override
@@ -77,28 +69,29 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     
     @Override
     public void setMaxPlayers(int maxPlayers){
-        ping.setPlayersMaximum(maxPlayers);
+        event.setMaxPlayers(maxPlayers);
     }
     
     @Override
     public void setMotd(Component component){
-        ping.setMotD(AdventureComponentConverter.fromComponent(component));
+        event.motd(component);
     }
     
     @Override
     public void hidePlayers(){
-        ping.setPlayersVisible(false);
+        event.setHidePlayers(true);
     }
     
     @Override
     public void setPlayerCount(String name){
-        ping.setVersionName(name);
-        ping.setVersionProtocol(-1);
+        event.setVersion(name);
+        event.setProtocolVersion(-1);
     }
     
     @Override
     public void setPlayers(List<String> lines, SpigotPlayerImpl player, GenericServer server){
-        List<WrappedGameProfile> players = new ArrayList<>(lines.size());
+        event.getPlayerSample().clear();
+        List<PlayerProfile> players = new ArrayList<>(lines.size());
         
         for(String line : lines){
             String parsed = ComponentParser.text(line)
@@ -111,49 +104,50 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
                 })
                 .toString();
             
-            players.add(new WrappedGameProfile(UUID.randomUUID(), parsed));
+            players.add(Bukkit.createProfile(UUID.randomUUID(), parsed));
         }
         
-        ping.setPlayers(players);
+        event.getPlayerSample().addAll(players);
     }
     
     @Override
-    public void setFavicon(WrappedServerPing.CompressedImage favicon){
-        ping.setFavicon(favicon);
+    public void setFavicon(CachedServerIcon favicon){
+        event.setServerIcon(favicon);
     }
     
     @Override
     public void setDefaultFavicon(){
-        ping.setFavicon(ping.getFavicon());
+        event.setServerIcon(event.getServerIcon());
     }
     
-    // Not used in ProtocolLib
+    // Not used in Paper
     @Override
     public void updateEvent(){}
     
+    // Not used in Paper
     @Override
     public boolean isInvalidProtocol(){
-        return event.getPlayer().getAddress() == null;
+        return false;
     }
     
     @Override
     public int getProtocolVersion(){
-        return ping.getVersionProtocol();
+        return event.getClient().getProtocolVersion();
     }
     
     @Override
     public int getOnlinePlayers(){
-        return ping.getPlayersOnline();
+        return event.getNumPlayers();
     }
     
     @Override
     public int getMaxPlayers(){
-        return ping.getPlayersMaximum();
+        return event.getMaxPlayers();
     }
     
     @Override
     public String getPlayerIP(){
-        return event.getPlayer().getAddress() == null ? "UNKNOWN" : event.getPlayer().getAddress().getHostString();
+        return event.getClient().getAddress().getHostString();
     }
     
     @Override
@@ -166,15 +160,11 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     
     @Override
     public String getVirtualHost(){
-        String host = this.resolveHost(event.getPlayer().getAddress());
-        if(host == null)
-            return null;
-        
-        return hostAddresses.get(host);
+        return this.resolveHost(event.getClient().getVirtualHost());
     }
     
     @Override
-    public PluginCore<WrappedServerPing.CompressedImage> getPlugin(){
+    public PluginCore<CachedServerIcon> getPlugin(){
         return plugin;
     }
     
@@ -186,7 +176,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public WrappedServerPing.CompressedImage createFavicon(BufferedImage image) throws Exception{
-        return WrappedServerPing.CompressedImage.fromPng(image);
+    public CachedServerIcon createFavicon(BufferedImage image) throws Exception{
+        return Bukkit.loadServerIcon(image);
     }
 }

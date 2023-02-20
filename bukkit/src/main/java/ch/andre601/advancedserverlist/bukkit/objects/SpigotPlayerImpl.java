@@ -23,10 +23,11 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.objects;
+package ch.andre601.advancedserverlist.bukkit.objects;
 
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
+import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 import org.bukkit.OfflinePlayer;
 
 public class SpigotPlayerImpl extends GenericPlayerImpl implements SpigotPlayer{

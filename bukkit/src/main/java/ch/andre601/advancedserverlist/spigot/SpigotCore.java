@@ -25,15 +25,16 @@
 
 package ch.andre601.advancedserverlist.spigot;
 
+import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
+import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
+import ch.andre601.advancedserverlist.bukkit.objects.PlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.spigot.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
-import ch.andre601.advancedserverlist.spigot.logging.SpigotLogger;
-import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayerPlaceholders;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
@@ -43,7 +44,7 @@ import java.nio.file.Path;
 
 public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPing.CompressedImage>{
     
-    private final PluginLogger logger = new SpigotLogger(getLogger());
+    private final PluginLogger logger = new BukkitLogger(getLogger());
     
     private AdvancedServerList core;
     FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
@@ -63,7 +64,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
             }catch(ClassNotFoundException ignored){}
         }
         
-        this.core = new AdvancedServerList(this, new SpigotPlayerPlaceholders());
+        this.core = new AdvancedServerList(this, new PlayerPlaceholders());
     }
     
     @Override
@@ -78,7 +79,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
             getPluginLogger().warn("Could not register command /advancedserverlist");
             return;
         }
-        cmd.setExecutor(new CmdAdvancedServerList(this));
+        cmd.setExecutor(new CmdAdvancedServerList(this, BukkitAudiences.create(this)));
     }
     
     @Override

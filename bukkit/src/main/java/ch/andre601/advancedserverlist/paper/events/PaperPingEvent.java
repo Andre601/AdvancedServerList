@@ -23,38 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.logging;
+package ch.andre601.advancedserverlist.paper.events;
 
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class SpigotLogger implements PluginLogger{
+public class PaperPingEvent implements Listener{
     
-    private final Logger logger;
+    private final PaperCore plugin;
     
-    public SpigotLogger(Logger logger){
-        this.logger = logger;
+    public PaperPingEvent(PaperCore plugin){
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     
-    @Override
-    public void info(String msg, Object... args){
-        logger.info(String.format(msg, args));
-    }
-    
-    @Override
-    public void warn(String msg, Object... args){
-        logger.warning(String.format(msg, args));
-    }
-    
-    @Override
-    public void warn(String msg, Throwable throwable){
-        logger.log(Level.WARNING, msg, throwable);
-    }
-    
-    @Override
-    public void warn(String msg, Throwable throwable, Object... args){
-        logger.log(Level.WARNING, String.format(msg, args), throwable);
+    @EventHandler
+    public void onPaperServerListPing(PaperServerListPingEvent event){
+        PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
     }
 }

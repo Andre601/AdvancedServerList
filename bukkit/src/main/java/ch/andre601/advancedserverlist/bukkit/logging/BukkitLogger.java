@@ -23,20 +23,38 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.objects;
+package ch.andre601.advancedserverlist.bukkit.logging;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import org.bukkit.OfflinePlayer;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 
-import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public interface BukkitPlayer extends GenericPlayer{
+public class BukkitLogger implements PluginLogger{
     
-    OfflinePlayer getPlayer();
+    private final Logger logger;
     
-    boolean hasPlayedBefore();
+    public BukkitLogger(Logger logger){
+        this.logger = logger;
+    }
     
-    boolean isBanned();
+    @Override
+    public void info(String msg, Object... args){
+        logger.info(String.format(msg, args));
+    }
     
-    boolean isWhitelisted();
+    @Override
+    public void warn(String msg, Object... args){
+        logger.warning(String.format(msg, args));
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable){
+        logger.log(Level.WARNING, msg, throwable);
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable, Object... args){
+        logger.log(Level.WARNING, String.format(msg, args), throwable);
+    }
 }
