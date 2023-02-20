@@ -37,11 +37,11 @@ jobs:
         path: paper/target/AdvancedServerList-*.jar
         if-no-files-found: error
         retention-days: 1
-    - name: Save Spigot Jar file
+    - name: Save Bukkit Jar file
       uses: actions/upload-artifact@v3
       with:
         name: asl-spigot
-        path: spigot/target/AdvancedServerList-*.jar
+        path: bukkit/target/AdvancedServerList-*.jar
         if-no-files-found: error
         retention-days: 1
     - name: Save Velocity Jar file
@@ -64,9 +64,11 @@ jobs:
           - platforms: Paper
             directory: paper
             loaders: paper
-          - platforms: Spigot
-            directory: spigot
-            loaders: spigot
+          - platforms: Spigot, Paper
+            directory: bukkit
+            loaders: |
+              spigot
+              paper
           - platforms: Velocity
             directory: velocity
             loaders: velocity

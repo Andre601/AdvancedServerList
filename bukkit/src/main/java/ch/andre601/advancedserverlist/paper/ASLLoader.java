@@ -30,6 +30,7 @@ import io.papermc.paper.plugin.loader.PluginLoader;
 import io.papermc.paper.plugin.loader.library.impl.MavenLibraryResolver;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.graph.Dependency;
+import org.eclipse.aether.repository.RemoteRepository;
 import org.jetbrains.annotations.NotNull;
 
 public class ASLLoader implements PluginLoader{
@@ -37,6 +38,11 @@ public class ASLLoader implements PluginLoader{
     public void classloader(@NotNull PluginClasspathBuilder pluginClasspathBuilder){
         MavenLibraryResolver resolver = new MavenLibraryResolver();
         
+        resolver.addRepository(new RemoteRepository.Builder(
+            "paper-maven",
+            "default",
+            "https://repo.papermc.io/repository/maven-public/"
+        ).build());
         resolver.addDependency(new Dependency(new DefaultArtifact("com.squareup.okhttp3:okhttp:4.10.0"), null));
         pluginClasspathBuilder.addLibrary(resolver);
     }
