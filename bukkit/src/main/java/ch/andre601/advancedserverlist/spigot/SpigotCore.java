@@ -27,7 +27,7 @@ package ch.andre601.advancedserverlist.spigot;
 
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
-import ch.andre601.advancedserverlist.bukkit.objects.PlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -64,7 +64,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
             }catch(ClassNotFoundException ignored){}
         }
         
-        this.core = new AdvancedServerList(this, new PlayerPlaceholders());
+        this.core = new AdvancedServerList(this, new BukkitPlayerPlaceholders());
     }
     
     @Override

@@ -30,9 +30,9 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 
-public class PlayerPlaceholders extends PlaceholderProvider{
+public class BukkitPlayerPlaceholders extends PlaceholderProvider{
     
-    public PlayerPlaceholders(){
+    public BukkitPlayerPlaceholders(){
         super("player");
     }
     
