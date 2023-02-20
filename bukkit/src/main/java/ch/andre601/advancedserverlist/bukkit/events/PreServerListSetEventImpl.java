@@ -23,9 +23,10 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.events;
+package ch.andre601.advancedserverlist.bukkit.events;
 
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.spigot.events.PreServerListSetEvent;
 
 public class PreServerListSetEventImpl extends PreServerListSetEvent{
     

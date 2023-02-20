@@ -23,36 +23,21 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.events;
+package ch.andre601.advancedserverlist.paper;
 
-import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import com.comphenix.protocol.ProtocolLibrary;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.server.ServerLoadEvent;
-import org.bukkit.plugin.PluginManager;
+import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
+import io.papermc.paper.plugin.loader.PluginLoader;
+import io.papermc.paper.plugin.loader.library.impl.MavenLibraryResolver;
+import org.eclipse.aether.artifact.DefaultArtifact;
+import org.eclipse.aether.graph.Dependency;
+import org.jetbrains.annotations.NotNull;
 
-public class LoadEvent implements Listener{
-    
-    private final SpigotCore plugin;
-    
-    public LoadEvent(SpigotCore plugin){
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-    
-    @EventHandler
-    public void onServerLoad(ServerLoadEvent event){
-        PluginManager manager = plugin.getServer().getPluginManager();
+public class ASLLoader implements PluginLoader{
+    @Override
+    public void classloader(@NotNull PluginClasspathBuilder pluginClasspathBuilder){
+        MavenLibraryResolver resolver = new MavenLibraryResolver();
         
-        if(!manager.isPluginEnabled("ProtocolLib")){
-            plugin.getCore().getPlugin().getPluginLogger().warn("ProtocolLib not found! AdvancedServerList requires it to work on Spigot!");
-    
-            manager.disablePlugin(plugin);
-            return;
-        }
-        
-        manager.registerEvents(new JoinEvent(plugin), plugin);
-        manager.registerEvents(new PingEvent(plugin, ProtocolLibrary.getProtocolManager()), plugin);
+        resolver.addDependency(new Dependency(new DefaultArtifact("com.squareup.okhttp3:okhttp:4.10.0"), null));
+        pluginClasspathBuilder.addLibrary(resolver);
     }
 }

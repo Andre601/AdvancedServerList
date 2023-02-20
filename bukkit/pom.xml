@@ -34,7 +34,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spigot</artifactId>
+    <artifactId>bukkit</artifactId>
     <packaging>jar</packaging>
     <version>${plugin.version}</version>
 
@@ -44,6 +44,10 @@
     </properties>
 
     <repositories>
+        <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
         <repository>
             <id>spigot</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -70,6 +74,12 @@
             <artifactId>platform-spigot</artifactId>
             <version>${api.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>

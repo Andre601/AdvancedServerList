@@ -57,7 +57,7 @@
         <module>core</module>
         <module>bungeecord</module>
         <module>paper</module>
-        <module>spigot</module>
+        <module>bukkit</module>
         <module>velocity</module>
     </modules>
 </project>
