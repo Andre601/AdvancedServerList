@@ -13,6 +13,10 @@ dependencies:
     required: false
     bootstrap: false
 
+load-after:
+  - name: PlaceholderAPI
+    bootstrap: false
+
 commands:
   advancedserverlist:
     description: 'Main command of AdvancedServerList'
