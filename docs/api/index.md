@@ -54,11 +54,6 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
       </dependency>
       <dependency>
         <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>platform-paper</artifactId>
-        <version>{version}</version>
-      </dependency>
-      <dependency>
-        <groupId>ch.andre601.asl-api</groupId>
         <artifactId>platform-spigot</artifactId>
         <version>{version}</version>
       </dependency>
