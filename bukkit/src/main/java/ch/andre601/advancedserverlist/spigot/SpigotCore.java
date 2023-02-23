@@ -74,12 +74,11 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     
     @Override
     public void loadCommands(){
-        PluginCommand cmd = getServer().getPluginCommand("advancedserverlist");
-        if(cmd == null){
-            getPluginLogger().warn("Could not register command /advancedserverlist");
-            return;
+        if(getServer().getCommandMap().register("asl", new CmdAdvancedServerList(this))){
+            getPluginLogger().info("Registered /advancedserverlist:advancedserverlist");
+        }else{
+            getPluginLogger().info("Registered /asl:advancedserverlist");
         }
-        cmd.setExecutor(new CmdAdvancedServerList(this, BukkitAudiences.create(this)));
     }
     
     @Override

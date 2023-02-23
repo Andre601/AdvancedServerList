@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces;
+package ch.andre601.advancedserverlist.core.interfaces.commands;
 
 public interface CmdSender{
     

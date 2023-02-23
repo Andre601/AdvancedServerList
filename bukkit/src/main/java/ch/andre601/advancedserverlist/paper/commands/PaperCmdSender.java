@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.paper.commands;
 
-import ch.andre601.advancedserverlist.core.interfaces.CmdSender;
+import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import org.bukkit.command.CommandSender;
 

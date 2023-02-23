@@ -25,34 +25,39 @@
 
 package ch.andre601.advancedserverlist.bukkit.commands;
 
-import ch.andre601.advancedserverlist.core.interfaces.CmdSender;
+import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.paper.commands.PaperCmdSender;
 import ch.andre601.advancedserverlist.spigot.commands.SpigotCmdSender;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-public class CmdAdvancedServerList implements CommandExecutor{
+import java.util.Collections;
+
+public class CmdAdvancedServerList extends Command{
     
     private final PluginCore<?> plugin;
     private final BukkitAudiences audiences;
     
     public CmdAdvancedServerList(PluginCore<?> plugin){
-        this.plugin = plugin;
-        this.audiences = null;
+        this(plugin, null);
     }
     
     public CmdAdvancedServerList(PluginCore<?> plugin, BukkitAudiences audiences){
+        super(
+            "advancedserverlist",
+            "Main command of the plugin",
+            "/asl [reload|help]",
+            Collections.singletonList("asl")
+        );
+        
         this.plugin = plugin;
         this.audiences = audiences;
     }
     
-    
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args){
+    public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] args){
         plugin.getCore().getCommandHandler().handle(getSender(sender), args);
         return true;
     }

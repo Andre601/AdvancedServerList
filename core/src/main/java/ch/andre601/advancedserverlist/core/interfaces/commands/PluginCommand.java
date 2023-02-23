@@ -23,30 +23,23 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.commands;
+package ch.andre601.advancedserverlist.core.interfaces.commands;
 
-import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.CommandSender;
-
-public class BungeeCmdSender implements CmdSender{
+public abstract class PluginCommand{
     
-    private final CommandSender sender;
-    private final BungeeAudiences bungeeAudiences;
+    private final String argument;
     
-    public BungeeCmdSender(CommandSender sender, BungeeAudiences bungeeAudiences){
-        this.sender = sender;
-        this.bungeeAudiences = bungeeAudiences;
+    public PluginCommand(String argument){
+        this.argument = argument;
     }
     
-    @Override
-    public boolean hasPermission(String permission){
-        return sender.hasPermission(permission) || sender.hasPermission("advancedserverlist.admin");
+    public String getArgument(){
+        return argument;
     }
     
-    @Override
-    public void sendMsg(String msg, Object... args){
-        bungeeAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
+    public String getPermission(){
+        return "advancedserverlist.command." + getArgument();
     }
+    
+    public abstract void handle(CmdSender sender);
 }
