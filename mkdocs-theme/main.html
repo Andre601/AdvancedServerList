@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block outdated %}
+  <span class="twemoji changelog-breaking">
+      {% include ".icons/octicons/alert-24.svg" %}
+  </span>
+  You are viewing an <b>outdated version</b> of the documentation!
+  <a href="{{ '../' ~ base_url }}">
+      <b>Click here to switch to latest docs.</b>
+  </a>
+{% endblock %}
