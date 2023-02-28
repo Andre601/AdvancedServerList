@@ -1,20 +1,17 @@
 name: Deploy Site
 
 on:
-  push:
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-    branches:
-      - master
-    tags-ignore:
-    - '**'
+  release:
+    types:
+      - published
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set up Python 3.7
         uses: actions/setup-python@v4
         with:
@@ -27,4 +24,4 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "actions@github.com"
-          mkdocs gh-deploy --force
+          mike deploy --push --update-aliases ${{ github.event.release.tag_name }} latest
