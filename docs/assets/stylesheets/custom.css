@@ -22,3 +22,12 @@
 .changelog-breaking {
     color: #9e6a03
 }
+
+.md-banner--warning__icon {
+    color: #d29922;
+}
+
+/* Override mkdocs-material styling */
+.md-banner--warning {
+    background: rgba(187,128,9,0.15);
+}
