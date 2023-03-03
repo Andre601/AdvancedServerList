@@ -1,2 +1,2 @@
-mike==1.1.2
+git+https://github.com/jimporter/mike.git
 mkdocs-material==9.0.6
