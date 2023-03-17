@@ -33,6 +33,7 @@ import ch.andre601.advancedserverlist.paper.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.paper.events.JoinEvent;
 import ch.andre601.advancedserverlist.paper.events.PingEvent;
 import ch.andre601.advancedserverlist.paper.logging.PaperLogger;
+import ch.andre601.advancedserverlist.paper.objects.PAPIPlaceholders;
 import ch.andre601.advancedserverlist.paper.objects.PaperPlayerPlaceholders;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -144,6 +145,9 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
     
     private void enable(){
         this.core = new AdvancedServerList(this, new PaperPlayerPlaceholders());
+        
+        if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
+            new PAPIPlaceholders(this);
     }
     
     private void printSpigotWarning(){

@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.spigot.events;
 
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
+import ch.andre601.advancedserverlist.spigot.objects.PAPIPlaceholders;
 import com.comphenix.protocol.ProtocolLibrary;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -54,5 +55,8 @@ public class LoadEvent implements Listener{
         
         manager.registerEvents(new JoinEvent(plugin), plugin);
         manager.registerEvents(new PingEvent(plugin, ProtocolLibrary.getProtocolManager()), plugin);
+        
+        if(manager.isPluginEnabled("PlaceholderAPI"))
+            new PAPIPlaceholders(plugin);
     }
 }

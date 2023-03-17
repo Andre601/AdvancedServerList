@@ -12,6 +12,7 @@ libraries:
 
 softdepend:
   - 'PlaceholderAPI'
+  - 'ViaVersion'
 
 commands: 
   advancedserverlist:
