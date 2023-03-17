@@ -25,6 +25,13 @@ AdvancedServerList supports the following platforms:
   <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/minimal/supported/velocity_vector.svg" width="64" alt="platform-velocity" title="Tested on Velocity">
 </a>
 
+## Dependencies
+
+| Dependency       | Platforms     | Required? |
+| ---------------- | ------------- | --------- |
+| [ProtocolLib]    | Spigot        | Yes       |
+| [PlaceholderAPI] | Spigot, Paper | No        |
+
 ## Pages
 
 - [Profiles](./profiles)
@@ -32,3 +39,7 @@ AdvancedServerList supports the following platforms:
     - [Placeholders](./profiles/placeholders)
 - [API](./api)
 - [Examples](./examples)
+- [PlaceholderAPI placeholders](./placeholderapi.md)
+
+[protocollib]: https://www.spigotmc.org/resources/1997/
+[placeholderapi]: https://www.spigotmc.org/resources/6245/

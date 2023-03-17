@@ -21,6 +21,7 @@ nav:
     - api/index.md
     - Changelog: api/changelog.md
   - Examples: examples.md
+  - PlaceholderAPI: placeholderapi.md
 
 theme:
   name: 'material'
