@@ -28,9 +28,10 @@ AdvancedServerList supports the following platforms:
 ## Dependencies
 
 | Dependency       | Platforms     | Required? |
-| ---------------- | ------------- | --------- |
+|------------------|---------------|-----------|
 | [ProtocolLib]    | Spigot        | Yes       |
 | [PlaceholderAPI] | Spigot, Paper | No        |
+| [ViaVersion]     | Spigot, Paper | No        |
 
 ## Pages
 
@@ -43,3 +44,4 @@ AdvancedServerList supports the following platforms:
 
 [protocollib]: https://www.spigotmc.org/resources/1997/
 [placeholderapi]: https://www.spigotmc.org/resources/6245/
+[viaversion]: https://www.spigotmc.org/resources/19254/
