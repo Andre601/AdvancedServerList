@@ -25,9 +25,12 @@
 
 package ch.andre601.advancedserverlist.paper;
 
+import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
 import io.papermc.paper.plugin.loader.PluginLoader;
 import io.papermc.paper.plugin.loader.library.impl.MavenLibraryResolver;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.repository.RemoteRepository;
@@ -36,6 +39,10 @@ import org.jetbrains.annotations.NotNull;
 public class ASLLoader implements PluginLoader{
     @Override
     public void classloader(@NotNull PluginClasspathBuilder pluginClasspathBuilder){
+        ComponentLogger logger = pluginClasspathBuilder.getContext().getLogger();
+        
+        logger.info(Component.text("Loading Libraries for plugin..."));
+        
         MavenLibraryResolver resolver = new MavenLibraryResolver();
         
         resolver.addRepository(new RemoteRepository.Builder(
@@ -43,7 +50,12 @@ public class ASLLoader implements PluginLoader{
             "default",
             "https://repo.papermc.io/repository/maven-public/"
         ).build());
+        
+        logger.info(Component.text("Loading com.squareup.okhttp3:okhttp:4.10.0 from repo.papermc.io..."));
+        
         resolver.addDependency(new Dependency(new DefaultArtifact("com.squareup.okhttp3:okhttp:4.10.0"), null));
         pluginClasspathBuilder.addLibrary(resolver);
+        
+        logger.info(Component.text("Loading libraries complete!"));
     }
 }

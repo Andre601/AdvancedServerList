@@ -48,7 +48,6 @@ import org.bukkit.OfflinePlayer;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, SpigotPlayerImpl>{
@@ -166,7 +165,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
         if(host == null)
             return null;
         
-        return PingEvent.getHostAddresses().get(host);
+        return ProtocolLibEvents.getHostAddresses().get(host);
     }
     
     @Override

@@ -122,7 +122,7 @@
     </dependencies>
 
     <build>
-        <finalName>AdvancedServerList-Spigot-${plugin.version}</finalName>
+        <finalName>AdvancedServerList-Bukkit-${plugin.version}</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>

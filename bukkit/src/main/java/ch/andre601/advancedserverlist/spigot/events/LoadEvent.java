@@ -55,7 +55,7 @@ public class LoadEvent implements Listener{
         }
         
         manager.registerEvents(new JoinEvent(plugin), plugin);
-        manager.registerEvents(new PingEvent(plugin, ProtocolLibrary.getProtocolManager()), plugin);
+        manager.registerEvents(new ProtocolLibEvents(plugin, ProtocolLibrary.getProtocolManager()), plugin);
         
         if(manager.isPluginEnabled("PlaceholderAPI"))
             new PAPIPlaceholders(plugin);

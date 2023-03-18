@@ -150,7 +150,6 @@ public class AdvancedServerList{
     }
     
     private void printBanner(){
-        getPlugin().getPluginLogger().info("");
         getPlugin().getPluginLogger().info("           _____ _");
         getPlugin().getPluginLogger().info("    /\\    / ____| |");
         getPlugin().getPluginLogger().info("   /  \\  | (___ | |");

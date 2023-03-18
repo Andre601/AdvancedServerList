@@ -38,13 +38,13 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PingEvent implements Listener{
+public class ProtocolLibEvents implements Listener{
     
     private final ProtocolManager protocolManager;
     
     private static final Map<String, String> hostAddresses = new HashMap<>();
     
-    public PingEvent(SpigotCore plugin, ProtocolManager protocolManager){
+    public ProtocolLibEvents(SpigotCore plugin, ProtocolManager protocolManager){
         this.protocolManager = protocolManager;
         
         loadPacketListener(plugin);

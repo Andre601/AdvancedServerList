@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.bukkit.objects;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -35,9 +36,8 @@ import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.spigot.events.PingEvent;
+import ch.andre601.advancedserverlist.spigot.events.ProtocolLibEvents;
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.viaversion.viaversion.api.Via;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -50,10 +50,9 @@ import java.util.Locale;
 
 public class PAPIPlaceholders extends PlaceholderExpansion{
     
-    private final SpigotCore plugin;
-    private final ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+    private final PluginCore<?> plugin;
     
-    public PAPIPlaceholders(SpigotCore plugin){
+    public PAPIPlaceholders(PluginCore<?> plugin){
         this.plugin = plugin;
         this.register();
     }
@@ -65,30 +64,22 @@ public class PAPIPlaceholders extends PlaceholderExpansion{
     
     @Override
     public @NotNull String getAuthor(){
-        return String.join(", ", plugin.getDescription().getAuthors());
+        return "Andre601";
     }
     
     @Override
     public @NotNull String getVersion(){
-        return plugin.getDescription().getVersion();
+        return plugin.getCore().getVersion();
     }
     
     @Override
     public String onPlaceholderRequest(Player pl, @NotNull String identifier){
         InetSocketAddress address = pl.getAddress();
         
-        String host = address == null ? null : PingEvent.getHostAddresses().get(address.getHostString());
+        String host = address == null ? null : ProtocolLibEvents.getHostAddresses().get(address.getHostString());
         CachedPlayer cached = plugin.getCore().getPlayerHandler().getCachedPlayer(pl.getUniqueId());
         
-        // Check if ViaVersion is enabled to resolve the player's protocol version.
-        // If not can we assume the client's version to be the same as the server's.
-        int protocol;
-        if(Bukkit.getPluginManager().isPluginEnabled("ViaVersion")){
-            protocol = Via.getAPI().getPlayerVersion(pl.getUniqueId());
-        }else{
-            protocol = manager.getProtocolVersion(pl);
-        }
-        
+        int protocol = resolveProtocol(pl);
         int online = Bukkit.getOnlinePlayers().size();
         int max = Bukkit.getMaxPlayers();
         GenericServer server = new GenericServerImpl(online, max, host);
@@ -125,5 +116,17 @@ public class PAPIPlaceholders extends PlaceholderExpansion{
             case "extra_players_max" -> String.valueOf(max);
             default -> null;
         };
+    }
+    
+    private int resolveProtocol(Player player){
+        if(Bukkit.getPluginManager().isPluginEnabled("ViaVersion"))
+            return Via.getAPI().getPlayerVersion(player.getUniqueId());
+        
+        // Since Spigot version requires ProtocolLib can we use it here safely if the plugin instance is SpigotCore.
+        if(plugin instanceof SpigotCore)
+            return ProtocolLibrary.getProtocolManager().getProtocolVersion(player);
+        
+        // getProtocolVersion is only in Paper, so this is only called when
+        return Bukkit.getUnsafe().getProtocolVersion();
     }
 }
