@@ -52,6 +52,10 @@
             <id>placeholderapi-repo</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>viaversion</id>
+            <url>https://repo.viaversion.com/</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -84,6 +88,11 @@
             <version>2.11.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.viaversion</groupId>
+            <artifactId>viaversion-api</artifactId>
+            <version>4.6.1</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -98,7 +107,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <release>16</release>
                 </configuration>

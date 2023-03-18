@@ -50,8 +50,6 @@ The following operants are available and can be used in the conditions.
 
 ## Profiles
 
-!!! info "Available since v1.10.0"
-
 The profiles option allows you to add multiple combinations of all the other options (With the exception of [`Priority`](#priority) and [`Conditions`](#conditions)) to have randomized MOTDs, player counts, etc.
 
 If an option is not present in an entry will AdvancedServerList try to use one defined in the file or use whatever default value would be for that option.
@@ -74,25 +72,6 @@ motd:
   - Line B
 ```
 ...the above file would randomly select between a MOTD saying `Line 1\nLine 2` and a player count saying `Awesome!` or a MOTD saying `Line A\nLine B` while the player count says `Also Awesome`
-
-## Motds
-
-!!! warning "Only available in v1.9.0"
-
-This option allows to create multiple MOTDs that AdvancedServerList should randomly select from.
-
-Due to the structure of this option will you need to use `|-` to have multi-line MOTDs.
-
-Example:  
-```yaml
-motds:
-  - |-
-    Line 1
-    Line 2
-  - |-
-    Line A
-    Line B
-```
 
 ## Motd
 

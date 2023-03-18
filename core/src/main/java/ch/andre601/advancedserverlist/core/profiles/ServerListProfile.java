@@ -47,11 +47,12 @@ public class ServerListProfile{
     
     private final Random random = new Random();
     
-    public ServerListProfile(int priority, List<Expression> expressions, List<ProfileEntry> profiles, ProfileEntry defaultProfile){
+    public ServerListProfile(int priority, List<Expression> expressions, ProfileEntry defaultProfile, List<ProfileEntry> profiles){
         this.priority = priority;
         this.expressions = expressions;
-        this.profiles = profiles;
         this.defaultProfile = defaultProfile;
+        
+        this.profiles = profiles;
     }
     
     public int getPriority(){
@@ -183,7 +184,7 @@ public class ServerListProfile{
         }
         
         public ServerListProfile build(){
-            return new ServerListProfile(this.priority, this.expressions, this.profiles, this.defaultProfile);
+            return new ServerListProfile(this.priority, this.expressions, this.defaultProfile, this.profiles);
         }
     }
 }

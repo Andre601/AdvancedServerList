@@ -1,10 +1,13 @@
-name: Deploy Site
+name: 'Deploy Site (Push)'
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
+      - 'mkdocs-theme/**'
+      - 'requirements.txt'
     branches:
       - master
     tags-ignore:
@@ -18,13 +21,15 @@ jobs:
       - name: Set up Python 3.7
         uses: actions/setup-python@v4
         with:
-          python-version: 3.7
+          python-version: 3.x
+      - name: Create/Get Cache
+        uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}
+          path: .cache
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools
           python -m pip install -r requirements.txt
       - name: Deploy Files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "actions@github.com"
-          mkdocs gh-deploy --force
+        run: mkdocs gh-deploy --force

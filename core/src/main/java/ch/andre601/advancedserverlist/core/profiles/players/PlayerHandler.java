@@ -128,6 +128,15 @@ public class PlayerHandler{
         return getDefaultPlayer();
     }
     
+    public CachedPlayer getCachedPlayer(UUID uuid){
+        for(CachedPlayer player : cachedPlayers){
+            if(player.getUuid().equals(uuid))
+                return player;
+        }
+        
+        return getDefaultPlayer();
+    }
+    
     private boolean contains(String ip){
         for(CachedPlayer player : cachedPlayers){
             if(player.getIp().equals(ip))

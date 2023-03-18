@@ -13,7 +13,7 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
     
     ```groovy
     repositorories {
-        maven { url = 'https://jitpack.io/" }
+        maven { url = 'https://jitpack.io/' }
     }
     
     dependencies {

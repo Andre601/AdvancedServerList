@@ -57,14 +57,10 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     private final PacketEvent event;
     private final WrappedServerPing ping;
     
-    private final Map<String, String> hostAddresses;
-    
-    public ProtocolLibEventWrapper(SpigotCore plugin, PacketEvent event, Map<String, String> hostAddresses){
+    public ProtocolLibEventWrapper(SpigotCore plugin, PacketEvent event){
         this.plugin = plugin;
         this.event = event;
         this.ping = event.getPacket().getServerPings().read(0);
-        
-        this.hostAddresses = hostAddresses;
     }
     
     @Override
@@ -170,7 +166,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
         if(host == null)
             return null;
         
-        return hostAddresses.get(host);
+        return PingEvent.getHostAddresses().get(host);
     }
     
     @Override

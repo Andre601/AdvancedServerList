@@ -42,12 +42,16 @@ public class PingEvent implements Listener{
     
     private final ProtocolManager protocolManager;
     
-    private final Map<String, String> hostAddresses = new HashMap<>();
+    private static final Map<String, String> hostAddresses = new HashMap<>();
     
     public PingEvent(SpigotCore plugin, ProtocolManager protocolManager){
         this.protocolManager = protocolManager;
         
         loadPacketListener(plugin);
+    }
+    
+    public static Map<String, String> getHostAddresses(){
+        return hostAddresses;
     }
     
     private void loadPacketListener(SpigotCore spigotPlugin){
@@ -67,7 +71,7 @@ public class PingEvent implements Listener{
         protocolManager.addPacketListener(new PacketAdapter(spigotPlugin, ListenerPriority.LOW, PacketType.Status.Server.SERVER_INFO){
             @Override
             public void onPacketSending(PacketEvent event){
-                PingEventHandler.handleEvent(new ProtocolLibEventWrapper(spigotPlugin, event, hostAddresses));
+                PingEventHandler.handleEvent(new ProtocolLibEventWrapper(spigotPlugin, event));
             }
         });
     }
