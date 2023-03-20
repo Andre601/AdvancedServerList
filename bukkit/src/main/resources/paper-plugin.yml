@@ -12,9 +12,14 @@ dependencies:
   - name: PlaceholderAPI
     required: false
     bootstrap: false
+  - name: ViaVersion
+    required: false
+    bootstrap: false
 
 load-after:
   - name: PlaceholderAPI
+    bootstrap: false
+  - name: ViaVersion
     bootstrap: false
 
 commands:
