@@ -36,26 +36,23 @@ public class CommandHandler{
     
     private final List<PluginCommand> subCommands = new ArrayList<>();
     
-    private final static String errorPrefix = "<grey>[<gradient:dark_red:red>AdvancedServerList</gradient>]";
-    private final static String prefix = "<grey>[<gradient:aqua:white>AdvancedServerList</gradient>]";
-    
     public CommandHandler(AdvancedServerList core){
         subCommands.add(new Help());
         subCommands.add(new Reload(core));
+        subCommands.add(new ClearCache(core));
     }
     
     public void handle(CmdSender sender, String[] args){
         if(args.length == 0){
-            sender.sendMsg("%s <red>Too few arguments! Use <grey>/asl help</grey> for a list of commands.", errorPrefix);
+            sender.sendErrorMsg("<red>Too few arguments! Use <grey>/asl help</grey> for a list of commands.");
             return;
         }
         
         for(PluginCommand subCommand : subCommands){
             if(subCommand.getArgument().equalsIgnoreCase(args[0])){
                 if(!sender.hasPermission(subCommand.getPermission())){
-                    sender.sendMsg(
-                        "%s <red>You do not have the permission <grey>%s</grey> to execute this command.",
-                        errorPrefix,
+                    sender.sendErrorMsg(
+                        "<red>You do not have the permission <grey>%s</grey> to execute this command.",
                         subCommand.getPermission()
                     );
                     return;
@@ -66,7 +63,7 @@ public class CommandHandler{
             }
         }
         
-        sender.sendMsg("%s <red>Unknown subcommand <grey>%s</grey>. Use <grey>/asl help</grey> for a list of commands.", errorPrefix, args[0]);
+        sender.sendErrorMsg("<red>Unknown subcommand <grey>%s</grey>. Use <grey>/asl help</grey> for a list of commands.", args[0]);
     }
     
     private static class Help extends PluginCommand{
@@ -77,11 +74,13 @@ public class CommandHandler{
     
         @Override
         public void handle(CmdSender sender){
-            sender.sendMsg("%s - Commands", prefix);
+            sender.sendPrefixedMsg("- Commands");
             sender.sendMsg();
-            sender.sendMsg("<gradient:aqua:white>/asl help</gradient> <grey>- Shows this help");
+            sender.sendMsg("<aqua>/asl <white>help <grey>- Shows this help");
             sender.sendMsg();
-            sender.sendMsg("<gradient:aqua:white>/asl reload</gradient> <grey>- Reloads the plugin");
+            sender.sendMsg("<aqua>/asl <white>reload <grey>- Reloads the plugin and clears caches");
+            sender.sendMsg();
+            sender.sendMsg("<aqua>/asl <white>clearCache <grey>- Clears the Player and Favicon cache");
         }
     }
     
@@ -97,24 +96,51 @@ public class CommandHandler{
         
         @Override
         public void handle(CmdSender sender){
-            sender.sendMsg("%s Reloading plugin...", prefix);
+            sender.sendPrefixedMsg("Reloading plugin...");
             
             if(core.getFileHandler().reloadConfig()){
-                sender.sendMsg("%s <green>Reloaded <grey>config.yml</grey>!", prefix);
+                sender.sendPrefixedMsg("<green>Reloaded <grey>config.yml</grey>!");
             }else{
-                sender.sendMsg("%s <red>Error while reloading <grey>config.yml</grey>!", errorPrefix);
+                sender.sendErrorMsg("<red>Error while reloading <grey>config.yml</grey>!");
             }
             
             if(core.getFileHandler().reloadProfiles()){
-                sender.sendMsg("%s <green>Loaded <grey>%d profile(s)</grey>!", prefix, core.getFileHandler().getProfiles().size());
+                sender.sendPrefixedMsg("<green>Loaded <grey>%d profile(s)</grey>!", core.getFileHandler().getProfiles().size());
             }else{
-                sender.sendMsg("%s <red>Cannot load profile(s)!", errorPrefix);
+                sender.sendErrorMsg("<red>Error while loading profile(s)!");
             }
             
             core.clearFaviconCache();
-            sender.sendMsg("%s <green>Successfully cleared Favicon Cache!", prefix);
+            sender.sendPrefixedMsg("<green>Successfully cleared Favicon Cache!");
             
-            sender.sendMsg("%s <green>Reload complete!", prefix);
+            core.clearPlayerCache();
+            sender.sendPrefixedMsg("<green>Successfully cleared Player Cache!");
+            
+            sender.sendErrorMsg("<green>Reload complete!");
+        }
+    }
+    
+    private static class ClearCache extends PluginCommand{
+        
+        private final AdvancedServerList core;
+        
+        public ClearCache(AdvancedServerList core){
+            super("clearCache");
+            
+            this.core = core;
+        }
+    
+        @Override
+        public void handle(CmdSender sender){
+            sender.sendPrefixedMsg("Clearing caches...");
+            
+            core.clearFaviconCache();
+            sender.sendPrefixedMsg("<green>Successfully cleared Favicon Cache!");
+            
+            core.clearPlayerCache();
+            sender.sendPrefixedMsg("<green>Successfully cleared Player Cache!");
+            
+            sender.sendPrefixedMsg("<green>Cache clearing complete!");
         }
     }
 }

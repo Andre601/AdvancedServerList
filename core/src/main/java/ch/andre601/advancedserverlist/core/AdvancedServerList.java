@@ -103,6 +103,10 @@ public class AdvancedServerList{
         plugin.clearFaviconCache();
     }
     
+    public void clearPlayerCache(){
+        getPlayerHandler().clearCache();
+    }
+    
     private void load(){
         printBanner();
         resolveVersion();
