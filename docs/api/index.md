@@ -21,7 +21,6 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
         
         // Optional platform dependencies
         implementation 'ch.andre601.asl-api:platform-bungeecord:{version}'
-        implementation 'ch.andre601.asl-api:platform-paper:{version}'
         implementation 'ch.andre601.asl-api:platform-spigot:{version}'
         implementation 'ch.andre601.asl-api:platform-velocity:{version}'
     }
@@ -50,11 +49,6 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
       <dependency>
         <groupId>ch.andre601.asl-api</groupId>
         <artifactId>platform-bungeecord</artifactId>
-        <version>{version}</version>
-      </dependency>
-      <dependency>
-        <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>platform-paper</artifactId>
         <version>{version}</version>
       </dependency>
       <dependency>
