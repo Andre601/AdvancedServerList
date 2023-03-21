@@ -48,3 +48,11 @@ updates:
     labels:
       - 'Type: Update Dependency'
       - 'Target: GitHub Action'
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    labels:
+      - 'Type: Update Dependency'
+      - 'Target: MkDocs'
