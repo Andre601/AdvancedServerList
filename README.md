@@ -10,11 +10,6 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
 <a href="https://hangar.papermc.io/Andre_601/AdvancedServerList" target="_blank">
   <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/available/hangar_vector.svg" height="46" alt="modrinth" title="Available on Modrinth">
 </a>
-<br>
-<a href="https://www.spigotmc.org/resources/102910/" target="_blank">
-  <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/supported/spigot_vector.svg" height="46" alt="modrinth" title="Available on SpigotMC">
-</a>
-
 
 ## Supported Platforms
 
