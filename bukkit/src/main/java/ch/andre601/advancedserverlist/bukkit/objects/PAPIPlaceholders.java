@@ -76,7 +76,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion{
     public String onPlaceholderRequest(Player pl, @NotNull String identifier){
         InetSocketAddress address = pl.getAddress();
         
-        String host = address == null ? null : ProtocolLibEvents.getHostAddresses().get(address.getHostString());
+        String host = resolveVirtualHost(pl, address);
         CachedPlayer cached = plugin.getCore().getPlayerHandler().getCachedPlayer(pl.getUniqueId());
         
         int protocol = resolveProtocol(pl);
@@ -128,5 +128,18 @@ public class PAPIPlaceholders extends PlaceholderExpansion{
         
         // getProtocolVersion is only in Paper, so this is only called when
         return Bukkit.getUnsafe().getProtocolVersion();
+    }
+    
+    private String resolveVirtualHost(Player player, InetSocketAddress address){
+        try {
+            // Server is a Paper Server with Player#getVirtualHost()
+            Class.forName("com.destroystokyo.paper.network.NetworkClient");
+            return player.getVirtualHost() == null ? null : player.getVirtualHost().getHostString();
+        }catch(ClassNotFoundException ignored){}
+        
+        if(address == null)
+            return null;
+        
+        return ProtocolLibEvents.getHostAddresses().get(address.getHostString());
     }
 }

@@ -35,6 +35,8 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.paper.events.PaperPingEvent;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
 
@@ -77,7 +79,9 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
     
     @Override
     public void loadMetrics(){
-        
+        new Metrics(this, 15584).addCustomChart(new SimplePie("profiles",
+            () -> String.valueOf(core.getFileHandler().getProfiles().size())
+        ));
     }
     
     @Override
