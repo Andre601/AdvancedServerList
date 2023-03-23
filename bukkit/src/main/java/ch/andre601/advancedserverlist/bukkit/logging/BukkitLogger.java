@@ -23,30 +23,38 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.commands;
+package ch.andre601.advancedserverlist.bukkit.logging;
 
-import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.CommandSender;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 
-public class BungeeCmdSender implements CmdSender{
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class BukkitLogger implements PluginLogger{
     
-    private final CommandSender sender;
-    private final BungeeAudiences bungeeAudiences;
+    private final Logger logger;
     
-    public BungeeCmdSender(CommandSender sender, BungeeAudiences bungeeAudiences){
-        this.sender = sender;
-        this.bungeeAudiences = bungeeAudiences;
+    public BukkitLogger(Logger logger){
+        this.logger = logger;
     }
     
     @Override
-    public boolean hasPermission(String permission){
-        return sender.hasPermission(permission) || sender.hasPermission("advancedserverlist.admin");
+    public void info(String msg, Object... args){
+        logger.info(String.format(msg, args));
     }
     
     @Override
-    public void sendMsg(String msg, Object... args){
-        bungeeAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
+    public void warn(String msg, Object... args){
+        logger.warning(String.format(msg, args));
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable){
+        logger.log(Level.WARNING, msg, throwable);
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable, Object... args){
+        logger.log(Level.WARNING, String.format(msg, args), throwable);
     }
 }

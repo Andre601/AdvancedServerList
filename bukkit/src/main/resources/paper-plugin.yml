@@ -1,0 +1,55 @@
+name: 'AdvancedServerList'
+author: 'Andre_601'
+version: '${plugin.version}'
+description: '${plugin.description}'
+
+main: 'ch.andre601.advancedserverlist.paper.PaperCore'
+loader: 'ch.andre601.advancedserverlist.paper.ASLLoader'
+
+api-version: 1.19
+
+dependencies:
+  - name: PlaceholderAPI
+    required: false
+    bootstrap: false
+  - name: ViaVersion
+    required: false
+    bootstrap: false
+
+load-after:
+  - name: PlaceholderAPI
+    bootstrap: false
+  - name: ViaVersion
+    bootstrap: false
+
+commands:
+  advancedserverlist:
+    description: 'Main command of AdvancedServerList'
+    usage: '/<command> [help|reload]'
+    aliases:
+      - 'asl'
+    permission: 'advancedserverlist.admin'
+
+permissions:
+  advancedserverlist.*:
+    description: 'Grants access to all permissions'
+    default: op
+    children:
+      - 'advancedserverlist.admin'
+  advancedserverlist.admin:
+    description: 'Grants access to all permissions'
+    default: op
+    children:
+      - 'advancedserverlist.command.*'
+  advancedserverlist.command.*:
+    description: 'Grants access to all commands'
+    default: op
+    children:
+      - 'advancedserverlist.command.help'
+      - 'advancedserverlist.command.reload'
+  advancedserverlist.command.help:
+    description: 'Grants access to /asl help'
+    default: op
+  advancedserverlist.command.reload:
+    description: 'Grants access to /asl reload'
+    default: op

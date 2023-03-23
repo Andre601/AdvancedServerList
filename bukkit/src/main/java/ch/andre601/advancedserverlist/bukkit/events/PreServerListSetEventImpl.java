@@ -23,30 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.commands;
+package ch.andre601.advancedserverlist.bukkit.events;
 
-import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.CommandSender;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.spigot.events.PreServerListSetEvent;
 
-public class BungeeCmdSender implements CmdSender{
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
     
-    private final CommandSender sender;
-    private final BungeeAudiences bungeeAudiences;
-    
-    public BungeeCmdSender(CommandSender sender, BungeeAudiences bungeeAudiences){
-        this.sender = sender;
-        this.bungeeAudiences = bungeeAudiences;
-    }
-    
-    @Override
-    public boolean hasPermission(String permission){
-        return sender.hasPermission(permission) || sender.hasPermission("advancedserverlist.admin");
-    }
-    
-    @Override
-    public void sendMsg(String msg, Object... args){
-        bungeeAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

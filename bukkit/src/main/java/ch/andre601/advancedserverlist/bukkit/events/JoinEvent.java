@@ -23,30 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.commands;
+package ch.andre601.advancedserverlist.bukkit.events;
 
-import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.CommandSender;
+import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-public class BungeeCmdSender implements CmdSender{
+import java.net.InetSocketAddress;
+
+public class JoinEvent implements Listener{
     
-    private final CommandSender sender;
-    private final BungeeAudiences bungeeAudiences;
+    private final PluginCore<?> plugin;
     
-    public BungeeCmdSender(CommandSender sender, BungeeAudiences bungeeAudiences){
-        this.sender = sender;
-        this.bungeeAudiences = bungeeAudiences;
+    public JoinEvent(PluginCore<?> plugin){
+        this.plugin = plugin;
     }
     
-    @Override
-    public boolean hasPermission(String permission){
-        return sender.hasPermission(permission) || sender.hasPermission("advancedserverlist.admin");
-    }
-    
-    @Override
-    public void sendMsg(String msg, Object... args){
-        bungeeAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event){
+        InetSocketAddress address = event.getPlayer().getAddress();
+        if(address == null)
+            return;
+        
+        Player player = event.getPlayer();
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

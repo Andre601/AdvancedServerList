@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.velocity.commands;
 
-import ch.andre601.advancedserverlist.core.interfaces.CmdSender;
+import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import com.velocitypowered.api.command.CommandSource;
 

@@ -23,21 +23,21 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.commands;
+package ch.andre601.advancedserverlist.spigot.commands;
 
 import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.CommandSender;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bukkit.command.CommandSender;
 
-public class BungeeCmdSender implements CmdSender{
+public class SpigotCmdSender implements CmdSender{
     
     private final CommandSender sender;
-    private final BungeeAudiences bungeeAudiences;
+    private final BukkitAudiences bukkitAudiences;
     
-    public BungeeCmdSender(CommandSender sender, BungeeAudiences bungeeAudiences){
+    public SpigotCmdSender(CommandSender sender, BukkitAudiences bukkitAudiences){
         this.sender = sender;
-        this.bungeeAudiences = bungeeAudiences;
+        this.bukkitAudiences = bukkitAudiences;
     }
     
     @Override
@@ -47,6 +47,6 @@ public class BungeeCmdSender implements CmdSender{
     
     @Override
     public void sendMsg(String msg, Object... args){
-        bungeeAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
+        bukkitAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
     }
 }

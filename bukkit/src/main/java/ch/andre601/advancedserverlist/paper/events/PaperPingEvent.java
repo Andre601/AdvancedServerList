@@ -23,30 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.commands;
+package ch.andre601.advancedserverlist.paper.events;
 
-import ch.andre601.advancedserverlist.core.interfaces.commands.CmdSender;
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
-import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
-import net.md_5.bungee.api.CommandSender;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-public class BungeeCmdSender implements CmdSender{
+public class PaperPingEvent implements Listener{
     
-    private final CommandSender sender;
-    private final BungeeAudiences bungeeAudiences;
+    private final PaperCore plugin;
     
-    public BungeeCmdSender(CommandSender sender, BungeeAudiences bungeeAudiences){
-        this.sender = sender;
-        this.bungeeAudiences = bungeeAudiences;
+    public PaperPingEvent(PaperCore plugin){
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     
-    @Override
-    public boolean hasPermission(String permission){
-        return sender.hasPermission(permission) || sender.hasPermission("advancedserverlist.admin");
-    }
-    
-    @Override
-    public void sendMsg(String msg, Object... args){
-        bungeeAudiences.sender(sender).sendMessage(ComponentParser.text(String.format(msg, args)).toComponent());
+    @EventHandler
+    public void onPaperServerListPing(PaperServerListPingEvent event){
+        PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
     }
 }

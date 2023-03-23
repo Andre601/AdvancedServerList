@@ -103,6 +103,10 @@ public class AdvancedServerList{
         plugin.clearFaviconCache();
     }
     
+    public void clearPlayerCache(){
+        getPlayerHandler().clearCache();
+    }
+    
     private void load(){
         printBanner();
         resolveVersion();
@@ -150,7 +154,6 @@ public class AdvancedServerList{
     }
     
     private void printBanner(){
-        getPlugin().getPluginLogger().info("");
         getPlugin().getPluginLogger().info("           _____ _");
         getPlugin().getPluginLogger().info("    /\\    / ____| |");
         getPlugin().getPluginLogger().info("   /  \\  | (___ | |");

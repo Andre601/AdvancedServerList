@@ -12,7 +12,7 @@ The following placeholders are available in AdvancedServerList itself. Please no
 These placeholders use the player who pinged the server, to return values. They may require the player to be cached in order to work.
 
 | Placeholder                 | Description                                                     | Platforms    | Cached Player required?\* |
-| --------------------------- | --------------------------------------------------------------- | ------------ | ------------------------  |
+|-----------------------------|-----------------------------------------------------------------|--------------|---------------------------|
 | `${player name}`            | The name of the player.                                         | All          | Yes\*\*                   |
 | `${player protocol}`        | The protocol version of the player.                             | All          | No                        |
 | `${player uuid}`            | The UUID of the player.                                         | All          | Yes\*\*\*                 |
@@ -30,7 +30,7 @@ These placeholders use the player who pinged the server, to return values. They 
 These placeholders use values given by the server/proxy AdvancedServerList runs on.
 
 | Placeholder               | Description                                              |
-| ------------------------- | -------------------------------------------------------- |
+|---------------------------|----------------------------------------------------------|
 | `${server playersOnline}` | The number of players online on this server.             |
 | `${server playersMax}`    | The total number of players that can join this server.\* |
 | `${server host}`          | The domain/IP the player pinged.                         |
