@@ -22,6 +22,7 @@ load-after:
   - name: ViaVersion
     bootstrap: false
 
+# The below stuff is NOT used by Paper plugin.
 commands:
   advancedserverlist:
     description: 'Main command of AdvancedServerList'

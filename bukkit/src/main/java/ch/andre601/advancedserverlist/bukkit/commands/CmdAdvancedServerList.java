@@ -31,12 +31,13 @@ import ch.andre601.advancedserverlist.paper.commands.PaperCmdSender;
 import ch.andre601.advancedserverlist.spigot.commands.SpigotCmdSender;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
-public class CmdAdvancedServerList extends Command{
+public class CmdAdvancedServerList extends Command implements CommandExecutor{
     
     private final PluginCore<?> plugin;
     private final BukkitAudiences audiences;
@@ -58,6 +59,12 @@ public class CmdAdvancedServerList extends Command{
     }
     
     public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] args){
+        plugin.getCore().getCommandHandler().handle(getSender(sender), args);
+        return true;
+    }
+    
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args){
         plugin.getCore().getCommandHandler().handle(getSender(sender), args);
         return true;
     }

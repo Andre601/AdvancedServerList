@@ -36,6 +36,7 @@ import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
@@ -72,11 +73,12 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     
     @Override
     public void loadCommands(){
-        if(getServer().getCommandMap().register("asl", new CmdAdvancedServerList(this))){
-            getPluginLogger().info("Registered /advancedserverlist:advancedserverlist");
-        }else{
-            getPluginLogger().info("Registered /asl:advancedserverlist");
+        PluginCommand cmd = getServer().getPluginCommand("advancedserverlist");
+        if(cmd == null){
+            getPluginLogger().warn("Unable to register command /advancedserverlist");
+            return;
         }
+        cmd.setExecutor(new CmdAdvancedServerList(this));
     }
     
     @Override
