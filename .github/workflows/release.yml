@@ -30,13 +30,6 @@ jobs:
         path: bungeecord/target/AdvancedServerList-*.jar
         if-no-files-found: error
         retention-days: 1
-    - name: Save Paper Jar file
-      uses: actions/upload-artifact@v3
-      with:
-        name: asl-paper
-        path: paper/target/AdvancedServerList-*.jar
-        if-no-files-found: error
-        retention-days: 1
     - name: Save Bukkit Jar file
       uses: actions/upload-artifact@v3
       with:
@@ -61,9 +54,6 @@ jobs:
             loaders: |
               bungeecord
               waterfall
-          - platforms: Paper
-            directory: paper
-            loaders: paper
           - platforms: Spigot, Paper
             directory: bukkit
             loaders: |
