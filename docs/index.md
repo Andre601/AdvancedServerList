@@ -9,21 +9,11 @@ If you're new to the plugin is it recommended to check out the [Profiles page](.
 
 AdvancedServerList supports the following platforms:
 
-<a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/spigot_vector.svg" height="64" alt="platform-spigot" title="Tested on Spigot">
-</a>
-<a href="https://papermc.io" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/paper_vector.svg" height="64" alt="platform-paper" title="Tested on Paper">
-</a>
-<a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/bungeecord_vector.svg" height="64" alt="platform-bungeecord" title="Tested on BungeeCord">
-</a>
-<a href="https://www.papermc.io" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/waterfall_vector.svg" height="64" alt="platform-waterfall" title="Tested on Waterfall">
-</a>
-<a href="https://velocitypowered.com" target="_blank">
-  <img src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/velocity_vector.svg" height="64" alt="platform-velocity" title="Tested on Velocity">
-</a>
+[![spigot-img](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/spigot_vector.svg "Tested on Spigot"){ width=64 }][spigot]
+[![paper-img](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/paper_vector.svg "Tested on Paper"){ width=64 }][paper]
+[![bungeecord-img](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/bungeecord_vector.svg "Tested on BungeeCord"){ width=64 }][spigot]
+[![waterfall](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/waterfall_vector.svg "Tested on Waterfall"){ width=64 }][paper]
+[![velocity](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact-minimal/supported/velocity_vector.svg "Tested on Velocity"){ width=64 }][velocity]
 
 ## Dependencies
 
@@ -41,6 +31,10 @@ AdvancedServerList supports the following platforms:
 - [API](./api)
 - [Examples](./examples)
 - [PlaceholderAPI placeholders](./placeholderapi.md)
+
+[spigot]: https://www.spigotmc.org
+[paper]: https://papermc.io
+[velocity]: https://velocitypowered.com
 
 [protocollib]: https://www.spigotmc.org/resources/1997/
 [placeholderapi]: https://www.spigotmc.org/resources/6245/

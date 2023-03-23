@@ -56,22 +56,25 @@ If an option is not present in an entry will AdvancedServerList try to use one d
 
 As an example:  
 ```yaml
-priority: 1
+priority: 0
 
 profiles:
   - motd:
-      - Line 1
-      - Line 2
+      - '<rainbow>Line 1</rainbow>'
+      - '<rainbow:!>Line 2</rainbow>'
     playerCount:
-      text: 'Awesome!'
+      text: '<green><bold>Awesome!'
   - playerCount:
-      text: 'Also Awesome'
+      text: '<yellow><bold>Also Awesome!'
 
 motd:
-  - Line A
-  - Line B
+  - '<rainbow:2>Line A</rainbow>'
+  - '<rainbow:!2>Line B</rainbow>'
 ```
-...the above file would randomly select between a MOTD saying `Line 1\nLine 2` and a player count saying `Awesome!` or a MOTD saying `Line A\nLine B` while the player count says `Also Awesome`
+...the above example would randomly select between the following combinations of MOTD and Player count text:
+
+![motd-example-1](../assets/images/examples/motd-example-1.jpg)  
+![motd-example-2](../assets/images/examples/motd-example-2.jpg)
 
 ## Motd
 

@@ -86,12 +86,35 @@ jobs:
         version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
         echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
     - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth
+      if: '!github.event.release.prerelease'
       uses: Kir-Antipov/mc-publish@v3.2
       with:
         name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
         version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
         version-type: release
         files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
+        files-secondary: ""
+        loaders: ${{ matrix.loaders }}
+        version-resolver: releases
+        game-versions: |
+          1.19
+          1.19.1
+          1.19.2
+          1.19.3
+          1.19.4
+        java: 16
+        modrinth-id: xss83sOY
+        modrinth-featured: false
+        modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth [Pre-Release]
+      if: 'github.event.release.prerelease'
+      uses: Kir-Antipov/mc-publish@v3.2
+      with:
+        name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
+        version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
+        version-type: beta
+        files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
         files-secondary: ""
         loaders: ${{ matrix.loaders }}
         version-resolver: releases
