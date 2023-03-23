@@ -11,104 +11,119 @@ on:
     - published
 
 jobs:
-  #buildJars:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #  - uses: actions/checkout@v3
-  #  - name: Set up JDK 1.16
-  #    uses: actions/setup-java@v3
-  #    with:
-  #      distribution: 'temurin'
-  #      java-version: '16'
-  #      cache: 'maven'
-  #  - name: Build Jar files
-  #    run: mvn clean install
-  #  - name: Save BungeeCord Jar file
-  #    uses: actions/upload-artifact@v3
-  #    with:
-  #      name: asl-bungeecord
-  #      path: bungeecord/target/AdvancedServerList-*.jar
-  #      if-no-files-found: error
-  #      retention-days: 1
-  #  - name: Save Paper Jar file
-  #    uses: actions/upload-artifact@v3
-  #    with:
-  #      name: asl-paper
-  #      path: paper/target/AdvancedServerList-*.jar
-  #      if-no-files-found: error
-  #      retention-days: 1
-  #  - name: Save Spigot Jar file
-  #    uses: actions/upload-artifact@v3
-  #    with:
-  #      name: asl-spigot
-  #      path: spigot/target/AdvancedServerList-*.jar
-  #      if-no-files-found: error
-  #      retention-days: 1
-  #  - name: Save Velocity Jar file
-  #    uses: actions/upload-artifact@v3
-  #    with:
-  #      name: asl-velocity
-  #      path: velocity/target/AdvancedServerList-*.jar
-  #      if-no-files-found: error
-  #      retention-days: 1
-  publish:
-    #needs: [buildJars]
-    #strategy:
-    #  matrix:
-    #    include:
-    #      - platforms: BungeeCord, Waterfall
-    #        directory: bungeecord
-    #        loaders: |
-    #          bungeecord
-    #          waterfall
-    #      - platforms: Paper
-    #        directory: paper
-    #        loaders: paper
-    #      - platforms: Spigot
-    #        directory: spigot
-    #        loaders: spigot
-    #      - platforms: Velocity
-    #        directory: velocity
-    #        loaders: velocity
+  buildJars:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    #- name: Get Jar files
-    #  uses: actions/download-artifact@v3
-    #  with:
-    #    name: asl-${{ matrix.directory }}
-    #    path: ${{ matrix.directory }}/target
+    - name: Set up JDK 1.16
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '16'
+        cache: 'maven'
+    - name: Build Jar files
+      run: mvn clean install
+    - name: Save BungeeCord Jar file
+      uses: actions/upload-artifact@v3
+      with:
+        name: asl-bungeecord
+        path: bungeecord/target/AdvancedServerList-*.jar
+        if-no-files-found: error
+        retention-days: 1
+    - name: Save Paper Jar file
+      uses: actions/upload-artifact@v3
+      with:
+        name: asl-paper
+        path: paper/target/AdvancedServerList-*.jar
+        if-no-files-found: error
+        retention-days: 1
+    - name: Save Spigot Jar file
+      uses: actions/upload-artifact@v3
+      with:
+        name: asl-spigot
+        path: spigot/target/AdvancedServerList-*.jar
+        if-no-files-found: error
+        retention-days: 1
+    - name: Save Velocity Jar file
+      uses: actions/upload-artifact@v3
+      with:
+        name: asl-velocity
+        path: velocity/target/AdvancedServerList-*.jar
+        if-no-files-found: error
+        retention-days: 1
+  publish:
+    needs: [buildJars]
+    strategy:
+      matrix:
+        include:
+          - platforms: BungeeCord, Waterfall
+            directory: bungeecord
+            loaders: |
+              bungeecord
+              waterfall
+          - platforms: Paper
+            directory: paper
+            loaders: paper
+          - platforms: Spigot
+            directory: spigot
+            loaders: spigot
+          - platforms: Velocity
+            directory: velocity
+            loaders: velocity
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Get Jar files
+      uses: actions/download-artifact@v3
+      with:
+        name: asl-${{ matrix.directory }}
+        path: ${{ matrix.directory }}/target
     - name: Get Version
       id: github-release
       run: |
         version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
         echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
-    - name: Test-Step for pre-release
-      if: 'github.event.release.prerelease'
-      run: echo "Hey, this is a Pre-Release!"
-    - name: Test-Step for release
+    - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth
       if: '!github.event.release.prerelease'
-      run: echo "Hey, this is a Release!"
-      
-    #- name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth
-      #  if: '!github.event.release.prerelease'
-      #uses: Kir-Antipov/mc-publish@v3.2
-        #with:
-        #name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
-        #version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
-    #    version-type: release
-    #    files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
-    #    files-secondary: ""
-    #    loaders: ${{ matrix.loaders }}
-    #    version-resolver: releases
-    #    game-versions: |
-    #      1.19
-    #      1.19.1
-    #      1.19.2
-    #      1.19.3
-    #      1.19.4
-    #    java: 16
-    #    modrinth-id: xss83sOY
-    #    modrinth-featured: false
-    #    modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-    #    github-token: ${{ secrets.GITHUB_TOKEN }}
+      uses: Kir-Antipov/mc-publish@v3.2
+      with:
+        name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
+        version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
+        version-type: release
+        files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
+        files-secondary: ""
+        loaders: ${{ matrix.loaders }}
+        version-resolver: releases
+        game-versions: |
+          1.19
+          1.19.1
+          1.19.2
+          1.19.3
+          1.19.4
+        java: 16
+        modrinth-id: xss83sOY
+        modrinth-featured: false
+        modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth [Pre-Release]
+      if: 'github.event.release.prerelease'
+      uses: Kir-Antipov/mc-publish@v3.2
+      with:
+        name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
+        version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
+        version-type: beta
+        files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
+        files-secondary: ""
+        loaders: ${{ matrix.loaders }}
+        version-resolver: releases
+        game-versions: |
+          1.19
+          1.19.1
+          1.19.2
+          1.19.3
+          1.19.4
+        java: 16
+        modrinth-id: xss83sOY
+        modrinth-featured: false
+        modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
