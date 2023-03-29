@@ -34,6 +34,7 @@ import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
@@ -78,7 +79,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
             getPluginLogger().warn("Unable to register command /advancedserverlist");
             return;
         }
-        cmd.setExecutor(new CmdAdvancedServerList(this));
+        cmd.setExecutor(new CmdAdvancedServerList(this, BukkitAudiences.create(this)));
     }
     
     @Override

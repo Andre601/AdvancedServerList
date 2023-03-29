@@ -68,43 +68,43 @@ public class PingEventHandler{
         if(entry.isInvalid())
             return;
         
-        if(ProfileManager.checkOption(entry.isExtraPlayersEnabled())){
-            max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
+        if(ProfileManager.checkOption(entry.extraPlayersEnabled())){
+            max = online + (entry.extraPlayersCount() == null ? 0 : entry.extraPlayersCount());
             event.setMaxPlayers(max);
         }
         
         GenericServer finalServer = new GenericServerImpl(online, max, host);
         
-        if(ProfileManager.checkOption(entry.getMotd())){
+        if(ProfileManager.checkOption(entry.motd())){
             event.setMotd(
-                ComponentParser.list(entry.getMotd())
+                ComponentParser.list(entry.motd())
                     .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toComponent()
             );
         }
         
-        boolean hidePlayers = ProfileManager.checkOption(entry.isHidePlayersEnabled());
+        boolean hidePlayers = ProfileManager.checkOption(entry.hidePlayersEnabled());
         
         if(hidePlayers){
             event.hidePlayers();
         }
         
-        if(ProfileManager.checkOption(entry.getPlayerCountText()) && !hidePlayers){
+        if(ProfileManager.checkOption(entry.playerCountText()) && !hidePlayers){
             event.setPlayerCount(
-                ComponentParser.text(entry.getPlayerCountText())
+                ComponentParser.text(entry.playerCountText())
                     .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                     .modifyText(text -> event.parsePAPIPlaceholders(text, player))
                     .toString()
             );
         }
         
-        if(ProfileManager.checkOption(entry.getPlayers()) && !hidePlayers){
-            event.setPlayers(entry.getPlayers(), player, server);
+        if(ProfileManager.checkOption(entry.players()) && !hidePlayers){
+            event.setPlayers(entry.players(), player, server);
         }
         
-        if(ProfileManager.checkOption(entry.getFavicon())){
-            String favicon = StringReplacer.replace(entry.getFavicon(), player, server);
+        if(ProfileManager.checkOption(entry.favicon())){
+            String favicon = StringReplacer.replace(entry.favicon(), player, server);
             
             F fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
                 try{

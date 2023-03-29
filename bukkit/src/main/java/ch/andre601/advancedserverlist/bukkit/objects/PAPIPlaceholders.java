@@ -91,25 +91,25 @@ public class PAPIPlaceholders extends PlaceholderExpansion{
         
         ProfileEntry entry = ProfileManager.merge(profile);
         
-        if(ProfileManager.checkOption(entry.isExtraPlayersEnabled()))
-            max = online + (entry.getExtraPlayersCount() == null ? 0 : entry.getExtraPlayersCount());
+        if(ProfileManager.checkOption(entry.extraPlayersEnabled()))
+            max = online + (entry.extraPlayersCount() == null ? 0 : entry.extraPlayersCount());
         
         GenericServer finalServer = new GenericServerImpl(online, max, host);
         
         return switch(identifier.toLowerCase(Locale.ROOT)){
-            case "motd" -> ComponentParser.list(entry.getMotd())
+            case "motd" -> ComponentParser.list(entry.motd())
                 .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
                 .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                 .toString();
-            case "favicon" -> ComponentParser.text(entry.getFavicon())
+            case "favicon" -> ComponentParser.text(entry.favicon())
                 .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
                 .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                 .toString();
-            case "playercount_hover" -> ComponentParser.list(entry.getPlayers())
+            case "playercount_hover" -> ComponentParser.list(entry.players())
                 .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
                 .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                 .toString();
-            case "playercount_text" -> ComponentParser.text(entry.getPlayerCountText())
+            case "playercount_text" -> ComponentParser.text(entry.playerCountText())
                 .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
                 .modifyText(text -> StringReplacer.replace(text, player, finalServer))
                 .toString();
@@ -126,7 +126,7 @@ public class PAPIPlaceholders extends PlaceholderExpansion{
         if(plugin instanceof SpigotCore)
             return ProtocolLibrary.getProtocolManager().getProtocolVersion(player);
         
-        // getProtocolVersion is only in Paper, so this is only called when
+        // getProtocolVersion is only in Paper, so this is only called when main class isn't SpigotCore
         return Bukkit.getUnsafe().getProtocolVersion();
     }
     

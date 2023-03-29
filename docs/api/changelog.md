@@ -3,6 +3,13 @@
 This page lists the recent changes made towards the AdvancedServerListAPI.  
 They are ordered newest to oldest.
 
+## v2.1.0
+
+### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v-changed }
+
+- Turned `ProfileEntry` class into a record
+    - Former `getX()` methods are now deprecated in favour of the recor's own `x()` methods (i.e. `getMotd()` -> `motd()`)
+
 ## v2.0.0
 
 ### :octicons-alert-24:{ .changelog-breaking title="Breaking Changes" } Breaking Changes { #v2-breaking }

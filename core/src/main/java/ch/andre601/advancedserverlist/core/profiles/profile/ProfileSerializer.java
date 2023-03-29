@@ -48,12 +48,12 @@ public class ProfileSerializer implements TypeSerializer<ProfileEntry>{
             return;
         }
         
-        node.node("motd").set(profile.getMotd());
-        node.node("playerCount", "hover").set(profile.getPlayers());
-        node.node("playerCount", "text").set(profile.getPlayerCountText());
-        node.node("favicon").set(profile.getFavicon());
-        node.node("playerCount", "hidePlayers").set(profile.isHidePlayersEnabled());
-        node.node("playerCount", "extraPlayers", "enabled").set(profile.isExtraPlayersEnabled());
-        node.node("playerCount", "extraPlayers", "amount").set(profile.getExtraPlayersCount());
+        node.node("motd").set(profile.motd());
+        node.node("playerCount", "hover").set(profile.players());
+        node.node("playerCount", "text").set(profile.playerCountText());
+        node.node("favicon").set(profile.favicon());
+        node.node("playerCount", "hidePlayers").set(profile.hidePlayersEnabled());
+        node.node("playerCount", "extraPlayers", "enabled").set(profile.extraPlayersEnabled());
+        node.node("playerCount", "extraPlayers", "amount").set(profile.extraPlayersCount());
     }
 }

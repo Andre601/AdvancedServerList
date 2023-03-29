@@ -99,7 +99,7 @@ public class ProfileManager{
             return !list.isEmpty(); // Check if list isn't empty
         }else
         if(obj instanceof String str){
-            return !str.isEmpty(); // Check if list is not empty
+            return !str.isEmpty(); // Check if String is not empty
         }else
         if(obj instanceof NullBool nb){
             return nb.getOrDefault(false); // Return NullBool's value
@@ -109,52 +109,52 @@ public class ProfileManager{
     }
     
     private static List<String> resolveMOTD(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || !checkOption(profile.getMotd()))
-            return defaultProfile.getMotd();
+        if(profile == null || !checkOption(profile.motd()))
+            return defaultProfile.motd();
         
-        return profile.getMotd();
+        return profile.motd();
     }
     
     private static List<String> resolvePlayers(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || !checkOption(profile.getPlayers()))
-            return defaultProfile.getPlayers();
+        if(profile == null || !checkOption(profile.players()))
+            return defaultProfile.players();
         
-        return profile.getPlayers();
+        return profile.players();
     }
     
     private static String resolvePlayerCountText(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || !checkOption(profile.getPlayerCountText()))
-            return defaultProfile.getPlayerCountText();
+        if(profile == null || !checkOption(profile.playerCountText()))
+            return defaultProfile.playerCountText();
         
-        return profile.getPlayerCountText();
+        return profile.playerCountText();
     }
     
     private static String resolveFavicon(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || !checkOption(profile.getFavicon()))
-            return defaultProfile.getFavicon();
+        if(profile == null || !checkOption(profile.favicon()))
+            return defaultProfile.favicon();
         
-        return profile.getFavicon();
+        return profile.favicon();
     }
     
     private static boolean resolveHidePlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || !checkOption(profile.isHidePlayersEnabled()))
-            return defaultProfile.isHidePlayersEnabled().getOrDefault(false);
+        if(profile == null || !checkOption(profile.hidePlayersEnabled()))
+            return defaultProfile.hidePlayersEnabled().getOrDefault(false);
         
-        return profile.isHidePlayersEnabled().getOrDefault(false);
+        return profile.hidePlayersEnabled().getOrDefault(false);
     }
     
     private static boolean resolveExtraPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || !checkOption(profile.isExtraPlayersEnabled()))
-            return defaultProfile.isExtraPlayersEnabled().getOrDefault(false);
+        if(profile == null || !checkOption(profile.extraPlayersEnabled()))
+            return defaultProfile.extraPlayersEnabled().getOrDefault(false);
         
-        return profile.isExtraPlayersEnabled().getOrDefault(false);
+        return profile.extraPlayersEnabled().getOrDefault(false);
     }
     
     private static Integer resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
-        if(profile == null || profile.getExtraPlayersCount() == null)
-            return defaultProfile.getExtraPlayersCount() == null ? 0 : defaultProfile.getExtraPlayersCount();
+        if(profile == null || profile.extraPlayersCount() == null)
+            return defaultProfile.extraPlayersCount() == null ? 0 : defaultProfile.extraPlayersCount();
         
-        return profile.getExtraPlayersCount();
+        return profile.extraPlayersCount();
     }
     
     private static List<String> resolveList(ConfigurationNode node, Object... path){

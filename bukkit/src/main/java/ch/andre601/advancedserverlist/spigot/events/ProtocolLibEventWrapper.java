@@ -124,7 +124,9 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     
     // Not used in ProtocolLib
     @Override
-    public void updateEvent(){}
+    public void updateEvent(){
+        event.getPacket().getServerPings().write(0, ping);
+    }
     
     @Override
     public boolean isInvalidProtocol(){

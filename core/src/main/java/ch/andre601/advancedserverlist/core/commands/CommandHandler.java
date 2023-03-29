@@ -116,7 +116,7 @@ public class CommandHandler{
             core.clearPlayerCache();
             sender.sendPrefixedMsg("<green>Successfully cleared Player Cache!");
             
-            sender.sendErrorMsg("<green>Reload complete!");
+            sender.sendPrefixedMsg("<green>Reload complete!");
         }
     }
     
