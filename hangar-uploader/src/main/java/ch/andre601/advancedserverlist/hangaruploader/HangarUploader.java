@@ -70,13 +70,13 @@ public class HangarUploader{
         }
         
         String apiToken = args[0];
-        String tag = args[1];
+        String version = args[1].startsWith("v") ? args[1].substring(1) : args[1];
         String body = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
         
         final List<Path> filePaths = List.of(
-            new File("bukkit/target/AdvancedServerList-Bukkit-.jar").toPath(),
-            new File("bungeecord/target/AdvancedServerList-BungeeCord-.jar").toPath(),
-            new File("velocity/target/AdvancedServerList-Velocity-.jar").toPath()
+            new File("bukkit/target/AdvancedServerList-Bukkit-" + version + ".jar").toPath(),
+            new File("bungeecord/target/AdvancedServerList-BungeeCord-" + version + ".jar").toPath(),
+            new File("velocity/target/AdvancedServerList-Velocity-" + version + ".jar").toPath()
         );
         final List<VersionUpload.PluginDependency> paperDependencies = List.of(
             VersionUpload.PluginDependency.createWithHangarNamespace(
@@ -97,7 +97,7 @@ public class HangarUploader{
         );
         
         final VersionUpload versionUpload = new VersionUpload(
-            tag.substring(1),
+            version,
             Map.of(
                 VersionUpload.Platform.PAPER, paperDependencies,
                 VersionUpload.Platform.WATERFALL, List.of(),
