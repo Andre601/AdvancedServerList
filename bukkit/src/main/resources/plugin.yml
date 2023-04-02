@@ -7,6 +7,8 @@ main: 'ch.andre601.advancedserverlist.spigot.SpigotCore'
 
 api-version: 1.19
 
+folia-supported: true
+
 libraries:
   - 'org.spongepowered:configurate-yaml:4.1.2'
   - 'net.kyori:adventure-api:4.12.0'
