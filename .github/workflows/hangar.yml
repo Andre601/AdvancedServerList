@@ -42,8 +42,6 @@ jobs:
             -H 'Authorization: HangarAuth ${{ secrets.HANGAR_TOKEN }}' \
             -H 'Content-Type: multipart/form-data' \
             -F 'files[]=@bukkit/target/AdvancedServerList-Bukkit-3.0.0-b2.jar;type=application/java-archive' \
-            -F 'files[]=@bungeecord/target/AdvancedServerList-BungeeCord-3.0.0-b2.jar;type=application/java-archive' \
-            -F 'files[]=@velocity/target/AdvancedServerList-Velocity-3.0.0-b2.jar;type=application/java-archive' \
             -F 'versionUpload={
             "version": "$VERSION",
             "description": "Some test body text!",
@@ -68,28 +66,12 @@ jobs:
             "platformDependencies": {
               "PAPER": [
                 "1.19.x"
-              ],
-              "WATERFALL": [
-                "1.19.x"
-              ],
-              "VELOCITY": [
-                "3.1"
               ]
             },
             "files": [
               {
                 "platforms": [
                   "PAPER"
-                ]
-              },
-              {
-                "platforms": [
-                  "WATERFALL"
-                ]
-              },
-              {
-                "platforms": [
-                  "VELOCITY"
                 ]
               }
             ]
