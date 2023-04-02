@@ -25,68 +25,14 @@ jobs:
           java-version: 16
           cache: 'maven'
       - name: Build Jars
-        run: mvn --projects :core,:bukkit,:bungeecord,:velocity clean install
+        run: mvn --projects :core,:bukkit,:bungeecord,:velocity,:hangar-uploader clean install
       #- name: 'Get Version from Release'
       #  id: github-release
       #  run: |
       #    version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
       #    echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
-      - name: 'Upload to Hangar (Release)'
-        #if: '!github.event.release.prerelease'
-        env:
-          VERSION: ${{ inputs.version }}
-        run: |
-          curl -X 'POST' \
-            'https://hangar.papermc.dev/api/v1/projects/Andre_601/AdvancedServerList/upload' \
-            -H 'accept: application/json' \
-            -H 'Authorization: HangarAuth ${{ secrets.HANGAR_TOKEN }}' \
-            -H 'Content-Type: multipart/form-data' \
-            -F 'files[]=@bukkit/target/AdvancedServerList-Bukkit-3.0.0-b2.jar;type=application/java-archive' \
-            -F 'versionUpload={
-            "version": "$VERSION",
-            "description": "Some test body text!",
-            "channel": "Release",
-            "pluginDependencies": {
-              "PAPER": [
-                {
-                  "name": "ViaVersion",
-                  "required": false,
-                  "namespace": {
-                    "owner": "ViaVersion",
-                    "slug": "ViaVersion"
-                  }
-                },
-                {
-                  "name": "PlaceholderAPI",
-                  "required": false,
-                  "externalUrl": "https://www.spigotmc.org/resources/6245/"
-                }
-              ]
-            },
-            "platformDependencies": {
-              "PAPER": [
-                "1.19.x"
-              ]
-            },
-            "files": [
-              {
-                "platforms": [
-                  "PAPER"
-                ]
-              }
-            ]
-          }'
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+      - name: 'Move Hangar-Uploader jar'
+        run: 'mv HangarUploader.jar ../../'
+      - name: 'Execute HangarUploader.jar'
+        run: 'java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ inputs.version }} Some test body!\nNew line?'
+        #run: 'java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ github.event.release.tag_name }} ${{ github.event.release.body }}'
