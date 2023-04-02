@@ -1,0 +1,110 @@
+name: Hangar Release Upload
+
+on:
+  workflow_dispatch:
+    inputs:
+     version:
+       description: "The plugin version"
+       required: true
+       type: string
+  #release:
+  #  types:
+  #    - published
+
+jobs:
+  buildJars:
+    runs-on: ubuntu-latest
+    name: 'Build Jar files'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup JDK 16
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 16
+          cache: 'maven'
+      - name: Build Jars
+        run: mvn --projects :core,:bukkit,:bungeecord,:velocity clean install
+      #- name: 'Get Version from Release'
+      #  id: github-release
+      #  run: |
+      #    version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
+      #    echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
+      - name: 'Upload to Hangar (Release)'
+        #if: '!github.event.release.prerelease'
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          curl -X 'POST' \
+            'https://hangar.papermc.dev/api/v1/projects/Andre_601/AdvancedServerList/upload' \
+            -H 'accept: application/json' \
+            -H 'Authorization: HangarAuth ${{ secrets.HANGAR_TOKEN }}' \
+            -H 'Content-Type: multipart/form-data' \
+            -F 'files[]=@bukkit/target/AdvancedServerList-Bukkit-${{ steps.github-release.outputs.PLUGIN_RELEASE }}' \
+            -F 'files[]=@bungeecord/target/AdvancedServerList-BungeeCord-${{ steps.github-release.outputs.PLUGIN_RELEASE }}' \
+            -F 'files[]=@velocity/target/AdvancedServerList-Velocity-${{ steps.github-release.outputs.PLUGIN_RELEASE }}' \
+            -F 'versionUpload={
+            "version": "$VERSION",
+            "description": "Some test body text!",
+            "channel": "Release",
+            "pluginDependencies": {
+              "PAPER": [
+                {
+                  "name": "ViaVersion",
+                  "required": false,
+                  "namespace": {
+                    "owner": "ViaVersion",
+                    "slug": "ViaVersion"
+                  }
+                },
+                {
+                  "name": "PlaceholderAPI",
+                  "required": false,
+                  "externalUrl": "https://www.spigotmc.org/resources/6245/"
+                }
+              ]
+            },
+            "platformDependencies": {
+              "PAPER": [
+                "1.19.x"
+              ],
+              "WATERFALL": [
+                "1.19.x"
+              ],
+              "VELOCITY": [
+                "3.1"
+              ]
+            },
+            "files": [
+              {
+                "platforms": [
+                  "PAPER"
+                ]
+              },
+              {
+                "platforms": [
+                  "WATERFALL"
+                ]
+              },
+              {
+                "platforms": [
+                  "VELOCITY"
+                ]
+              }
+            ]
+          }'
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
