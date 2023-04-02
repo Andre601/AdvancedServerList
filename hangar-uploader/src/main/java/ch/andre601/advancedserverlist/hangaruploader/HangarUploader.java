@@ -140,6 +140,7 @@ public class HangarUploader{
         final boolean success = client.execute(post, response -> {
             if(response.getCode() != 200){
                 LOGGER.error("Error while uploading version. Received response code {}: {}", response.getCode(), response.getReasonPhrase());
+                LOGGER.error("Body: {}", EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
                 return false;
             }
             return true;
