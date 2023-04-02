@@ -32,6 +32,7 @@ jobs:
       #    version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
       #    echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
       - name: 'Move Hangar-Uploader jar'
+        working-directory: 'hangar-uploader/target/'
         run: 'mv HangarUploader.jar ../../'
       - name: 'Execute HangarUploader.jar'
         run: 'java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ inputs.version }} Some test body!\nNew line?'
