@@ -41,9 +41,9 @@ jobs:
             -H 'accept: application/json' \
             -H 'Authorization: HangarAuth ${{ secrets.HANGAR_TOKEN }}' \
             -H 'Content-Type: multipart/form-data' \
-            -F 'files[]=@bukkit/target/AdvancedServerList-Bukkit-${{ steps.github-release.outputs.PLUGIN_RELEASE }}' \
-            -F 'files[]=@bungeecord/target/AdvancedServerList-BungeeCord-${{ steps.github-release.outputs.PLUGIN_RELEASE }}' \
-            -F 'files[]=@velocity/target/AdvancedServerList-Velocity-${{ steps.github-release.outputs.PLUGIN_RELEASE }}' \
+            -F 'files[]=@bukkit/target/AdvancedServerList-Bukkit-3.0.0-b2.jar;type=application/java-archive' \
+            -F 'files[]=@bungeecord/target/AdvancedServerList-BungeeCord-3.0.0-b2.jar;type=application/java-archive' \
+            -F 'files[]=@velocity/target/AdvancedServerList-Velocity-3.0.0-b2.jar;type=application/java-archive' \
             -F 'versionUpload={
             "version": "$VERSION",
             "description": "Some test body text!",
