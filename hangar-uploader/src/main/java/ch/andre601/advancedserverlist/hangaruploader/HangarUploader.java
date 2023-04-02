@@ -63,15 +63,19 @@ public class HangarUploader{
     }
     
     public static void main(String[] args) throws IOException{
+        LOGGER.info("Starting Jar file...");
         final VersionUpload.Namespace project = new VersionUpload.Namespace("Andre_601", "AdvancedServerList");
         
-        if(args.length < 4){
+        if(args.length < 3){
             throw new IllegalStateException("Application requires HANGAR_TOKEN, RELEASE_TAG and RELEASE_BODY to work");
         }
         
         String apiToken = args[0];
         String version = args[1].startsWith("v") ? args[1].substring(1) : args[1];
         String body = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+        
+        LOGGER.info("Version: {}", version);
+        LOGGER.info("Release Message: {}", body);
         
         final List<Path> filePaths = List.of(
             new File("bukkit/target/AdvancedServerList-Bukkit-" + version + ".jar").toPath(),
@@ -132,6 +136,7 @@ public class HangarUploader{
         post.setEntity(builder.build());
         this.addAuthHeader(client, post);
         
+        LOGGER.info("Uploading release...");
         final boolean success = client.execute(post, response -> {
             if(response.getCode() != 200){
                 LOGGER.error("Error while uploading version. Received response code {}: {}", response.getCode(), response.getReasonPhrase());
@@ -142,14 +147,19 @@ public class HangarUploader{
         if(!success){
             throw new RuntimeException("Error uploading version!");
         }
+        LOGGER.info("Upload complete!");
+        System.exit(0);
     }
     
     private synchronized void addAuthHeader(HttpClient client, HttpMessage message) throws IOException{
+        LOGGER.info("Applying Authorization Header...");
         if(this.activeJWT != null && !this.activeJWT.hasExpired()){
             message.addHeader("Authorization", this.activeJWT.jwt());
+            LOGGER.info("Authorization Header applied. Expires at {}", this.activeJWT.expiresAt());
             return;
         }
         
+        LOGGER.info("Current JWT expired. Requesting new one...");
         ActiveJWT jwt = client.execute(new HttpPost(API_URL + "authenticate?apiKey=" + this.apiKey), response -> {
             if(response.getCode() == 400){
                 LOGGER.error("Bad JWT request; is the API-token valid?");
@@ -164,7 +174,8 @@ public class HangarUploader{
             final JsonObject jsonObject = GSON.fromJson(json, JsonObject.class);
             final String token = jsonObject.getAsJsonPrimitive("token").getAsString();
             final long expiresIn = jsonObject.getAsJsonPrimitive("expiresIn").getAsLong();
-            
+    
+            LOGGER.info("Received new JWT!");
             return new ActiveJWT(token, System.currentTimeMillis() + expiresIn);
         });
         
@@ -173,6 +184,8 @@ public class HangarUploader{
         }
         
         this.activeJWT = jwt;
+        
+        LOGGER.info("Authorization Header applied. Expires at {}", this.activeJWT.expiresAt());
         message.addHeader("Authorization", jwt.jwt());
     }
     
