@@ -68,7 +68,7 @@ public class HangarUploader{
         LOGGER.info("Starting Jar file...");
         final VersionUpload.Namespace project = new VersionUpload.Namespace("Andre_601", "AdvancedServerList");
         
-        if(args.length < 4){
+        if(args.length < 3){
             throw new IllegalStateException("Application requires HANGAR_TOKEN, RELEASE_TAG, PRERELEASE and RELEASE_BODY to work");
         }
         
