@@ -26,14 +26,24 @@ jobs:
           cache: 'maven'
       - name: Build Jars
         run: mvn --projects :core,:bukkit,:bungeecord,:velocity,:hangar-uploader clean install
-      #- name: 'Get Version from Release'
-      #  id: github-release
-      #  run: |
-      #    version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
-      #    echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
-      - name: 'Move Hangar-Uploader jar'
-        working-directory: 'hangar-uploader/target/'
-        run: 'mv HangarUploader.jar ../../'
-      - name: 'Execute HangarUploader.jar'
-        run: 'java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ inputs.version }} Some test body!\nNew line?'
-        #run: 'java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ github.event.release.tag_name }} ${{ github.event.release.body }}'
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: asl-files
+          path: |
+            */target/AdvancedServerList-*.jar
+            hangar-uploader/target/HangarUploader.jar
+  listJars:
+    needs: [buildJars]
+    runs-on: ubuntu-latest
+    name: 'List Jar files'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: asl-files
+      - name: List Folder structure
+        run: ls -R
+    

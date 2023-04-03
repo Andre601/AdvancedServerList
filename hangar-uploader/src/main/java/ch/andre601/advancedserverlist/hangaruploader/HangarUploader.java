@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 public class HangarUploader{
     
     private static final Logger LOGGER = LoggerFactory.getLogger(HangarUploader.class);
-    private static final String API_URL = "https://hangar.papermc.dev/api/v1/";
+    private static final String API_URL = "https://hangar.papermc.io/api/v1/";
     
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final String apiKey;
@@ -69,13 +69,14 @@ public class HangarUploader{
         LOGGER.info("Starting Jar file...");
         final VersionUpload.Namespace project = new VersionUpload.Namespace("Andre_601", "AdvancedServerList");
         
-        if(args.length < 3){
-            throw new IllegalStateException("Application requires HANGAR_TOKEN, RELEASE_TAG and RELEASE_BODY to work");
+        if(args.length < 4){
+            throw new IllegalStateException("Application requires HANGAR_TOKEN, RELEASE_TAG, PRERELEASE and RELEASE_BODY to work");
         }
         
         String apiToken = args[0];
         String version = args[1].startsWith("v") ? args[1].substring(1) : args[1];
-        String body = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+        boolean isPreRelease = Boolean.parseBoolean(args[2]);
+        String body = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
         
         LOGGER.info("Version: {}", version);
         LOGGER.info("Release Message: {}", body);
@@ -86,11 +87,11 @@ public class HangarUploader{
             new File("velocity/target/AdvancedServerList-Velocity-" + version + ".jar").toPath()
         );
         final List<VersionUpload.PluginDependency> paperDependencies = List.of(
-            //VersionUpload.PluginDependency.createWithHangarNamespace(
-            //    "ViaVersion",
-            //    false,
-            //    new VersionUpload.Namespace("ViaVersion", "ViaVersion")
-            //),
+            VersionUpload.PluginDependency.createWithHangarNamespace(
+                "ViaVersion",
+                false,
+                new VersionUpload.Namespace("ViaVersion", "ViaVersion")
+            ),
             VersionUpload.PluginDependency.createWithExternalUrl(
                 "PlaceholderAPI",
                 false,
@@ -117,7 +118,7 @@ public class HangarUploader{
             ),
             body,
             fileInfo,
-            "Release"
+            isPreRelease ? "Beta" : "Release"
         );
         
         HangarUploader uploader = new HangarUploader(apiToken);
@@ -196,7 +197,7 @@ public class HangarUploader{
     }
     
     private synchronized String getDate(long timestamp){
-        return "(" + timestamp + ") " + new Date(timestamp);
+        return timestamp + " (" + new Date(timestamp) + ")";
     }
     
     private record ActiveJWT(String jwt, long expiresAt){
