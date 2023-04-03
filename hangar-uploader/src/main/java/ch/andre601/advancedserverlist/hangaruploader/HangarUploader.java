@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -85,11 +86,11 @@ public class HangarUploader{
             new File("velocity/target/AdvancedServerList-Velocity-" + version + ".jar").toPath()
         );
         final List<VersionUpload.PluginDependency> paperDependencies = List.of(
-            VersionUpload.PluginDependency.createWithHangarNamespace(
-                "ViaVersion",
-                false,
-                new VersionUpload.Namespace("ViaVersion", "ViaVersion")
-            ),
+            //VersionUpload.PluginDependency.createWithHangarNamespace(
+            //    "ViaVersion",
+            //    false,
+            //    new VersionUpload.Namespace("ViaVersion", "ViaVersion")
+            //),
             VersionUpload.PluginDependency.createWithExternalUrl(
                 "PlaceholderAPI",
                 false,
@@ -160,7 +161,7 @@ public class HangarUploader{
         LOGGER.info("Applying Authorization Header...");
         if(this.activeJWT != null && !this.activeJWT.hasExpired()){
             message.addHeader("Authorization", this.activeJWT.jwt());
-            LOGGER.info("Authorization Header applied. Expires at {}", this.activeJWT.expiresAt());
+            LOGGER.info("Authorization Header applied. Expires at {}", getDate(this.activeJWT.expiresAt()));
             return;
         }
         
@@ -190,8 +191,12 @@ public class HangarUploader{
         
         this.activeJWT = jwt;
         
-        LOGGER.info("Authorization Header applied. Expires at {}", this.activeJWT.expiresAt());
+        LOGGER.info("Authorization Header applied. Expires at {}", getDate(this.activeJWT.expiresAt()));
         message.addHeader("Authorization", jwt.jwt());
+    }
+    
+    private synchronized String getDate(long timestamp){
+        return "(" + timestamp + ") " + new Date(timestamp);
     }
     
     private record ActiveJWT(String jwt, long expiresAt){
