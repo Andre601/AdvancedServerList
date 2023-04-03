@@ -110,17 +110,17 @@ jobs:
         modrinth-featured: false
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    publishHangar:
-      needs: [buildJars]
-      runs-on: ubuntu-latest
-      steps:
-        - name: Download Release Assets
-          uses: actions/download-artifact@v3
-          with:
-            name: asl-files
-        - name: Move HangarUploader.jar
-          working-directory: hangar-uploader/target/
-          run: mv HangarUploader.jar ../../
-        - name: Execute HangarUploader.jar
-          run: java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ needs.buildJars.outputs.plugin_release }} ${{ github.event.release.prerelease }} ${{ github.event.release.body }}
+  publishHangar:
+    needs: [buildJars]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Release Assets
+        uses: actions/download-artifact@v3
+        with:
+          name: asl-files
+      - name: Move HangarUploader.jar
+        working-directory: hangar-uploader/target/
+        run: mv HangarUploader.jar ../../
+      - name: Execute HangarUploader.jar
+        run: java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ needs.buildJars.outputs.plugin_release }} ${{ github.event.release.prerelease }} ${{ github.event.release.body }}
       
