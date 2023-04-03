@@ -118,7 +118,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '16'
-          cache: 'maven'
       - name: Download Release Assets
         uses: actions/download-artifact@v3
         with:
