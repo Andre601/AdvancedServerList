@@ -126,5 +126,6 @@ jobs:
         working-directory: hangar-uploader/target/
         run: mv HangarUploader.jar ../../
       - name: Execute HangarUploader.jar
-        run: java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ needs.buildJars.outputs.plugin_release }} ${{ github.event.release.prerelease }} ${{ github.event.release.body }}
-      
+        run: java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ needs.buildJars.outputs.plugin_release }} ${{ github.event.release.prerelease }}
+        env:
+          GITHUB_RELEASE_BODY: ${{ github.event.release.body }}

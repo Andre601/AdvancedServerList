@@ -46,7 +46,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -76,9 +75,10 @@ public class HangarUploader{
         String apiToken = args[0];
         String version = args[1].startsWith("v") ? args[1].substring(1) : args[1];
         boolean isPreRelease = args[2].equalsIgnoreCase("true");
-        String body = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
+        String body = System.getenv("GITHUB_RELEASE_BODY");
         
         LOGGER.info("Version: {}", version);
+        LOGGER.info("Is Prerelease: {}", isPreRelease);
         LOGGER.info("Release Message: {}", body);
         
         final List<Path> filePaths = List.of(
