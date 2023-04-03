@@ -59,5 +59,6 @@
         <module>paper</module>
         <module>bukkit</module>
         <module>velocity</module>
+        <module>hangar-uploader</module>
     </modules>
 </project>

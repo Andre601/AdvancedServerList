@@ -13,8 +13,16 @@ on:
 jobs:
   buildJars:
     runs-on: ubuntu-latest
+    outputs:
+      plugin_release: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    - name: Get Version from Release
+      id: github-release
+      run: |
+        version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
+        echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
     - name: Set up JDK 1.16
       uses: actions/setup-java@v3
       with:
@@ -23,25 +31,13 @@ jobs:
         cache: 'maven'
     - name: Build Jar files
       run: mvn clean install
-    - name: Save BungeeCord Jar file
+    - name: Save All files
       uses: actions/upload-artifact@v3
       with:
-        name: asl-bungeecord
-        path: bungeecord/target/AdvancedServerList-*.jar
-        if-no-files-found: error
-        retention-days: 1
-    - name: Save Bukkit Jar file
-      uses: actions/upload-artifact@v3
-      with:
-        name: asl-bukkit
-        path: bukkit/target/AdvancedServerList-*.jar
-        if-no-files-found: error
-        retention-days: 1
-    - name: Save Velocity Jar file
-      uses: actions/upload-artifact@v3
-      with:
-        name: asl-velocity
-        path: velocity/target/AdvancedServerList-*.jar
+        name: asl-files
+        path: |
+          */target/AdvancedServerList-*.jar
+          hangar-uploader/target/HangarUploader.jar
         if-no-files-found: error
         retention-days: 1
   publish:
@@ -68,19 +64,14 @@ jobs:
     - name: Get Jar files
       uses: actions/download-artifact@v3
       with:
-        name: asl-${{ matrix.directory }}
+        name: asl-files
         path: ${{ matrix.directory }}/target
-    - name: Get Version
-      id: github-release
-      run: |
-        version=$(echo ${{ github.event.release.tag_name }} | cut -d'v' -f2)
-        echo "PLUGIN_RELEASE=$version" >> $GITHUB_OUTPUT
-    - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth
+    - name: Upload AdvancedServerList v${{ needs.buildJars.outputs.plugin_release }} (${{ matrix.loaders }}) to GitHub and Modrinth
       if: '!github.event.release.prerelease'
       uses: Kir-Antipov/mc-publish@v3.2
       with:
         name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
-        version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
+        version: ${{ needs.buildJars.outputs.plugin_release }}
         version-type: release
         files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
         files-secondary: ""
@@ -97,12 +88,12 @@ jobs:
         modrinth-featured: false
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Upload AdvancedServerList (${{ matrix.loaders }}) to GitHub and Modrinth [Pre-Release]
+    - name: Upload AdvancedServerList v${{ needs.buildJars.outputs.plugin_release }} (${{ matrix.loaders }}) to GitHub and Modrinth [Pre-Release]
       if: 'github.event.release.prerelease'
       uses: Kir-Antipov/mc-publish@v3.2
       with:
         name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
-        version: ${{ steps.github-release.outputs.PLUGIN_RELEASE }}
+        version: ${{ needs.buildJars.outputs.plugin_release }}
         version-type: beta
         files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
         files-secondary: ""
@@ -119,3 +110,17 @@ jobs:
         modrinth-featured: false
         modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
         github-token: ${{ secrets.GITHUB_TOKEN }}
+    publishHangar:
+      needs: [buildJars]
+      runs-on: ubuntu-latest
+      steps:
+        - name: Download Release Assets
+          uses: actions/download-artifact@v3
+          with:
+            name: asl-files
+        - name: Move HangarUploader.jar
+          working-directory: hangar-uploader/target/
+          run: mv HangarUploader.jar ../../
+        - name: Execute HangarUploader.jar
+          run: java -jar HangarUploader.jar ${{ secrets.HANGAR_TOKEN }} ${{ needs.buildJars.outputs.plugin_release }} ${{ github.event.release.prerelease }} ${{ github.event.release.body }}
+      

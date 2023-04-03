@@ -75,6 +75,18 @@
             <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.spongepowered</groupId>
+            <artifactId>configurate-yaml</artifactId>
+            <version>4.1.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.10.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     
     <build>
@@ -105,10 +117,6 @@
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.velocity.depends.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.github.benmanes.caffeine</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.velocity.depends.caffeine</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>okhttp3</pattern>
