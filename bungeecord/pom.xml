@@ -126,10 +126,6 @@
                             <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.bstats</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>com.github.benmanes.caffeine</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.caffeine</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>okhttp3</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.bungeecord.depends.okhttp3</shadedPattern>
                         </relocation>

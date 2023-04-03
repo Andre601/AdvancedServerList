@@ -106,7 +106,7 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -118,7 +118,7 @@
         <dependency>
             <groupId>com.viaversion</groupId>
             <artifactId>viaversion-api</artifactId>
-            <version>4.6.1</version>
+            <version>4.6.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -150,10 +150,6 @@
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.spigot.depends.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com.github.benmanes.caffeine</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.spigot.depends.caffeine</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

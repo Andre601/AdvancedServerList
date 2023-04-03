@@ -26,8 +26,8 @@
 package ch.andre601.advancedserverlist.core.profiles.favicon;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -39,12 +39,13 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public class FaviconHandler<F>{
     
-    private final Cache<String, F> favicons = Caffeine.newBuilder()
+    private final Cache<String, F> favicons = CacheBuilder.newBuilder()
         .expireAfterWrite(5, TimeUnit.MINUTES)
         .build();
     
@@ -55,13 +56,17 @@ public class FaviconHandler<F>{
     }
     
     public F getFavicon(String input, Function<BufferedImage, F> function){
-        return favicons.get(input, k -> {
-            BufferedImage image = resolveImage(core, input);
-            if(image == null)
-                return null;
-            
-            return function.apply(image);
-        });
+        try{
+            return favicons.get(input, () -> {
+                BufferedImage image = resolveImage(core, input);
+                if(image == null)
+                    return null;
+                
+                return function.apply(image);
+            });
+        }catch(ExecutionException ignored){
+            return null;
+        }
     }
     
     public void clearCache(){
