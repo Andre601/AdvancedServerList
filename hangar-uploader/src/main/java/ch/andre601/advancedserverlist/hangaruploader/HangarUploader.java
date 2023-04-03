@@ -141,9 +141,6 @@ public class HangarUploader{
         this.addAuthHeader(client, post);
         
         LOGGER.info("Uploading release...");
-        
-        LOGGER.info("[DEBUG] JSON Request Body:");
-        LOGGER.info("[DEBUG] {}", EntityUtils.toString(post.getEntity(), StandardCharsets.UTF_8));
         final boolean success = client.execute(post, response -> {
             if(response.getCode() != 200){
                 LOGGER.error("Error while uploading version. Received response code {}: {}", response.getCode(), response.getReasonPhrase());
