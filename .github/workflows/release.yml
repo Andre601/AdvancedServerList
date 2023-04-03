@@ -65,7 +65,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: asl-files
-        path: ${{ matrix.directory }}/target
     - name: Upload AdvancedServerList v${{ needs.buildJars.outputs.plugin_release }} (${{ matrix.loaders }}) to GitHub and Modrinth
       if: '!github.event.release.prerelease'
       uses: Kir-Antipov/mc-publish@v3.2
