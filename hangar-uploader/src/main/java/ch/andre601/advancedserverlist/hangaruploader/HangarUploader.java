@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.hangaruploader;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -36,6 +37,7 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpMessage;
+import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +56,7 @@ public class HangarUploader{
     private static final Logger LOGGER = LoggerFactory.getLogger(HangarUploader.class);
     private static final String API_URL = "https://hangar.papermc.dev/api/v1/";
     
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final String apiKey;
     private ActiveJWT activeJWT;
     
@@ -120,11 +122,13 @@ public class HangarUploader{
         HangarUploader uploader = new HangarUploader(apiToken);
         try(CloseableHttpClient client = HttpClients.createDefault()){
             uploader.uploadVersion(client, project, versionUpload, filePaths);
+        }catch(ParseException ex){
+            LOGGER.error("Encountered ParseException while performing a request.", ex);
         }
     }
     
     public void uploadVersion(HttpClient client, VersionUpload.Namespace namespace, VersionUpload versionUpload,
-                              List<Path> filePaths) throws IOException{
+                              List<Path> filePaths) throws IOException, ParseException{
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("versionUpload", new StringBody(GSON.toJson(versionUpload), ContentType.APPLICATION_JSON));
         
@@ -137,6 +141,9 @@ public class HangarUploader{
         this.addAuthHeader(client, post);
         
         LOGGER.info("Uploading release...");
+        
+        LOGGER.info("[DEBUG] JSON Request Body:");
+        LOGGER.info("[DEBUG] {}", EntityUtils.toString(post.getEntity(), StandardCharsets.UTF_8));
         final boolean success = client.execute(post, response -> {
             if(response.getCode() != 200){
                 LOGGER.error("Error while uploading version. Received response code {}: {}", response.getCode(), response.getReasonPhrase());
