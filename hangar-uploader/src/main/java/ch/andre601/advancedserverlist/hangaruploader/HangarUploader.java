@@ -75,7 +75,7 @@ public class HangarUploader{
         
         String apiToken = args[0];
         String version = args[1].startsWith("v") ? args[1].substring(1) : args[1];
-        boolean isPreRelease = Boolean.parseBoolean(args[2]);
+        boolean isPreRelease = args[2].equalsIgnoreCase("true");
         String body = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
         
         LOGGER.info("Version: {}", version);

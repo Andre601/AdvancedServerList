@@ -118,7 +118,6 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: asl-files
-            path: hangar-uploader/target
         - name: Move HangarUploader.jar
           working-directory: hangar-uploader/target/
           run: mv HangarUploader.jar ../../
