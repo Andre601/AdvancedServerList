@@ -16,7 +16,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: $GITHUB_REF
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
       - name: Find Comment
         uses: peter-evans/find-comment@v2
         id: find-comment
