@@ -47,15 +47,15 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: find-comment
         with:
-          issue_number: ${{ env.PR_NUMBER }}
-          comment_author: 'github-actions[bot]'
+          issue-number: ${{ env.PR_NUMBER }}
+          comment-author: 'github-actions[bot]'
       - name: Update Comment
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
           HEAD_SHA: "${{ env.HEAD_SHA }}"
         uses: peter-evans/create-or-update-comment@v2
         with:
-          issue_number: ${{ env.PR_NUMBER }}
+          issue-number: ${{ env.PR_NUMBER }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
           body: |-
