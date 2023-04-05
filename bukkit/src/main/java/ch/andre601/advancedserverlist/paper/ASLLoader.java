@@ -25,7 +25,6 @@
 
 package ch.andre601.advancedserverlist.paper;
 
-import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import io.papermc.paper.plugin.loader.PluginClasspathBuilder;
 import io.papermc.paper.plugin.loader.PluginLoader;
 import io.papermc.paper.plugin.loader.library.impl.MavenLibraryResolver;

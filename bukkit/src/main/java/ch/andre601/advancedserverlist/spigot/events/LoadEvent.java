@@ -26,8 +26,8 @@
 package ch.andre601.advancedserverlist.spigot.events;
 
 import ch.andre601.advancedserverlist.bukkit.events.JoinEvent;
-import ch.andre601.advancedserverlist.spigot.SpigotCore;
 import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.spigot.SpigotCore;
 import com.comphenix.protocol.ProtocolLibrary;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
