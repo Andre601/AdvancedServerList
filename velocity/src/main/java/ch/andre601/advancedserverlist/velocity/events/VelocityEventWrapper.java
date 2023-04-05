@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.velocity.events;
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -43,6 +44,7 @@ import net.kyori.adventure.text.Component;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class VelocityEventWrapper implements GenericEventWrapper<Favicon, VelocityPlayerImpl>{
@@ -148,7 +150,15 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     
     @Override
     public String parsePAPIPlaceholders(String text, VelocityPlayerImpl player){
-        return text;
+        if(!plugin.getProxy().getPluginManager().isLoaded("papiproxybridge"))
+            return text;
+        
+        try{
+            CompletableFuture<String> future = PingEventHandler.getPAPI().formatPlaceholders(text, player.getUUID());
+            return future.getNow(text);
+        }catch(IllegalArgumentException ex){
+            return text;
+        }
     }
     
     @Override

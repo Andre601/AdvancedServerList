@@ -87,6 +87,12 @@
             <version>4.10.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.william278</groupId>
+            <artifactId>PAPIProxyBridge</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     
     <build>

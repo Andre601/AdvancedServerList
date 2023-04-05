@@ -36,8 +36,11 @@ import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
+import net.william278.papiproxybridge.api.PlaceholderAPI;
 
 public class PingEventHandler{
+    
+    private static PlaceholderAPI papi;
     
     public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
         if(event.isInvalidProtocol())
@@ -123,5 +126,12 @@ public class PingEventHandler{
         }
         
         event.updateEvent();
+    }
+    
+    public static PlaceholderAPI getPAPI(){
+        if(papi != null)
+            return papi;
+        
+        return (papi = PlaceholderAPI.getInstance());
     }
 }

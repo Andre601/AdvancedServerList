@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerImpl;
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -41,11 +42,13 @@ import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
+import net.william278.papiproxybridge.api.PlaceholderAPI;
 
 import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePlayerImpl>{
     
@@ -150,7 +153,15 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     
     @Override
     public String parsePAPIPlaceholders(String text, BungeePlayerImpl player){
-        return text;
+        if(plugin.getProxy().getPluginManager().getPlugin("PAPIProxyBridge") == null)
+            return text;
+        
+        try{
+            CompletableFuture<String> future = PingEventHandler.getPAPI().formatPlaceholders(text, player.getUUID());
+            return future.getNow(text);
+        }catch(IllegalArgumentException ex){
+            return text;
+        }
     }
     
     @Override
