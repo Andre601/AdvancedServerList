@@ -23,14 +23,27 @@ jobs:
           echo "Previous Job ID: $PREVIOUS_JOB_ID"
           echo "PREVIOUS_JOB_ID=$PREVIOUS_JOB_ID" >> "$GITHUB_ENV"
           
-          ARTIFACT_URL=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
+          SUITE_ID=$(jq -r '.check_suite_id' <<< "$WORKFLOW_RUN_EVENT_OBJ")
+          echo "Previous Suite ID: $SUITE_ID"
+          echo "SUITE_ID=$SUITE_ID" >> "$GITHUB_ENV"
+          
+          ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
             --jq ".artifacts.[] |
             select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
             select(.expired==false) |
-            .archive_download_url")
+            .id")
           
-          echo "Artifact URL: $ARTIFACT_URL"
-          echo "ARTIFACT_URL=$ARTIFACT_URL" >> "$GITHUB_ENV"
+          echo "Artifact ID: $ARTIFACT_ID"
+          echo "ARTIFACT_ID=$ARTIFACT_ID" >> "$GITHUB_ENV"
+          
+          ARTIFACT_EXPIRE_DATE=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
+            --jq ".artifacts.[] |
+            select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
+            select(.expired==false) |
+            .expires_at")
+          
+          echo "Artifact Expire Date: $ARTIFACT_EXPIRE_DATE"
+          echo "ARTIFACT_EXPIRE_DATE=$ARTIFACT_EXPIRE_DATE" >> "$GITHUB_ENV"
           
           PR_NUMBER=$(jq -r '.pull_requests[0].number' \
             <<< "$WORKFLOW_RUN_EVENT_OBJ")
@@ -52,6 +65,8 @@ jobs:
       - name: Update Comment
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
+          ARTIFACT_URL: "${{ github.server_url }}/${{ github.repository }}/suites/$SUITE_ID/artifacts/$ARTIFACT_ID"
+          ARTIFACT_EXPIRE_DATE: "$ARTIFACT_EXPIRE_DATE"
           HEAD_SHA: "${{ env.HEAD_SHA }}"
         uses: peter-evans/create-or-update-comment@v3
         with:
@@ -61,7 +76,8 @@ jobs:
           body: |-
             ![badge]
             
-            Build Successful! You can find a link to the downloadable artifact below.
+            Build Successful! You can find a link to the downloadable artifact below.  
+            Expire Date: `${{ env.ARTIFACT_EXPIRE_DATE }}`
             
             | Name     | Link                    |
             | -------- | ----------------------- |
