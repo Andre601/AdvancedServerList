@@ -4,3 +4,6 @@ version: '${plugin.version}'
 description: '${plugin.description}'
 
 main: 'ch.andre601.advancedserverlist.bungeecord.BungeeCordCore'
+
+softDepends:
+  - 'PAPIProxyBridge'

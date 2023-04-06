@@ -20,6 +20,7 @@ libraries:
 softdepend:
   - 'ProtocolLib'
   - 'PlaceholderAPI'
+  - 'PAPIProxyBridge'
 
 commands:
   advancedserverlist:
