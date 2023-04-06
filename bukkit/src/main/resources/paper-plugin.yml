@@ -15,16 +15,11 @@ dependencies:
   - name: ViaVersion
     required: false
     bootstrap: false
-  - name: PAPIProxyBridge
-    required: false
-    bootstrap: false
 
 load-after:
   - name: PlaceholderAPI
     bootstrap: false
   - name: ViaVersion
-    bootstrap: false
-  - name: PAPIProxyBridge
     bootstrap: false
 
 # The below stuff is NOT used by Paper plugin.
