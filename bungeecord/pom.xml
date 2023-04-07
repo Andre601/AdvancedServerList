@@ -117,7 +117,7 @@
     </dependencies>
 
     <build>
-        <finalName>AdvancedServerList-BungeeCord-${plugin.version}</finalName>
+        <finalName>AdvancedServerList-BungeeCord-${plugin.version}${project.build.commit}</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>
