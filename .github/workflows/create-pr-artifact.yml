@@ -42,8 +42,13 @@ jobs:
           distribution: 'temurin'
           java-version: '16'
           cache: 'maven'
+      - name: Obtain short Commit SHA
+        id: get-commit
+        run: 'echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT'
       - name: Build Jar files
         run: mvn clean install
+        env:
+          COMMIT_SHA: ${{ steps.get-commit.outputs.sha_short }}
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
