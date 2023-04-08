@@ -44,7 +44,7 @@ jobs:
           cache: 'maven'
       - name: Obtain short Commit SHA
         id: get-commit
-        run: 'echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT'
+        run: 'echo "sha_short=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})" >> $GITHUB_OUTPUT'
       - name: Build Jar files
         run: mvn clean install
         env:
