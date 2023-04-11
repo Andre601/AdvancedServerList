@@ -62,6 +62,7 @@ jobs:
         with:
           issue-number: ${{ env.PR_NUMBER }}
           comment-author: 'github-actions[bot]'
+          body-includes: '<!-- pr-build comment -->'
       - name: Update Comment
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
@@ -74,6 +75,7 @@ jobs:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
           body: |-
+            <!-- pr-build comment -->
             ![badge]
             
             Build Successful! You can find a link to the downloadable artifact below.  
