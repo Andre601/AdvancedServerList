@@ -63,6 +63,11 @@ jobs:
           issue-number: ${{ env.PR_NUMBER }}
           comment-author: 'github-actions[bot]'
           body-includes: '<!-- pr-build comment -->'
+      - name: Print Comment info
+        run: |
+          echo "Comment ID: ${{ steps.find-comment.outputs.comment-id }}"
+          echo "Comment Author: ${{ steps.find-comment.outputs.comment-author }}"
+          echo "Comment created at: ${{ steps.find-comment.outputs.comment-created-at }}"
       - name: Update Comment
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
