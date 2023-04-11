@@ -1,13 +1,17 @@
 name: Create PR Artifacts
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
       - reopened
       - synchronize
     branches:
       - master
+
+concurrency:
+  group: 'pr-artifact'
+  cancel-in-progress: false
 
 jobs:
   buildArtifacts:
@@ -23,6 +27,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
+          body-includes: '<!-- pr-build comment -->'
       - name: Post/Update Comment
         uses: peter-evans/create-or-update-comment@v3
         id: comment
@@ -31,6 +36,7 @@ jobs:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
           body: |-
+            <!-- pr-build comment -->
             ![badge]
             
             Please wait while we're building the Jar files for this Pull request...
@@ -63,6 +69,7 @@ jobs:
           comment-id: ${{ steps.comment.outputs.comment-id }}
           edit-mode: replace
           body: |-
+            <!-- pr-build comment -->
             ![badge]
             
             The Build of this Pull request failed.  
