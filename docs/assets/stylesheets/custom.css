@@ -27,6 +27,16 @@
     color: #d29922;
 }
 
+.result {
+    border: .05rem solid var(--md-code-bg-color);
+    border-bottom-left-radius: .1rem;
+    border-bottom-right-radius: .1rem;
+    border-top-width: .1rem;
+    margin-top: -1.125em;
+    overflow: visible;
+    padding: 0 1em;
+}
+
 /* Override mkdocs-material styling */
 .md-banner--warning {
     background: rgba(187,128,9,0.15);

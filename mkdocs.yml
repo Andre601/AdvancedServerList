@@ -35,6 +35,7 @@ theme:
   - navigation.indexes
   - navigation.tabs
   - navigation.tabs.sticky
+  - content.code.copy
 
   icon:
     repo: 'octicons/mark-github-16'
@@ -78,3 +79,4 @@ markdown_extensions:
   - pymdownx.superfences:
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.details:
