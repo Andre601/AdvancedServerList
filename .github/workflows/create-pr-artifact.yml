@@ -10,8 +10,12 @@ on:
       - master
 
 concurrency:
-  group: 'pr-artifact'
+  group: '${{ github.workflow }}-${{ github.head_ref }}'
   cancel-in-progress: false
+
+permissions:
+  issues: write
+  pull-requests: write
 
 jobs:
   buildArtifacts:
