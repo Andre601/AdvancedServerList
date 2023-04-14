@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Get Artifact and Pull request info
         env:
-          GITHUB_TOKEN: ${{ github.token }} # No idea why this is set here when ${{ secrets.GITHUB_TOKEN }} is a thing...
+          GITHUB_TOKEN: ${{ github.token }} # Needs to be set as env variable so that 'gh api' can be used.
           WORKFLOW_RUN_EVENT_OBJ: ${{ toJSON(github.event.workflow_run) }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
@@ -31,20 +31,18 @@ jobs:
           echo "Previous Suite ID: $SUITE_ID"
           echo "SUITE_ID=$SUITE_ID" >> "$GITHUB_ENV"
           
-          ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
+          ARTIFACT_OBJ=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
             --jq ".artifacts.[] |
-            select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
-            select(.expired==false) |
-            .id")
+            select(.workflow_run_id==${PREVIOUS_JOB_ID}) |
+            select(.expired==false)")
+          
+          
+          ARTIFACT_ID=$(jq -r '.id' <<< "$ARTIFACT_OBJ")
           
           echo "Artifact ID: $ARTIFACT_ID"
           echo "ARTIFACT_ID=$ARTIFACT_ID" >> "$GITHUB_ENV"
           
-          ARTIFACT_EXPIRE_DATE=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
-            --jq ".artifacts.[] |
-            select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
-            select(.expired==false) |
-            .expires_at")
+          ARTIFACT_EXPIRE_DATE=$(jq -r '.expires_at' <<< "$ARTIFACT_OBJ")
           
           echo "Artifact Expire Date: $ARTIFACT_EXPIRE_DATE"
           echo "ARTIFACT_EXPIRE_DATE=$ARTIFACT_EXPIRE_DATE" >> "$GITHUB_ENV"
