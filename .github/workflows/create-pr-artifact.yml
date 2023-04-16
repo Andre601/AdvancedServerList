@@ -20,6 +20,8 @@ permissions:
 jobs:
   buildArtifacts:
     runs-on: ubuntu-latest
+    outputs:
+      comment_id: ${{ steps.comment.outputs.comment-id }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -44,13 +46,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
-          body: |-
-            <!-- pr-build comment -->
-            ![badge]
-            
-            Please wait while we're building the Jar files for this Pull request...
-            
-            [badge]: https://img.shields.io/badge/Building...-0d1117?style=for-the-badge&labelColor=7a8490&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNNC43NSAyaDE0LjVhLjc1Ljc1IDAgMCAxIDAgMS41aC0uNzV2Mi45ODJhNC43NSA0Ljc1IDAgMCAxLTIuMjE1IDQuMDE3bC0yLjA0NCAxLjI5YS4yNS4yNSAwIDAgMCAwIC40MjJsMi4wNDQgMS4yOWE0Ljc1IDQuNzUgMCAwIDEgMi4yMTUgNC4wMTdWMjAuNWguNzVhLjc1Ljc1IDAgMCAxIDAgMS41SDQuNzVhLjc1Ljc1IDAgMCAxIDAtMS41aC43NXYtMi45ODJhNC43NSA0Ljc1IDAgMCAxIDIuMjE1LTQuMDE3bDIuMDQ0LTEuMjlhLjI1LjI1IDAgMCAwIDAtLjQyMmwtMi4wNDQtMS4yOUE0Ljc1IDQuNzUgMCAwIDEgNS41IDYuNDgyVjMuNWgtLjc1YS43NS43NSAwIDAgMSAwLTEuNVpNMTcgMy41SDd2Mi45ODJBMy4yNSAzLjI1IDAgMCAwIDguNTE2IDkuMjNsMi4wNDQgMS4yOWExLjc1IDEuNzUgMCAwIDEgMCAyLjk2bC0yLjA0NCAxLjI5QTMuMjUgMy4yNSAwIDAgMCA3IDE3LjUxOFYyMC41aDEwdi0yLjk4MmEzLjI1IDMuMjUgMCAwIDAtMS41MTYtMi43NDhsLTIuMDQ0LTEuMjlhMS43NSAxLjc1IDAgMCAxIDAtMi45NmwyLjA0NC0xLjI5QTMuMjUgMy4yNSAwIDAgMCAxNyA2LjQ4MloiPjwvcGF0aD48L3N2Zz4=
+          body-path: .github/assets/pr-comments/building.md
       - name: Set up JDK 1.16
         uses: actions/setup-java@v3
         with:
@@ -70,23 +66,23 @@ jobs:
           name: AdvancedServerList-Artifacts
           path: '*/target/AdvancedServerList-*.jar'
           if-no-files-found: error
+  commentOnFail:
+    needs: [buildArtifacts]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Render Markdown Template
+        id: render
+        uses: chuhlomin/render-template@v1.6
+        with:
+          template: .github/assets/pr-comments/failed.md
+          vars: |
+            commit: ${{ github.event.pull_request.head.sha }}
+            logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Update Comment (Failure)
-        if: failure()
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-id: ${{ steps.comment.outputs.comment-id }}
+          comment-id: ${{ needs.buildArtifacts.outputs.comment_id }}
           edit-mode: replace
-          body: |-
-            <!-- pr-build comment -->
-            ![badge]
-            
-            The Build of this Pull request failed.  
-            Please check the below linked logs for a possible cause.
-            
-            | Name   | Link                                                                                |
-            | ------ | ----------------------------------------------------------------------------------- |
-            | Commit | ${{ github.event.pull_request.head.sha }}                                           |
-            | Logs   | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |
-            
-            [badge]: https://img.shields.io/badge/Build_Failure!-0d1117?style=for-the-badge&labelColor=f85149&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNNS43MiA1LjcyYS43NS43NSAwIDAgMSAxLjA2IDBMMTIgMTAuOTRsNS4yMi01LjIyYS43NDkuNzQ5IDAgMCAxIDEuMjc1LjMyNi43NDkuNzQ5IDAgMCAxLS4yMTUuNzM0TDEzLjA2IDEybDUuMjIgNS4yMmEuNzQ5Ljc0OSAwIDAgMS0uMzI2IDEuMjc1Ljc0OS43NDkgMCAwIDEtLjczNC0uMjE1TDEyIDEzLjA2bC01LjIyIDUuMjJhLjc1MS43NTEgMCAwIDEtMS4wNDItLjAxOC43NTEuNzUxIDAgMCAxLS4wMTgtMS4wNDJMMTAuOTQgMTIgNS43MiA2Ljc4YS43NS43NSAwIDAgMSAwLTEuMDZaIj48L3BhdGg+PC9zdmc+
+          body: ${{ steps.render.outputs.result }}

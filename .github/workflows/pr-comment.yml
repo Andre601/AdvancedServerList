@@ -70,6 +70,21 @@ jobs:
           echo "Comment ID: ${{ steps.find-comment.outputs.comment-id }}"
           echo "Comment Author: ${{ steps.find-comment.outputs.comment-author }}"
           echo "Comment created at: ${{ steps.find-comment.outputs.comment-created-at }}"
+      - name: Render Markdown Template
+        id: render
+        uses: chuhlomin/render-template@v1.6
+        env:
+          JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
+          ARTIFACT_URL: "${{ github.server_url }}/${{ github.repository }}/suites/${{ env.SUITE_ID }}/artifacts/${{ env.ARTIFACT_ID }}"
+          ARTIFACT_EXPIRE_DATE: "${{ env.ARTIFACT_EXPIRE_DATE }}"
+          HEAD_SHA: "${{ env.HEAD_SHA }}"
+        with:
+          template: .github/assets/pr-comments/success.md
+          vars: |
+            commit: ${{ env.HEAD_SHA }}
+            logs: ${{ env.JOB_PATH }}
+            download: ${{ env.ARTIFACT_URL }}
+            expire-date: ${{ env.ARTIFACT_EXPIRE_DATE }}
       - name: Update Comment
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
@@ -81,17 +96,4 @@ jobs:
           issue-number: ${{ env.PR_NUMBER }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
-          body: |-
-            <!-- pr-build comment -->
-            ![badge]
-            
-            Build Successful! You can find a link to the downloadable artifact below.  
-            Expire Date: `${{ env.ARTIFACT_EXPIRE_DATE }}`
-            
-            | Name     | Link                    |
-            | -------- | ----------------------- |
-            | Commit   | ${{ env.HEAD_SHA }}     |
-            | Logs     | ${{ env.JOB_PATH }}     |
-            | Download | ${{ env.ARTIFACT_URL }} |
-            
-            [badge]: https://img.shields.io/badge/Build_Success!-0d1117?style=for-the-badge&labelColor=3fb950&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNMjEuMDMgNS43MmEuNzUuNzUgMCAwIDEgMCAxLjA2bC0xMS41IDExLjVhLjc0Ny43NDcgMCAwIDEtMS4wNzItLjAxMmwtNS41LTUuNzVhLjc1Ljc1IDAgMSAxIDEuMDg0LTEuMDM2bDQuOTcgNS4xOTVMMTkuOTcgNS43MmEuNzUuNzUgMCAwIDEgMS4wNiAwWiI+PC9wYXRoPjwvc3ZnPg==
+          body: ${{ steps.render.outputs.result }}
