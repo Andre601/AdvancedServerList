@@ -31,6 +31,7 @@ commands:
       - 'asl'
     permission: 'advancedserverlist.admin'
 
+# This is actually supported(?)
 permissions:
   advancedserverlist.*:
     description: 'Grants access to all permissions'
