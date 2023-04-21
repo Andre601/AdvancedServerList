@@ -29,7 +29,6 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -47,7 +46,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.InetSocketAddress;
-import java.util.Locale;
+import java.util.*;
 
 public class PAPIPlaceholders<F> extends PlaceholderExpansion{
     
@@ -107,25 +106,24 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         GenericServer finalServer = new GenericServerImpl(online, max, host);
         
         return switch(identifier.toLowerCase(Locale.ROOT)){
-            case "motd" -> ComponentParser.list(entry.motd())
-                .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
-                .modifyText(text -> StringReplacer.replace(text, player, finalServer))
-                .toString();
-            case "favicon" -> ComponentParser.text(entry.favicon())
-                .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
-                .modifyText(text -> StringReplacer.replace(text, player, finalServer))
-                .toString();
-            case "playercount_hover" -> ComponentParser.list(entry.players())
-                .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
-                .modifyText(text -> StringReplacer.replace(text, player, finalServer))
-                .toString();
-            case "playercount_text" -> ComponentParser.text(entry.playerCountText())
-                .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
-                .modifyText(text -> StringReplacer.replace(text, player, finalServer))
-                .toString();
+            case "motd" -> getOption(entry.motd(), pl, player, finalServer);
+            case "favicon" -> getOption(entry.favicon(), pl, player, finalServer);
+            case "playercount_hover" -> getOption(entry.players(), pl, player, finalServer);
+            case "playercount_text" -> getOption(entry.playerCountText(), pl, player, finalServer);
             case "extra_players_max" -> String.valueOf(max);
             default -> null;
         };
+    }
+    
+    private String getOption(String str, Player pl, GenericPlayer player, GenericServer server){
+        return getOption(Collections.singletonList(str), pl, player, server);
+    }
+    
+    private String getOption(List<String> list, Player pl, GenericPlayer player, GenericServer server){
+        return ComponentParser.list(list)
+            .modifyText(text -> PlaceholderAPI.setPlaceholders(pl, text))
+            .modifyText(text -> StringReplacer.replace(text, player, server))
+            .toString();
     }
     
     private int resolveProtocol(Player player){

@@ -32,7 +32,6 @@ import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
@@ -40,7 +39,6 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 
@@ -157,7 +155,7 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
         getPluginLogger().warn("You are using the Spigot version of AdvancedServerList on a Paper server.");
         getPluginLogger().warn("It is recommended to use the dedicated Paper version, to benefit from the");
         getPluginLogger().warn("following improvements:");
-        getPluginLogger().warn(" - No need to download external libraries already provided by PaperMC.");
+        getPluginLogger().warn(" - No downloading of external Libraries already provided by Paper (i.e. Adventure).");
         getPluginLogger().warn(" - No dependency on ProtocolLib thanks to provided Events.");
         getPluginLogger().warn("");
         getPluginLogger().warn("AdvancedServerList may work as normal, but consider using the PaperMC version instead!");
