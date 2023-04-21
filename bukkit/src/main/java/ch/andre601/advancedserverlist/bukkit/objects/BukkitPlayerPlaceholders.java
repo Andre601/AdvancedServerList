@@ -32,8 +32,12 @@ import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 
 public class BukkitPlayerPlaceholders extends PlaceholderProvider{
     
-    public BukkitPlayerPlaceholders(){
+    private BukkitPlayerPlaceholders(){
         super("player");
+    }
+    
+    public static BukkitPlayerPlaceholders init(){
+        return new BukkitPlayerPlaceholders();
     }
     
     @Override

@@ -55,7 +55,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     private final Path path;
     private final Metrics.Factory metrics;
     
-    private AdvancedServerList core;
+    private AdvancedServerList<Favicon> core;
     private FaviconHandler<Favicon> faviconHandler = null;
     
     @Inject
@@ -69,7 +69,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     
     @Subscribe
     public void init(ProxyInitializeEvent event){
-        this.core = new AdvancedServerList(this, new VelocityPlayerPlaceholders());
+        this.core = AdvancedServerList.init(this, VelocityPlayerPlaceholders.init());
     }
     
     @Subscribe
@@ -109,7 +109,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     }
     
     @Override
-    public AdvancedServerList getCore(){
+    public AdvancedServerList<Favicon> getCore(){
         return core;
     }
     

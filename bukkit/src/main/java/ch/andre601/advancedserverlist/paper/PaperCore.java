@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.paper;
 
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.events.JoinEvent;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
@@ -32,33 +33,37 @@ import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.paper.events.PaperPingEvent;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
 
 import java.nio.file.Path;
 
-public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon>{
+public class PaperCore extends BukkitCore<CachedServerIcon>{
     
     private final PluginLogger logger = new BukkitLogger(getLogger());
     
-    private AdvancedServerList core;
+    private AdvancedServerList<CachedServerIcon> core;
     private FaviconHandler<CachedServerIcon> faviconHandler;
+    private PAPIPlaceholders<CachedServerIcon> papiPlaceholders = null;
     
     @Override
     public void onEnable(){
-        this.core = new AdvancedServerList(this, new BukkitPlayerPlaceholders());
+        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init());
         
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
-            new PAPIPlaceholders(this);
+            papiPlaceholders = PAPIPlaceholders.init(this);
     }
     
     @Override
     public void onDisable(){
+        if(papiPlaceholders != null){
+            papiPlaceholders.unregister();
+            papiPlaceholders = null;
+        }
+        
         getCore().disable();
     }
     
@@ -93,7 +98,7 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
     }
     
     @Override
-    public AdvancedServerList getCore(){
+    public AdvancedServerList<CachedServerIcon> getCore(){
         return core;
     }
     

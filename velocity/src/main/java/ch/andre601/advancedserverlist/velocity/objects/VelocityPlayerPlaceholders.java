@@ -31,8 +31,12 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
 public class VelocityPlayerPlaceholders extends PlaceholderProvider{
     
-    public VelocityPlayerPlaceholders(){
+    private VelocityPlayerPlaceholders(){
         super("player");
+    }
+    
+    public static VelocityPlayerPlaceholders init(){
+        return new VelocityPlayerPlaceholders();
     }
     
     @Override

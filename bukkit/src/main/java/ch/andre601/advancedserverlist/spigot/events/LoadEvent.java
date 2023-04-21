@@ -54,10 +54,10 @@ public class LoadEvent implements Listener{
             return;
         }
         
-        manager.registerEvents(new JoinEvent(plugin), plugin);
-        manager.registerEvents(new ProtocolLibEvents(plugin, ProtocolLibrary.getProtocolManager()), plugin);
+        JoinEvent.init(plugin);
+        ProtocolLibEvents.init(plugin, ProtocolLibrary.getProtocolManager());
         
         if(manager.isPluginEnabled("PlaceholderAPI"))
-            new PAPIPlaceholders(plugin);
+            plugin.setPapiPlaceholders(PAPIPlaceholders.init(plugin));
     }
 }

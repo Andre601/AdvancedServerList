@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.bukkit.objects;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
@@ -48,13 +49,17 @@ import org.jetbrains.annotations.NotNull;
 import java.net.InetSocketAddress;
 import java.util.Locale;
 
-public class PAPIPlaceholders extends PlaceholderExpansion{
+public class PAPIPlaceholders<F> extends PlaceholderExpansion{
     
-    private final PluginCore<?> plugin;
+    private final BukkitCore<F> plugin;
     
-    public PAPIPlaceholders(PluginCore<?> plugin){
+    private PAPIPlaceholders(BukkitCore<F> plugin){
         this.plugin = plugin;
         this.register();
+    }
+    
+    public static <F> PAPIPlaceholders<F> init(BukkitCore<F> plugin){
+        return new PAPIPlaceholders<>(plugin);
     }
     
     @Override
@@ -70,6 +75,11 @@ public class PAPIPlaceholders extends PlaceholderExpansion{
     @Override
     public @NotNull String getVersion(){
         return plugin.getCore().getVersion();
+    }
+    
+    @Override
+    public boolean persist(){
+        return true;
     }
     
     @Override

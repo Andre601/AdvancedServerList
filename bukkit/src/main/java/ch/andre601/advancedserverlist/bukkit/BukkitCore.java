@@ -23,38 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.events;
+package ch.andre601.advancedserverlist.bukkit;
 
-import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.net.InetSocketAddress;
-
-public class JoinEvent<F> implements Listener{
-    
-    private final BukkitCore<F> plugin;
-    
-    public JoinEvent(BukkitCore<F> plugin){
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-    
-    public static <F> void init(BukkitCore<F> plugin){
-        new JoinEvent<>(plugin);
-    }
-    
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event){
-        InetSocketAddress address = event.getPlayer().getAddress();
-        if(address == null)
-            return;
-        
-        Player player = event.getPlayer();
-        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
-    }
-}
+/* 
+ * Small convenience class to "merge" the PluginCore and JavaPlugin classes.
+ * Allows me to have BukkitCore<?> for whenever I also need a JavaPlugin (i.e. registering events).
+ * See JoinEvent class for an example.
+*/
+public abstract class BukkitCore<F> extends JavaPlugin implements PluginCore<F>{}

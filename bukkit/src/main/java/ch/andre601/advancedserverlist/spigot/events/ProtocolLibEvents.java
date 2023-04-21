@@ -32,6 +32,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.net.InetSocketAddress;
@@ -44,10 +45,15 @@ public class ProtocolLibEvents implements Listener{
     
     private static final Map<String, String> hostAddresses = new HashMap<>();
     
-    public ProtocolLibEvents(SpigotCore plugin, ProtocolManager protocolManager){
+    private ProtocolLibEvents(SpigotCore plugin, ProtocolManager protocolManager){
         this.protocolManager = protocolManager;
         
         loadPacketListener(plugin);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+    
+    public static void init(SpigotCore plugin, ProtocolManager protocolManager){
+        new ProtocolLibEvents(plugin, protocolManager);
     }
     
     public static Map<String, String> getHostAddresses(){

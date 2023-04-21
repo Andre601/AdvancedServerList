@@ -25,9 +25,11 @@
 
 package ch.andre601.advancedserverlist.spigot;
 
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -42,12 +44,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 
-public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPing.CompressedImage>{
+public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     
     private final PluginLogger logger = new BukkitLogger(getLogger());
     
-    private AdvancedServerList core;
-    FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
+    private AdvancedServerList<WrappedServerPing.CompressedImage> core;
+    private FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
+    private PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders = null;
     
     @Override
     public void onEnable(){
@@ -64,11 +67,16 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
             }catch(ClassNotFoundException ignored){}
         }
         
-        this.core = new AdvancedServerList(this, new BukkitPlayerPlaceholders());
+        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init());
     }
     
     @Override
     public void onDisable(){
+        if(papiPlaceholders != null){
+            papiPlaceholders.unregister();
+            papiPlaceholders = null;
+        }
+        
         getCore().disable();
     }
     
@@ -103,7 +111,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     }
     
     @Override
-    public AdvancedServerList getCore(){
+    public AdvancedServerList<WrappedServerPing.CompressedImage> getCore(){
         return core;
     }
     
@@ -138,6 +146,10 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     @Override
     public String getLoader(){
         return "spigot";
+    }
+    
+    public void setPapiPlaceholders(PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders){
+        this.papiPlaceholders = papiPlaceholders;
     }
     
     private void printPaperInfo(){
