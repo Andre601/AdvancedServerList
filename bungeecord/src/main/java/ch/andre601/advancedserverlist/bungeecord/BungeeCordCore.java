@@ -43,13 +43,13 @@ import java.nio.file.Path;
 
 public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
-    private AdvancedServerList core;
+    private AdvancedServerList<Favicon> core;
     private FaviconHandler<Favicon> faviconHandler = null;
     private final PluginLogger logger = new BungeeLogger(getLogger());
     
     @Override
     public void onEnable(){
-        this.core = new AdvancedServerList(this, new BungeePlayerPlaceholders());
+        this.core = AdvancedServerList.init(this, BungeePlayerPlaceholders.init());
     }
     
     @Override
@@ -85,7 +85,7 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     }
     
     @Override
-    public AdvancedServerList getCore(){
+    public AdvancedServerList<Favicon> getCore(){
         return core;
     }
     

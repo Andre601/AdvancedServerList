@@ -39,9 +39,9 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class AdvancedServerList{
+public class AdvancedServerList<F>{
     
-    private final PluginCore<?> plugin;
+    private final PluginCore<F> plugin;
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
@@ -51,19 +51,23 @@ public class AdvancedServerList{
     
     private String version;
     
-    public AdvancedServerList(PluginCore<?> plugin, PlaceholderProvider player){
+    private AdvancedServerList(PluginCore<F> plugin, PlaceholderProvider placeholders){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
         
-        this.api.addPlaceholderProvider(player);
+        this.api.addPlaceholderProvider(placeholders);
         this.api.addPlaceholderProvider(new ServerPlaceholders());
         
         load();
     }
     
-    public PluginCore<?> getPlugin(){
+    public static <F> AdvancedServerList<F> init(PluginCore<F> plugin, PlaceholderProvider placeholders){
+        return new AdvancedServerList<>(plugin, placeholders);
+    }
+    
+    public PluginCore<F> getPlugin(){
         return plugin;
     }
     

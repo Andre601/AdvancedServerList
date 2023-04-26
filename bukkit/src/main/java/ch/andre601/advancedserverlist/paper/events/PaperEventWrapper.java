@@ -28,9 +28,9 @@ package ch.andre601.advancedserverlist.paper.events;
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.events.PreServerListSetEventImpl;
 import ch.andre601.advancedserverlist.bukkit.objects.SpigotPlayerImpl;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -164,7 +164,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public PluginCore<CachedServerIcon> getPlugin(){
+    public BukkitCore<CachedServerIcon> getPlugin(){
         return plugin;
     }
     

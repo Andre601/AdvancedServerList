@@ -33,8 +33,12 @@ import java.util.Locale;
 
 public class BungeePlayerPlaceholders extends PlaceholderProvider{
     
-    public BungeePlayerPlaceholders(){
+    private BungeePlayerPlaceholders(){
         super("player");
+    }
+    
+    public static BungeePlayerPlaceholders init(){
+        return new BungeePlayerPlaceholders();
     }
     
     @Override
