@@ -8,6 +8,14 @@ on:
       - synchronize
     branches:
       - master
+    paths-ignore:
+      - '.github/**'
+      - 'docs/**'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'README.md'
+      - 'mkdocs.yml'
+      - 'requirements.txt'
 
 concurrency:
   group: '${{ github.workflow }}-${{ github.head_ref }}'
