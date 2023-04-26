@@ -39,7 +39,7 @@ public class JoinEvent<F> implements Listener{
     
     private final BukkitCore<F> plugin;
     
-    public JoinEvent(BukkitCore<F> plugin){
+    private JoinEvent(BukkitCore<F> plugin){
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }

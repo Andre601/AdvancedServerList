@@ -78,8 +78,8 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     
     @Override
     public void loadEvents(){
-        new JoinEvent(this);
-        new PaperPingEvent(this);
+        JoinEvent.init(this);
+        PaperPingEvent.init(this);
     }
     
     @Override

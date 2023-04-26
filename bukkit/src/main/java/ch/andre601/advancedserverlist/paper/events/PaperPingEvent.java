@@ -35,9 +35,13 @@ public class PaperPingEvent implements Listener{
     
     private final PaperCore plugin;
     
-    public PaperPingEvent(PaperCore plugin){
+    private PaperPingEvent(PaperCore plugin){
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+    
+    public static void init(PaperCore plugin){
+        new PaperPingEvent(plugin);
     }
     
     @EventHandler
