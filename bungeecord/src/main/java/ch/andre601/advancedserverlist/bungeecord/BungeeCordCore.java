@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.bungeecord.events.JoinEvent;
 import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
 import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerPlaceholders;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeeServerPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -49,7 +50,7 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
     @Override
     public void onEnable(){
-        this.core = AdvancedServerList.init(this, BungeePlayerPlaceholders.init());
+        this.core = AdvancedServerList.init(this, BungeePlayerPlaceholders.init(), BungeeServerPlaceholders.init());
     }
     
     @Override

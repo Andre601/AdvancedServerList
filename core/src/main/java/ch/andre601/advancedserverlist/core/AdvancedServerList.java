@@ -37,6 +37,8 @@ import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class AdvancedServerList<F>{
@@ -51,20 +53,19 @@ public class AdvancedServerList<F>{
     
     private String version;
     
-    private AdvancedServerList(PluginCore<F> plugin, PlaceholderProvider placeholders){
+    private AdvancedServerList(PluginCore<F> plugin, List<PlaceholderProvider> placeholders){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
         
-        this.api.addPlaceholderProvider(placeholders);
-        this.api.addPlaceholderProvider(new ServerPlaceholders());
+        placeholders.forEach(this.api::addPlaceholderProvider);
         
         load();
     }
     
-    public static <F> AdvancedServerList<F> init(PluginCore<F> plugin, PlaceholderProvider placeholders){
-        return new AdvancedServerList<>(plugin, placeholders);
+    public static <F> AdvancedServerList<F> init(PluginCore<F> plugin, PlaceholderProvider... placeholders){
+        return new AdvancedServerList<>(plugin, Arrays.asList(placeholders));
     }
     
     public PluginCore<F> getPlugin(){

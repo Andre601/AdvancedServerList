@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.events.JoinEvent;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.BukkitServerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
@@ -51,7 +52,7 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     
     @Override
     public void onEnable(){
-        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init());
+        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init(), BukkitServerPlaceholders.init());
         
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             papiPlaceholders = PAPIPlaceholders.init(this);

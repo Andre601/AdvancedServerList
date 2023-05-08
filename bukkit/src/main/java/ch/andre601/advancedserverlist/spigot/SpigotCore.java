@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.BukkitServerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
@@ -65,7 +66,7 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
             }catch(ClassNotFoundException ignored){}
         }
         
-        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init());
+        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init(), BukkitServerPlaceholders.init());
     }
     
     @Override

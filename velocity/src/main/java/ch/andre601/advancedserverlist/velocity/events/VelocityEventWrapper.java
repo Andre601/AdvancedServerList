@@ -35,13 +35,17 @@ import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
 import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerImpl;
+import ch.andre601.advancedserverlist.velocity.objects.VelocityProxyImpl;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
@@ -164,6 +168,14 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     @Override
     public VelocityPlayerImpl createPlayer(CachedPlayer player, int protocol){
         return new VelocityPlayerImpl(player, protocol);
+    }
+    
+    @Override
+    public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
+        Map<String, RegisteredServer> servers = new HashMap<>();
+        plugin.getProxy().getAllServers().forEach(server -> servers.put(server.getServerInfo().getName(), server));
+        
+        return new VelocityProxyImpl(servers, playersOnline, playersMax, host);
     }
     
     @Override

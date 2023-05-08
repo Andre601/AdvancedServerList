@@ -29,13 +29,15 @@ These placeholders use the player who pinged the server, to return values. They 
 
 These placeholders use values given by the server/proxy AdvancedServerList runs on.
 
-| Placeholder               | Description                                              |
-|---------------------------|----------------------------------------------------------|
-| `${server playersOnline}` | The number of players online on this server.             |
-| `${server playersMax}`    | The total number of players that can join this server.\* |
-| `${server host}`          | The domain/IP the player pinged.                         |
+| Placeholder                              | Description                                                |
+|------------------------------------------|------------------------------------------------------------|
+| `${server playersOnline [server/world]}` | The number of players online on this proxy/server.\*       |
+| `${server playersMax}`                   | The total number of players that can join this server.\*\* |
+| `${server host [server]}`                | The domain/IP the player pinged.\*\*\*                     |
 
-\*This placeholder is affected by the [`Amount` option](../#amount) in a server list profile, with the exception being when used in [`Conditions`](../#conditions).
+\*A server (BungeeCord/Velocity) or world (Spigot/Paper) can be provided (i.e. `${server playersOnline survival}`) to display the number of players from that server/world.  
+\*\*This placeholder is affected by the [`Amount` option](../#amount) in a server list profile, with the exception being when used in [`Conditions`](../#conditions).  
+\*\*\*A server (Only on BungeeCord/Velocity) can be provided (i.e. `${server host survival}`) to display the IP/Domain used by that server.
 
 ## PlaceholderAPI
 

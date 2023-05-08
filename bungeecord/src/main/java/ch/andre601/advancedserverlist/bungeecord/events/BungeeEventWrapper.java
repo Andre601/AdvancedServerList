@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerImpl;
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeeProxyImpl;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -40,11 +41,14 @@ import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
 import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePlayerImpl>{
@@ -166,6 +170,13 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     @Override
     public BungeePlayerImpl createPlayer(CachedPlayer player, int protocol){
         return new BungeePlayerImpl(player, protocol);
+    }
+    
+    @Override
+    public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
+        Map<String, ServerInfo> servers = plugin.getProxy().getServers();
+        
+        return new BungeeProxyImpl(servers, playersOnline, playersMax, host);
     }
     
     @Override
