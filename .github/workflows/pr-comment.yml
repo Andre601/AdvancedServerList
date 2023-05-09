@@ -31,18 +31,20 @@ jobs:
           echo "Previous Suite ID: $SUITE_ID"
           echo "SUITE_ID=$SUITE_ID" >> "$GITHUB_ENV"
           
-          ARTIFACT_OBJ=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
+          ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
             --jq ".artifacts.[] |
             select(.workflow_run_id==${PREVIOUS_JOB_ID}) |
-            select(.expired==false)")
-          
-          
-          ARTIFACT_ID=$(jq -r '.id' <<< "$ARTIFACT_OBJ")
+            select(.expired==false) |
+            .id")
           
           echo "Artifact ID: $ARTIFACT_ID"
           echo "ARTIFACT_ID=$ARTIFACT_ID" >> "$GITHUB_ENV"
           
-          ARTIFACT_EXPIRE_DATE=$(jq -r '.expires_at' <<< "$ARTIFACT_OBJ")
+          ARTIFACT_EXPIRE_DATE=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
+            --jq ".artifacts.[] |
+            select(.workflow_run_id==${PREVIOUS_JOB_ID}) |
+            select(.expired==false) |
+            .expires_at")
           
           echo "Artifact Expire Date: $ARTIFACT_EXPIRE_DATE"
           echo "ARTIFACT_EXPIRE_DATE=$ARTIFACT_EXPIRE_DATE" >> "$GITHUB_ENV"
