@@ -73,7 +73,7 @@ jobs:
     steps:
       - name: Render Markdown Template
         id: render
-        uses: chuhlomin/render-template@v1.6
+        uses: chuhlomin/render-template@v1f41b8ed07508ba92b8501e7105c8c9632c73fc9
         with:
           template: .github/assets/pr-comments/failed.md
           vars: |
