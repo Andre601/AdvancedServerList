@@ -82,9 +82,9 @@ jobs:
           template: .github/assets/pr-comments/success.md
           vars: |
             commit: ${{ env.HEAD_SHA }}
-            logs: ${{ env.JOB_PATH | mdlink "Logs" }}
-            download: ${{ env.ARTIFACT_URL | mdlink "Download Artifact" }}
-            expire-date: ${{ env.ARTIFACT_EXPIRE_DATE | date "01 Jan 1970 00:00:00" }}
+            logs: ${{ env.JOB_PATH }}
+            download: ${{ env.ARTIFACT_URL }}
+            expire-date: ${{ env.ARTIFACT_EXPIRE_DATE }}
       - name: Update Comment
         uses: peter-evans/create-or-update-comment@v3
         with:
