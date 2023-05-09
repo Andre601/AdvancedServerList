@@ -76,7 +76,7 @@ jobs:
           echo "Comment created at: ${{ steps.find-comment.outputs.comment-created-at }}"
       - name: Render Markdown Template
         id: render
-        uses: chuhlomin/render-template:funcs@a7b1679bde5e7f2077573ab052762885beb456a6
+        uses: chuhlomin/render-template@a7b1679bde5e7f2077573ab052762885beb456a6
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
           ARTIFACT_URL: "${{ github.server_url }}/${{ github.repository }}/suites/${{ env.SUITE_ID }}/artifacts/${{ env.ARTIFACT_ID }}"
