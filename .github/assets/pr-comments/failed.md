@@ -4,7 +4,7 @@
 **Compiling of jar files failed!**  
 Please check the logs below for any errors.
 
-| Name   | Link          |
-| ------ | ------------- |
-| Commit | {{ .commit }} |
-| Logs   | {{ .logs }}   |
+| Name   | Link                             |
+| ------ | -------------------------------- |
+| Commit | {{ .commit }}                    |
+| Logs   | {{ .logs | mdlink "View Logs" }} |
