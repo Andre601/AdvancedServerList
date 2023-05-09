@@ -79,7 +79,7 @@ jobs:
           ARTIFACT_EXPIRE_DATE: "${{ env.ARTIFACT_EXPIRE_DATE }}"
           HEAD_SHA: "${{ env.HEAD_SHA }}"
         with:
-          template: .github/assets/pr-comments/success.md
+          template: './.github/assets/pr-comments/success.md'
           vars: |
             commit: ${{ env.HEAD_SHA }}
             logs: ${{ env.JOB_PATH }}
