@@ -79,6 +79,10 @@ jobs:
     if: failure()
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
       - name: Render Markdown Template
         id: render
         uses: chuhlomin/render-template@v1f41b8ed07508ba92b8501e7105c8c9632c73fc9
