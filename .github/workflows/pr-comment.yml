@@ -16,6 +16,8 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Get Artifact and Pull request info
         env:
           GITHUB_TOKEN: ${{ github.token }} # Needs to be set as env variable so that 'gh api' can be used.
