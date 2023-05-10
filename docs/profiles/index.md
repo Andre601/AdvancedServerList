@@ -37,16 +37,16 @@ The following operants are available and can be used in the conditions.
 
 !!! warning "Only one operant can be used per condition!"
 
-| Operant | Description                                                        |
-| ------- | ------------------------------------------------------------------ |
-| `<`     | Checks if the left value is less than the right one.\*             |
-| `<=`    | Checks if the left value is less than or equal to the right one.\* |
-| `>`     | Checks if the left value is more than the right one.\*             |
-| `>=`    | Checks if the left value is more than or equal to the right one.\* |
-| `=`     | Checks if the left value is equal to the right one.                |
-| `!=`    | Checks if the left value is not equal to the right one.            |
+| Operant | Description                                                          |
+| ------- |----------------------------------------------------------------------|
+| `<`     | Checks if the left value is less than the right one.[^1]             |
+| `<=`    | Checks if the left value is less than or equal to the right one.[^1] |
+| `>`     | Checks if the left value is more than the right one.[^1]             |
+| `>=`    | Checks if the left value is more than or equal to the right one.[^1] |
+| `=`     | Checks if the left value is equal to the right one.                  |
+| `!=`    | Checks if the left value is not equal to the right one.              |
 
-\* In the case of the provided value not being a number will the plugin instead use the text length to compare with.
+[^1]: In the case of the provided value not being a number will the plugin instead use the text length to compare with.
 
 ## Profiles
 
