@@ -35,7 +35,7 @@ jobs:
           
           ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
             --jq ".artifacts.[] |
-            select(.workflow_run_id==${PREVIOUS_JOB_ID}) |
+            select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
             select(.expired==false) |
             .id")
           
@@ -44,7 +44,7 @@ jobs:
           
           ARTIFACT_EXPIRE_DATE=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
             --jq ".artifacts.[] |
-            select(.workflow_run_id==${PREVIOUS_JOB_ID}) |
+            select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
             select(.expired==false) |
             .expires_at")
           
