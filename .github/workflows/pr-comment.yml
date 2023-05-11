@@ -84,6 +84,7 @@ jobs:
           HEAD_SHA: "${{ env.HEAD_SHA }}"
         with:
           template: './.github/assets/pr-comments/success.md'
+          timezone: Europe/Zurich
           vars: |
             commit: ${{ env.HEAD_SHA }}
             logs: ${{ env.JOB_PATH }}
