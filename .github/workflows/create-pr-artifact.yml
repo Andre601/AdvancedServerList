@@ -85,7 +85,7 @@ jobs:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
       - name: Render Markdown Template
         id: render
-        uses: chuhlomin/render-template@b7365ae850d49de8fbbc9af02f333f0150bdcc59
+        uses: chuhlomin/render-template@v1.7
         with:
           template: './.github/assets/pr-comments/failed.md'
           vars: |
