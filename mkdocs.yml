@@ -66,6 +66,10 @@ extra:
       - latest
       - dev
 
+plugins:
+  - search
+  - glightbox
+
 markdown_extensions:
   - markdown.extensions.admonition:
   - markdown.extensions.toc:
