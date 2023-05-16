@@ -127,10 +127,22 @@ public class Expression{
                 return left.equals(right);
             }
         },
+        EQUALS_IGNORE_CASE('~', '='){
+            @Override
+            public boolean evaluate(String left, String right){
+                return left.equalsIgnoreCase(right);
+            }
+        },
         NOT_EQUAL('!', '='){
             @Override
             public boolean evaluate(String left, String right){
                 return !left.equals(right);
+            }
+        },
+        NOT_EQUAL_IGNORE_CASE('!', '~'){
+            @Override
+            public boolean evaluate(String left, String right){
+                return !left.equalsIgnoreCase(right);
             }
         },
         GREATER('>', '\0'){
@@ -172,7 +184,7 @@ public class Expression{
         public static Operator getOperand(char first, char second){
             for(Operator operator : VALUES){
                 if(operator.first == first){
-                    if((!operator.hasSecond() && second != '=') || operator.second == second)
+                    if((!operator.hasSecond() && second != '=' && second != '~') || operator.second == second)
                         return operator;
                 }
             }

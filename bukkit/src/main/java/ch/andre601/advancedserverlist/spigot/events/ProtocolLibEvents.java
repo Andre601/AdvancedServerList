@@ -36,14 +36,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.net.InetSocketAddress;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class ProtocolLibEvents implements Listener{
     
     private final ProtocolManager protocolManager;
     
-    private static final Map<String, String> hostAddresses = new HashMap<>();
+    private static final Map<String, String> hostAddresses = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     
     private ProtocolLibEvents(SpigotCore plugin, ProtocolManager protocolManager){
         this.protocolManager = protocolManager;

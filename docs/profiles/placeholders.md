@@ -21,9 +21,9 @@ These placeholders use the player who pinged the server, to return values. They 
 | `${player isBanned}`        | Boolean for whether the player has been banned from the server. | Spigot/Paper | Yes                         |
 | `${player isWhitelisted}`   | Boolean for whether the player is whitelisted on the server.    | Spigot/Paper | Yes                         |
 
-[^1]: Whether this placeholder requires the player to have joined before while AdvancedServerList was running. When `disable_cache` is enabled will these placeholders not work.
-[^2]: Will default to whatever name has been provided in the `unknown_player` option of the config.yml, when the player isn't cached yet.
-[^3]: Will default to whatever name has been provided in the `unknown_player_uuid` option of the config.yml, when the player isn't cached yet.
+[^1]: Whether this placeholder requires the player to have joined before while AdvancedServerList was running. When `disableCache` is enabled will these placeholders not work.
+[^2]: Will default to whatever name has been provided in the `unknownPlayer -> name` option of the config.yml, when the player isn't cached yet.
+[^3]: Will default to whatever name has been provided in the `unknownPlayer -> uuid` option of the config.yml, when the player isn't cached yet.
 
 ### Server
 
