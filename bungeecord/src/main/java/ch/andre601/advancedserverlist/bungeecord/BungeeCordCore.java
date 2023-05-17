@@ -26,8 +26,8 @@
 package ch.andre601.advancedserverlist.bungeecord;
 
 import ch.andre601.advancedserverlist.bungeecord.commands.CmdAdvancedServerList;
-import ch.andre601.advancedserverlist.bungeecord.events.JoinEvent;
-import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
+import ch.andre601.advancedserverlist.bungeecord.listeners.JoinEvent;
+import ch.andre601.advancedserverlist.bungeecord.listeners.PingEvent;
 import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerPlaceholders;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeeServerPlaceholders;

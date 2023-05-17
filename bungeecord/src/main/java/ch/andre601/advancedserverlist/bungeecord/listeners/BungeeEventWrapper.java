@@ -23,106 +23,107 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.events;
+package ch.andre601.advancedserverlist.bungeecord.listeners;
 
-import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerImpl;
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeeProxyImpl;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
-import ch.andre601.advancedserverlist.velocity.VelocityCore;
-import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerImpl;
-import ch.andre601.advancedserverlist.velocity.objects.VelocityProxyImpl;
-import com.velocitypowered.api.event.proxy.ProxyPingEvent;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
-import com.velocitypowered.api.proxy.server.ServerPing;
-import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.md_5.bungee.api.Favicon;
+import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.event.ProxyPingEvent;
 
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
-public class VelocityEventWrapper implements GenericEventWrapper<Favicon, VelocityPlayerImpl>{
+public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePlayerImpl>{
     
-    private final VelocityCore plugin;
+    private final BungeeCordCore plugin;
     private final ProxyPingEvent event;
-    private final ServerPing.Builder builder;
-    private final ServerPing.Version protocol;
+    private final ServerPing.Protocol protocol;
+    private final ServerPing ping;
     
-    public VelocityEventWrapper(VelocityCore plugin, ProxyPingEvent event){
+    public BungeeEventWrapper(BungeeCordCore plugin, ProxyPingEvent event){
         this.plugin = plugin;
         this.event = event;
-        this.builder = event.getPing().asBuilder();
-        this.protocol = event.getPing().getVersion();
+        this.protocol = event.getResponse().getVersion();
+        this.ping = event.getResponse();
     }
     
     @Override
     public GenericServerListEvent callEvent(ProfileEntry entry){
         PreServerListSetEventImpl event = new PreServerListSetEventImpl(entry);
-        try{
-            plugin.getProxy().getEventManager().fire(event).get();
-        }catch(InterruptedException | ExecutionException ignored){
-            return null;
-        }
+        plugin.getProxy().getPluginManager().callEvent(event);
         
         return event;
     }
     
     @Override
     public void setMaxPlayers(int maxPlayers){
-        builder.maximumPlayers(maxPlayers);
+        ping.getPlayers().setMax(maxPlayers);
     }
     
     @Override
     public void setMotd(Component component){
-        builder.description(component);
+        ping.setDescriptionComponent(new TextComponent(BungeeComponentSerializer.get().serialize(component)));
     }
     
     @Override
     public void hidePlayers(){
-        builder.nullPlayers();
+        ping.setPlayers(null);
     }
     
     @Override
     public void setPlayerCount(String name){
-        builder.version(new ServerPing.Version(-1, name));
+        protocol.setName(name);
+        protocol.setProtocol(-1);
     }
     
     @Override
-    public void setPlayers(List<String> lines, VelocityPlayerImpl player, GenericServer server){
-        ServerPing.SamplePlayer[] players = new ServerPing.SamplePlayer[lines.size()];
+    public void setPlayers(List<String> lines, BungeePlayerImpl player, GenericServer server){
+        ServerPing.PlayerInfo[] players = new ServerPing.PlayerInfo[lines.size()];
         
         for(int i = 0; i < players.length; i++){
             String parsed = ComponentParser.text(lines.get(i))
                 .modifyText(text -> StringReplacer.replace(text, player, server))
                 .toString();
-            
-            players[i] = new ServerPing.SamplePlayer(parsed, UUID.randomUUID());
+    
+            ServerPing.PlayerInfo pi = new ServerPing.PlayerInfo(parsed, UUID.randomUUID());
+            players[i] = pi;
         }
         
         if(players.length > 0)
-            builder.clearSamplePlayers().samplePlayers(players);
+            ping.getPlayers().setSample(players);
     }
     
     @Override
     public void setFavicon(Favicon favicon){
-        builder.favicon(favicon);
+        ping.setFavicon(favicon);
     }
     
-    // Not used in Velocity
     @Override
-    public void setDefaultFavicon(){}
+    public void setDefaultFavicon(){
+        ping.setFavicon(ping.getFaviconObject());
+    }
     
     @Override
     public void updateEvent(){
-        event.setPing(builder.build());
+        this.ping.setVersion(this.protocol);
+        this.event.setResponse(this.ping);
     }
     
     @Override
@@ -132,32 +133,32 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     
     @Override
     public int getProtocolVersion(){
-        return protocol.getProtocol();
+        return this.protocol.getProtocol();
     }
     
     @Override
     public int getOnlinePlayers(){
-        return builder.getOnlinePlayers();
+        return ping.getPlayers().getOnline();
     }
     
     @Override
     public int getMaxPlayers(){
-        return builder.getMaximumPlayers();
+        return ping.getPlayers().getMax();
     }
     
     @Override
     public String getPlayerIP(){
-        return event.getConnection().getRemoteAddress().getHostString();
+        return ((InetSocketAddress)event.getConnection().getSocketAddress()).getHostString();
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, VelocityPlayerImpl player){
+    public String parsePAPIPlaceholders(String text, BungeePlayerImpl player){
         return text;
     }
     
     @Override
     public String getVirtualHost(){
-        return this.resolveHost(event.getConnection().getVirtualHost().orElse(null));
+        return this.resolveHost(event.getConnection().getVirtualHost());
     }
     
     @Override
@@ -166,20 +167,19 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     }
     
     @Override
-    public VelocityPlayerImpl createPlayer(CachedPlayer player, int protocol){
-        return new VelocityPlayerImpl(player, protocol);
+    public BungeePlayerImpl createPlayer(CachedPlayer player, int protocol){
+        return new BungeePlayerImpl(player, protocol);
     }
     
     @Override
     public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
-        Map<String, RegisteredServer> servers = new HashMap<>();
-        plugin.getProxy().getAllServers().forEach(server -> servers.put(server.getServerInfo().getName(), server));
+        Map<String, ServerInfo> servers = plugin.getProxy().getServers();
         
-        return new VelocityProxyImpl(servers, playersOnline, playersMax, host);
+        return new BungeeProxyImpl(servers, playersOnline, playersMax, host);
     }
     
     @Override
-    public Favicon createFavicon(BufferedImage image){
+    public Favicon createFavicon(BufferedImage image) throws IllegalArgumentException{
         return Favicon.create(image);
     }
 }

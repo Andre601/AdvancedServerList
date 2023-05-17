@@ -23,26 +23,30 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.events;
+package ch.andre601.advancedserverlist.bungeecord.listeners;
 
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import ch.andre601.advancedserverlist.core.events.PingEventHandler;
-import net.md_5.bungee.api.event.ProxyPingEvent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
 
-public class PingEvent implements Listener{
+import java.net.InetSocketAddress;
+
+public class JoinEvent implements Listener{
     
     private final BungeeCordCore plugin;
     
-    public PingEvent(BungeeCordCore plugin){
+    public JoinEvent(BungeeCordCore plugin){
         this.plugin = plugin;
         plugin.getProxy().getPluginManager().registerListener(plugin, this);
     }
     
-    @EventHandler(priority = EventPriority.LOW)
-    public void onProxyPing(ProxyPingEvent event){
-        PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
+    @EventHandler
+    public void onJoin(PostLoginEvent event){
+        InetSocketAddress address = (InetSocketAddress)event.getPlayer().getPendingConnection().getSocketAddress();
+        ProxiedPlayer player = event.getPlayer();
+        
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

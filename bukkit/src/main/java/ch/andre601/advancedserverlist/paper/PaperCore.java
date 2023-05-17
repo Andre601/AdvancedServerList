@@ -27,11 +27,13 @@ package ch.andre601.advancedserverlist.paper;
 
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
-import ch.andre601.advancedserverlist.bukkit.events.JoinEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.JoinEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.WorldEvents;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitServerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
@@ -47,8 +49,9 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     private final PluginLogger logger = new BukkitLogger(getLogger());
     
     private AdvancedServerList<CachedServerIcon> core;
-    private FaviconHandler<CachedServerIcon> faviconHandler;
+    private FaviconHandler<CachedServerIcon> faviconHandler = null;
     private PAPIPlaceholders<CachedServerIcon> papiPlaceholders = null;
+    private WorldCache worldCache = null;
     
     @Override
     public void onEnable(){
@@ -81,6 +84,7 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     public void loadEvents(){
         JoinEvent.init(this);
         PaperPingEvent.init(this);
+        WorldEvents.init(this);
     }
     
     @Override
@@ -134,5 +138,13 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     @Override
     public String getLoader(){
         return "paper";
+    }
+    
+    @Override
+    public WorldCache getWorldCache(){
+        if(worldCache != null)
+            return worldCache;
+        
+        return (worldCache = new WorldCache());
     }
 }

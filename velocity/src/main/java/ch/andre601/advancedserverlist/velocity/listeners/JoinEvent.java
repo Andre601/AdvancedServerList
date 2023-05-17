@@ -23,25 +23,29 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.events;
+package ch.andre601.advancedserverlist.velocity.listeners;
 
-import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
+import com.velocitypowered.api.proxy.Player;
 
-public class PingEvent{
+import java.net.InetSocketAddress;
+
+public class JoinEvent{
     
     private final VelocityCore plugin;
     
-    public PingEvent(VelocityCore plugin){
+    public JoinEvent(VelocityCore plugin){
         this.plugin = plugin;
         plugin.getProxy().getEventManager().register(plugin, this);
     }
     
-    @Subscribe(order = PostOrder.EARLY)
-    public void onProxyPing(ProxyPingEvent event){
-        PingEventHandler.handleEvent(new VelocityEventWrapper(plugin, event));
+    @Subscribe
+    public void onJoin(PostLoginEvent event){
+        InetSocketAddress address = event.getPlayer().getRemoteAddress();
+        Player player = event.getPlayer();
+        
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getUsername(), player.getUniqueId());
     }
 }

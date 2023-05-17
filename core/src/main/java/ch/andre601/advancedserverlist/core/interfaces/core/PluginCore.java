@@ -27,6 +27,7 @@ package ch.andre601.advancedserverlist.core.interfaces.core;
 
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.objects.EntryList;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 
 import java.nio.file.Path;
@@ -41,7 +42,7 @@ public interface PluginCore<F>{
     
     void clearFaviconCache();
     
-    AdvancedServerList getCore();
+    AdvancedServerList<F> getCore();
     
     Path getFolderPath();
     

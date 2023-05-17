@@ -23,17 +23,26 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit;
+package ch.andre601.advancedserverlist.bungeecord.listeners;
 
-import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import org.bukkit.plugin.java.JavaPlugin;
+import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
+import net.md_5.bungee.api.event.ProxyPingEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
-/* 
- * Small convenience class to "merge" the PluginCore and JavaPlugin classes.
- * Allows me to have BukkitCore<?> for whenever I also need a JavaPlugin (i.e. registering events).
- * See JoinEvent class for an example.
-*/
-public abstract class BukkitCore<F> extends JavaPlugin implements PluginCore<F>{
-    public abstract WorldCache getWorldCache();
+public class PingEvent implements Listener{
+    
+    private final BungeeCordCore plugin;
+    
+    public PingEvent(BungeeCordCore plugin){
+        this.plugin = plugin;
+        plugin.getProxy().getPluginManager().registerListener(plugin, this);
+    }
+    
+    @EventHandler(priority = EventPriority.LOW)
+    public void onProxyPing(ProxyPingEvent event){
+        PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
+    }
 }

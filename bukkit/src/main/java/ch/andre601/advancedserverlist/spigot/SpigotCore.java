@@ -31,6 +31,7 @@ import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitServerPlaceholders;
 import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
@@ -50,6 +51,7 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     private AdvancedServerList<WrappedServerPing.CompressedImage> core;
     private FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
     private PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders = null;
+    private WorldCache worldCache = null;
     
     @Override
     public void onEnable(){
@@ -145,6 +147,14 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     @Override
     public String getLoader(){
         return "spigot";
+    }
+    
+    @Override
+    public WorldCache getWorldCache(){
+        if(worldCache != null)
+            return worldCache;
+        
+        return (worldCache = new WorldCache());
     }
     
     public void setPapiPlaceholders(PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders){

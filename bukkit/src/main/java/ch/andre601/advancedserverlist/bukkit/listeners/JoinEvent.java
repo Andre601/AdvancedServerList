@@ -23,10 +23,9 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.events;
+package ch.andre601.advancedserverlist.bukkit.listeners;
 
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

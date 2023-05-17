@@ -23,17 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit;
+package ch.andre601.advancedserverlist.bukkit.listeners;
 
-import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import org.bukkit.plugin.java.JavaPlugin;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.spigot.events.PreServerListSetEvent;
 
-/* 
- * Small convenience class to "merge" the PluginCore and JavaPlugin classes.
- * Allows me to have BukkitCore<?> for whenever I also need a JavaPlugin (i.e. registering events).
- * See JoinEvent class for an example.
-*/
-public abstract class BukkitCore<F> extends JavaPlugin implements PluginCore<F>{
-    public abstract WorldCache getWorldCache();
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
+    
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
+    }
 }

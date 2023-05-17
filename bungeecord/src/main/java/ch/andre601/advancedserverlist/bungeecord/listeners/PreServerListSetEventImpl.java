@@ -23,10 +23,10 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.events;
+package ch.andre601.advancedserverlist.bungeecord.listeners;
 
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
-import ch.andre601.advancedserverlist.spigot.events.PreServerListSetEvent;
+import ch.andre601.advancedserverlist.bungeecord.events.PreServerListSetEvent;
 
 public class PreServerListSetEventImpl extends PreServerListSetEvent{
     

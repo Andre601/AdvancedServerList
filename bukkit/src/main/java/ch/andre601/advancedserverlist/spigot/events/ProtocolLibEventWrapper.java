@@ -29,7 +29,7 @@ import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
-import ch.andre601.advancedserverlist.bukkit.events.PreServerListSetEventImpl;
+import ch.andre601.advancedserverlist.bukkit.listeners.PreServerListSetEventImpl;
 import ch.andre601.advancedserverlist.bukkit.objects.BukkitServerImpl;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -45,7 +45,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
 
 import java.awt.image.BufferedImage;
 import java.util.*;
@@ -184,10 +183,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     
     @Override
     public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
-        Map<String, World> worlds = new HashMap<>();
-        plugin.getServer().getWorlds().forEach(world -> worlds.put(world.getName(), world));
-        
-        return new BukkitServerImpl(worlds, playersOnline, playersMax, host);
+        return new BukkitServerImpl(plugin.getWorldCache().worlds(), playersOnline, playersMax, host);
     }
     
     @Override

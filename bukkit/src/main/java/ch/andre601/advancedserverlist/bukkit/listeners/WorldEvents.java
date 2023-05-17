@@ -23,30 +23,41 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.events;
+package ch.andre601.advancedserverlist.bukkit.listeners;
 
-import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
 
-import java.net.InetSocketAddress;
-
-public class JoinEvent implements Listener{
+public class WorldEvents implements Listener{
     
-    private final BungeeCordCore plugin;
+    private final BukkitCore<?> plugin;
     
-    public JoinEvent(BungeeCordCore plugin){
+    private WorldEvents(BukkitCore<?> plugin){
         this.plugin = plugin;
-        plugin.getProxy().getPluginManager().registerListener(plugin, this);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+    
+    public static void init(BukkitCore<?> plugin){
+        new WorldEvents(plugin);
     }
     
     @EventHandler
-    public void onJoin(PostLoginEvent event){
-        InetSocketAddress address = (InetSocketAddress)event.getPlayer().getPendingConnection().getSocketAddress();
-        ProxiedPlayer player = event.getPlayer();
+    public void onWorldLoad(WorldLoadEvent event){
+        if(plugin.getWorldCache().containsWorld(event.getWorld().getName()))
+            return;
         
-        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
+        plugin.getWorldCache().addWorld(event.getWorld().getName(), event.getWorld());
+    }
+    
+    @EventHandler
+    public void onWorldUnload(WorldUnloadEvent event){
+        if(!plugin.getWorldCache().containsWorld(event.getWorld().getName()))
+            return;
+        
+        plugin.getWorldCache().removeWorld(event.getWorld().getName());
     }
 }

@@ -23,13 +23,28 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.events;
+package ch.andre601.advancedserverlist.bukkit.objects;
 
-import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import org.bukkit.World;
 
-public class PreServerListSetEventImpl extends PreServerListSetEvent{
+import java.util.HashMap;
+import java.util.Map;
+
+public record WorldCache(Map<String, World> worlds){
     
-    public PreServerListSetEventImpl(ProfileEntry entry){
-        super(entry);
+    public WorldCache(){
+        this(new HashMap<>());
+    }
+    
+    public boolean containsWorld(String key){
+        return worlds().containsKey(key);
+    }
+    
+    public void addWorld(String key, World world){
+        worlds().put(key, world);
+    }
+    
+    public void removeWorld(String key){
+        worlds().remove(key);
     }
 }
