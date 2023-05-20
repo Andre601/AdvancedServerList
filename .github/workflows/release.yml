@@ -67,21 +67,15 @@ jobs:
         name: asl-files
     - name: Upload AdvancedServerList v${{ needs.buildJars.outputs.plugin_release }} (${{ matrix.loaders }}) to GitHub and Modrinth
       if: '!github.event.release.prerelease'
-      uses: Kir-Antipov/mc-publish@v3.2
+      uses: Kir-Antipov/mc-publish@v3.3
       with:
         name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
         version: ${{ needs.buildJars.outputs.plugin_release }}
         version-type: release
         files: ${{ matrix.directory}}/target/AdvancedServerList-*.jar
-        files-secondary: ""
         loaders: ${{ matrix.loaders }}
-        version-resolver: releases
-        game-versions: |
-          1.19
-          1.19.1
-          1.19.2
-          1.19.3
-          1.19.4
+        game-version-filter: releases
+        game-versions: '>=1.19'
         java: 16
         modrinth-id: xss83sOY
         modrinth-featured: false
@@ -89,21 +83,15 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload AdvancedServerList v${{ needs.buildJars.outputs.plugin_release }} (${{ matrix.loaders }}) to GitHub and Modrinth [Pre-Release]
       if: 'github.event.release.prerelease'
-      uses: Kir-Antipov/mc-publish@v3.2
+      uses: Kir-Antipov/mc-publish@v3.3
       with:
         name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
         version: ${{ needs.buildJars.outputs.plugin_release }}
         version-type: beta
         files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
-        files-secondary: ""
         loaders: ${{ matrix.loaders }}
-        version-resolver: releases
-        game-versions: |
-          1.19
-          1.19.1
-          1.19.2
-          1.19.3
-          1.19.4
+        game-version-filter: releases
+        game-versions: '>=1.19'
         java: 16
         modrinth-id: xss83sOY
         modrinth-featured: false
