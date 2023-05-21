@@ -26,7 +26,7 @@
 package ch.andre601.advancedserverlist.velocity.listeners;
 
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
-import ch.andre601.advancedserverlist.velocity.events.PreServerListSetEvent;
+import ch.andre601.advancedserverlist.api.velocity.events.PreServerListSetEvent;
 
 public class PreServerListSetEventImpl extends PreServerListSetEvent{
     public PreServerListSetEventImpl(ProfileEntry entry){

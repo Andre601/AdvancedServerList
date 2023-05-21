@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.bungeecord.objects;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.bungeecord.objects.BungeeProxy;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -44,8 +45,10 @@ public class BungeeServerPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        if(!(server instanceof BungeeProxy proxy))
+            return null;
+        
         String[] args = placeholder.split("\\s", 2);
-        BungeeProxyImpl proxy = (BungeeProxyImpl)server;
         
         return switch(args[0]){
             case "playersOnline" -> {

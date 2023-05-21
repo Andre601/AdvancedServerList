@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.velocity.objects;
 
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 import java.util.Map;

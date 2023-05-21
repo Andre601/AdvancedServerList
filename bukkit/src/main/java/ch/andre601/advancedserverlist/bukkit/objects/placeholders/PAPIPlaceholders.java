@@ -23,12 +23,13 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.objects;
+package ch.andre601.advancedserverlist.bukkit.objects.placeholders;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
+import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitPlayerImpl;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -92,7 +93,7 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         int online = Bukkit.getOnlinePlayers().size();
         int max = Bukkit.getMaxPlayers();
         GenericServer server = new GenericServerImpl(online, max, host);
-        GenericPlayer player = new SpigotPlayerImpl(pl, cached, protocol);
+        GenericPlayer player = new BukkitPlayerImpl(pl, cached, protocol);
         
         ServerListProfile profile = ProfileManager.resolveProfile(plugin.getCore(), player, server);
         if(profile == null)

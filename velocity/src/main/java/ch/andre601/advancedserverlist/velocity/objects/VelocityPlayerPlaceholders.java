@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.velocity.objects;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
 
 public class VelocityPlayerPlaceholders extends PlaceholderProvider{
     
@@ -41,11 +42,14 @@ public class VelocityPlayerPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        if(!(player instanceof VelocityPlayer velocityPlayer))
+            return null;
+        
         return switch(placeholder){
-            case "name" -> player.getName();
-            case "protocol" -> String.valueOf(player.getProtocol());
-            case "uuid" -> String.valueOf(player.getUUID());
-            case "version" -> ((VelocityPlayerImpl)player).getVersion();
+            case "name" -> velocityPlayer.getName();
+            case "protocol" -> String.valueOf(velocityPlayer.getProtocol());
+            case "uuid" -> String.valueOf(velocityPlayer.getUUID());
+            case "version" -> velocityPlayer.getVersion();
             default -> null;
         };
     }

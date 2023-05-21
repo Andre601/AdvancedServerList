@@ -23,12 +23,12 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.objects;
+package ch.andre601.advancedserverlist.bukkit.objects.placeholders;
 
+import ch.andre601.advancedserverlist.api.bukkit.objects.BukkitServer;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.spigot.objects.SpigotServer;
 import org.bukkit.World;
 
 public class BukkitServerPlaceholders extends PlaceholderProvider{
@@ -43,32 +43,34 @@ public class BukkitServerPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholders, GenericPlayer player, GenericServer server){
+        if(!(server instanceof BukkitServer bukkitServer))
+            return null;
+        
         String[] args = placeholders.split("\\s", 2);
-        SpigotServer spigotServer = (SpigotServer)server;
         
         return switch(args[0]){
             case "playersOnline" -> {
                 if(args.length == 2){
-                    World world = spigotServer.getWorlds().get(args[1]);
+                    World world = bukkitServer.getWorlds().get(args[1]);
                     if(world == null)
                         yield null;
                     
                     yield String.valueOf(world.getPlayers().size());
                 }
                 
-                yield String.valueOf(spigotServer.getPlayersOnline());
+                yield String.valueOf(bukkitServer.getPlayersOnline());
             }
             case "playersMax" -> {
                 if(args.length == 2)
                     yield null;
                 
-                yield String.valueOf(spigotServer.getPlayersMax());
+                yield String.valueOf(bukkitServer.getPlayersMax());
             }
             case "host" -> {
                 if(args.length == 2)
                     yield null;
                 
-                yield spigotServer.getHost();
+                yield bukkitServer.getHost();
             }
             default -> null;
         };

@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.velocity.objects;
 
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
 import com.velocitypowered.api.network.ProtocolVersion;

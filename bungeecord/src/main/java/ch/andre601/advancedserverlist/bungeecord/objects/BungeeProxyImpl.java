@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.bungeecord.objects;
 
+import ch.andre601.advancedserverlist.api.bungeecord.objects.BungeeProxy;
 import net.md_5.bungee.api.config.ServerInfo;
 
 import java.util.Map;

@@ -75,7 +75,7 @@
         </dependency>
         <dependency>
             <groupId>ch.andre601.asl-api</groupId>
-            <artifactId>platform-spigot</artifactId>
+            <artifactId>platform-bukkit</artifactId>
             <version>${api.version}</version>
             <scope>compile</scope>
         </dependency>

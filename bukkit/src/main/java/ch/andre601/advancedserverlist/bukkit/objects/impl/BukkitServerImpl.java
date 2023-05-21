@@ -23,14 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.objects;
+package ch.andre601.advancedserverlist.bukkit.objects.impl;
 
-import ch.andre601.advancedserverlist.spigot.objects.SpigotServer;
+import ch.andre601.advancedserverlist.api.bukkit.objects.BukkitServer;
 import org.bukkit.World;
 
 import java.util.Map;
 
-public record BukkitServerImpl(Map<String, World> worlds, int playersOnline, int playersMax, String host) implements SpigotServer{
+public record BukkitServerImpl(Map<String, World> worlds, int playersOnline, int playersMax, String host) implements BukkitServer{
     
     @Override
     public Map<String, World> getWorlds(){

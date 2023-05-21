@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.velocity.objects;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 public class VelocityServerPlaceholders extends PlaceholderProvider{
@@ -42,8 +43,10 @@ public class VelocityServerPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        if(!(server instanceof VelocityProxy proxy))
+            return null;
+        
         String[] args = placeholder.split("\\s", 2);
-        VelocityProxy proxy = (VelocityProxyImpl)server;
         
         return switch(args[0]){
             case "playersOnline" -> {

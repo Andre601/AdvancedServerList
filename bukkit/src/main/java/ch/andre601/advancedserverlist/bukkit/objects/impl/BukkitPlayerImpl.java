@@ -23,21 +23,21 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.objects;
+package ch.andre601.advancedserverlist.bukkit.objects.impl;
 
+import ch.andre601.advancedserverlist.api.bukkit.objects.BukkitPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
-import ch.andre601.advancedserverlist.spigot.objects.SpigotPlayer;
 import org.bukkit.OfflinePlayer;
 
-public class SpigotPlayerImpl extends GenericPlayerImpl implements SpigotPlayer{
+public class BukkitPlayerImpl extends GenericPlayerImpl implements BukkitPlayer{
     
     private final OfflinePlayer player;
     private boolean playedBefore = false;
     private boolean banned = false;
     private boolean whitelisted = false;
     
-    public SpigotPlayerImpl(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
+    public BukkitPlayerImpl(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
         this.player = player;
     
         this.name = player == null ? cachedPlayer.getName() : player.getName();
