@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.paper;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.listeners.JoinEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.LoadEvent;
 import ch.andre601.advancedserverlist.bukkit.listeners.WorldEvents;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
 import ch.andre601.advancedserverlist.bukkit.objects.placeholders.BukkitPlayerPlaceholders;
@@ -37,7 +38,7 @@ import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.paper.events.PaperPingEvent;
+import ch.andre601.advancedserverlist.paper.listeners.PaperPingEvent;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.util.CachedServerIcon;
@@ -68,6 +69,9 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
             papiPlaceholders = null;
         }
         
+        if(worldCache != null)
+            worldCache = null;
+        
         getCore().disable();
     }
     
@@ -82,9 +86,8 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     
     @Override
     public void loadEvents(){
-        JoinEvent.init(this);
+        LoadEvent.init(this);
         PaperPingEvent.init(this);
-        WorldEvents.init(this);
     }
     
     @Override

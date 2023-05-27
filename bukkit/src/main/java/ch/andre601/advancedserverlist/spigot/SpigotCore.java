@@ -35,7 +35,7 @@ import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.LoadEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
@@ -78,6 +78,9 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
             papiPlaceholders = null;
         }
         
+        if(worldCache != null)
+            worldCache = null;
+        
         getCore().disable();
     }
     
@@ -93,7 +96,7 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     
     @Override
     public void loadEvents(){
-        new LoadEvent(this);
+        LoadEvent.init(this);
     }
     
     @Override

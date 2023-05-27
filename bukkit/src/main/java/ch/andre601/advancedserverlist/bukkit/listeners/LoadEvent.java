@@ -26,32 +26,48 @@
 package ch.andre601.advancedserverlist.bukkit.listeners;
 
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.spigot.SpigotCore;
+import ch.andre601.advancedserverlist.spigot.listeners.ProtocolLibEvents;
+import com.comphenix.protocol.ProtocolLibrary;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.WorldLoadEvent;
-import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 
-public class WorldEvents implements Listener{
+public class LoadEvent implements Listener{
     
     private final BukkitCore<?> plugin;
     
-    private WorldEvents(BukkitCore<?> plugin){
+    private LoadEvent(BukkitCore<?> plugin){
         this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     
     public static void init(BukkitCore<?> plugin){
-        new WorldEvents(plugin);
+        new LoadEvent(plugin);
     }
     
     @EventHandler
-    public void onWorldLoad(WorldLoadEvent event){
-        plugin.getWorldCache().addWorld(event.getWorld().getName(), event.getWorld());
-    }
-    
-    @EventHandler
-    public void onWorldUnload(WorldUnloadEvent event){
-        plugin.getWorldCache().removeWorld(event.getWorld().getName());
+    public void onServerLoad(ServerLoadEvent event){
+        JoinEvent.init(plugin);
+        WorldEvents.init(plugin);
+        
+        Bukkit.getWorlds().forEach(world -> plugin.getWorldCache().addWorld(world.getName(), world));
+        
+        if(!(plugin instanceof SpigotCore spigotCore))
+            return;
+        
+        if(!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")){
+            plugin.getCore().getPlugin().getPluginLogger().warn("ProtocolLib not found! AdvancedServerList requires it to work on Spigot!");
+            
+            Bukkit.getPluginManager().disablePlugin(plugin);
+            return;
+        }
+        
+        ProtocolLibEvents.init(spigotCore, ProtocolLibrary.getProtocolManager());
+        
+        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"))
+            spigotCore.setPapiPlaceholders(PAPIPlaceholders.init(spigotCore));
     }
 }

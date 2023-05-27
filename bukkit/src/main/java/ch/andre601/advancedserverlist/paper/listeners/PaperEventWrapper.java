@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.paper.events;
+package ch.andre601.advancedserverlist.paper.listeners;
 
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;

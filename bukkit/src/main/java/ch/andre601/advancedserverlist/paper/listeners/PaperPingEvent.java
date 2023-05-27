@@ -23,43 +23,29 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.events;
+package ch.andre601.advancedserverlist.paper.listeners;
 
-import ch.andre601.advancedserverlist.bukkit.listeners.JoinEvent;
-import ch.andre601.advancedserverlist.bukkit.listeners.WorldEvents;
-import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.bukkit.objects.placeholders.PAPIPlaceholders;
-import com.comphenix.protocol.ProtocolLibrary;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.ServerLoadEvent;
-import org.bukkit.plugin.PluginManager;
 
-public class LoadEvent implements Listener{
+public class PaperPingEvent implements Listener{
     
-    private final SpigotCore plugin;
+    private final PaperCore plugin;
     
-    public LoadEvent(SpigotCore plugin){
+    private PaperPingEvent(PaperCore plugin){
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     
-    @EventHandler
-    public void onServerLoad(ServerLoadEvent event){
-        PluginManager manager = plugin.getServer().getPluginManager();
-        
-        if(!manager.isPluginEnabled("ProtocolLib")){
-            plugin.getCore().getPlugin().getPluginLogger().warn("ProtocolLib not found! AdvancedServerList requires it to work on Spigot!");
+    public static void init(PaperCore plugin){
+        new PaperPingEvent(plugin);
+    }
     
-            manager.disablePlugin(plugin);
-            return;
-        }
-        
-        JoinEvent.init(plugin);
-        ProtocolLibEvents.init(plugin, ProtocolLibrary.getProtocolManager());
-        WorldEvents.init(plugin);
-        
-        if(manager.isPluginEnabled("PlaceholderAPI"))
-            plugin.setPapiPlaceholders(PAPIPlaceholders.init(plugin));
+    @EventHandler
+    public void onPaperServerListPing(PaperServerListPingEvent event){
+        PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
     }
 }

@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.events;
+package ch.andre601.advancedserverlist.spigot.listeners;
 
 import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;

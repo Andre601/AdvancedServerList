@@ -37,7 +37,7 @@ import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.spigot.events.ProtocolLibEvents;
+import ch.andre601.advancedserverlist.spigot.listeners.ProtocolLibEvents;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.viaversion.viaversion.api.Via;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -135,7 +135,8 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         if(plugin instanceof SpigotCore)
             return ProtocolLibrary.getProtocolManager().getProtocolVersion(player);
         
-        // getProtocolVersion is only in Paper, so this is only called when main class isn't SpigotCore
+        // getProtocolVersion is only in Paper, so this is only called when main class isn't SpigotCore.
+        // Also, ViaVersion is not present, so the player protocol *should* be the same as the server.
         return Bukkit.getUnsafe().getProtocolVersion();
     }
     
