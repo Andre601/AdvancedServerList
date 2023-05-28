@@ -38,11 +38,12 @@ import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
 import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitPlayerImpl;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.AdventureComponentConverter;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -76,7 +77,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     
     @Override
     public void setMotd(Component component){
-        ping.setMotD(AdventureComponentConverter.fromComponent(component));
+        ping.setMotD(WrappedChatComponent.fromJson(GsonComponentSerializer.gson().serialize(component)));
     }
     
     @Override

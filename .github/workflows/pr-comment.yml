@@ -16,9 +16,11 @@ jobs:
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Get Artifact and Pull request info
         env:
-          GITHUB_TOKEN: ${{ github.token }} # No idea why this is set here when ${{ secrets.GITHUB_TOKEN }} is a thing...
+          GITHUB_TOKEN: ${{ github.token }} # Needs to be set as env variable so that 'gh api' can be used.
           WORKFLOW_RUN_EVENT_OBJ: ${{ toJSON(github.event.workflow_run) }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
@@ -72,28 +74,26 @@ jobs:
           echo "Comment ID: ${{ steps.find-comment.outputs.comment-id }}"
           echo "Comment Author: ${{ steps.find-comment.outputs.comment-author }}"
           echo "Comment created at: ${{ steps.find-comment.outputs.comment-created-at }}"
-      - name: Update Comment
+      - name: Render Markdown Template
+        id: render
+        uses: chuhlomin/render-template@v1.7
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
           ARTIFACT_URL: "${{ github.server_url }}/${{ github.repository }}/suites/${{ env.SUITE_ID }}/artifacts/${{ env.ARTIFACT_ID }}"
           ARTIFACT_EXPIRE_DATE: "${{ env.ARTIFACT_EXPIRE_DATE }}"
           HEAD_SHA: "${{ env.HEAD_SHA }}"
+        with:
+          template: './.github/assets/pr-comments/success.md'
+          timezone: Europe/Zurich
+          vars: |
+            commit: ${{ env.HEAD_SHA }}
+            logs: ${{ env.JOB_PATH }}
+            download: ${{ env.ARTIFACT_URL }}
+            expire: ${{ env.ARTIFACT_EXPIRE_DATE }}
+      - name: Update Comment
         uses: peter-evans/create-or-update-comment@v3
         with:
           issue-number: ${{ env.PR_NUMBER }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
-          body: |-
-            <!-- pr-build comment -->
-            ![badge]
-            
-            Build Successful! You can find a link to the downloadable artifact below.  
-            Expire Date: `${{ env.ARTIFACT_EXPIRE_DATE }}`
-            
-            | Name     | Link                    |
-            | -------- | ----------------------- |
-            | Commit   | ${{ env.HEAD_SHA }}     |
-            | Logs     | ${{ env.JOB_PATH }}     |
-            | Download | ${{ env.ARTIFACT_URL }} |
-            
-            [badge]: https://img.shields.io/badge/Build_Success!-0d1117?style=for-the-badge&labelColor=3fb950&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNMjEuMDMgNS43MmEuNzUuNzUgMCAwIDEgMCAxLjA2bC0xMS41IDExLjVhLjc0Ny43NDcgMCAwIDEtMS4wNzItLjAxMmwtNS41LTUuNzVhLjc1Ljc1IDAgMSAxIDEuMDg0LTEuMDM2bDQuOTcgNS4xOTVMMTkuOTcgNS43MmEuNzUuNzUgMCAwIDEgMS4wNiAwWiI+PC9wYXRoPjwvc3ZnPg==
+          body: ${{ steps.render.outputs.result }}
