@@ -9,18 +9,13 @@ loader: 'ch.andre601.advancedserverlist.paper.ASLLoader'
 api-version: 1.19
 
 dependencies:
-  - name: PlaceholderAPI
-    required: false
-    bootstrap: false
-  - name: ViaVersion
-    required: false
-    bootstrap: false
-
-load-after:
-  - name: PlaceholderAPI
-    bootstrap: false
-  - name: ViaVersion
-    bootstrap: false
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+    ViaVersion:
+      load: BEFORE
+      required: false
 
 # The below stuff is NOT used by Paper plugin.
 commands:
