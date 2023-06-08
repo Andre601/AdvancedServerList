@@ -78,7 +78,7 @@ jobs:
         id: render
         uses: chuhlomin/render-template@v1.7
         env:
-          JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
+          JOB_PATH: "https://nightly.link/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
           ARTIFACT_URL: "${{ github.server_url }}/${{ github.repository }}/suites/${{ env.SUITE_ID }}/artifacts/${{ env.ARTIFACT_ID }}"
           ARTIFACT_EXPIRE_DATE: "${{ env.ARTIFACT_EXPIRE_DATE }}"
           HEAD_SHA: "${{ env.HEAD_SHA }}"
