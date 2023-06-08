@@ -2,7 +2,7 @@
 ![badge]
 
 The compiling of the jar files was successful!  
-You can find a direct download for the artifact below (Requires GitHub Account).
+You can find a direct download for the artifact below.
 
 File expires: `{{ .expire | date "02 Jan 2006 15:04 MST" }}`
 
