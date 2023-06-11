@@ -186,6 +186,6 @@ public class FileHandler{
     }
     
     public boolean isOldConfig(){
-        return node.node("config-version").virtual() || node.node("config-version").getInt(-1) < ConfigMigrator.LATEST;
+        return node.node("configVersion").virtual() || node.node("configVersion").getInt(0) < ConfigMigrator.LATEST;
     }
 }
