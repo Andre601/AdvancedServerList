@@ -41,7 +41,7 @@
         <plugin.version>3.1.0</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
         
-        <api.version>af6504b4a6</api.version>
+        <api.version>v3.0.0</api.version>
         
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
