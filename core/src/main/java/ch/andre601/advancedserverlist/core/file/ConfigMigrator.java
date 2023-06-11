@@ -34,13 +34,13 @@ import org.spongepowered.configurate.transformation.TransformAction;
 
 public class ConfigMigrator{
     
-    public static final int LATEST = 2;
+    public static final int LATEST = 1;
     
     private ConfigMigrator(){}
     
     public static ConfigurationTransformation.Versioned create(){
         return ConfigurationTransformation.versionedBuilder()
-            .versionKey("config-version")
+            .versionKey("configVersion")
             .addVersion(LATEST, oneToTwo())
             .build();
     }
@@ -51,8 +51,9 @@ public class ConfigMigrator{
             .addAction(NodePath.path("unknown_player_uuid"), (path, value) -> new Object[]{"unknownPlayer", "uuid"})
             .addAction(NodePath.path("disable_cache"), TransformAction.rename("disableCache"))
             .addAction(NodePath.path("check_updates"), TransformAction.rename("checkUpdates"))
+            .addAction(NodePath.path("send_statistics"), TransformAction.rename("sendStatistics"))
             .addAction(NodePath.path(), (path, value) -> {
-                value.node("config-version").set(LATEST);
+                value.node("configVersion").set(LATEST);
                 
                 return null;
             })
@@ -65,7 +66,7 @@ public class ConfigMigrator{
             final int startVersion = versioned.version(node);
             versioned.apply(node);
             final int endVersion = versioned.version(node);
-            if(startVersion != endVersion)
+            if(startVersion < endVersion)
                 logger.info("Migrated config.yml from " + startVersion + " to " + endVersion);
         }
         
