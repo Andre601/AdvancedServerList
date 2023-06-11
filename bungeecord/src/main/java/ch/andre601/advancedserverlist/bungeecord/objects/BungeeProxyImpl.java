@@ -23,26 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.bungeecord.objects;
 
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
-import com.velocitypowered.api.network.ProtocolVersion;
+import ch.andre601.advancedserverlist.api.bungeecord.objects.BungeeProxy;
+import net.md_5.bungee.api.config.ServerInfo;
 
-public class VelocityPlayerImpl extends GenericPlayerImpl implements VelocityPlayer{
-    
-    private final String version;
-    
-    public VelocityPlayerImpl(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
-        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
+import java.util.Map;
+
+public record BungeeProxyImpl(Map<String, ServerInfo> servers, int playersOnline, int playersMax, String host) implements BungeeProxy{
+    @Override
+    public Map<String, ServerInfo> getServers(){
+        return servers;
     }
     
     @Override
-    public String getVersion(){
-        return version;
+    public int getPlayersOnline(){
+        return playersOnline;
+    }
+    
+    @Override
+    public int getPlayersMax(){
+        return playersMax;
+    }
+    
+    @Override
+    public String getHost(){
+        return host;
     }
 }

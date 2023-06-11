@@ -66,11 +66,16 @@ extra:
       - latest
       - dev
 
+plugins:
+  - search
+  - glightbox
+
 markdown_extensions:
   - markdown.extensions.admonition:
   - markdown.extensions.toc:
       permalink: true
   - markdown.extensions.attr_list:
+  - markdown.extensions.footnotes:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg

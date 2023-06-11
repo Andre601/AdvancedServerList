@@ -37,6 +37,8 @@ import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 public class AdvancedServerList<F>{
@@ -51,20 +53,19 @@ public class AdvancedServerList<F>{
     
     private String version;
     
-    private AdvancedServerList(PluginCore<F> plugin, PlaceholderProvider placeholders){
+    private AdvancedServerList(PluginCore<F> plugin, List<PlaceholderProvider> placeholders){
         this.plugin = plugin;
         this.fileHandler = new FileHandler(this);
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
         
-        this.api.addPlaceholderProvider(placeholders);
-        this.api.addPlaceholderProvider(new ServerPlaceholders());
+        placeholders.forEach(this.api::addPlaceholderProvider);
         
         load();
     }
     
-    public static <F> AdvancedServerList<F> init(PluginCore<F> plugin, PlaceholderProvider placeholders){
-        return new AdvancedServerList<>(plugin, placeholders);
+    public static <F> AdvancedServerList<F> init(PluginCore<F> plugin, PlaceholderProvider... placeholders){
+        return new AdvancedServerList<>(plugin, Arrays.asList(placeholders));
     }
     
     public PluginCore<F> getPlugin(){
@@ -125,6 +126,16 @@ public class AdvancedServerList<F>{
             return;
         }
         
+        if(getFileHandler().isOldConfig()){
+            getPlugin().getPluginLogger().info("Detected old config.yml. Attempting to migrate...");
+            if(getFileHandler().migrateConfig()){
+                getPlugin().getPluginLogger().info("Migration completed successfully!");
+            }else{
+                getPlugin().getPluginLogger().warn("Couldn't migrate config.yml! Check previous lines for errors.");
+                return;
+            }
+        }
+        
         if(getFileHandler().loadProfiles()){
             getPlugin().getPluginLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
         }else{
@@ -153,7 +164,7 @@ public class AdvancedServerList<F>{
     
         getPlugin().getPluginLogger().info("AdvancedServerList is ready!");
         
-        if(getFileHandler().getBoolean("check_updates"))
+        if(getFileHandler().getBoolean("checkUpdates"))
             this.updateChecker = new UpdateChecker(this);
     }
     

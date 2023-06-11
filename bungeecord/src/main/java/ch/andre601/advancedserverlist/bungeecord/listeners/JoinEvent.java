@@ -23,29 +23,30 @@
  *
  */
 
-package ch.andre601.advancedserverlist.paper.events;
+package ch.andre601.advancedserverlist.bungeecord.listeners;
 
-import ch.andre601.advancedserverlist.core.events.PingEventHandler;
-import ch.andre601.advancedserverlist.paper.PaperCore;
-import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
 
-public class PaperPingEvent implements Listener{
+import java.net.InetSocketAddress;
+
+public class JoinEvent implements Listener{
     
-    private final PaperCore plugin;
+    private final BungeeCordCore plugin;
     
-    private PaperPingEvent(PaperCore plugin){
+    public JoinEvent(BungeeCordCore plugin){
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-    
-    public static void init(PaperCore plugin){
-        new PaperPingEvent(plugin);
+        plugin.getProxy().getPluginManager().registerListener(plugin, this);
     }
     
     @EventHandler
-    public void onPaperServerListPing(PaperServerListPingEvent event){
-        PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
+    public void onJoin(PostLoginEvent event){
+        InetSocketAddress address = (InetSocketAddress)event.getPlayer().getPendingConnection().getSocketAddress();
+        ProxiedPlayer player = event.getPlayer();
+        
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

@@ -23,38 +23,32 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.events;
+package ch.andre601.advancedserverlist.bukkit.objects.impl;
 
-import ch.andre601.advancedserverlist.bukkit.BukkitCore;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import ch.andre601.advancedserverlist.api.bukkit.objects.BukkitServer;
+import org.bukkit.World;
 
-import java.net.InetSocketAddress;
+import java.util.Map;
 
-public class JoinEvent<F> implements Listener{
+public record BukkitServerImpl(Map<String, World> worlds, int playersOnline, int playersMax, String host) implements BukkitServer{
     
-    private final BukkitCore<F> plugin;
-    
-    private JoinEvent(BukkitCore<F> plugin){
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+    @Override
+    public Map<String, World> getWorlds(){
+        return worlds;
     }
     
-    public static <F> void init(BukkitCore<F> plugin){
-        new JoinEvent<>(plugin);
+    @Override
+    public int getPlayersOnline(){
+        return playersOnline;
     }
     
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event){
-        InetSocketAddress address = event.getPlayer().getAddress();
-        if(address == null)
-            return;
-        
-        Player player = event.getPlayer();
-        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
+    @Override
+    public int getPlayersMax(){
+        return playersMax;
+    }
+    
+    @Override
+    public String getHost(){
+        return host;
     }
 }

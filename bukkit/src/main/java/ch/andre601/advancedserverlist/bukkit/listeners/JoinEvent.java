@@ -23,14 +23,37 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.events;
+package ch.andre601.advancedserverlist.bukkit.listeners;
 
-import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
-import ch.andre601.advancedserverlist.spigot.events.PreServerListSetEvent;
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-public class PreServerListSetEventImpl extends PreServerListSetEvent{
+import java.net.InetSocketAddress;
+
+public class JoinEvent<F> implements Listener{
     
-    public PreServerListSetEventImpl(ProfileEntry entry){
-        super(entry);
+    private final BukkitCore<F> plugin;
+    
+    private JoinEvent(BukkitCore<F> plugin){
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+    
+    public static <F> void init(BukkitCore<F> plugin){
+        new JoinEvent<>(plugin);
+    }
+    
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event){
+        InetSocketAddress address = event.getPlayer().getAddress();
+        if(address == null)
+            return;
+        
+        Player player = event.getPlayer();
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

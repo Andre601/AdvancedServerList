@@ -23,26 +23,35 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.bukkit.listeners;
 
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
-import com.velocitypowered.api.network.ProtocolVersion;
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
 
-public class VelocityPlayerImpl extends GenericPlayerImpl implements VelocityPlayer{
+public class WorldEvents implements Listener{
     
-    private final String version;
+    private final BukkitCore<?> plugin;
     
-    public VelocityPlayerImpl(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
-        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
+    private WorldEvents(BukkitCore<?> plugin){
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
     
-    @Override
-    public String getVersion(){
-        return version;
+    public static void init(BukkitCore<?> plugin){
+        new WorldEvents(plugin);
+    }
+    
+    @EventHandler
+    public void onWorldLoad(WorldLoadEvent event){
+        plugin.getWorldCache().addWorld(event.getWorld().getName(), event.getWorld());
+    }
+    
+    @EventHandler
+    public void onWorldUnload(WorldUnloadEvent event){
+        plugin.getWorldCache().removeWorld(event.getWorld().getName());
     }
 }

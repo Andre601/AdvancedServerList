@@ -23,14 +23,15 @@
  *
  */
 
-package ch.andre601.advancedserverlist.paper.events;
+package ch.andre601.advancedserverlist.paper.listeners;
 
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
-import ch.andre601.advancedserverlist.bukkit.events.PreServerListSetEventImpl;
-import ch.andre601.advancedserverlist.bukkit.objects.SpigotPlayerImpl;
+import ch.andre601.advancedserverlist.bukkit.listeners.PreServerListSetEventImpl;
+import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitServerImpl;
+import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitPlayerImpl;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -45,11 +46,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.util.CachedServerIcon;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, SpigotPlayerImpl>{
+public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, BukkitPlayerImpl>{
     
     private final PaperCore plugin;
     private final PaperServerListPingEvent event;
@@ -89,7 +88,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public void setPlayers(List<String> lines, SpigotPlayerImpl player, GenericServer server){
+    public void setPlayers(List<String> lines, BukkitPlayerImpl player, GenericServer server){
         event.getPlayerSample().clear();
         List<PlayerProfile> players = new ArrayList<>(lines.size());
         
@@ -151,7 +150,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, SpigotPlayerImpl player){
+    public String parsePAPIPlaceholders(String text, BukkitPlayerImpl player){
         if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
         
@@ -169,10 +168,15 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     }
     
     @Override
-    public SpigotPlayerImpl createPlayer(CachedPlayer player, int protocol){
+    public BukkitPlayerImpl createPlayer(CachedPlayer player, int protocol){
         OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
-        return new SpigotPlayerImpl(pl.hasPlayedBefore() ? pl : null, player, protocol);
+        return new BukkitPlayerImpl(pl.hasPlayedBefore() ? pl : null, player, protocol);
+    }
+    
+    @Override
+    public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
+        return new BukkitServerImpl(plugin.getWorldCache().worlds(), playersOnline, playersMax, host);
     }
     
     @Override

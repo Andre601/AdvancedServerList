@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.bukkit;
 
+import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,4 +34,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Allows me to have BukkitCore<?> for whenever I also need a JavaPlugin (i.e. registering events).
  * See JoinEvent class for an example.
 */
-public abstract class BukkitCore<F> extends JavaPlugin implements PluginCore<F>{}
+public abstract class BukkitCore<F> extends JavaPlugin implements PluginCore<F>{
+    public abstract WorldCache getWorldCache();
+}

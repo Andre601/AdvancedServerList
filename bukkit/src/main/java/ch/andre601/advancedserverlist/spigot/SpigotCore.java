@@ -28,12 +28,14 @@ package ch.andre601.advancedserverlist.spigot;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
-import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
-import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.BukkitPlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.BukkitServerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.LoadEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
@@ -49,6 +51,7 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     private AdvancedServerList<WrappedServerPing.CompressedImage> core;
     private FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
     private PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders = null;
+    private WorldCache worldCache = null;
     
     @Override
     public void onEnable(){
@@ -65,7 +68,7 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
             }catch(ClassNotFoundException ignored){}
         }
         
-        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init());
+        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init(), BukkitServerPlaceholders.init());
     }
     
     @Override
@@ -74,6 +77,9 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
             papiPlaceholders.unregister();
             papiPlaceholders = null;
         }
+        
+        if(worldCache != null)
+            worldCache = null;
         
         getCore().disable();
     }
@@ -90,7 +96,7 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     
     @Override
     public void loadEvents(){
-        new LoadEvent(this);
+        LoadEvent.init(this);
     }
     
     @Override
@@ -144,6 +150,14 @@ public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     @Override
     public String getLoader(){
         return "spigot";
+    }
+    
+    @Override
+    public WorldCache getWorldCache(){
+        if(worldCache != null)
+            return worldCache;
+        
+        return (worldCache = new WorldCache());
     }
     
     public void setPapiPlaceholders(PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders){

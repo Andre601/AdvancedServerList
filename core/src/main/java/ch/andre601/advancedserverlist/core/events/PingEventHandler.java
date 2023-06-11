@@ -53,7 +53,7 @@ public class PingEventHandler{
             plugin.getCore().getPlayerHandler().getCachedPlayer(event.getPlayerIP()),
             event.getProtocolVersion()
         );
-        GenericServer server = new GenericServerImpl(online, max, host);
+        GenericServer server = event.createGenericServer(online, max, host);
         
         ServerListProfile profile = ProfileManager.resolveProfile(plugin.getCore(), player, server);
         
@@ -73,7 +73,7 @@ public class PingEventHandler{
             event.setMaxPlayers(max);
         }
         
-        GenericServer finalServer = new GenericServerImpl(online, max, host);
+        GenericServer finalServer = event.createGenericServer(online, max, host);
         
         if(ProfileManager.checkOption(entry.motd())){
             event.setMotd(

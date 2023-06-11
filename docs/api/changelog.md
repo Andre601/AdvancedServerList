@@ -3,12 +3,30 @@
 This page lists the recent changes made towards the AdvancedServerListAPI.  
 They are ordered newest to oldest.
 
+## v3.0.0
+
+### :octicons-alert-24:{ .changelog-breaking title="Breaking Changes" } Breaking Changes { #v3-breaking }
+
+- Removed `platform-spigot` API in favour of a more generic sounding `platform-bukkit`
+- Renamed all platform-specific packages from `ch.andre601.advancedserverlist.<platform>` to `ch.andre601.advancedserverlist.api.<platform>`
+
+### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v3-added }
+
+- New platform-specific `GenericServer` instances with their own methods to use.
+  - `BukkitServer` - Contains a `getWorlds()` method that returns a `Map<String, World>` of all loaded worlds in the server.
+  - `BungeeProxy` - Contains a `getServers()` method that returns a `Map<String, ServerInfo>` of all known Servers for BungeeCord.
+  - `VelocityProxy` - Contains a `getServers()` method that returns a `Map<String, RegisteredServer>` of all known Servers for Velocity.
+
+### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v-removed }
+
+- All previously deprecated `getX()` methods from the `ProfileEntry` record
+
 ## v2.1.0
 
-### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v-changed }
+### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v2.1.0-changed }
 
 - Turned `ProfileEntry` class into a record
-    - Former `getX()` methods are now deprecated in favour of the recor's own `x()` methods (i.e. `getMotd()` -> `motd()`)
+    - Former `getX()` methods are now deprecated in favour of the record's own `x()` methods (i.e. `getMotd()` -> `motd()`)
 
 ## v2.0.0
 

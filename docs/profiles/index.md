@@ -31,26 +31,28 @@ Only when **all** conditions defined return true will the profile be displayed.
 
 You can remove this option, or set it to an empty list (`conditions: []`) to always return true.
 
-### Operants
+### Operands
 
 The following operants are available and can be used in the conditions.
 
 !!! warning "Only one operant can be used per condition!"
 
-| Operant | Description                                                        |
-| ------- | ------------------------------------------------------------------ |
-| `<`     | Checks if the left value is less than the right one.\*             |
-| `<=`    | Checks if the left value is less than or equal to the right one.\* |
-| `>`     | Checks if the left value is more than the right one.\*             |
-| `>=`    | Checks if the left value is more than or equal to the right one.\* |
-| `=`     | Checks if the left value is equal to the right one.                |
-| `!=`    | Checks if the left value is not equal to the right one.            |
+| Operand | Description                                                            |
+|---------|------------------------------------------------------------------------|
+| `<`     | Checks if the left value is less than the right one.[^1]               |
+| `<=`    | Checks if the left value is less than or equal to the right one.[^1]   |
+| `>`     | Checks if the left value is more than the right one.[^1]               |
+| `>=`    | Checks if the left value is more than or equal to the right one.[^1]   |
+| `=`     | Checks if the left value is equal to the right one.                    |
+| `!=`    | Checks if the left value is not equal to the right one.                |
+| `~=`    | Checks if the left value is equal to the right one, ignoring case.     |
+| `!~`    | Checks if the left value is not equal to the right one, ignoring case. |
 
-\* In the case of the provided value not being a number will the plugin instead use the text length to compare with.
+[^1]: In the case of the provided value not being a number will the plugin instead use the text length to compare with.
 
 ## Profiles
 
-The profiles option allows you to add multiple combinations of all the other options (With the exception of [`Priority`](#priority) and [`Conditions`](#conditions)) to have randomized MOTDs, player counts, etc.
+The profiles option allows you to add multiple combinations of all the other options (Except for [`Priority`](#priority) and [`Conditions`](#conditions)) to have randomized MOTDs, player counts, etc.
 
 If an option is not present in an entry will AdvancedServerList try to use one defined in the file or use whatever default value would be for that option.
 

@@ -23,19 +23,20 @@
  *
  */
 
-package ch.andre601.advancedserverlist.spigot.events;
+package ch.andre601.advancedserverlist.spigot.listeners;
 
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
-import ch.andre601.advancedserverlist.bukkit.events.PreServerListSetEventImpl;
+import ch.andre601.advancedserverlist.bukkit.listeners.PreServerListSetEventImpl;
+import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitServerImpl;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.bukkit.objects.SpigotPlayerImpl;
+import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitPlayerImpl;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
@@ -47,11 +48,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
-public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, SpigotPlayerImpl>{
+public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServerPing.CompressedImage, BukkitPlayerImpl>{
     
     private final SpigotCore plugin;
     private final PacketEvent event;
@@ -93,7 +92,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public void setPlayers(List<String> lines, SpigotPlayerImpl player, GenericServer server){
+    public void setPlayers(List<String> lines, BukkitPlayerImpl player, GenericServer server){
         List<WrappedGameProfile> players = new ArrayList<>(lines.size());
         
         for(String line : lines){
@@ -155,7 +154,7 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public String parsePAPIPlaceholders(String text, SpigotPlayerImpl player){
+    public String parsePAPIPlaceholders(String text, BukkitPlayerImpl player){
         if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             return PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
         
@@ -177,10 +176,15 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     }
     
     @Override
-    public SpigotPlayerImpl createPlayer(CachedPlayer player, int protocol){
+    public BukkitPlayerImpl createPlayer(CachedPlayer player, int protocol){
         OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
         
-        return new SpigotPlayerImpl(pl.hasPlayedBefore() ? pl : null, player, protocol);
+        return new BukkitPlayerImpl(pl.hasPlayedBefore() ? pl : null, player, protocol);
+    }
+    
+    @Override
+    public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
+        return new BukkitServerImpl(plugin.getWorldCache().worlds(), playersOnline, playersMax, host);
     }
     
     @Override

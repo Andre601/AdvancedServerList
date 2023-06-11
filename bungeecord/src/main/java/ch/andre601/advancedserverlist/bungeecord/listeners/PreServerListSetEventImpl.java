@@ -23,26 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.events;
+package ch.andre601.advancedserverlist.bungeecord.listeners;
 
-import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
-import ch.andre601.advancedserverlist.core.events.PingEventHandler;
-import net.md_5.bungee.api.event.ProxyPingEvent;
-import net.md_5.bungee.api.plugin.Listener;
-import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
+import ch.andre601.advancedserverlist.api.bungeecord.events.PreServerListSetEvent;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
-public class PingEvent implements Listener{
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
     
-    private final BungeeCordCore plugin;
-    
-    public PingEvent(BungeeCordCore plugin){
-        this.plugin = plugin;
-        plugin.getProxy().getPluginManager().registerListener(plugin, this);
-    }
-    
-    @EventHandler(priority = EventPriority.LOW)
-    public void onProxyPing(ProxyPingEvent event){
-        PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

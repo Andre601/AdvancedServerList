@@ -23,26 +23,13 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.velocity.listeners;
 
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
-import com.velocitypowered.api.network.ProtocolVersion;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.api.velocity.events.PreServerListSetEvent;
 
-public class VelocityPlayerImpl extends GenericPlayerImpl implements VelocityPlayer{
-    
-    private final String version;
-    
-    public VelocityPlayerImpl(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
-        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
-    }
-    
-    @Override
-    public String getVersion(){
-        return version;
+public class PreServerListSetEventImpl extends PreServerListSetEvent{
+    public PreServerListSetEventImpl(ProfileEntry entry){
+        super(entry);
     }
 }

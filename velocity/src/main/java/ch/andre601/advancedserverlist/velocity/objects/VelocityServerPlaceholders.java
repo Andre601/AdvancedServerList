@@ -28,28 +28,56 @@ package ch.andre601.advancedserverlist.velocity.objects;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 
-public class VelocityPlayerPlaceholders extends PlaceholderProvider{
+public class VelocityServerPlaceholders extends PlaceholderProvider{
     
-    private VelocityPlayerPlaceholders(){
-        super("player");
+    private VelocityServerPlaceholders(){
+        super("server");
     }
     
-    public static VelocityPlayerPlaceholders init(){
-        return new VelocityPlayerPlaceholders();
+    public static VelocityServerPlaceholders init(){
+        return new VelocityServerPlaceholders();
     }
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        if(!(player instanceof VelocityPlayer velocityPlayer))
+        if(!(server instanceof VelocityProxy proxy))
             return null;
         
-        return switch(placeholder){
-            case "name" -> velocityPlayer.getName();
-            case "protocol" -> String.valueOf(velocityPlayer.getProtocol());
-            case "uuid" -> String.valueOf(velocityPlayer.getUUID());
-            case "version" -> velocityPlayer.getVersion();
+        String[] args = placeholder.split("\\s", 2);
+        
+        return switch(args[0]){
+            case "playersOnline" -> {
+                if(args.length == 2){
+                    RegisteredServer info = proxy.getServers().get(args[1]);
+                    if(info == null)
+                        yield null;
+                    
+                    yield String.valueOf(info.getPlayersConnected().size());
+                }
+                
+                yield String.valueOf(proxy.getPlayersOnline());
+            }
+            case "playersMax" -> {
+                if(args.length == 2){
+                    yield null;
+                }
+                
+                yield String.valueOf(proxy.getPlayersMax());
+            }
+            case "host" -> {
+                if(args.length == 2){
+                    RegisteredServer info = proxy.getServers().get(args[1]);
+                    if(info == null)
+                        yield null;
+                    
+                    yield info.getServerInfo().getAddress().getHostString();
+                }
+                
+                yield proxy.getHost();
+            }
             default -> null;
         };
     }

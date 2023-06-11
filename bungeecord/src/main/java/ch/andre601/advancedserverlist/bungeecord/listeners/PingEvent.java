@@ -23,26 +23,26 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.bungeecord.listeners;
 
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
-import com.velocitypowered.api.network.ProtocolVersion;
+import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
+import net.md_5.bungee.api.event.ProxyPingEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
-public class VelocityPlayerImpl extends GenericPlayerImpl implements VelocityPlayer{
+public class PingEvent implements Listener{
     
-    private final String version;
+    private final BungeeCordCore plugin;
     
-    public VelocityPlayerImpl(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
-        this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
+    public PingEvent(BungeeCordCore plugin){
+        this.plugin = plugin;
+        plugin.getProxy().getPluginManager().registerListener(plugin, this);
     }
     
-    @Override
-    public String getVersion(){
-        return version;
+    @EventHandler(priority = EventPriority.LOW)
+    public void onProxyPing(ProxyPingEvent event){
+        PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
     }
 }

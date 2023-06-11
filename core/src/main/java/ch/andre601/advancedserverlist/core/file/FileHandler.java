@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileSerializer;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
@@ -44,7 +45,7 @@ import java.util.List;
 
 public class FileHandler{
     
-    private final AdvancedServerList plugin;
+    private final AdvancedServerList<?> plugin;
     private final PluginLogger logger;
     
     private final Path config;
@@ -54,7 +55,7 @@ public class FileHandler{
     
     private ConfigurationNode node = null;
     
-    public FileHandler(AdvancedServerList core){
+    public FileHandler(AdvancedServerList<?> core){
         this.plugin = core;
         this.logger = core.getPlugin().getPluginLogger();
         
@@ -82,6 +83,7 @@ public class FileHandler{
                 }
                 
                 Files.copy(stream, config);
+                logger.info("Created new config.yml!");
             }catch(IOException ex){
                 logger.warn("Cannot create config.yml for plugin.", ex);
                 return false;
@@ -110,6 +112,22 @@ public class FileHandler{
         }
         
         return reloadProfiles();
+    }
+    
+    public boolean migrateConfig(){
+        YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(config)
+            .build();
+        
+        try{
+            node = ConfigMigrator.updateNode(loader.load(), logger);
+            loader.save(node);
+            
+            return true;
+        }catch(ConfigurateException ex){
+            logger.warn("Error while trying to migrate config.yml.", ex);
+            return false;
+        }
     }
     
     public boolean reloadConfig(){
@@ -163,5 +181,9 @@ public class FileHandler{
     
     public boolean getBoolean(Object... path){
         return node.node(path).getBoolean();
+    }
+    
+    public boolean isOldConfig(){
+        return node.node("config-version").virtual() || node.node("config-version").getInt(-1) < ConfigMigrator.LATEST;
     }
 }

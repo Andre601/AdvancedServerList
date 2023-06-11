@@ -27,14 +27,18 @@ package ch.andre601.advancedserverlist.paper;
 
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
-import ch.andre601.advancedserverlist.bukkit.events.JoinEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.JoinEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.LoadEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.WorldEvents;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
-import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
-import ch.andre601.advancedserverlist.bukkit.objects.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.BukkitPlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.BukkitServerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.paper.events.PaperPingEvent;
+import ch.andre601.advancedserverlist.paper.listeners.PaperPingEvent;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.util.CachedServerIcon;
@@ -46,12 +50,13 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     private final PluginLogger logger = new BukkitLogger(getLogger());
     
     private AdvancedServerList<CachedServerIcon> core;
-    private FaviconHandler<CachedServerIcon> faviconHandler;
+    private FaviconHandler<CachedServerIcon> faviconHandler = null;
     private PAPIPlaceholders<CachedServerIcon> papiPlaceholders = null;
+    private WorldCache worldCache = null;
     
     @Override
     public void onEnable(){
-        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init());
+        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init(), BukkitServerPlaceholders.init());
         
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             papiPlaceholders = PAPIPlaceholders.init(this);
@@ -63,6 +68,9 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
             papiPlaceholders.unregister();
             papiPlaceholders = null;
         }
+        
+        if(worldCache != null)
+            worldCache = null;
         
         getCore().disable();
     }
@@ -78,7 +86,7 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     
     @Override
     public void loadEvents(){
-        JoinEvent.init(this);
+        LoadEvent.init(this);
         PaperPingEvent.init(this);
     }
     
@@ -133,5 +141,13 @@ public class PaperCore extends BukkitCore<CachedServerIcon>{
     @Override
     public String getLoader(){
         return "paper";
+    }
+    
+    @Override
+    public WorldCache getWorldCache(){
+        if(worldCache != null)
+            return worldCache;
+        
+        return (worldCache = new WorldCache());
     }
 }

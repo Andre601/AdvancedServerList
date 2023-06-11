@@ -23,12 +23,13 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bukkit.objects;
+package ch.andre601.advancedserverlist.bukkit.objects.placeholders;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
+import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitPlayerImpl;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -36,7 +37,7 @@ import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.spigot.SpigotCore;
-import ch.andre601.advancedserverlist.spigot.events.ProtocolLibEvents;
+import ch.andre601.advancedserverlist.spigot.listeners.ProtocolLibEvents;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.viaversion.viaversion.api.Via;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -92,7 +93,7 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         int online = Bukkit.getOnlinePlayers().size();
         int max = Bukkit.getMaxPlayers();
         GenericServer server = new GenericServerImpl(online, max, host);
-        GenericPlayer player = new SpigotPlayerImpl(pl, cached, protocol);
+        GenericPlayer player = new BukkitPlayerImpl(pl, cached, protocol);
         
         ServerListProfile profile = ProfileManager.resolveProfile(plugin.getCore(), player, server);
         if(profile == null)
@@ -134,7 +135,8 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         if(plugin instanceof SpigotCore)
             return ProtocolLibrary.getProtocolManager().getProtocolVersion(player);
         
-        // getProtocolVersion is only in Paper, so this is only called when main class isn't SpigotCore
+        // getProtocolVersion is only in Paper, so this is only called when main class isn't SpigotCore.
+        // Also, ViaVersion is not present, so the player protocol *should* be the same as the server.
         return Bukkit.getUnsafe().getProtocolVersion();
     }
     

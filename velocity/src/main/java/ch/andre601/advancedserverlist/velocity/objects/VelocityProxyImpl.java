@@ -23,12 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.events;
+package ch.andre601.advancedserverlist.velocity.objects;
 
-import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 
-public class PreServerListSetEventImpl extends PreServerListSetEvent{
-    public PreServerListSetEventImpl(ProfileEntry entry){
-        super(entry);
+import java.util.Map;
+
+public record VelocityProxyImpl(Map<String, RegisteredServer> servers, int playersOnline, int playersMax, String host) implements VelocityProxy{
+    @Override
+    public Map<String, RegisteredServer> getServers(){
+        return servers;
+    }
+    
+    @Override
+    public int getPlayersOnline(){
+        return playersOnline;
+    }
+    
+    @Override
+    public int getPlayersMax(){
+        return playersMax;
+    }
+    
+    @Override
+    public String getHost(){
+        return host;
     }
 }
