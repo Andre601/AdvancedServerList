@@ -53,6 +53,7 @@ public class LoadEvent implements Listener{
         JoinEvent.init(plugin);
         WorldEvents.init(plugin);
         
+        // Populate WorldCache with all loaded worlds
         Bukkit.getWorlds().forEach(world -> plugin.getWorldCache().addWorld(world.getName(), world));
         
         if(!(plugin instanceof SpigotCore spigotCore))
