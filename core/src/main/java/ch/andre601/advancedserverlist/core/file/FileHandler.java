@@ -32,6 +32,7 @@ import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileSerializer;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.NodeStyle;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.File;
@@ -117,6 +118,7 @@ public class FileHandler{
     public boolean migrateConfig(){
         YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
             .path(config)
+            .nodeStyle(NodeStyle.BLOCK)
             .build();
         
         try{
