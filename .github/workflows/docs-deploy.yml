@@ -31,5 +31,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip setuptools
           python -m pip install -r requirements.txt
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "actions@github.com"
       - name: Deploy Files
         run: mkdocs gh-deploy --force
