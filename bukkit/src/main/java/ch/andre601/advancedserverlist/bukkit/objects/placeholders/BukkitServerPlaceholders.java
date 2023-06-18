@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.api.bukkit.objects.BukkitServer;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 public class BukkitServerPlaceholders extends PlaceholderProvider{
@@ -50,27 +51,38 @@ public class BukkitServerPlaceholders extends PlaceholderProvider{
         
         return switch(args[0]){
             case "playersOnline" -> {
-                if(args.length == 2){
-                    World world = bukkitServer.getWorlds().get(args[1]);
-                    if(world == null)
-                        yield null;
+                if(args.length >= 2){
+                    int players = 0;
+                    for(int i = 1; i < args.length; i++){
+                        World world = bukkitServer.getWorlds().get(args[i]);
+                        if(world == null)
+                            continue;
+                        
+                        players += world.getPlayers().size();
+                    }
                     
-                    yield String.valueOf(world.getPlayers().size());
+                    yield String.valueOf(players);
                 }
                 
                 yield String.valueOf(bukkitServer.getPlayersOnline());
             }
             case "playersMax" -> {
-                if(args.length == 2)
+                if(args.length >= 2)
                     yield null;
                 
                 yield String.valueOf(bukkitServer.getPlayersMax());
             }
             case "host" -> {
-                if(args.length == 2)
+                if(args.length >= 2)
                     yield null;
                 
                 yield bukkitServer.getHost();
+            }
+            case "whitelistEnabled" -> {
+                if(args.length >= 2)
+                    yield null;
+                
+                yield String.valueOf(Bukkit.hasWhitelist());
             }
             default -> null;
         };

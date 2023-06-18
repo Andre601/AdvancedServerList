@@ -40,6 +40,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -70,7 +73,7 @@ public class FileHandler{
     
     public boolean loadConfig(){
         logger.info("Loading config.yml...");
-        File folder = config.toFile().getParentFile();
+        File folder = plugin.getPlugin().getFolderPath().toFile();
         if(!folder.exists() && !folder.mkdirs()){
             logger.warn("Couldn't create folder for plugin. Is it missing Write permissions?");
             return false;
@@ -120,6 +123,9 @@ public class FileHandler{
             .path(config)
             .nodeStyle(NodeStyle.BLOCK)
             .build();
+        
+        if(!makeBackup())
+            return false;
         
         try{
             node = ConfigMigrator.updateNode(loader.load(), logger);
@@ -187,5 +193,33 @@ public class FileHandler{
     
     public boolean isOldConfig(){
         return node.node("configVersion").virtual() || node.node("configVersion").getInt(0) < ConfigMigrator.LATEST;
+    }
+    
+    private boolean makeBackup(){
+        logger.info("Making backup of old config.yml...");
+        
+        File backups = plugin.getPlugin().getFolderPath().resolve("backups").toFile();
+        if(!backups.exists() && !backups.mkdirs()){
+            logger.warn("Cannot create backups folder for migration!");
+            return false;
+        }
+        
+        String date = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
+        
+        File configBackup = new File(backups, "config_" + date.replace(":", "_") + ".yml");
+        try{
+            if(!configBackup.exists() && !configBackup.createNewFile()){
+                logger.warn("Cannot create backup file for config.yml!");
+                return false;
+            }
+            
+            Files.copy(config, configBackup.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            logger.info("Saved backup as '" + configBackup.getName() + "'!");
+            
+            return true;
+        }catch(IOException ex){
+            logger.warn("Encountered IOException while trying to create a backup.", ex);
+            return false;
+        }
     }
 }

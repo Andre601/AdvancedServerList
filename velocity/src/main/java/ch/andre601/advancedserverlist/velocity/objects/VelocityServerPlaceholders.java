@@ -50,24 +50,32 @@ public class VelocityServerPlaceholders extends PlaceholderProvider{
         
         return switch(args[0]){
             case "playersOnline" -> {
-                if(args.length == 2){
-                    RegisteredServer info = proxy.getServers().get(args[1]);
-                    if(info == null)
-                        yield null;
+                if(args.length >= 2){
+                    int players = 0;
                     
-                    yield String.valueOf(info.getPlayersConnected().size());
+                    for(int i = 1; i < args.length; i++){
+                        RegisteredServer registeredServer = proxy.getServers().get(args[i]);
+                        if(registeredServer == null)
+                            continue;
+                        
+                        players += registeredServer.getPlayersConnected().size();
+                    }
+                    
+                    yield String.valueOf(players);
                 }
                 
                 yield String.valueOf(proxy.getPlayersOnline());
             }
             case "playersMax" -> {
-                if(args.length == 2){
+                if(args.length >= 2)
                     yield null;
-                }
                 
                 yield String.valueOf(proxy.getPlayersMax());
             }
             case "host" -> {
+                if(args.length > 2)
+                    yield null;
+                
                 if(args.length == 2){
                     RegisteredServer info = proxy.getServers().get(args[1]);
                     if(info == null)
