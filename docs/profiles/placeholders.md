@@ -31,11 +31,12 @@ These placeholders use the player who pinged the server, to return values. They 
 
 These placeholders use values given by the server/proxy AdvancedServerList runs on.
 
-| Placeholder               | Description                                                |
-|---------------------------|------------------------------------------------------------|
-| `${server playersOnline}` | The number of players online on this proxy/server.[^4]     |
-| `${server playersMax}`    | The total number of players that can join this server.[^5] |
-| `${server host}`          | The domain/IP the player pinged.[^6]                       |
+| Placeholder                  | Description                                                             |
+|------------------------------|-------------------------------------------------------------------------|
+| `${server playersOnline}`    | The number of players online on this proxy/server.[^4]                  |
+| `${server playersMax}`       | The total number of players that can join this server.[^5]              |
+| `${server host}`             | The domain/IP the player pinged.[^6]                                    |
+| `${server whitelistEnabled}` | Whether the whitelist is enabled or not. Only available on Spigot/Paper |
 
 [^4]:
     An space-separated list of worlds (Spigot/Paper) or Servers (BungeeCord/Velocity) can be provided to display the number of players in these worlds/servers.  
