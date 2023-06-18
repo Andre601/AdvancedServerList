@@ -82,7 +82,7 @@ public class BukkitServerPlaceholders extends PlaceholderProvider{
                 if(args.length >= 2)
                     yield null;
                 
-                yield String.valueOf(Bukkit.isWhitelistEnforced());
+                yield String.valueOf(Bukkit.hasWhitelist());
             }
             default -> null;
         };

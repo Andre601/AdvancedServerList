@@ -41,7 +41,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -204,7 +204,7 @@ public class FileHandler{
             return false;
         }
         
-        String date = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(Instant.now());
+        String date = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
         
         File configBackup = new File(backups, "config_" + date.replace(":", "_") + ".yml");
         try{
