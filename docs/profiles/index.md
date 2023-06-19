@@ -52,9 +52,10 @@ The following operants are available and can be used in the conditions.
 
 ## Profiles
 
-The profiles option allows you to add multiple combinations of all the other options (Except for [`Priority`](#priority) and [`Conditions`](#conditions)) to have randomized MOTDs, player counts, etc.
+!!! warning "Priority and Conditions are NOT supported!"
 
-If an option is not present in an entry will AdvancedServerList try to use one defined in the file or use whatever default value would be for that option.
+The `profiles` option allows you to set multiple MOTDs, player counts, etc. which the plugin would randomly choose from.  
+If an option such as motd is not present in an entry will it check the file for the option and use that if present.
 
 ??? example "Example"
     ```yaml title="YAML file"
