@@ -35,6 +35,7 @@ theme:
   - navigation.indexes
   - navigation.tabs
   - navigation.tabs.sticky
+  - content.code.copy
 
   icon:
     repo: 'octicons/mark-github-16'
@@ -65,11 +66,16 @@ extra:
       - latest
       - dev
 
+plugins:
+  - search
+  - glightbox
+
 markdown_extensions:
   - markdown.extensions.admonition:
   - markdown.extensions.toc:
       permalink: true
   - markdown.extensions.attr_list:
+  - markdown.extensions.footnotes:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
@@ -78,3 +84,4 @@ markdown_extensions:
   - pymdownx.superfences:
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.details:

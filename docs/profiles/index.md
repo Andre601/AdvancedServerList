@@ -31,50 +31,55 @@ Only when **all** conditions defined return true will the profile be displayed.
 
 You can remove this option, or set it to an empty list (`conditions: []`) to always return true.
 
-### Operants
+### Operands
 
 The following operants are available and can be used in the conditions.
 
 !!! warning "Only one operant can be used per condition!"
 
-| Operant | Description                                                        |
-| ------- | ------------------------------------------------------------------ |
-| `<`     | Checks if the left value is less than the right one.\*             |
-| `<=`    | Checks if the left value is less than or equal to the right one.\* |
-| `>`     | Checks if the left value is more than the right one.\*             |
-| `>=`    | Checks if the left value is more than or equal to the right one.\* |
-| `=`     | Checks if the left value is equal to the right one.                |
-| `!=`    | Checks if the left value is not equal to the right one.            |
+| Operand | Description                                                            |
+|---------|------------------------------------------------------------------------|
+| `<`     | Checks if the left value is less than the right one.[^1]               |
+| `<=`    | Checks if the left value is less than or equal to the right one.[^1]   |
+| `>`     | Checks if the left value is more than the right one.[^1]               |
+| `>=`    | Checks if the left value is more than or equal to the right one.[^1]   |
+| `=`     | Checks if the left value is equal to the right one.                    |
+| `!=`    | Checks if the left value is not equal to the right one.                |
+| `~=`    | Checks if the left value is equal to the right one, ignoring case.     |
+| `!~`    | Checks if the left value is not equal to the right one, ignoring case. |
 
-\* In the case of the provided value not being a number will the plugin instead use the text length to compare with.
+[^1]: In the case of the provided value not being a number will the plugin instead use the text length to compare with.
 
 ## Profiles
 
-The profiles option allows you to add multiple combinations of all the other options (With the exception of [`Priority`](#priority) and [`Conditions`](#conditions)) to have randomized MOTDs, player counts, etc.
+!!! warning "Priority and Conditions are NOT supported!"
 
-If an option is not present in an entry will AdvancedServerList try to use one defined in the file or use whatever default value would be for that option.
+The `profiles` option allows you to set multiple MOTDs, player counts, etc. which the plugin would randomly choose from.  
+If an option such as motd is not present in an entry will it check the file for the option and use that if present.
 
-As an example:  
-```yaml
-priority: 0
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    profiles:
+      - motd:
+          - '<rainbow>Line 1</rainbow>'
+          - '<rainbow:!>Line 2</rainbow>'
+        playerCount:
+          text: '<green><bold>Awesome!'
+      - playerCount:
+          text: '<yellow><bold>Also Awesome!'
+    
+    motd:
+      - '<rainbow:2>Line A</rainbow>'
+      - '<rainbow:!2>Line B</rainbow>'
+    ```
+    <div class="result">
+    
+    ![profiles-example-1](../assets/images/examples/profiles-example-1.jpg)  
+    ![profiles-example-2](../assets/images/examples/profiles-example-2.jpg)
 
-profiles:
-  - motd:
-      - '<rainbow>Line 1</rainbow>'
-      - '<rainbow:!>Line 2</rainbow>'
-    playerCount:
-      text: '<green><bold>Awesome!'
-  - playerCount:
-      text: '<yellow><bold>Also Awesome!'
-
-motd:
-  - '<rainbow:2>Line A</rainbow>'
-  - '<rainbow:!2>Line B</rainbow>'
-```
-...the above example would randomly select between the following combinations of MOTD and Player count text:
-
-![motd-example-1](../assets/images/examples/motd-example-1.jpg)  
-![motd-example-2](../assets/images/examples/motd-example-2.jpg)
+    </div>
 
 ## Motd
 
@@ -82,6 +87,21 @@ The motd option allows to set up to two lines to be displayed in an MOTD.
 Normal colour and formatting codes such as `<aqua>` or `<bold>` are supported. On 1.16 and newer can you also use HEX colours using either `<#rrggbb>` or `<color:#rrggbb>`.
 
 If you want to display multiple MOTDs will you need to use the [`Profiles` option](#profiles)
+
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    motd:
+      - '<rainbow:2>Rainbow Gradients</rainbow>'
+      - '<rainbow:!2>|||||||||||||||||||||||||||||||||||||</rainbow>'
+    ```
+    <div class="result">
+
+    ![motd-example](../assets/images/examples/motd-example.jpg)
+
+    </div>
+
 
 ## Favicon
 
@@ -95,6 +115,24 @@ This option currently supports the following values:
 
 Please note that AdvancedServerList will rescale the image to be 64x64 pixels, so be sure to provide images at that particular scale.
 
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    # We use just colour to hide the MOTD
+    motd:
+      - '<grey>'
+      - '<grey>'
+    
+    # Player is Andre_601
+    favicon: ${player uuid}
+    ```
+    <div class="result">
+
+    ![hideplayers-example](../assets/images/examples/favicon-example.jpg)
+
+    </div>
+
 ## PlayerCount
 
 The `playerCount` option contains multiple different options all about the Player count itself.
@@ -104,11 +142,50 @@ The `playerCount` option contains multiple different options all about the Playe
 Boolean option to set whether AdvancedServerList should hide the player count or not. When set to `true` will the player count be replaced with `???`.  
 Additionally will the [`Text`](#text) and [`Hover`](#hover) option be ignored.
 
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    # We use just colour to hide the MOTD
+    motd:
+      - '<grey>'
+      - '<grey>'
+    
+    playerCount:
+      hidePlayers: true
+    ```
+    <div class="result">
+
+    ![hideplayers-example](../assets/images/examples/hideplayers-example.jpg)
+
+    </div>
+
 ### Hover
 
 This option allows to override the hover text usually displaying the players on the server when hovering over the player count.
 
 You can either remove this option or set to an empty list (`hover: []`) to not override the hover.
+
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    # We use just colour to hide the MOTD
+    motd:
+      - '<grey>'
+      - '<grey>'
+    
+    playerCount:
+      hover:
+        - '<grey>Line 1'
+        - '<aqua>Line 2'
+        - '<gold>Line 3'
+    ```
+    <div class="result">
+
+    ![hover-example](../assets/images/examples/hover-example.jpg)
+
+    </div>
 
 ### Text
 
@@ -120,6 +197,24 @@ Note that AdvancedServerList will not add the `<online>/<max>` text to the playe
     Due to this will your server appear as "outdated" to the client (Have the ping icon crossed out). This is nothing that can be changed unfortunately.
 
 To not override the player count, remove this option or set it to an empty String (`text: ''`).
+
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    # We use just colour to hide the MOTD
+    motd:
+      - '<grey>'
+      - '<grey>'
+    
+    playerCount:
+      text: '<yellow><bold>Cool text!'
+    ```
+    <div class="result">
+
+    ![hover-example](../assets/images/examples/text-example.jpg)
+
+    </div>
 
 ### ExtraPlayers
 
@@ -137,3 +232,23 @@ When set to `true` will the max amount of players be modified by taking the curr
 Sets the number to add to the current online players to then use as the new max players count.
 
 As an example, setting this to `1` while `10` players are online will display `11`, while `-1` would display `9`.
+
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    # We use just colour to hide the MOTD
+    motd:
+      - '<grey>'
+      - '<grey>'
+    
+    playerCount:
+      extraPlayers:
+        enabled: true
+        amount: 1
+    ```
+    <div class="result">
+
+    ![hover-example](../assets/images/examples/extraplayers-example.jpg)
+
+    </div>

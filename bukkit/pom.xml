@@ -75,7 +75,7 @@
         </dependency>
         <dependency>
             <groupId>ch.andre601.asl-api</groupId>
-            <artifactId>platform-spigot</artifactId>
+            <artifactId>platform-bukkit</artifactId>
             <version>${api.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <version>5.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -118,13 +118,13 @@
         <dependency>
             <groupId>com.viaversion</groupId>
             <artifactId>viaversion-api</artifactId>
-            <version>4.6.2</version>
+            <version>4.7.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>AdvancedServerList-Bukkit-${plugin.version}</finalName>
+        <finalName>AdvancedServerList-Bukkit-${plugin.version}${project.build.commit}</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>
@@ -143,7 +143,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>

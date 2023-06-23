@@ -25,29 +25,33 @@
 
 package ch.andre601.advancedserverlist.spigot;
 
+import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.commands.CmdAdvancedServerList;
 import ch.andre601.advancedserverlist.bukkit.logging.BukkitLogger;
-import ch.andre601.advancedserverlist.bukkit.objects.BukkitPlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.BukkitPlayerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.BukkitServerPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.placeholders.PAPIPlaceholders;
+import ch.andre601.advancedserverlist.bukkit.objects.WorldCache;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
-import ch.andre601.advancedserverlist.spigot.events.LoadEvent;
+import ch.andre601.advancedserverlist.bukkit.listeners.LoadEvent;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 
-public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPing.CompressedImage>{
+public class SpigotCore extends BukkitCore<WrappedServerPing.CompressedImage>{
     
     private final PluginLogger logger = new BukkitLogger(getLogger());
     
-    private AdvancedServerList core;
-    FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
+    private AdvancedServerList<WrappedServerPing.CompressedImage> core;
+    private FaviconHandler<WrappedServerPing.CompressedImage> faviconHandler = null;
+    private PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders = null;
+    private WorldCache worldCache = null;
     
     @Override
     public void onEnable(){
@@ -64,11 +68,19 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
             }catch(ClassNotFoundException ignored){}
         }
         
-        this.core = new AdvancedServerList(this, new BukkitPlayerPlaceholders());
+        this.core = AdvancedServerList.init(this, BukkitPlayerPlaceholders.init(), BukkitServerPlaceholders.init());
     }
     
     @Override
     public void onDisable(){
+        if(papiPlaceholders != null){
+            papiPlaceholders.unregister();
+            papiPlaceholders = null;
+        }
+        
+        if(worldCache != null)
+            worldCache = null;
+        
         getCore().disable();
     }
     
@@ -84,7 +96,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     
     @Override
     public void loadEvents(){
-        new LoadEvent(this);
+        LoadEvent.init(this);
     }
     
     @Override
@@ -103,7 +115,7 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
     }
     
     @Override
-    public AdvancedServerList getCore(){
+    public AdvancedServerList<WrappedServerPing.CompressedImage> getCore(){
         return core;
     }
     
@@ -140,12 +152,24 @@ public class SpigotCore extends JavaPlugin implements PluginCore<WrappedServerPi
         return "spigot";
     }
     
+    @Override
+    public WorldCache getWorldCache(){
+        if(worldCache != null)
+            return worldCache;
+        
+        return (worldCache = new WorldCache());
+    }
+    
+    public void setPapiPlaceholders(PAPIPlaceholders<WrappedServerPing.CompressedImage> papiPlaceholders){
+        this.papiPlaceholders = papiPlaceholders;
+    }
+    
     private void printPaperInfo(){
         getPluginLogger().warn("======================================================================================");
         getPluginLogger().warn("You are using the Spigot version of AdvancedServerList on a Paper server.");
         getPluginLogger().warn("It is recommended to use the dedicated Paper version, to benefit from the");
         getPluginLogger().warn("following improvements:");
-        getPluginLogger().warn(" - No need to download external libraries already provided by PaperMC.");
+        getPluginLogger().warn(" - No downloading of external Libraries already provided by Paper (i.e. Adventure).");
         getPluginLogger().warn(" - No dependency on ProtocolLib thanks to provided Events.");
         getPluginLogger().warn("");
         getPluginLogger().warn("AdvancedServerList may work as normal, but consider using the PaperMC version instead!");

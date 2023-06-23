@@ -26,10 +26,11 @@
 package ch.andre601.advancedserverlist.bungeecord;
 
 import ch.andre601.advancedserverlist.bungeecord.commands.CmdAdvancedServerList;
-import ch.andre601.advancedserverlist.bungeecord.events.JoinEvent;
-import ch.andre601.advancedserverlist.bungeecord.events.PingEvent;
+import ch.andre601.advancedserverlist.bungeecord.listeners.JoinEvent;
+import ch.andre601.advancedserverlist.bungeecord.listeners.PingEvent;
 import ch.andre601.advancedserverlist.bungeecord.logging.BungeeLogger;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerPlaceholders;
+import ch.andre601.advancedserverlist.bungeecord.objects.BungeeServerPlaceholders;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -43,13 +44,13 @@ import java.nio.file.Path;
 
 public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
-    private AdvancedServerList core;
+    private AdvancedServerList<Favicon> core;
     private FaviconHandler<Favicon> faviconHandler = null;
     private final PluginLogger logger = new BungeeLogger(getLogger());
     
     @Override
     public void onEnable(){
-        this.core = new AdvancedServerList(this, new BungeePlayerPlaceholders());
+        this.core = AdvancedServerList.init(this, BungeePlayerPlaceholders.init(), BungeeServerPlaceholders.init());
     }
     
     @Override
@@ -85,7 +86,7 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     }
     
     @Override
-    public AdvancedServerList getCore(){
+    public AdvancedServerList<Favicon> getCore(){
         return core;
     }
     

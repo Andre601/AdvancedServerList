@@ -30,8 +30,10 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileSerializer;
+import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
+import org.spongepowered.configurate.yaml.NodeStyle;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.File;
@@ -39,11 +41,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FileHandler{
     
-    private final AdvancedServerList plugin;
+    private final AdvancedServerList<?> plugin;
     private final PluginLogger logger;
     
     private final Path config;
@@ -53,7 +58,7 @@ public class FileHandler{
     
     private ConfigurationNode node = null;
     
-    public FileHandler(AdvancedServerList core){
+    public FileHandler(AdvancedServerList<?> core){
         this.plugin = core;
         this.logger = core.getPlugin().getPluginLogger();
         
@@ -67,7 +72,7 @@ public class FileHandler{
     
     public boolean loadConfig(){
         logger.info("Loading config.yml...");
-        File folder = config.toFile().getParentFile();
+        File folder = plugin.getPlugin().getFolderPath().toFile();
         if(!folder.exists() && !folder.mkdirs()){
             logger.warn("Couldn't create folder for plugin. Is it missing Write permissions?");
             return false;
@@ -81,6 +86,7 @@ public class FileHandler{
                 }
                 
                 Files.copy(stream, config);
+                logger.info("Created new config.yml!");
             }catch(IOException ex){
                 logger.warn("Cannot create config.yml for plugin.", ex);
                 return false;
@@ -109,6 +115,26 @@ public class FileHandler{
         }
         
         return reloadProfiles();
+    }
+    
+    public boolean migrateConfig(){
+        YamlConfigurationLoader loader = YamlConfigurationLoader.builder()
+            .path(config)
+            .nodeStyle(NodeStyle.BLOCK)
+            .build();
+        
+        if(!makeBackup())
+            return false;
+        
+        try{
+            node = ConfigMigrator.updateNode(loader.load(), logger);
+            loader.save(node);
+            
+            return true;
+        }catch(ConfigurateException ex){
+            logger.warn("Error while trying to migrate config.yml.", ex);
+            return false;
+        }
     }
     
     public boolean reloadConfig(){
@@ -169,6 +195,38 @@ public class FileHandler{
             return node.node(path).getList(String.class);
         }catch(SerializationException ex){
             return Collections.emptyList();
+        }
+    }
+    
+    public boolean isOldConfig(){
+        return node.node("configVersion").virtual() || node.node("configVersion").getInt(0) < ConfigMigrator.LATEST;
+    }
+    
+    private boolean makeBackup(){
+        logger.info("Making backup of old config.yml...");
+        
+        File backups = plugin.getPlugin().getFolderPath().resolve("backups").toFile();
+        if(!backups.exists() && !backups.mkdirs()){
+            logger.warn("Cannot create backups folder for migration!");
+            return false;
+        }
+        
+        String date = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
+        
+        File configBackup = new File(backups, "config_" + date.replace(":", "_") + ".yml");
+        try{
+            if(!configBackup.exists() && !configBackup.createNewFile()){
+                logger.warn("Cannot create backup file for config.yml!");
+                return false;
+            }
+            
+            Files.copy(config, configBackup.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            logger.info("Saved backup as '" + configBackup.getName() + "'!");
+            
+            return true;
+        }catch(IOException ex){
+            logger.warn("Encountered IOException while trying to create a backup.", ex);
+            return false;
         }
     }
 }

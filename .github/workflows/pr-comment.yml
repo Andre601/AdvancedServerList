@@ -7,14 +7,20 @@ on:
     workflows:
       - 'Create PR Artifacts'
 
+permissions:
+  issues: write
+  pull-requests: write
+
 jobs:
   comment:
     if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Get Artifact and Pull request info
         env:
-          GITHUB_TOKEN: ${{ github.token }} # No idea why this is set here when ${{ secrets.GITHUB_TOKEN }} is a thing...
+          GITHUB_TOKEN: ${{ github.token }} # Needs to be set as env variable so that 'gh api' can be used.
           WORKFLOW_RUN_EVENT_OBJ: ${{ toJSON(github.event.workflow_run) }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
@@ -23,14 +29,27 @@ jobs:
           echo "Previous Job ID: $PREVIOUS_JOB_ID"
           echo "PREVIOUS_JOB_ID=$PREVIOUS_JOB_ID" >> "$GITHUB_ENV"
           
-          ARTIFACT_URL=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
+          SUITE_ID=$(jq -r '.check_suite_id' <<< "$WORKFLOW_RUN_EVENT_OBJ")
+          echo "Previous Suite ID: $SUITE_ID"
+          echo "SUITE_ID=$SUITE_ID" >> "$GITHUB_ENV"
+          
+          ARTIFACT_ID=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
             --jq ".artifacts.[] |
             select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
             select(.expired==false) |
-            .archive_download_url")
+            .id")
           
-          echo "Artifact URL: $ARTIFACT_URL"
-          echo "ARTIFACT_URL=$ARTIFACT_URL" >> "$GITHUB_ENV"
+          echo "Artifact ID: $ARTIFACT_ID"
+          echo "ARTIFACT_ID=$ARTIFACT_ID" >> "$GITHUB_ENV"
+          
+          ARTIFACT_EXPIRE_DATE=$(gh api "/repos/$OWNER/$REPO/actions/artifacts" \
+            --jq ".artifacts.[] |
+            select(.workflow_run.id==${PREVIOUS_JOB_ID}) |
+            select(.expired==false) |
+            .expires_at")
+          
+          echo "Artifact Expire Date: $ARTIFACT_EXPIRE_DATE"
+          echo "ARTIFACT_EXPIRE_DATE=$ARTIFACT_EXPIRE_DATE" >> "$GITHUB_ENV"
           
           PR_NUMBER=$(jq -r '.pull_requests[0].number' \
             <<< "$WORKFLOW_RUN_EVENT_OBJ")
@@ -47,26 +66,34 @@ jobs:
         uses: peter-evans/find-comment@v2
         id: find-comment
         with:
-          issue_number: ${{ env.PR_NUMBER }}
-          comment_author: 'github-actions[bot]'
-      - name: Update Comment
+          issue-number: ${{ env.PR_NUMBER }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- pr-build comment -->'
+      - name: Print Comment info
+        run: |
+          echo "Comment ID: ${{ steps.find-comment.outputs.comment-id }}"
+          echo "Comment Author: ${{ steps.find-comment.outputs.comment-author }}"
+          echo "Comment created at: ${{ steps.find-comment.outputs.comment-created-at }}"
+      - name: Render Markdown Template
+        id: render
+        uses: chuhlomin/render-template@v1.7
         env:
           JOB_PATH: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ env.PREVIOUS_JOB_ID }}"
+          ARTIFACT_URL: "https://nightly.link/${{ github.repository }}/suites/${{ env.SUITE_ID }}/artifacts/${{ env.ARTIFACT_ID }}"
+          ARTIFACT_EXPIRE_DATE: "${{ env.ARTIFACT_EXPIRE_DATE }}"
           HEAD_SHA: "${{ env.HEAD_SHA }}"
-        uses: peter-evans/create-or-update-comment@v2
         with:
-          issue_number: ${{ env.PR_NUMBER }}
+          template: './.github/assets/pr-comments/success.md'
+          timezone: Europe/Zurich
+          vars: |
+            commit: ${{ env.HEAD_SHA }}
+            logs: ${{ env.JOB_PATH }}
+            download: ${{ env.ARTIFACT_URL }}
+            expire: ${{ env.ARTIFACT_EXPIRE_DATE }}
+      - name: Update Comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ env.PR_NUMBER }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
-          body: |-
-            ![badge]
-            
-            Build Successful! You can find a link to the downloadable artifact below.
-            
-            | Name     | Link                    |
-            | -------- | ----------------------- |
-            | Commit   | ${{ env.HEAD_SHA }}     |
-            | Logs     | ${{ env.JOB_PATH }}     |
-            | Download | ${{ env.ARTIFACT_URL }} |
-            
-            [badge]: https://img.shields.io/badge/Build_Success!-3fb950?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmZmZmZmIj48cGF0aCBkPSJNMjEuMDMgNS43MmEuNzUuNzUgMCAwIDEgMCAxLjA2bC0xMS41IDExLjVhLjc0Ny43NDcgMCAwIDEtMS4wNzItLjAxMmwtNS41LTUuNzVhLjc1Ljc1IDAgMSAxIDEuMDg0LTEuMDM2bDQuOTcgNS4xOTVMMTkuOTcgNS43MmEuNzUuNzUgMCAwIDEgMS4wNiAwWiI+PC9wYXRoPjwvc3ZnPg==
+          body: ${{ steps.render.outputs.result }}

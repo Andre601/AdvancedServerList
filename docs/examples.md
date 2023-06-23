@@ -28,7 +28,7 @@ Some examples about version-related things.
 You may want to display a separate MOTD or text for incompatible client versions.  
 This example here shows a separate MOTD and player count message for when the player's client version is older than what the server supports.
 
-```yaml
+```yaml title="outdated-client.yml"
 priority: 1
 
 # Display this profile, if the version of the player is below 760 (1.19.1)
@@ -47,7 +47,7 @@ playerCount:
 
 This profile would display a MOTD without HEX colours if the player's version is below 735 (1.16).
 
-```yaml
+```yaml title="pre-1_16.yml"
 priority: 1
 
 # Display this profile, if the version of the player is below 735 (1.16)
@@ -70,7 +70,7 @@ Examples that can be used with the Spigot or PaperMC version.
 
 Displays a separate profile for when the player has been banned from the server.
 
-```yaml
+```yaml title="banned.yml"
 priority: 1
 
 conditions:
@@ -94,7 +94,7 @@ Some misc examples.
 
 Display a different profile when the playing pings a specific domain/IP.
 
-```yaml
+```yaml title="specific-host.yml"
 priority: 1
 
 conditions:
@@ -109,7 +109,7 @@ motd:
 
 Display a different profile, if the player pinging the server is "known" by AdvancedServerList (Has joined before with the same IP).
 
-```yaml
+```yaml title="personalized.yml"
 priority: 1
 
 conditions:
@@ -132,7 +132,8 @@ playerCount:
 v1.10.0 of AdvancedServerList introduced an option called `profiles`. It allows you to create multiple variants of an MOTD, playercount, etc. while also supporting the normal (global) options as a fallback.
 
 The following example will create a profile that has a randomized MOTD, but the same hover for both:
-```yaml
+
+```yaml title="random-motd.yml"
 priority: 1
 
 profiles:

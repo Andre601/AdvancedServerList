@@ -17,21 +17,13 @@ updates:
       - 'Type: Update Dependency'
       - 'Target: Core'
   - package-ecosystem: maven
-    directory: "/paper"
+    directory: "/bukkit"
     schedule:
       interval: daily
     open-pull-requests-limit: 10
     labels:
       - 'Type: Update Dependency'
-      - 'Target: PaperMC'
-  - package-ecosystem: maven
-    directory: "/spigot"
-    schedule:
-      interval: daily
-    open-pull-requests-limit: 10
-    labels:
-      - 'Type: Update Dependency'
-      - 'Target: Spigot'
+      - 'Target: Bukkit'
   - package-ecosystem: maven
     directory: "/velocity"
     schedule:

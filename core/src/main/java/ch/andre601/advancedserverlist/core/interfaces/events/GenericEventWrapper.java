@@ -75,6 +75,8 @@ public interface GenericEventWrapper<F, P extends GenericPlayer>{
     
     P createPlayer(CachedPlayer player, int protocol);
     
+    GenericServer createGenericServer(int playersOnline, int playersMax, String host);
+    
     F createFavicon(BufferedImage image) throws Exception;
     
     default String resolveHost(InetSocketAddress address){

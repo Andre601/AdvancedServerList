@@ -11,7 +11,7 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
     
     Make sure to replace `{version}` with the latest version available in the [GitHub Repository][api-repo].
     
-    ```groovy
+    ```groovy title="build.gradle"
     repositorories {
         maven { url = 'https://jitpack.io/' }
     }
@@ -30,7 +30,7 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
     
     Make sure to replace `{version}` with the latest version available in the [GitHub Repository][api-repo].
     
-    ```xml
+    ```xml title="pom.xml"
     <repositories>
       <repository>
         <id>jitpack</id>
@@ -78,8 +78,9 @@ It will be needed at a later point.
 ### 2) Create a Placeholder class
 
 Make a new class that you want to use for the placeholders and let it extend the `PlaceholderProvider` class of AdvancedServerList.  
-Your IDE should now tell you to implement/override some methods. Confirm this action and your class should look something alongside this:  
-```java
+Your IDE should now tell you to implement/override some methods. Confirm this action and your class should look something alongside this:
+
+```java title="PlaceholderProvider example"
 public class MyPlaceholders extends PlaceholderProvider {
     
     public MyPlaceholders(String identifier) {
@@ -94,7 +95,8 @@ public class MyPlaceholders extends PlaceholderProvider {
 ```
 
 It's recommended to replace your generated constructor with a no-args one and set the identifier directly in the `super()`.  
-For example:  
+For example:
+
 ```java
 public MyPlaceholders() {
     super("myplaceholders");
@@ -106,8 +108,9 @@ The `placeholder` String is whatever value was provided after the identifier in 
 
 Something to note is, that when returning `null` will AdvancedServerList understand it as an invalid placeholder and return it unchanged.
 
-Here is a small example of the final class:  
-```java
+Here is a small example of the final class:
+
+```java title="PlaceholderProvider example"
 public class MyPlaceholders extends PlaceholderProvider {
     
     public MyPlaceholders() {
@@ -128,8 +131,7 @@ public class MyPlaceholders extends PlaceholderProvider {
 
 All that is left to do now is to register your class as a new PlaceholderProvider instance. To do this, get the API instance you retrieved earlier and use `addPlaceholderProvider` with a new instance of your class.
 
-Example:  
-```java
+```java title="Registering PlaceholderProvider class"
 AdvancedServerListAPI api = AdvancedServerListAPI.get();
 
 api.addPlaceholderProvider(new MyPlaceholders());

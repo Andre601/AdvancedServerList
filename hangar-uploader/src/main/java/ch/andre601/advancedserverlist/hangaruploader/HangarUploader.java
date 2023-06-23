@@ -112,8 +112,8 @@ public class HangarUploader{
                 VersionUpload.Platform.VELOCITY, List.of()
             ),
             Map.of(
-                VersionUpload.Platform.PAPER, List.of("1.19.x"),
-                VersionUpload.Platform.WATERFALL, List.of("1.19.x"),
+                VersionUpload.Platform.PAPER, List.of("1.19.x", "1.20.x"),
+                VersionUpload.Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
                 VersionUpload.Platform.VELOCITY, List.of("3.1")
             ),
             body,

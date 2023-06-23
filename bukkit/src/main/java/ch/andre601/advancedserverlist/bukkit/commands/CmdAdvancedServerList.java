@@ -50,7 +50,7 @@ public class CmdAdvancedServerList extends Command implements CommandExecutor{
         super(
             "advancedserverlist",
             "Main command of the plugin",
-            "/asl [reload|help]",
+            "/asl [reload|help|clearCache]",
             Collections.singletonList("asl")
         );
         

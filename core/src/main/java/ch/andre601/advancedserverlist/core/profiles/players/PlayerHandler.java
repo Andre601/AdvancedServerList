@@ -44,7 +44,7 @@ import java.util.UUID;
 
 public class PlayerHandler{
     
-    private final AdvancedServerList core;
+    private final AdvancedServerList<?> core;
     private final PluginLogger logger;
     private final Path cache;
     private List<CachedPlayer> cachedPlayers = new ArrayList<>();
@@ -53,11 +53,11 @@ public class PlayerHandler{
     private final Gson gson = new Gson();
     
     // UUID of MHF_Question
-    private final String defaultUUID = "606e2ff0-ed77-4842-9d6c-e1d3321c7838";
+    private final UUID defaultUUID = UUID.fromString("606e2ff0-ed77-4842-9d6c-e1d3321c7838");
     
     private CachedPlayer defaultPlayer = null;
     
-    public PlayerHandler(AdvancedServerList core){
+    public PlayerHandler(AdvancedServerList<?> core){
         this.core = core;
         this.logger = core.getPlugin().getPluginLogger();
         this.cache = core.getPlugin().getFolderPath().resolve("playercache.json");
@@ -69,7 +69,7 @@ public class PlayerHandler{
             return;
         }
         
-        if(core.getFileHandler().getBoolean("disable_cache")){
+        if(core.getFileHandler().getBoolean("disableCache")){
             logger.info("'disable_cache' is set to true. Skipping playercache.json loading...");
             return;
         }
@@ -94,7 +94,7 @@ public class PlayerHandler{
             return;
         }
         
-        if(core.getFileHandler().getBoolean("disable_cache")){
+        if(core.getFileHandler().getBoolean("disableCache")){
             logger.info("'disable_cache' is set to true. Skipping saving of cached players...");
             return;
         }
@@ -110,14 +110,14 @@ public class PlayerHandler{
     }
     
     public void addPlayer(String ip, String name, UUID uuid){
-        if(contains(ip) || core.getFileHandler().getBoolean("disable_cache"))
+        if(contains(ip) || core.getFileHandler().getBoolean("disableCache"))
             return;
         
         cachedPlayers.add(new CachedPlayer(ip, name, uuid));
     }
     
     public CachedPlayer getCachedPlayer(String key){
-        if(!contains(key) || core.getFileHandler().getBoolean("disable_cache"))
+        if(!contains(key) || core.getFileHandler().getBoolean("disableCache"))
             return getDefaultPlayer();
         
         for(CachedPlayer player : cachedPlayers){
@@ -157,8 +157,8 @@ public class PlayerHandler{
         
         return (defaultPlayer = new CachedPlayer(
             "0.0.0.0",
-            core.getFileHandler().getString("Anonymous", "unknown_player"),
-            convertToUUID(core.getFileHandler().getString(defaultUUID, "unknown_player_uuid"))
+            core.getFileHandler().getString("Anonymous", "unknownPlayer", "name"),
+            convertToUUID(core.getFileHandler().getString(defaultUUID.toString(), "unknownPlayer", "uuid"))
         ));
     }
     
@@ -167,7 +167,7 @@ public class PlayerHandler{
             return UUID.fromString(uuid);
         }catch(IllegalArgumentException ex){
             // This is always a valid UUID.
-            return UUID.fromString(defaultUUID);
+            return defaultUUID;
         }
     }
     

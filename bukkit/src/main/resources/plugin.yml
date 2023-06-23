@@ -24,7 +24,7 @@ softdepend:
 commands:
   advancedserverlist:
     description: 'Main command of AdvancedServerList'
-    usage: '/<command> [help|reload]'
+    usage: '/<command> [help|reload|clearCache]'
     aliases:
       - 'asl'
     permission: 'advancedserverlist.admin'
@@ -51,4 +51,7 @@ permissions:
     default: op
   advancedserverlist.command.reload:
     description: 'Grants access to /asl reload'
+    default: op
+  advancedserverlist.command.clearcache:
+    description: 'Clears the Player and Favicon cache'
     default: op

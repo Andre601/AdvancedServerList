@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.core.interfaces.commands;
 
+import java.util.Locale;
+
 public abstract class PluginCommand{
     
     private final String argument;
@@ -38,7 +40,7 @@ public abstract class PluginCommand{
     }
     
     public String getPermission(){
-        return "advancedserverlist.command." + getArgument();
+        return "advancedserverlist.command." + getArgument().toLowerCase(Locale.ROOT);
     }
     
     public abstract void handle(CmdSender sender);

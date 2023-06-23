@@ -30,10 +30,11 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 import ch.andre601.advancedserverlist.velocity.commands.CmdAdvancedServerList;
-import ch.andre601.advancedserverlist.velocity.events.JoinEvent;
-import ch.andre601.advancedserverlist.velocity.events.PingEvent;
+import ch.andre601.advancedserverlist.velocity.listeners.JoinEvent;
+import ch.andre601.advancedserverlist.velocity.listeners.PingEvent;
 import ch.andre601.advancedserverlist.velocity.logging.VelocityLogger;
 import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerPlaceholders;
+import ch.andre601.advancedserverlist.velocity.objects.VelocityServerPlaceholders;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
@@ -55,7 +56,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     private final Path path;
     private final Metrics.Factory metrics;
     
-    private AdvancedServerList core;
+    private AdvancedServerList<Favicon> core;
     private FaviconHandler<Favicon> faviconHandler = null;
     
     @Inject
@@ -69,7 +70,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     
     @Subscribe
     public void init(ProxyInitializeEvent event){
-        this.core = new AdvancedServerList(this, new VelocityPlayerPlaceholders());
+        this.core = AdvancedServerList.init(this, VelocityPlayerPlaceholders.init(), VelocityServerPlaceholders.init());
     }
     
     @Subscribe
@@ -109,7 +110,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     }
     
     @Override
-    public AdvancedServerList getCore(){
+    public AdvancedServerList<Favicon> getCore(){
         return core;
     }
     

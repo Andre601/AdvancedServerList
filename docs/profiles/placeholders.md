@@ -11,31 +11,42 @@ The following placeholders are available in AdvancedServerList itself. Please no
 
 These placeholders use the player who pinged the server, to return values. They may require the player to be cached in order to work.
 
-| Placeholder                 | Description                                                     | Platforms    | Cached Player required?\* |
-|-----------------------------|-----------------------------------------------------------------|--------------|---------------------------|
-| `${player name}`            | The name of the player.                                         | All          | Yes\*\*                   |
-| `${player protocol}`        | The protocol version of the player.                             | All          | No                        |
-| `${player uuid}`            | The UUID of the player.                                         | All          | Yes\*\*\*                 |
-| `${player version}`         | The protocol version of the player as readable MC version.      | Velocity     | No                        |
-| `${player hasPlayedBefore}` | Boolean for whether the player has played on the server before. | Spigot/Paper | Yes                       |
-| `${player isBanned}`        | Boolean for whether the player has been banned from the server. | Spigot/Paper | Yes                       |
-| `${player isWhitelisted}`   | Boolean for whether the player is whitelisted on the server.    | Spigot/Paper | Yes                       |
+| Placeholder                 | Description                                                     | Platforms    | Cached Player required?[^1] |
+|-----------------------------|-----------------------------------------------------------------|--------------|-----------------------------|
+| `${player name}`            | The name of the player.                                         | All          | Yes[^2]                     |
+| `${player protocol}`        | The protocol version of the player.                             | All          | No                          |
+| `${player uuid}`            | The UUID of the player.                                         | All          | Yes[^3]                     |
+| `${player version}`         | The protocol version of the player as readable MC version.      | Velocity     | No                          |
+| `${player hasPlayedBefore}` | Boolean for whether the player has played on the server before. | Spigot/Paper | Yes                         |
+| `${player isBanned}`        | Boolean for whether the player has been banned from the server. | Spigot/Paper | Yes                         |
+| `${player isWhitelisted}`   | Boolean for whether the player is whitelisted on the server.    | Spigot/Paper | Yes                         |
 
-\*Whether this placeholder requires the player to have joined before while AdvancedServerList was running. When `disable_cache` is enabled will these placeholders not work.  
-\*\*Will default to whatever name has been provided in the config.yml's `unknown_player` option, when the player isn't cached yet.  
-\*\*\*Will default to whatever name has been provided in the config.yml's `unknown_player_uuid` option, when the player isn't cached yet.
+[^1]:
+    Whether this placeholder requires the player to have joined before while AdvancedServerList was running.  
+    When `disableCache` is enabled will these placeholders not work.
+[^2]: Will default to whatever name has been provided in the `unknownPlayer -> name` option of the config.yml, when the player isn't cached yet.
+[^3]: Will default to whatever name has been provided in the `unknownPlayer -> uuid` option of the config.yml, when the player isn't cached yet.
 
 ### Server
 
 These placeholders use values given by the server/proxy AdvancedServerList runs on.
 
-| Placeholder               | Description                                              |
-|---------------------------|----------------------------------------------------------|
-| `${server playersOnline}` | The number of players online on this server.             |
-| `${server playersMax}`    | The total number of players that can join this server.\* |
-| `${server host}`          | The domain/IP the player pinged.                         |
+| Placeholder                  | Description                                                             |
+|------------------------------|-------------------------------------------------------------------------|
+| `${server playersOnline}`    | The number of players online on this proxy/server.[^4]                  |
+| `${server playersMax}`       | The total number of players that can join this server.[^5]              |
+| `${server host}`             | The domain/IP the player pinged.[^6]                                    |
+| `${server whitelistEnabled}` | Whether the whitelist is enabled or not. Only available on Spigot/Paper |
 
-\*This placeholder is affected by the [`Amount` option](../#amount) in a server list profile, with the exception being when used in [`Conditions`](../#conditions).
+[^4]:
+    An space-separated list of worlds (Spigot/Paper) or Servers (BungeeCord/Velocity) can be provided to display the number of players in these worlds/servers.  
+    Example: `${server playersOnline lobby1 lobby2}` will display the numbers of players online on the servers `lobby1` and `lobby2`.
+[^5]:
+    When the [`amount` option](../#amount) is used will this placeholder display the modified max players count.  
+    The only exception is [`conditions`](../#conditions) where it uses the actual max players of the server/proxy.
+[^6]:
+    An optional server name can be provided to display the IP/Domain associated with that server. Only works on BungeeCord/Velocity.
+    Example: `${server host survival}` would display the IP/Domain associated with the `survival` server.
 
 ## PlaceholderAPI
 
