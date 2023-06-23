@@ -37,6 +37,8 @@ import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.advancedserverlist.velocity.VelocityCore;
 import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerImpl;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
@@ -153,8 +155,28 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
         if(!plugin.getProxy().getPluginManager().isLoaded("papiproxybridge"))
             return text;
         
+        List<String> serverNames = plugin.getCore().getFileHandler().getStringList("papiServers");
+        if(serverNames == null || serverNames.isEmpty())
+            return text;
+        
+        RegisteredServer server = null;
+        for(String serverName : serverNames){
+            RegisteredServer tmp = plugin.getProxy().getServer(serverName).orElse(null);
+            if(tmp != null && !tmp.getPlayersConnected().isEmpty()){
+                server = tmp;
+                break;
+            }
+        }
+        
+        if(server == null)
+            return text;
+        
+        Player pl = PingEventHandler.getRandomPlayer(server.getPlayersConnected());
+        if(pl == null)
+            return text;
+        
         try{
-            CompletableFuture<String> future = PingEventHandler.getPAPI().formatPlaceholders(text, player.getUUID());
+            CompletableFuture<String> future = PingEventHandler.getPAPI().formatPlaceholders(text, pl.getUniqueId(), player.getUUID());
             return future.getNow(text);
         }catch(IllegalArgumentException ex){
             return text;

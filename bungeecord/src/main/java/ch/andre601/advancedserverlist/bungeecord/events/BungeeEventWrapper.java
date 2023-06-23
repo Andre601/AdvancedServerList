@@ -41,6 +41,8 @@ import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
 import java.awt.image.BufferedImage;
@@ -155,8 +157,29 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
         if(plugin.getProxy().getPluginManager().getPlugin("PAPIProxyBridge") == null)
             return text;
         
+        List<String> serverNames = plugin.getCore().getFileHandler().getStringList("papiServers");
+        if(serverNames == null || serverNames.isEmpty())
+            return text;
+        
+        // Go through each listed server and use the first that is present and has players on it.
+        ServerInfo server = null;
+        for(String serverName : serverNames){
+            ServerInfo temp = plugin.getProxy().getServerInfo(serverName);
+            if(temp != null && !temp.getPlayers().isEmpty()){
+                server = temp;
+                break;
+            }
+        }
+        
+        if(server == null)
+            return text;
+        
+        ProxiedPlayer pl = PingEventHandler.getRandomPlayer(server.getPlayers());
+        if(pl == null)
+            return text;
+        
         try{
-            CompletableFuture<String> future = PingEventHandler.getPAPI().formatPlaceholders(text, player.getUUID());
+            CompletableFuture<String> future = PingEventHandler.getPAPI().formatPlaceholders(text, pl.getUniqueId(), player.getUUID());
             return future.getNow(text);
         }catch(IllegalArgumentException ex){
             return text;

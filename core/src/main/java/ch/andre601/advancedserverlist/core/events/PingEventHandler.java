@@ -38,9 +38,15 @@ import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import net.william278.papiproxybridge.api.PlaceholderAPI;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+
 public class PingEventHandler{
     
     private static PlaceholderAPI papi;
+    private static final Random random = new Random();
     
     public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
         if(event.isInvalidProtocol())
@@ -133,5 +139,16 @@ public class PingEventHandler{
             return papi;
         
         return (papi = PlaceholderAPI.getInstance());
+    }
+    
+    public static <P> P getRandomPlayer(Collection<P> players){
+        if(players.isEmpty())
+            return null;
+        
+        List<P> list = new ArrayList<>(players);
+        
+        synchronized(random){
+            return list.get(random.nextInt(players.size()));
+        }
     }
 }

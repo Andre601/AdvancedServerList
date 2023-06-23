@@ -31,6 +31,7 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileSerializer;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.File;
@@ -38,9 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class FileHandler{
     
@@ -163,5 +162,13 @@ public class FileHandler{
     
     public boolean getBoolean(Object... path){
         return node.node(path).getBoolean();
+    }
+    
+    public List<String> getStringList(Object... path){
+        try{
+            return node.node(path).getList(String.class);
+        }catch(SerializationException ex){
+            return Collections.emptyList();
+        }
     }
 }
