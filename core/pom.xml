@@ -105,6 +105,12 @@
             <version>32.0.1-jre</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>net.william278</groupId>
+            <artifactId>PAPIProxyBridge</artifactId>
+            <version>1.2.2</version>
+            <scope>provided</scope>
+        </dependency>
         
         <!-- Test dependencies -->
         <dependency>

@@ -32,6 +32,16 @@ disableCache: false
 checkUpdates: true
 
 #
+# Only used on BungeeCord and Velocity.
+#
+# List of servers that have PlaceholderAPI and PAPIProxyBridge installed on them.
+# AdvancedServerList will go through the list and select the first server that has the above-mentioned plugins on it
+# AND is also having at least one player online.
+# This server will then be used to parse PlaceholderAPI placeholders.
+#
+papiServers: []
+
+#
 # DO NOT EDIT!
 #
 # This is used internally to determine if the config needs to be migrated.

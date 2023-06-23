@@ -32,6 +32,7 @@ import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileSerializer;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.NodeStyle;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
@@ -44,6 +45,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -189,6 +191,14 @@ public class FileHandler{
     
     public boolean getBoolean(Object... path){
         return node.node(path).getBoolean();
+    }
+    
+    public List<String> getStringList(Object... path){
+        try{
+            return node.node(path).getList(String.class);
+        }catch(SerializationException ex){
+            return Collections.emptyList();
+        }
     }
     
     public boolean isOldConfig(){

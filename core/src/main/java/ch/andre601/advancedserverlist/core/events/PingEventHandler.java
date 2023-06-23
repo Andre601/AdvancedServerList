@@ -36,8 +36,17 @@ import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
+import net.william278.papiproxybridge.api.PlaceholderAPI;
+
+import java.util.*;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 public class PingEventHandler{
+    
+    private static PlaceholderAPI papi;
+    private static final Random random = new Random();
     
     public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
         if(event.isInvalidProtocol())
@@ -123,5 +132,32 @@ public class PingEventHandler{
         }
         
         event.updateEvent();
+    }
+    
+    public static PlaceholderAPI getPAPI(){
+        if(papi != null)
+            return papi;
+        
+        return (papi = PlaceholderAPI.getInstance());
+    }
+    
+    public static <P> P getRandomPlayer(Collection<P> players){
+        if(players.isEmpty())
+            return null;
+        
+        List<P> list = new ArrayList<>(players);
+        
+        synchronized(random){
+            return list.get(random.nextInt(players.size()));
+        }
+    }
+    
+    public static String parsePlaceholders(String text, UUID carrier, UUID player){
+        try{
+            CompletableFuture<String> future = getPAPI().formatPlaceholders(text, carrier, player);
+            return future.getNow(text);
+        }catch(IllegalArgumentException | CancellationException | CompletionException ex){
+            return text;
+        }
     }
 }

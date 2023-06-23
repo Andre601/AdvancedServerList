@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.velocity.listeners;
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -37,6 +38,7 @@ import ch.andre601.advancedserverlist.velocity.VelocityCore;
 import ch.andre601.advancedserverlist.velocity.objects.VelocityPlayerImpl;
 import ch.andre601.advancedserverlist.velocity.objects.VelocityProxyImpl;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
@@ -152,7 +154,26 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     
     @Override
     public String parsePAPIPlaceholders(String text, VelocityPlayerImpl player){
-        return text;
+        if(!plugin.getProxy().getPluginManager().isLoaded("papiproxybridge"))
+            return text;
+        
+        List<String> servers = plugin.getCore().getFileHandler().getStringList("papiServers");
+        if(servers == null || servers.isEmpty())
+            return text;
+        
+        Player carrier = null;
+        for(String server : servers){
+            RegisteredServer tmp = plugin.getProxy().getServer(server).orElse(null);
+            if(tmp != null && !tmp.getPlayersConnected().isEmpty()){
+                carrier = PingEventHandler.getRandomPlayer(tmp.getPlayersConnected());
+                break;
+            }
+        }
+        
+        if(carrier == null)
+            return text;
+        
+        return PingEventHandler.parsePlaceholders(text, carrier.getUniqueId(), player.getUUID());
     }
     
     @Override
