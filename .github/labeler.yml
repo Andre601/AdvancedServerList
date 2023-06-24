@@ -1,0 +1,14 @@
+"Target: All":
+  - all: ["bukkit/**", "bungeecord/**", "core/**", "velocity/**"]
+
+"Target: Bukkit":
+  - all: ["bukkit/**", "!bungeecord/**", "!core/**", "!velocity/**"]
+
+"Target: BungeeCord":
+  - all: ["!bukkit/**", "bungeecord/**", "!core/**", "!velocity/**"]
+
+"Target: Core":
+  - all: ["!bukkit/**", "!bungeecord/**", "core/**", "!velocity/**"]
+
+"Target: Velocity":
+  - all: ["!bukkit/**", "!bungeecord/**", "!core/**", "velocity/**"]
