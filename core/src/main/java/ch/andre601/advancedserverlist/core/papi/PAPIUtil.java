@@ -1,0 +1,94 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2022-2023 Andre_601
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
+
+package ch.andre601.advancedserverlist.core.papi;
+
+import net.william278.papiproxybridge.api.PlaceholderAPI;
+
+import java.util.*;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+
+public class PAPIUtil{
+    
+    private final PlaceholderAPI papi;
+    
+    private final Random random = new Random();
+    
+    public PAPIUtil(){
+        this.papi = PlaceholderAPI.getInstance();
+    }
+    
+    // Make sure the version of PAPIProxyBridge we get has the required methods we need...
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public boolean isCompatible(){
+        try{
+            Class.forName("net.williams278.papiproxybridge.api.PlaceholderAPI").getMethod("findServers");
+            return true;
+        }catch(ClassNotFoundException | NoSuchMethodException ex){
+            return false;
+        }
+    }
+    
+    public String getServer(){
+        List<String> servers;
+        try{
+            servers = papi.findServers().getNow(Collections.emptyList());
+        }catch(CancellationException | CompletionException ex){
+            return null;
+        }
+        
+        if(servers == null || servers.isEmpty())
+            return null;
+        
+        // Get the first server from the list for (hopefully) some consistency.
+        return servers.get(0);
+    }
+    
+    public <P> P getPlayer(Collection<P> players){
+        if(players.isEmpty())
+            return null;
+        
+        List<P> list = new ArrayList<>(players);
+        
+        // We won't waste resources on a random call for a list with just one entry.
+        if(list.size() == 1)
+            return list.get(0);
+        
+        synchronized(random){
+            return list.get(random.nextInt(list.size()));
+        }
+    }
+    
+    public String parse(String text, UUID carrier, UUID player){
+        try{
+            CompletableFuture<String> future = papi.formatPlaceholders(text, carrier, player);
+            return future.getNow(text);
+        }catch(IllegalArgumentException | CancellationException | CompletionException ex){
+            return text;
+        }
+    }
+}

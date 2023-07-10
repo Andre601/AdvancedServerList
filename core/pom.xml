@@ -106,9 +106,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.william278</groupId>
+            <groupId>com.github.WiIIiam278</groupId>
             <artifactId>PAPIProxyBridge</artifactId>
-            <version>1.2.2</version>
+            <version>b05142e454</version>
             <scope>provided</scope>
         </dependency>
         
