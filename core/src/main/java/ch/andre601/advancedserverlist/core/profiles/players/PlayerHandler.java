@@ -31,23 +31,20 @@ import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import com.google.gson.Gson;
 import io.leangen.geantyref.TypeToken;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerHandler{
     
     private final AdvancedServerList<?> core;
     private final PluginLogger logger;
     private final Path cache;
-    private List<CachedPlayer> cachedPlayers = new ArrayList<>();
     
     private final Type listType = new TypeToken<ArrayList<CachedPlayer>>(){}.getType();
     private final Gson gson = new Gson();
@@ -55,6 +52,7 @@ public class PlayerHandler{
     // UUID of MHF_Question
     private final UUID defaultUUID = UUID.fromString("606e2ff0-ed77-4842-9d6c-e1d3321c7838");
     
+    private List<CachedPlayer> cachedPlayers = new ArrayList<>();
     private CachedPlayer defaultPlayer = null;
     
     public PlayerHandler(AdvancedServerList<?> core){
@@ -75,13 +73,21 @@ public class PlayerHandler{
         }
     
         try{
-            Reader reader = Files.newBufferedReader(cache);
+            BufferedReader reader = Files.newBufferedReader(cache);
             
             cachedPlayers = gson.fromJson(reader, listType);
             
             reader.close();
         }catch(IOException ex){
             logger.warn("Encountered IOException while reading the playercache.json file!", ex);
+            return;
+        }
+        
+        // In case Gson messes up... I guess.
+        if(cachedPlayers == null){
+            logger.warn("Couldn't load players from playercache.json file. Is the JSON valid?");
+            // Create new ArrayList instance to avoid further issues.
+            cachedPlayers = new ArrayList<>();
             return;
         }
         
