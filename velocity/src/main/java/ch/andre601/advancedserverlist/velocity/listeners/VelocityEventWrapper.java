@@ -157,10 +157,10 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
         if(!plugin.getProxy().getPluginManager().isLoaded("papiproxybridge"))
             return text;
         
-        if(!PingEventHandler.getPAPI().isCompatible())
+        if(!PingEventHandler.getPAPIUtil().isCompatible())
             return text;
         
-        String server = PingEventHandler.getPAPI().getServer();
+        String server = PingEventHandler.getPAPIUtil().getServer();
         if(server == null || server.isEmpty())
             return text;
         
@@ -168,11 +168,11 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
         if(registeredServer == null || registeredServer.getPlayersConnected().isEmpty())
             return text;
         
-        Player carrier = PingEventHandler.getPAPI().getPlayer(registeredServer.getPlayersConnected());
+        Player carrier = PingEventHandler.getPAPIUtil().getPlayer(registeredServer.getPlayersConnected());
         if(carrier == null)
             return text;
         
-        return PingEventHandler.getPAPI().parse(text, carrier.getUniqueId(), player.getUUID());
+        return PingEventHandler.getPAPIUtil().parse(text, carrier.getUniqueId(), player.getUUID());
     }
     
     @Override

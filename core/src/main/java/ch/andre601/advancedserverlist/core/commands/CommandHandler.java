@@ -36,7 +36,7 @@ public class CommandHandler{
     
     private final List<PluginCommand> subCommands = new ArrayList<>();
     
-    public CommandHandler(AdvancedServerList core){
+    public CommandHandler(AdvancedServerList<?> core){
         subCommands.add(new Help());
         subCommands.add(new Reload(core));
         subCommands.add(new ClearCache(core));
@@ -86,9 +86,9 @@ public class CommandHandler{
     
     private static class Reload extends PluginCommand{
         
-        private final AdvancedServerList core;
+        private final AdvancedServerList<?> core;
         
-        public Reload(AdvancedServerList core){
+        public Reload(AdvancedServerList<?> core){
             super("reload");
             
             this.core = core;
@@ -122,9 +122,9 @@ public class CommandHandler{
     
     private static class ClearCache extends PluginCommand{
         
-        private final AdvancedServerList core;
+        private final AdvancedServerList<?> core;
         
-        public ClearCache(AdvancedServerList core){
+        public ClearCache(AdvancedServerList<?> core){
             super("clearCache");
             
             this.core = core;

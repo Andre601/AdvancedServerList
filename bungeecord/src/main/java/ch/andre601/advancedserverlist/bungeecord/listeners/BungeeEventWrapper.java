@@ -158,10 +158,10 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
         if(plugin.getProxy().getPluginManager().getPlugin("PAPIProxyBridge") == null)
             return text;
         
-        if(!PingEventHandler.getPAPI().isCompatible())
+        if(!PingEventHandler.getPAPIUtil().isCompatible())
             return text;
         
-        String server = PingEventHandler.getPAPI().getServer();
+        String server = PingEventHandler.getPAPIUtil().getServer();
         if(server == null || server.isEmpty())
             return text;
         
@@ -169,11 +169,11 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
         if(serverInfo == null || serverInfo.getPlayers().isEmpty())
             return text;
         
-        ProxiedPlayer carrier = PingEventHandler.getPAPI().getPlayer(serverInfo.getPlayers());
+        ProxiedPlayer carrier = PingEventHandler.getPAPIUtil().getPlayer(serverInfo.getPlayers());
         if(carrier == null)
             return text;
         
-        return PingEventHandler.getPAPI().parse(text, carrier.getUniqueId(), player.getUUID());
+        return PingEventHandler.getPAPIUtil().parse(text, carrier.getUniqueId(), player.getUUID());
     }
     
     @Override

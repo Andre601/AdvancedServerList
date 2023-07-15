@@ -39,32 +39,27 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public class FaviconHandler<F>{
     
-    private final Cache<String, F> favicons = CacheBuilder.newBuilder()
+    private final Cache<String, CompletableFuture<F>> favicons = CacheBuilder.newBuilder()
         .expireAfterWrite(5, TimeUnit.MINUTES)
         .build();
     
-    private final AdvancedServerList core;
+    private final AdvancedServerList<F> core;
     
-    public FaviconHandler(AdvancedServerList core){
+    public FaviconHandler(AdvancedServerList<F> core){
         this.core = core;
     }
     
     public F getFavicon(String input, Function<BufferedImage, F> function){
         try{
-            return favicons.get(input, () -> {
-                BufferedImage image = resolveImage(core, input);
-                if(image == null)
-                    return null;
-                
-                return function.apply(image);
-            });
-        }catch(ExecutionException ignored){
+            return favicons.get(input, () -> convert(input, function)).getNow(null);
+        }catch(ExecutionException e){
             return null;
         }
     }
@@ -73,7 +68,17 @@ public class FaviconHandler<F>{
         favicons.invalidateAll();
     }
     
-    private BufferedImage resolveImage(AdvancedServerList core, String input){
+    private CompletableFuture<F> convert(String input, Function<BufferedImage, F> function){
+        return CompletableFuture.supplyAsync(() -> {
+            BufferedImage img = resolveImage(core, input);
+            if(img == null)
+                return null;
+            
+            return function.apply(img);
+        });
+    }
+    
+    private BufferedImage resolveImage(AdvancedServerList<F> core, String input){
         InputStream stream;
         
         if(input.toLowerCase(Locale.ROOT).startsWith("https://")){
@@ -126,7 +131,7 @@ public class FaviconHandler<F>{
         }
     }
     
-    private InputStream getFromUrl(AdvancedServerList core, String url){
+    private InputStream getFromUrl(AdvancedServerList<F> core, String url){
         try{
             URL faviconUrl = new URL(url);
             URLConnection connection = faviconUrl.openConnection();

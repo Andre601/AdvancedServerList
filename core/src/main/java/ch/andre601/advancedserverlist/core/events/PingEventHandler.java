@@ -127,7 +127,7 @@ public class PingEventHandler{
         event.updateEvent();
     }
     
-    public static PAPIUtil getPAPI(){
+    public static PAPIUtil getPAPIUtil(){
         if(papiUtil != null)
             return papiUtil;
         

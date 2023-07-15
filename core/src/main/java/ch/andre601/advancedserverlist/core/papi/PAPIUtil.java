@@ -36,7 +36,7 @@ public class PAPIUtil{
     
     private final PlaceholderAPI papi;
     
-    private final Random random = new Random();
+    private final PAPICache cache = new PAPICache();
     
     public PAPIUtil(){
         this.papi = PlaceholderAPI.getInstance();
@@ -46,41 +46,34 @@ public class PAPIUtil{
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isCompatible(){
         try{
-            Class.forName("net.williams278.papiproxybridge.api.PlaceholderAPI").getMethod("findServers");
+            papi.getClass().getMethod("findServers");
             return true;
-        }catch(ClassNotFoundException | NoSuchMethodException ex){
+        }catch(NoSuchMethodException ex){
             return false;
         }
     }
     
     public String getServer(){
-        List<String> servers;
-        try{
-            servers = papi.findServers().getNow(Collections.emptyList());
-        }catch(CancellationException | CompletionException ex){
-            return null;
-        }
-        
-        if(servers == null || servers.isEmpty())
-            return null;
-        
-        // Get the first server from the list for (hopefully) some consistency.
-        return servers.get(0);
+        return cache.get(() -> {
+            List<String> servers;
+            try{
+                servers = papi.findServers().getNow(Collections.emptyList());
+            }catch(CancellationException | CompletionException ex){
+                return null;
+            }
+            
+            if(servers == null || servers.isEmpty())
+                return null;
+            
+            return servers.get(0);
+        });
     }
     
     public <P> P getPlayer(Collection<P> players){
         if(players.isEmpty())
             return null;
         
-        List<P> list = new ArrayList<>(players);
-        
-        // We won't waste resources on a random call for a list with just one entry.
-        if(list.size() == 1)
-            return list.get(0);
-        
-        synchronized(random){
-            return list.get(random.nextInt(list.size()));
-        }
+        return List.copyOf(players).get(0);
     }
     
     public String parse(String text, UUID carrier, UUID player){
