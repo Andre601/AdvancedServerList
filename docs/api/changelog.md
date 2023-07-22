@@ -13,9 +13,9 @@ They are ordered newest to oldest.
 ### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v3-added }
 
 - New platform-specific `GenericServer` instances with their own methods to use.
-  - `BukkitServer` - Contains a `getWorlds()` method that returns a `Map<String, World>` of all loaded worlds in the server.
-  - `BungeeProxy` - Contains a `getServers()` method that returns a `Map<String, ServerInfo>` of all known Servers for BungeeCord.
-  - `VelocityProxy` - Contains a `getServers()` method that returns a `Map<String, RegisteredServer>` of all known Servers for Velocity.
+    - `BukkitServer` - Contains a `getWorlds()` method that returns a `Map<String, World>` of all loaded worlds in the server.
+    - `BungeeProxy` - Contains a `getServers()` method that returns a `Map<String, ServerInfo>` of all known Servers for BungeeCord.
+    - `VelocityProxy` - Contains a `getServers()` method that returns a `Map<String, RegisteredServer>` of all known Servers for Velocity.
 
 ### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v-removed }
 
