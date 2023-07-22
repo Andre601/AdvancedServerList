@@ -20,8 +20,8 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
         implementation 'ch.andre601.asl-api:api:{version}'
         
         // Optional platform dependencies
+        implementation 'ch.andre601.asl-api:platform-bukkit:{version}'
         implementation 'ch.andre601.asl-api:platform-bungeecord:{version}'
-        implementation 'ch.andre601.asl-api:platform-spigot:{version}'
         implementation 'ch.andre601.asl-api:platform-velocity:{version}'
     }
     ```
@@ -48,12 +48,12 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
       <!-- Optional platform dependencies -->
       <dependency>
         <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>platform-bungeecord</artifactId>
+        <artifactId>platform-bukkit</artifactId>
         <version>{version}</version>
       </dependency>
       <dependency>
         <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>platform-spigot</artifactId>
+        <artifactId>platform-bungeecord</artifactId>
         <version>{version}</version>
       </dependency>
       <dependency>
