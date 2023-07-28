@@ -31,6 +31,7 @@ import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerImpl;
 import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeeProxyImpl;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -42,6 +43,7 @@ import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
 import java.awt.image.BufferedImage;
@@ -153,7 +155,25 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     
     @Override
     public String parsePAPIPlaceholders(String text, BungeePlayerImpl player){
-        return text;
+        if(plugin.getProxy().getPluginManager().getPlugin("PAPIProxyBridge") == null)
+            return text;
+        
+        if(!PingEventHandler.getPAPIUtil().isCompatible())
+            return text;
+        
+        String server = PingEventHandler.getPAPIUtil().getServer();
+        if(server == null || server.isEmpty())
+            return text;
+        
+        ServerInfo serverInfo = plugin.getProxy().getServerInfo(server);
+        if(serverInfo == null || serverInfo.getPlayers().isEmpty())
+            return text;
+        
+        ProxiedPlayer carrier = PingEventHandler.getPAPIUtil().getPlayer(serverInfo.getPlayers());
+        if(carrier == null)
+            return text;
+        
+        return PingEventHandler.getPAPIUtil().parse(text, carrier.getUniqueId(), player.getUUID());
     }
     
     @Override

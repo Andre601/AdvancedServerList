@@ -6,5 +6,11 @@
   "authors": [
     "Andre_601"
   ],
+  "dependencies": [
+    {
+      "id": "papiproxybridge",
+      "optional": true
+    }
+  ],
   "main": "ch.andre601.advancedserverlist.velocity.VelocityCore"
 }

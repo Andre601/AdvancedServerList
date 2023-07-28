@@ -23,17 +23,27 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.check;
+package ch.andre601.advancedserverlist.core.papi;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.function.Supplier;
 
-import java.util.concurrent.ThreadFactory;
-
-public class UpdateCheckThread implements ThreadFactory{
-    @Override
-    public Thread newThread(@NotNull Runnable r){
-        Thread t = new Thread(r, "AdvancedServerList-UpdateThread");
-        t.setDaemon(true);
-        return t;
+public class PAPICache{
+    
+    private CacheValue cache = null;
+    
+    public PAPICache(){}
+    
+    public String get(Supplier<String> supplier){
+        if(cache == null || cache.isExpired())
+            cache = new CacheValue(supplier.get(), System.currentTimeMillis());
+        
+        return cache.server();
+    }
+    
+    private record CacheValue(String server, long timestamp){
+        // Consider the cache expired if it is older than 5 seconds.
+        public boolean isExpired(){
+            return (timestamp < 0L) || System.currentTimeMillis() - timestamp >= 5000L;
+        }
     }
 }

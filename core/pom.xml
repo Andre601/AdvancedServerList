@@ -48,6 +48,10 @@
             <id>flexver-repo</id>
             <url>https://repo.sleeping.town/</url>
         </repository>
+        <repository>
+            <id>papiproxybridge-repo</id>
+            <url>https://repo.william278.net/releases/</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -103,6 +107,12 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>32.1.1-jre</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.william278</groupId>
+            <artifactId>papiproxybridge</artifactId>
+            <version>1.3</version>
             <scope>provided</scope>
         </dependency>
         

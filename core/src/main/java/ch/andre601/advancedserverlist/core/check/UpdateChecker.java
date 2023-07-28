@@ -52,7 +52,7 @@ public class UpdateChecker{
     private final String url = "https://api.modrinth.com/v2/project/advancedserverlist/version?loaders=[\"%s\"]";
     private final OkHttpClient client = new OkHttpClient();
     
-    private final AdvancedServerList core;
+    private final AdvancedServerList<?> core;
     private final PluginLogger logger;
     private final String loader;
     
@@ -65,7 +65,7 @@ public class UpdateChecker{
     
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new UpdateCheckThread());
     
-    public UpdateChecker(AdvancedServerList core){
+    public UpdateChecker(AdvancedServerList<?> core){
         this.core = core;
         this.logger = core.getPlugin().getPluginLogger();
         this.loader = core.getPlugin().getLoader();

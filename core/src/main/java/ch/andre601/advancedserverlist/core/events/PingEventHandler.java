@@ -31,13 +31,15 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
-import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
+import ch.andre601.advancedserverlist.core.papi.PAPIUtil;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
 import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 
 public class PingEventHandler{
+    
+    private static PAPIUtil papiUtil = null;
     
     public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
         if(event.isInvalidProtocol())
@@ -123,5 +125,12 @@ public class PingEventHandler{
         }
         
         event.updateEvent();
+    }
+    
+    public static PAPIUtil getPAPIUtil(){
+        if(papiUtil != null)
+            return papiUtil;
+        
+        return (papiUtil = new PAPIUtil());
     }
 }
