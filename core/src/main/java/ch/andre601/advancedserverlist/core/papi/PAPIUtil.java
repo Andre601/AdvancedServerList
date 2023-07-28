@@ -39,7 +39,7 @@ public class PAPIUtil{
     private final PAPICache cache = new PAPICache();
     
     public PAPIUtil(){
-        this.papi = PlaceholderAPI.getInstance();
+        this.papi = PlaceholderAPI.createInstance();
     }
     
     // Make sure the version of PAPIProxyBridge we get has the required methods we need...

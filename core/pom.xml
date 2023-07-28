@@ -48,6 +48,10 @@
             <id>flexver-repo</id>
             <url>https://repo.sleeping.town/</url>
         </repository>
+        <repository>
+            <id>papiproxybridge-repo</id>
+            <url>https://repo.william278.net/releases/</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -106,9 +110,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.WiIIiam278</groupId>
-            <artifactId>PAPIProxyBridge</artifactId>
-            <version>b05142e454</version>
+            <groupId>net.william278</groupId>
+            <artifactId>papiproxybridge</artifactId>
+            <version>1.3</version>
             <scope>provided</scope>
         </dependency>
         

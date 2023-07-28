@@ -32,6 +32,8 @@ import java.util.concurrent.ThreadFactory;
 public class UpdateCheckThread implements ThreadFactory{
     @Override
     public Thread newThread(@NotNull Runnable r){
-        return new Thread(r, "AdvancedServerList Update-Thread");
+        Thread t = new Thread(r, "AdvancedServerList-UpdateThread");
+        t.setDaemon(true);
+        return t;
     }
 }

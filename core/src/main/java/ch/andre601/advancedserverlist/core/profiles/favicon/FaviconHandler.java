@@ -39,9 +39,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Function;
 
 public class FaviconHandler<F>{
@@ -51,9 +49,11 @@ public class FaviconHandler<F>{
         .build();
     
     private final AdvancedServerList<F> core;
+    private final ThreadPoolExecutor faviconThreadPool;
     
     public FaviconHandler(AdvancedServerList<F> core){
         this.core = core;
+        this.faviconThreadPool = createFaviconThreadPool();
     }
     
     public F getFavicon(String input, Function<BufferedImage, F> function){
@@ -75,7 +75,7 @@ public class FaviconHandler<F>{
                 return null;
             
             return function.apply(img);
-        });
+        }, faviconThreadPool);
     }
     
     private BufferedImage resolveImage(AdvancedServerList<F> core, String input){
@@ -144,5 +144,13 @@ public class FaviconHandler<F>{
             core.getPlugin().getPluginLogger().warn("Cause: %s", ex.getMessage());
             return null;
         }
+    }
+    
+    private ThreadPoolExecutor createFaviconThreadPool(){
+        return new ThreadPoolExecutor(3, 3, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(1024), r -> {
+            Thread t = new Thread(r, "AdvancedServerList-FaviconThread");
+            t.setDaemon(true);
+            return t;
+        });
     }
 }
