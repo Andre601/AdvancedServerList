@@ -9,14 +9,14 @@ Feel free to suggest additional examples on my [Discord Server](https://discord.
 ## Table of Contents
 
 - [Versions](#versions)
-  - [Different List for outdated Clients](#different-list-for-outdated-clients)
-  - [Different MOTD for < 1.16](#different-motd-for-116)
+    - [Different List for outdated Clients](#different-list-for-outdated-clients)
+    - [Different MOTD for < 1.16](#different-motd-for-116)
 - [Spigot/PaperMC](#spigotpapermc)
-  - [Different profile for banned Player](#different-profile-for-banned-player)
+    - [Different profile for banned Player](#different-profile-for-banned-player)
 - [Other](#other)
-  - [Different profile for different host](#different-profile-for-different-host)
-  - [Different profile for known player](#different-profile-for-known-player)
-  - [Random MOTD but same hover](#random-motd-but-same-hover)
+    - [Different profile for different host](#different-profile-for-different-host)
+    - [Different profile for known player](#different-profile-for-known-player)
+    - [Random MOTD but same hover](#random-motd-but-same-hover)
 
 ----
 ## Versions

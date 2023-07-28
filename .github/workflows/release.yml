@@ -50,11 +50,12 @@ jobs:
             loaders: |
               bungeecord
               waterfall
-          - platforms: Spigot, Paper
+          - platforms: Spigot, Paper, Folia
             directory: bukkit
             loaders: |
               spigot
               paper
+              folia
           - platforms: Velocity
             directory: velocity
             loaders: velocity
