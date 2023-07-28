@@ -77,9 +77,10 @@ public class HangarUploader{
         boolean isPreRelease = args[2].equalsIgnoreCase("true");
         String body = System.getenv("GITHUB_RELEASE_BODY");
         
-        LOGGER.info("Version: {}", version);
-        LOGGER.info("Is Prerelease: {}", isPreRelease);
-        LOGGER.info("Release Message: {}", body);
+        LOGGER.info("Version:         {}", version);
+        LOGGER.info("Is Prerelease:   {}", isPreRelease);
+        LOGGER.info("Release Message:");
+        LOGGER.info(body);
         
         final List<Path> filePaths = List.of(
             new File("bukkit/target/AdvancedServerList-Bukkit-" + version + ".jar").toPath(),
@@ -98,6 +99,21 @@ public class HangarUploader{
                 "https://www.spigotmc.org/resources/6245/"
             )
         );
+        final List<VersionUpload.PluginDependency> bungeeDependencies = List.of(
+            VersionUpload.PluginDependency.createWithHangarNamespace(
+                "PAPIProxyBridge",
+                false,
+                new VersionUpload.Namespace("William278", "PAPIProxyBridge")
+            )
+        );
+        final List<VersionUpload.PluginDependency> velocityDependencies = List.of(
+            VersionUpload.PluginDependency.createWithHangarNamespace(
+                "PAPIProxyBridge",
+                false,
+                new VersionUpload.Namespace("William278", "PAPIProxyBridge")
+            )
+        );
+        
         final List<VersionUpload.MultipartFileOrUrl> fileInfo = List.of(
             new VersionUpload.MultipartFileOrUrl(List.of(VersionUpload.Platform.PAPER), null),
             new VersionUpload.MultipartFileOrUrl(List.of(VersionUpload.Platform.WATERFALL), null),
@@ -108,13 +124,13 @@ public class HangarUploader{
             version,
             Map.of(
                 VersionUpload.Platform.PAPER, paperDependencies,
-                VersionUpload.Platform.WATERFALL, List.of(),
-                VersionUpload.Platform.VELOCITY, List.of()
+                VersionUpload.Platform.WATERFALL, bungeeDependencies,
+                VersionUpload.Platform.VELOCITY, velocityDependencies
             ),
             Map.of(
                 VersionUpload.Platform.PAPER, List.of("1.19.x", "1.20.x"),
                 VersionUpload.Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
-                VersionUpload.Platform.VELOCITY, List.of("3.1")
+                VersionUpload.Platform.VELOCITY, List.of("3.2")
             ),
             body,
             fileInfo,
