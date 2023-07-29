@@ -91,10 +91,10 @@ Spanish Video by Ajneb97
 </a>
 
 <!-- Links -->
-[profiles]: https://andre601.ch/AdvancedServerList/latest/profiles
-[conditions]: https://andre601.ch/AdvancedServerList/latest/profiles/#conditions
-[placeholders]: https://andre601.ch/AdvancedServerList/latest/profiles/placeholders
-[minimessage]: https://andre601.ch/AdvancedServerList/latest/profiles/formatting
+[profiles]: https://docs.andre601.ch/AdvancedServerList/latest/profiles
+[conditions]: https://docs.andre601.ch/AdvancedServerList/latest/profiles/#conditions
+[placeholders]: https://docs.andre601.ch/AdvancedServerList/latest/profiles/placeholders
+[minimessage]: https://docs.andre601.ch/AdvancedServerList/latest/profiles/formatting
 
 [protocollib]: https://www.spigotmc.org/resources/1997/
 [placeholderapi]: https://www.spigotmc.org/resources/6245/
