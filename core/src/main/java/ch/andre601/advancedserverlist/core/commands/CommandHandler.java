@@ -78,7 +78,7 @@ public class CommandHandler{
             sender.sendMsg();
             sender.sendMsg("<aqua>/asl <white>help <grey>- Shows this help");
             sender.sendMsg();
-            sender.sendMsg("<aqua>/asl <white>reload <grey>- Reloads the plugin and clears caches");
+            sender.sendMsg("<aqua>/asl <white>reload <grey>- Reloads the config.yml and profiles");
             sender.sendMsg();
             sender.sendMsg("<aqua>/asl <white>clearCache <grey>- Clears the Player and Favicon cache");
         }
@@ -109,12 +109,6 @@ public class CommandHandler{
             }else{
                 sender.sendErrorMsg("<red>Error while loading profile(s)!");
             }
-            
-            core.clearFaviconCache();
-            sender.sendPrefixedMsg("<green>Successfully cleared Favicon Cache!");
-            
-            core.clearPlayerCache();
-            sender.sendPrefixedMsg("<green>Successfully cleared Player Cache!");
             
             sender.sendPrefixedMsg("<green>Reload complete!");
         }
