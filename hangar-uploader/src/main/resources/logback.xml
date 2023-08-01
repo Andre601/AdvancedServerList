@@ -39,13 +39,13 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
-        <file>${DEV_HOME}/Purr.log</file>
+        <file>${DEV_HOME}/HangarUploader.log</file>
         <encoder>
             <pattern>%d{dd.MM.yyyy HH:mm:ss} [%thread] [ %-5level] [%logger{0}] %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${DEV_HOME}/archived/purr-%d{dd.MM.yyyy}.%i.log</fileNamePattern>
+            <fileNamePattern>${DEV_HOME}/archived/hangeruploader-%d{dd.MM.yyyy}.%i.log</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>
             <maxHistory>60</maxHistory>
             <totalSizeCap>20GB</totalSizeCap>

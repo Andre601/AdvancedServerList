@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.hangaruploader;
 
+import ch.andre601.advancedserverlist.hangaruploader.version.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -66,11 +67,11 @@ public class HangarUploader{
     
     public static void main(String[] args) throws IOException{
         LOGGER.info("Starting Jar file...");
-        final VersionUpload.Namespace project = new VersionUpload.Namespace("Andre_601", "AdvancedServerList");
-        
         if(args.length < 3){
             throw new IllegalStateException("Application requires HANGAR_TOKEN, RELEASE_TAG, PRERELEASE and RELEASE_BODY to work");
         }
+        
+        final Namespace project = new Namespace("Andre_601", "AdvancedServerList");
         
         String apiToken = args[0];
         String version = args[1].startsWith("v") ? args[1].substring(1) : args[1];
@@ -87,50 +88,50 @@ public class HangarUploader{
             new File("bungeecord/target/AdvancedServerList-BungeeCord-" + version + ".jar").toPath(),
             new File("velocity/target/AdvancedServerList-Velocity-" + version + ".jar").toPath()
         );
-        final List<VersionUpload.PluginDependency> paperDependencies = List.of(
-            VersionUpload.PluginDependency.createWithHangarNamespace(
+        final List<Dependency> paperDependencies = List.of(
+            Dependency.fromNamespace(
                 "ViaVersion",
                 false,
-                new VersionUpload.Namespace("ViaVersion", "ViaVersion")
+                new Namespace("ViaVersion", "ViaVersion")
             ),
-            VersionUpload.PluginDependency.createWithExternalUrl(
+            Dependency.fromUrl(
                 "PlaceholderAPI",
                 false,
                 "https://www.spigotmc.org/resources/6245/"
             )
         );
-        final List<VersionUpload.PluginDependency> bungeeDependencies = List.of(
-            VersionUpload.PluginDependency.createWithHangarNamespace(
+        final List<Dependency> bungeeDependencies = List.of(
+            Dependency.fromNamespace(
                 "PAPIProxyBridge",
                 false,
-                new VersionUpload.Namespace("William278", "PAPIProxyBridge")
+                new Namespace("William278", "PAPIProxyBridge")
             )
         );
-        final List<VersionUpload.PluginDependency> velocityDependencies = List.of(
-            VersionUpload.PluginDependency.createWithHangarNamespace(
+        final List<Dependency> velocityDependencies = List.of(
+            Dependency.fromNamespace(
                 "PAPIProxyBridge",
                 false,
-                new VersionUpload.Namespace("William278", "PAPIProxyBridge")
+                new Namespace("William278", "PAPIProxyBridge")
             )
         );
         
-        final List<VersionUpload.MultipartFileOrUrl> fileInfo = List.of(
-            new VersionUpload.MultipartFileOrUrl(List.of(VersionUpload.Platform.PAPER), null),
-            new VersionUpload.MultipartFileOrUrl(List.of(VersionUpload.Platform.WATERFALL), null),
-            new VersionUpload.MultipartFileOrUrl(List.of(VersionUpload.Platform.VELOCITY), null)
+        final List<MultipartObject> fileInfo = List.of(
+            new MultipartObject(List.of(Platform.PAPER), null),
+            new MultipartObject(List.of(Platform.WATERFALL), null),
+            new MultipartObject(List.of(Platform.VELOCITY), null)
         );
         
-        final VersionUpload versionUpload = new VersionUpload(
+        final Version versionUpload = new Version(
             version,
             Map.of(
-                VersionUpload.Platform.PAPER, paperDependencies,
-                VersionUpload.Platform.WATERFALL, bungeeDependencies,
-                VersionUpload.Platform.VELOCITY, velocityDependencies
+                Platform.PAPER, paperDependencies,
+                Platform.WATERFALL, bungeeDependencies,
+                Platform.VELOCITY, velocityDependencies
             ),
             Map.of(
-                VersionUpload.Platform.PAPER, List.of("1.19.x", "1.20.x"),
-                VersionUpload.Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
-                VersionUpload.Platform.VELOCITY, List.of("3.2")
+                Platform.PAPER, List.of("1.19.x", "1.20.x"),
+                Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
+                Platform.VELOCITY, List.of("3.2")
             ),
             body,
             fileInfo,
@@ -145,8 +146,7 @@ public class HangarUploader{
         }
     }
     
-    public void uploadVersion(HttpClient client, VersionUpload.Namespace namespace, VersionUpload versionUpload,
-                              List<Path> filePaths) throws IOException, ParseException{
+    public void uploadVersion(HttpClient client, Namespace namespace, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("versionUpload", new StringBody(GSON.toJson(versionUpload), ContentType.APPLICATION_JSON));
         
