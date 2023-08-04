@@ -22,6 +22,7 @@ steps:
       # Obtain release ID
       - |-
         export RELEASE_ID=`curl --locatiion "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
+        --header 'Authorization: token $CB_TOKEN' \
         --header 'Accept: application/json' -s -S \
         --fail-with-body | jq -r ".[] | select (.tag_name==\"$CI_COMMIT_TAG\").id"`
       # Obrain Prerelease status
