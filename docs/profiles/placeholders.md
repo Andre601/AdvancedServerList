@@ -50,10 +50,15 @@ These placeholders use values given by the server/proxy AdvancedServerList runs 
 
 ## PlaceholderAPI
 
-The Spigot and Paper version of AdvancedServerList allow the usage of *any* placeholders provided by PlaceholderAPI by using the `%<identifier>_<values>%` placeholder format.  
-Depending on the placeholder used is a cached player required (i.e. `%player_name%`). AdvancedServerList will try to get a OfflinePlayer instance based on the cached UUID from the server to manage this.
+You can use Placeholders provided by PlaceholderAPI within a Server List profile using the default `%<identifier>_<values>%` pattern provided by PlaceholderAPI.  
+Support for PlaceholderAPI is given for all platforms!
 
-!!! warning "PlaceholderAPI placeholders can NOT be used in Conditions!"
+!!! note "Current limitations"
+    There are some limitations, namely:
+
+    - Placeholders requiring the player to be online will not work. Other placeholders may require an offline player instance, which AdvancedServerList can provide using its cached player mechanic.
+    - The BungeeCord and Velocity version of AdvancedServerList require PAPIProxyBridge for proper PlaceholderAPI support. Make sure to use at least 1.3 of the plugin.
+    - Placeholders from PlaceholderAPI can **not** be used within conditions!
 
 ## Custom Placeholders
 
