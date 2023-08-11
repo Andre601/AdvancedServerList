@@ -1,6 +1,9 @@
 when:
   event: tag
 
+depends_on:
+  - publish_assets
+
 steps:
   createFiles:
     secrets:
