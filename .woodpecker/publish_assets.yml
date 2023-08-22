@@ -17,7 +17,7 @@ steps:
       - cb_token
     commands:
       # Build the jar files
-      - mvn --projects :core,:$DIRECTORY clean install
+      - mvn --projects :core,:${DIRECTORY} clean install
       # Obtain release ID
       - |-
         export RELEASE_ID=`curl --locatiion "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
