@@ -5,7 +5,7 @@ depends_on:
   - publish_assets
 
 steps:
-  createFiles:
+  createGHRelease:
     secrets:
       - cb_token
       - gh_token
