@@ -36,8 +36,8 @@ conditions:
   - '${player protocol} < 760'
 
 motd:
-  - <red>You are using an outdated client!
-  - <red>Please update to 1.19.1 to join.
+  - '<red>You are using an outdated client!'
+  - '<red>Please update to 1.19.1 to join.'
 
 playerCount:
   text: '<red>Outdated Client!'
@@ -55,8 +55,8 @@ conditions:
   - '${player protocol} < 735'
 
 motd:
-  - <grey>Welcome to <aqua>YourServer.com</aqua>!
-  - <grey>Enjoy your stay.
+  - '<grey>Welcome to <aqua>YourServer.com</aqua>!'
+  - '<grey>Enjoy your stay.'
 ```
 
 ----
@@ -77,8 +77,8 @@ conditions:
   - '${player isBanned} = true'
 
 motd:
-  - <red>You have been <bold>BANNED</bold>!
-  - <red>Go away.
+  - '<red>You have been <bold>BANNED</bold>!'
+  - '<red>Go away.'
 
 # Don't show the player count to the banned player.
 playerCount:
@@ -101,8 +101,8 @@ conditions:
   - '${server host} = other.example.com'
 
 motd:
-  - <grey>Please use <aqua>mc.example.com
-  - <grey>to join our server.
+  - '<grey>Please use <aqua>mc.example.com'
+  - '<grey>to join our server.'
 ```
 
 ### Different profile for known player
@@ -116,8 +116,8 @@ conditions:
   - `${player name} != Anonymous` # "Anonymous" should be replaced with whatever you use in 'unknown_player'
 
 motd:
-  - <grey>Hello there <aqua>${player name}</aqua>!
-  - <grey>It's nice to see you again.
+  - '<grey>Hello there <aqua>${player name}</aqua>!'
+  - '<grey>It's nice to see you again.'
 
 playerCount:
   hover:
