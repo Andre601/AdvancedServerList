@@ -1,3 +1,7 @@
+---
+icon: octicons/command-palette-24
+---
+
 # API
 
 AdvancedServerList v2 introduced a new API that plugins can hook into to use.  

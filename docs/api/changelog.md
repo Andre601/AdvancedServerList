@@ -1,3 +1,7 @@
+---
+icon: octicons/log-24
+---
+
 # Changelog
 
 This page lists the recent changes made towards the AdvancedServerListAPI.  

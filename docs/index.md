@@ -1,9 +1,13 @@
+---
+icon: octicons/home-24
+---
+
 # AdvancedServerList Wiki
 
 Welcome to the Wiki of AdvancedServerList!
 
 On this site can you find the latest documentation for the plugin, including some useful examples.  
-If you're new to the plugin is it recommended to check out the [Profiles page](./profiles) for a quick start on how to use this plugin.
+If you're new to the plugin is it recommended to check out the [Profiles page](profiles/index.md) for a quick start on how to use this plugin.
 
 ## Platforms
 
@@ -25,12 +29,12 @@ AdvancedServerList supports the following platforms:
 
 ## Pages
 
-- [Profiles](./profiles)
-    - [Formatting](./profiles/formatting)
-    - [Placeholders](./profiles/placeholders)
-- [API](./api)
-- [Examples](./examples)
-- [PlaceholderAPI placeholders](./placeholderapi.md)
+- [Profiles](profiles/index.md)
+    - [Formatting](profiles/formatting.md)
+    - [Placeholders](profiles/placeholders.md)
+- [API](api/index.md)
+- [Examples](examples/index.md)
+- [PlaceholderAPI placeholders](placeholderapi/index.md)
 
 [spigot]: https://www.spigotmc.org
 [paper]: https://papermc.io

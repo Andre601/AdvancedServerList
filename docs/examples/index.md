@@ -1,3 +1,7 @@
+---
+icon: octicons/list-unordered-24
+---
+
 ## About
 
 !!! warning "The below examples may only work in v1.10.0 or newer!"

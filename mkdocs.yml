@@ -1,7 +1,7 @@
 site_name: AdvancedServerList Wiki
 site_description: 'Wiki for the AdvancedServerList plugin'
 site_author: 'Andre_601'
-site_url: 'https://www.andre601.ch/AdvancedServerList' # Uncomment to set a canonical URL
+site_url: 'https://docs.andre601.ch/AdvancedServerList'
 
 copyright: |
   &copy; Andre_601
@@ -26,8 +26,8 @@ nav:
     - migration/index.md
     - 'v1.5.3 to v1.6.0': migration/v1_5_3-to-v1_6_0.md
     - 'v1.9.0 to v1.10.0': migration/v1_9_0-to-v1_10_0.md
-  - Examples: examples.md
-  - PlaceholderAPI: placeholderapi.md
+  - Examples: examples/index.md
+  - PlaceholderAPI: placeholderapi/index.md
 
 theme:
   name: 'material'
@@ -46,18 +46,18 @@ theme:
   icon:
     repo: 'octicons/mark-github-16'
     admonition:
-      note: 'octicons/tag-16'
-      abstract: 'octicons/checklist-16'
-      info: 'octicons/info-16'
-      tip: 'octicons/squirrel-16'
-      success: 'octicons/check-16'
-      question: 'octicons/question-16'
-      warning: 'octicons/alert-16'
-      failure: 'octicons/x-circle-16'
-      danger: 'octicons/zap-16'
-      bug: 'octicons/bug-16'
-      example: 'octicons/beaker-16'
-      quote: 'octicons/quote-16'
+      note: 'octicons/tag-24'
+      abstract: 'octicons/checklist-24'
+      info: 'octicons/info-24'
+      tip: 'octicons/squirrel-24'
+      success: 'octicons/check-24'
+      question: 'octicons/question-24'
+      warning: 'octicons/alert-24'
+      failure: 'octicons/x-circle-24'
+      danger: 'octicons/zap-24'
+      bug: 'octicons/bug-24'
+      example: 'octicons/beaker-24'
+      quote: 'octicons/quote-24'
 
 extra_css:
   - assets/stylesheets/custom.css

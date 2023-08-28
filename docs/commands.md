@@ -1,3 +1,7 @@
+---
+icon: octicons/rel-file-path-24
+---
+
 # Commands
 
 The plugin adds commands to use for various things related to the plugin itself.  

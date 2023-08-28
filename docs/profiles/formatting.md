@@ -1,6 +1,10 @@
+---
+icon: octicons/pencil-24
+---
+
 # Formatting
 
-All text options, with exception of [`Conditions`](../#conditions), allow the usage of formatting options using [MiniMessage].
+All text options, with exception of [`Conditions`](../index.md#conditions), allow the usage of formatting options using [MiniMessage].
 
 !!! info "Online Tool"
     The devs of the Adventure library provide a handy online tool to create the right formatting codes to display the text properly.  
@@ -34,7 +38,7 @@ The following options are **not** supported, no matter what option they are used
 ## Colors
 
 Color options (`<aqua>`, `<red>`, `<gray>`, etc.) are available for all text options.  
-24-Bit HEX colors (`<#ff0000>`, `<#123abc>`, etc.) are only available for the [`Motd` option](../#motd) for a 1.16+ Server/Proxy.
+24-Bit HEX colors (`<#ff0000>`, `<#123abc>`, etc.) are only available for the [`Motd` option](../index.md#motd) for a 1.16+ Server/Proxy.
 
 ## Formatting
 

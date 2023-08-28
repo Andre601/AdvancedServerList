@@ -1,3 +1,7 @@
+---
+icon: material/percent
+---
+
 # PlaceholderAPI Placeholders
 
 The Spigot and Paper version of AdvancedServerList provide their own set of placeholders to use through [PlaceholderAPI].
