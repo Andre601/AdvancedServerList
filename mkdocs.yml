@@ -12,7 +12,9 @@ repo_name: Andre601/AdvancedServerList
 repo_url: https://github.com/Andre601/AdvancedServerList
 
 nav:
-  - Home: index.md
+  - Home:
+    - index.md
+    - Commands: commands.md
   - Profiles:
     - profiles/index.md
     - Formatting: profiles/formatting.md
