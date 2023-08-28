@@ -20,6 +20,10 @@ nav:
   - API:
     - api/index.md
     - Changelog: api/changelog.md
+  - Migration:
+    - migration/index.md
+    - 'v1.5.6 to v1.6.0': migration/v1_5_6-to-v1_6_0.md
+    - 'v1.9.0 to v1.10.0': migration/v1_9_0-to-v1_10_0.md
   - Examples: examples.md
   - PlaceholderAPI: placeholderapi.md
 
