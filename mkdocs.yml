@@ -61,7 +61,6 @@ nav:
         - objects:
           - VelocityPlayer: api/reference/platform-velocity/objects/velocityplayer.md
           - VelocityProxy: api/reference/platform-velocity/objects/velocityproxy.md
-      
   - Migration:
     - migration/index.md
     - 'v1.5.3 to v1.6.0': migration/v1_5_3-to-v1_6_0.md
@@ -105,8 +104,8 @@ extra_css:
 
 extra:
   social:
-    - icon: 'fontawesome/brands/github'
-      link: 'https://github.com/Andre601/asl-wiki'
+    - icon: 'simple/codeberg'
+      link: 'https://codeberg.org/Andre601/AdvancedServerList'
 
 plugins:
   - search
