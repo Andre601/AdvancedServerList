@@ -51,7 +51,7 @@ public class MyPlaceholders extends PlaceholderProvider {
 
 ## Method Detail
 
-### <span class="api-type__class">String</span> `parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server)` { #parsePlaceholder(string-genericplayer-genericserver) }
+### <span class="api-label api__abstract"></span> <span class="api-type__class">String</span> `parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server)` { #parsePlaceholder(string-genericplayer-genericserver) }
 
 Method called by AdvancedServerList's StringReplacer class to replace any appearances of `${<identifier> <placeholder>}` with whatever value a PlacehholderProvider may return.
 
