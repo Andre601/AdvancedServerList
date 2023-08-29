@@ -14,6 +14,10 @@ This class is useful for cases where you want to use the OfflinePlayer. Simply c
 | [`boolean`](#isbanned())        | [`isBanned()`](#isbanned())               |
 | [`boolean`](#iswhitelisted())   | [`isWhitelisted()`](#iswhitelisted())     |
 
+| Methods inherited from `ch.andre601.advancedserverlist.api.objects.`[`GenericPlayer`](../../api/objects/genericplayer.md) |
+|---------------------------------------------------------------------------------------------------------------------------|
+| [`getName()`](../../api/objects/genericplayer.md#getname()), [`getProtocol()`](../../api/objects/genericplayer.md#getprotocol()), [`getUUID()`](../../api/objects/genericplayer.md#getuuid()) |
+
 ----
 
 ## Method Detail

@@ -11,6 +11,10 @@ This interface is useful for cases where you want to get the worlds of the Serve
 |--------------------------------------|-------------------------------|
 | [`Map<String, World>`](#getworlds()) | [`getWorlds()`](#getworlds()) |
 
+| Methods inherited from `ch.andre601.advancedserverlist.api.objects.`[`GenericServer`](../../api/objects/genericserver.md) |
+|---------------------------------------------------------------------------------------------------------------------------|
+| [`getPlayersOnline()`](../../api/objects/genericserver.md#getplayersonline()), [`getPlayersMax()`](../../api/objects/genericserver.md#getplayersmax()), [`getHost()`](../../api/objects/genericserver.md#gethost()) |
+
 ----
 
 ## Method Detail

@@ -9,7 +9,11 @@ To get an instance of this class from a GenericPlayer instance, simply cast it t
 
 | Modifier and Type                         | Method                                              |
 |-------------------------------------------|-----------------------------------------------------|
-| [`String`](#getversion()) | [`getVersion()`](#getversion()) |
+| [`String`](#getversion())                 | [`getVersion()`](#getversion())                     |
+
+| Methods inherited from `ch.andre601.advancedserverlist.api.objects.`[`GenericPlayer`](../../api/objects/genericplayer.md) |
+|---------------------------------------------------------------------------------------------------------------------------|
+| [`getName()`](../../api/objects/genericplayer.md#getname()), [`getProtocol()`](../../api/objects/genericplayer.md#getprotocol()), [`getUUID()`](../../api/objects/genericplayer.md#getuuid()) |
 
 ----
 

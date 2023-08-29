@@ -13,7 +13,9 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
 
 === ":simple-gradle: Gradle"
     
-    Make sure to replace `{version}` with the latest version available in the [GitHub Repository][api-repo].
+    [![latest_release][release]][api-repo]
+    
+    Make sure to replace `{version}` with the version displayed above.
     
     ```groovy title="build.gradle"
     repositorories {
@@ -32,7 +34,9 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
 
 === ":simple-apachemaven: Maven"
     
-    Make sure to replace `{version}` with the latest version available in the [GitHub Repository][api-repo].
+    [![latest_release][release]][api-repo]
+    
+    Make sure to replace `{version}` with the version displayed above.
     
     ```xml title="pom.xml"
     <repositories>
@@ -68,6 +72,7 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
     </dependencies>
     ```
 
+[release]: https://img.shields.io/github/v/tag/Andre601/asl-api?labelColor=252631&color=292a36&style=for-the-badge&label=Latest%20Release:
 [api-repo]: https://github.com/Andre601/asl-api
 
 ## Add own placeholders
