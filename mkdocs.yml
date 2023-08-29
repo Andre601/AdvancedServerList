@@ -4,7 +4,8 @@ site_author: 'Andre_601'
 site_url: 'https://docs.andre601.ch/AdvancedServerList'
 
 copyright: |
-  &copy; Andre_601
+  Images &copy; Andre_601<br>
+  Docs licensed under <a href="https://github.com/Andre601/AdvancedServerList/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a>
 
 docs_dir: docs/
 
