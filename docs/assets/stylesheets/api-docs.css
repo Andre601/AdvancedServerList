@@ -1,0 +1,71 @@
+:root {
+    --color-api-fg__static: #00c853;
+    --color-api-fg__final: #ff9100;
+    --color-api-fg__abstract: #00bfa5;
+    
+    --color-api-fg__not-null: #ff1744;
+    --color-api-fg__nullable: #ff9100;
+    
+    --color-api-fg-type__class: #9e9e9e;
+    --color-api-fg-type__primitive: #ff5252;
+    
+    --color-api-bg__static: #00c8531a;
+    --color-api-bg__final: #ff91001a;
+    --color-api-bg__abstract: #00bfa51a;
+}
+
+.api-label::before {
+    border-radius: .2rem;
+    padding: 0 .3em;
+}
+
+/* Attributes */
+
+.api__static::before {
+    color: var(--color-api-fg__static);
+    background-color: var(--color-api-bg__static);
+    
+    content: "static";
+}
+
+.api__final::before {
+    color: var(--color-api-fg__final);
+    background-color: var(--color-api-bg__final);
+    
+    content: "final";
+}
+
+.api__abstract::before {
+    color: var(--color-api-fg__abstract);
+    background-color: var(--color-api-bg__abstract);
+    
+    content: "abstract";
+}
+
+/* Annotations */
+
+.api__not-null::before {
+    color: var(--color-api-fg__not-null);
+    font-weight: bold;
+    
+    content: "@NotNull";
+}
+
+.api__nullable::before {
+    color: var(--color-api-fg__nullable);
+    font-weight: bold;
+    
+    content: "@Nullable";
+}
+
+/* Object types */
+
+.api-type__class {
+    color: var(--color-api-fg-type__class);
+    font-weight: bold;
+}
+
+.api-type__primitive {
+    color: var(--color-api-fg-type__primitive);
+    font-weight: bold;
+}

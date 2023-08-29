@@ -22,6 +22,46 @@ nav:
   - API:
     - api/index.md
     - Changelog: api/changelog.md
+    - Reference:
+      - api/reference/index.md
+      - api:
+        - api/reference/api/index.md
+        - events:
+          - GenericServerListEvent: api/reference/api/events/genericserverlistevent.md
+        - exceptions:
+          - InvalidPlaceholderProviderException: api/reference/api/exceptions/invalidplaceholderproviderexception.md
+        - objects:
+          - GenericPlayer: api/reference/api/objects/genericplayer.md
+          - GenericServer: api/reference/api/objects/genericserver.md
+          - NullBool: api/reference/api/objects/nullbool.md
+        - profiles:
+          - ProfileEntry:
+            - api/reference/api/profiles/profileentry/index.md
+            - Builder: api/reference/api/profiles/profileentry/builder.md
+        - AdvancedServerListAPI: api/reference/api/advancedserverlistapi.md
+        - PlaceholderProvider: api/reference/api/placeholderprovider.md
+      - platform-bukkit:
+        - api/reference/platform-bukkit/index.md
+        - events:
+          - PreServerListSetEvent: api/reference/platform-bukkit/events/preserverlistsetevent.md
+        - objects:
+          - BukkitPlayer: api/reference/platform-bukkit/objects/bukkitplayer.md
+          - BukkitServer: api/reference/platform-bukkit/objects/bukkitserver.md
+      - platform-bungeecord:
+        - api/reference/platform-bungeecord/index.md
+        - events:
+          - PreServerListSetEvent: api/reference/platform-bungeecord/events/preserverlistsetevent.md
+        - objects:
+          - BungeePlayer: api/reference/platform-bungeecord/objects/bungeeplayer.md
+          - BungeeProxy: api/reference/platform-bungeecord/objects/bungeeproxy.md
+      - platform-velocity:
+        - api/reference/platform-velocity/index.md
+        - events:
+          - PreServerListSetEvent: api/reference/platform-velocity/events/preserverlistsetevent.md
+        - objects:
+          - VelocityPlayer: api/reference/platform-velocity/objects/velocityplayer.md
+          - VelocityProxy: api/reference/platform-velocity/objects/velocityproxy.md
+      
   - Migration:
     - migration/index.md
     - 'v1.5.3 to v1.6.0': migration/v1_5_3-to-v1_6_0.md
@@ -61,16 +101,12 @@ theme:
 
 extra_css:
   - assets/stylesheets/custom.css
+  - assets/stylesheets/api-docs.css
 
 extra:
   social:
     - icon: 'fontawesome/brands/github'
       link: 'https://github.com/Andre601/asl-wiki'
-  version:
-    provider: 'mike'
-    default:
-      - latest
-      - dev
 
 plugins:
   - search
