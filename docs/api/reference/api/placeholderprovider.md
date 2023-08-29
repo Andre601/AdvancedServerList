@@ -3,7 +3,7 @@
 Abstract class that is used to provide your own Placeholder patterns for AdvancedServerList to parse.
 
 In order for your class to be considered a valid PlaceholderProvider will you need to set the `identifier` to a non-null, non-empty value without having any spaces in it.  
-Once set, use [`AdvancedServerListAPI#addPlaceholderProvider(PlaceholderProvider)`](../index.md#addplaceholderprovider(placeholderprovider)) to register your class for AdvancedServerList to use.
+Once set, use [`AdvancedServerListAPI#addPlaceholderProvider(PlaceholderProvider)`](advancedserverlistapi.md#addplaceholderprovider(placeholderprovider)) to register your class for AdvancedServerList to use.
 
 ## Constructor Summary
 
