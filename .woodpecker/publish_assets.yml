@@ -1,6 +1,9 @@
 when:
   event: tag
 
+depends_on:
+  - sync_mirror
+
 matrix:
   include:
     - PLATFORM: Bukkit
