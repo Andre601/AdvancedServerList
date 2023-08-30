@@ -1,0 +1,56 @@
+<h2 id="constructor-detail">
+  Constructor Detail<a class="headerlink" href="#constructor-detail" title="Permanent link">¶</a>
+</h2>
+
+{% for constructor in page.meta.constructors %}
+  <div class="api-detail">
+    <h3 id="{{ constructor.name | lower() | e }}">
+      <code>{{ constructor.name | e }}</code><a class="headerlink" href="#{{ constructor.name | lower() | e }}" title="Permanent link">¶</a>
+    </h3>
+    
+    {% if constructor.description %}
+      <p class="api-detail__description">
+        {{ constructor.description }}
+      </p>
+    {% endif %}
+    
+    {% if constructor.parameters %}
+      <h4 id="{{ constructor.name | lower() | e }}-parameters">
+        Parameters:<a class="headerlink" href="#{{ constructor.name | lower() | e }}-parameters" title="Permanent link">¶</a>
+      </h4>
+      <ul>
+      {% for parameter in constructor.parameters %}
+        <li>
+          {% for attribute in parameter.attributes %}
+            <api__{{- attribute -}}></api__{{- attribute -}}>
+          {% endfor %}
+          <code>{{ parameter.name }}</code>{% if parameter.description %} - {{ parameter.description }}{% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    
+    {% if constructor.throws %}
+      <h4 id="{{ constructor.name | lower() | e }}-throws">
+        Parameters:<a class="headerlink" href="#{{ constructor.name | lower() | e }}-throws" title="Permanent link">¶</a>
+      </h4>
+      <ul>
+      {% for throw in constructor.throws %}
+        <li><code>{{ throw.name }}</code> - {{ throw.description }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    
+    {% if constructor.seealso %}
+      <h4 id="{{ constructor.name | lower() | e }}-see-also">
+        See also:<a class="headerlink" href="#{{ constructor.name | lower() | e }}-see-also" title="Permanent link">¶</a>
+      </h4>
+      <ul>
+      {% for see in constructor.seealso %}
+        <li><a href="{{ see.link }}"><code>{{ see.name }}</code></a></li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endfor %}
+<hr>

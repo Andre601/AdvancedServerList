@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% include "partials/content.html" %}
+  {% if page.meta %}
+    
+    {#-
+      Summarized Object infos
+    -#}
+    {% if page.meta.constructors %}
+      {% include "api-objects/constructor-summary.html" %}
+    {% endif %}
+    {% if page.meta.classes %}
+      {% include "api-objects/class-summary.html" %}
+    {% endif %}
+    {% if page.meta.enums %}
+      {% include "api-objects/enum-summary.html" %}
+    {% endif %}
+    {% if page.meta.methods or page.meta.inherits %}
+      <h2 id="method-summary">
+        Method Summary<a class="headerlink" href="#method-summary" title="Permanent link">¶</a>
+      </h2>
+      <div class="md-typeset__scrollwrap">
+        <div class="md-typeset__table">
+          {% if page.meta.methods %}
+            {% include "api-objects/method-summary.html" %}
+          {% endif %}
+          
+          {% if page.meta.inherits %}
+            {% include "api-objects/method-inherits.html" %}
+          {% endif %}
+        </div>
+      </div>
+      <hr>
+    {% endif %}
+    {#-
+      Detailed Object infos
+    -#}
+    {% if page.meta.constructors %}
+      {% include "api-objects/constructor-detail.html" %}
+    {% endif %}
+    {% if page.meta.enums %}
+      {% include "api-objects/enum-detail.html" %}
+    {% endif %}
+    {% if page.meta.methods %}
+      {% include "api-objects/method-detail.html" %}
+    {% endif %}
+  {% endif %}
+{% endblock %}

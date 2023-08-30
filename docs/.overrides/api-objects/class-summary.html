@@ -1,0 +1,30 @@
+<h2 id="nested-class-summary">
+  Nested Class Summary<a class="headerlink" href="#nested-class-summary" title="Permanent link">¶</a>
+</h2>
+<div class="md-typeset__scrollwrap">
+  <div class="md-typeset__table">
+    <table>
+      <thead>
+        <tr>
+          <th>Modifier and Type</th>
+          <th>Class</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for class in page.meta.classes %}
+          <tr>
+            {% if class.type %}
+              <td><code>{{ class.type }}</code></td>
+            {% else %}
+              <td></td>
+            {% endif %}
+            <td><a href="{{ class.link }}"><code>{{ class.name | e }}</code></a></td>
+            <td>{{ class.description }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>

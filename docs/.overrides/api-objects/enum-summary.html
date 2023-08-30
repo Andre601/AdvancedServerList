@@ -1,0 +1,28 @@
+<h2 id="enum-constant-summary">
+    Enum Constant Summary<a class="headerlink" href="#enum-constant-summary" title="Permanent link">¶</a>
+</h2>
+<div class="md-typeset__scrollwrap">
+  <div class="md-typeset__table">
+    <table>
+      <thead>
+        <tr>
+          <th>Enum Constant</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for enum in page.meta.enums %}
+          <tr>
+            {% set desc = enum.description %}
+            {% if "<br>" in enum.description %}
+              {% set desc = enum.description.split("<br>")[0] %}
+            {% endif %}
+            <td><a href="#{{ enum.name | lower() | e }}"><code>{{ enum.name | upper() }}</code></a></td>
+            <td>{{ desc }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>

@@ -1,28 +1,25 @@
-# <span class="api api__none api-type__primitive">class</span> PreServerListSetEvent
+---
+template: api-doc.html
+
+constructors:
+  - name: 'PreServerListSetEvent(ProfileEntry)'
+    parameters:
+      - name: 'entry'
+
+methods:
+  - name: ^''
+
+inherits:
+  'ch.andre601.advancedserverlist.api.events.GenericServerListEvent':
+    link: '../../../api/events/genericserverlistevent/'
+    methods:
+      - 'getEntry()'
+      - 'setEntry(ProfileEntry)'
+      - 'isCancelled()'
+      - 'setCancelled(boolean)'
+---
+
+# <api__class></api__class> PreServerListSetEvent
 
 Called **before** AdvancedServerList modifies the server list.  
 The provided [`ProfileEntry`](#getentry()) will be the one used for the server list.
-
-## Constructor Summary
-
-| Constructor                                                                   | Description |
-|-------------------------------------------------------------------------------|-------------|
-| [`PreServerListSetEvent(ProfileEntry)`](#preserverlistsetevent(profileentry)) | *None*      |
-
-----
-
-## Method Summary
-
-| Methods inherited from `ch.andre601.advancedserverlist.api.events.`[`GenericServerListEvent`](../../api/events/genericserverlistevent.md) |
-|-------------------------------------------------------------------------------------------------------------------------------------------|
-| [`getEntry()`](../../api/events/genericserverlistevent.md#getentry()), [`setEntry(ProfileEntry)`](../../api/events/genericserverlistevent.md#setentry(profileentry)), [`isCancelled()`](../../api/events/genericserverlistevent.md#iscancelled()), [`setCancelled(boolean)`](../../api/events/genericserverlistevent.md#setcancelled(boolean)) |
-
-----
-
-## Constructor Detail
-
-### <span class="api api__public"></span> `PreServerListSetEvent(ProfileEntry)` { #preserverlistsetevent(profileentry) }
-
-<h4>Parameters:</h4>
-
-- `entry`

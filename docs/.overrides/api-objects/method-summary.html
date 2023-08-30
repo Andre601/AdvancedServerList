@@ -1,0 +1,40 @@
+<table>
+  <thead>
+    <tr>
+      <th>Modifier and Type</th>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for method in page.meta.methods %}
+      <tr>
+        {% set modifier = "" %}
+        {% if method.attributes %}
+          {% set modifier = method.attributes|join(' ') %}
+        {% endif %}
+        
+        {% if modifier != "" %}{% set modifier = modifier ~  " " %}{% endif %}
+        
+        {% if method.type and method.type.name %}
+          {% set modifier = modifier ~ method.type.name|e %}
+        {% else %}
+          {% set modifier = modifier ~ "void" %}
+        {% endif %}
+        
+        {% set desc = method.description %}
+        {% if "<br>" in method.description %}
+          {% set desc = method.description.split("<br>")[0] %}
+        {% endif %}
+        
+        {% if modifier %}
+          <td><code>{{ modifier }}</code></td>
+        {% else %}
+          <td></td>
+        {% endif %}
+        <td><a href="#{{ method.name | lower() | e }}"><code>{{ method.name | e }}</code></a></td>
+        <td>{{ desc }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,28 @@
+<h2 id="constructor-summary">
+    Constructor Summary<a class="headerlink" href="#constructor-summary" title="Permanent link">¶</a>
+</h2>
+<div class="md-typeset__scrollwrap">
+  <div class="md-typeset__table">
+    <table>
+      <thead>
+        <tr>
+          <th>Constructor</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for constructor in page.meta.constructors %}
+          {% set desc = constructor.description %}
+          {% if "\n" in constructor.description %}
+            {% set desc = constructor.description.split("\n")[0] %}
+          {% endif %}
+          <tr>
+            <td><a href="#{{ constructor.name | lower() | e }}"><code>{{ constructor.name | e }}</code></a></td>
+            <td>{{ desc }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr>

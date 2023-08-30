@@ -1,23 +1,21 @@
-# <span class="api-type__primitive">interface</span> BungeeProxy
+---
+template: api-doc.html
 
-## Method Summary
+methods:
+  - name: 'getServers()'
+    description: 'Returns a <code>Map&lt;String, ServerInfo&gt;</code> where the key is the name of the server and the value the ServerInfo of the proxy.'
+    returns: 'Possibly-empty Map containing pairs of Strings and ServerInfos.'
+    type:
+      name: 'Map<String, ServerInfo>'
+      type: 'object'
 
-| Modifier and Type                          | Method                          |
-|--------------------------------------------|---------------------------------|
-| [`Map<String, ServerInfo>`](#getservers()) | [`getServers()`](#getservers()) |
+inherits:
+  'ch.andre601.advancedserverlist.api.objects.GenericServer':
+    link: '../../../api/objects/genericserver/'
+    methods:
+      - 'getPlayersOnline()'
+      - 'getPlayersMax()'
+      - 'getHost()'
+---
 
-| Methods inherited from `ch.andre601.advancedserverlist.api.objects.`[`GenericServer`](../../api/objects/genericserver.md) |
-|---------------------------------------------------------------------------------------------------------------------------|
-| [`getPlayersOnline()`](../../api/objects/genericserver.md#getplayersonline()), [`getPlayersMax()`](../../api/objects/genericserver.md#getplayersmax()), [`getHost()`](../../api/objects/genericserver.md#gethost()) |
-
-----
-
-## Method Detail
-
-### <span class="api-type__class">Map&lt;String, ServerInfo&gt;</span> `getServers()` { #getservers() }
-
-Returns a `Map<String, ServerInfo>` where the key is the name of the Server and the value the ServerInfo from the BungeeCord Proxy.
-
-<h4>Returns:</h4>
-
-Possibly-empty Map containing a Server name and ServerInfo instance.
+# <api__interface></api__interface> BungeeProxy
