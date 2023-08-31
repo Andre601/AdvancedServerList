@@ -26,6 +26,7 @@ methods:
     returns: 'Possibly-parsed or possibly-null String to replace the placeholder with.'
     attributes:
       - nullable
+      - abstract
     type:
       name: 'String'
       type: 'object'
