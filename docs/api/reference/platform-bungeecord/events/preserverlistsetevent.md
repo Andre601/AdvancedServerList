@@ -2,9 +2,10 @@
 template: api-doc.html
 
 constructors:
-  - name: 'PreServerListSetEvent(ProfileEntry)'
+  - name: 'PreServerListSetEvent'
     parameters:
       - name: 'entry'
+        type: ProfileEntry
 
 
 inherits:

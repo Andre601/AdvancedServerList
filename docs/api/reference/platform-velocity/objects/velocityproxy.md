@@ -2,7 +2,7 @@
 template: api-doc.html
 
 methods:
-  - name: 'getServers()'
+  - name: 'getServers'
     description: 'Returns a <code>Map&lt;String, RegisteredServer&gt;</code> where the key is the name of the server and the value the RegisteredServer of the proxy.'
     returns: 'Possibly-empty Map containing pairs of Strings and RegisteredServers.'
     type:

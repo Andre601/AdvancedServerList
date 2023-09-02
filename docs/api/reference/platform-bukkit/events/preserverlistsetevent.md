@@ -2,12 +2,13 @@
 template: api-doc.html
 
 constructors:
-  - name: 'PreServerListSetEvent(ProfileEntry)'
+  - name: 'PreServerListSetEvent'
     parameters:
       - name: 'entry'
+        type: ProfileEntry
 
 methods:
-  - name: 'getHandlerList()'
+  - name: 'getHandlerList'
     returns: 'Static <code>HandlerList</code> instance.'
     attributes:
       - static

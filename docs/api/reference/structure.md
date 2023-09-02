@@ -1,31 +1,61 @@
-# API Docs Schema
+# API Reference Docs Structure
 
-Most of the data is set through the YAML front matter to auto-generate the necessary parts within the page itself.
+The Reference docs follow a specific mixture of manually created and auto-generated page content.
 
-The only exceptions are the page title and description of it.
-
-## Page title
-
-The page title (The h1 title) should match the name of the class, interface, record or enum to add. In addition to this will you need to add the following custom HTML tag to display its type:
-
-- `<api__class></api__class>` for classes.
-- `<api__interface></api__interface>` for interfaces.
-- `<api__record></api__record>` for records.
-- `<api__enum></api__enum>` for enums.
-
-Should the class also have some specific attributes (i.e. being final or abstract) should you add the matching `<api__{name}></api__{name}>` tag for it.
-
-Here is an example using the [`PlaceholderProvider`](api/placeholderprovider.md) class:
+A page may look something like this:
 ```markdown
-# <api__abstract></api__abstract> <api__class></api__class> PlaceholderProvider
+---
+constructors:
+  - name: 'Constructor'
+    description: 'Creates a new instance of this class.'
+
+methods:
+  - name: 'getString'
+    description: 'Gets a String.'
+    type:
+      name: String
+      type: object
+---
+
+# <api__class></api__class> Constructor
+
+An example class to show how the page structure may look like.
 ```
 
-## Schemas
+## custom HTML tags
 
-Below are the schemas for the different parts you can add through YAML front matter.  
-Most if not all options are not required and will either display empty or return a default value.
+There is a collection of custom HTML tags that are used to render specific text in certain styles.  
+Below is a list of all custom tags. Note that these tags only render on the actual site and not within the repository.
 
-### Constructor Schema
+- `<api__class></api__class>`: <api__class></api__class>
+- `<api__interface></api__interface>`: <api__interface></api__interface>
+- `<api__enum></api__enum>`: <api__enum></api__enum>
+- `<api__record></api__record>`: <api__record></api__record>
+- `<api__abstract></api__abstract>`: <api__abstract></api__abstract>
+- `<api__static></api__static>`: <api__static></api__static>
+- `<api__final></api__final>`: <api__final></api__final>
+- `<api__notnull></api__notnull>`: <api__notnull></api__notnull>
+- `<api__nullable></api__nullable>`: <api__nullable></api__nullable>
+
+In addition are there two classes used within `span` tags to colour the text, to indicate their type:
+
+- `<span class="api-type__object">Object</span>`: <span class="api-type__object">Object</span>
+- `<span class="api-type__primitive">Object</span>`: <span class="api-type__primitive">Primitive</span>
+
+## Auto-generated content
+
+The page template used checks for specific YAML frontmatter in the page to include other templates.  
+These templates pull the data from the YAML frontmatter to generate the page content which is then appendet to the already existing page content.
+
+There are 5 frontmatter options, each following a specific structure:
+
+- [`Constructors`](#constructors)
+- [`Nested Classes`](#nested-classes)
+- [`Enum Constants`](#enum constants)
+- [`Methods`](#methods)
+- [`Inherits`](#inherits)
+
+### Constructors
 
 ```yaml
 constructors:
@@ -34,6 +64,7 @@ constructors:
     parameters:
       - name: '<string>'
         description: '<string>'
+        type: '<string>'
         attributes:
           - '<string>'
     throws:
@@ -51,6 +82,7 @@ constructors:
 - `parameters` - List of parameters to display.
     - `name` - Name of the parameter to display.
     - `description` - Description of the parameter.
+    - `type` - The type this parameter is.
     - `attributes` - List of attributes (i.e. nullability) to display. The provided values will be turned into `<api__{name}></api__{name}>` tags that will be prependet to the parameter name.
 - `throws` - List of possible throws to display.
     - `name` - Name of the throw to display.
@@ -59,7 +91,7 @@ constructors:
     - `name` - Name of the See also link.
     - `link` - Link (Relative, absolute or URL) to use for the See also text.
 
-### Nested Classes Schema
+### Nested Classes
 
 ```yaml
 classes:
@@ -76,7 +108,7 @@ classes:
 - `type` - Modifier and type of the nested class.
 - `link` - Link to the nested class.
 
-### Enum Constants Schema
+### Enum Constants
 
 ```yaml
 enums:
@@ -97,7 +129,7 @@ enums:
     - `name` - Name of the See also link.
     - `link` - Link (Relative, absolute or URL) to use for the See also text.
 
-### Method Schema
+### Methods
 
 ```yaml
 methods:
@@ -112,6 +144,7 @@ methods:
     parameters:
       - name: '<string>'
         description: '<string>'
+        type: '<string>'
         attributes:
           - '<string>'
     returns: '<string>'
@@ -135,6 +168,7 @@ methods:
 - `parameters` - List of parameters to display.
     - `name` - Name of the parameter to display.
     - `description` - Description of the parameter.
+    - `type` - The type this parameter is.
     - `attributes` - List of attributes (i.e. nullability) to display. The provided values will be turned into `<api__{name}></api__{name}>` tags that will be prependet to the parameter name.
 - `returns` - Possible return values.
 - `throws` - List of possible throws to display.
@@ -144,7 +178,7 @@ methods:
     - `name` - Name of the See also link.
     - `link` - Link (Relative, absolute or URL) to use for the See also text.
 
-### Inherits Schema
+### Inherits
 
 ```yaml
 inherits:
@@ -156,6 +190,6 @@ inherits:
 
 **Options:**
 
-- The section after `inherits` is used for the `Methods inherited from {classpath}` text.
+- `inherits.<string>` - Classpath used to display in the text `Methods inherited from <string>`
 - `link` - Link to use for the classpath text.
 - `methods` - List of strings to display. Each will be linked using `{link}#{method}`

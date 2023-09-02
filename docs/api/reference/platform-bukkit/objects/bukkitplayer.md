@@ -2,13 +2,13 @@
 template: api-doc.html
 
 methods:
-  - name: 'getPlayer()'
+  - name: 'getPlayer'
     description: 'Gives the OfflinePlayer embedded in this BukkitPlayer.'
     returns: 'OfflinePlayer instance'
     type:
       name: 'OfflinePlayer'
       type: 'object'
-  - name: 'hasPlayedBefore()'
+  - name: 'hasPlayedBefore'
     description: |
       Returns whether this player has played on the server before.<br>
       <br>
@@ -16,7 +16,7 @@ methods:
     returns: 'Boolean indicating whether this player has played on the server before.'
     type:
       name: 'boolean'
-  - name: 'isBanned()'
+  - name: 'isBanned'
     description: |
       Returns whether this player has been banned from the server.<br>
       <br>
@@ -24,7 +24,7 @@ methods:
     returns: 'Boolean indicating whether this player has been banned from the server.'
     type:
       name: 'boolean'
-  - name: 'isWhitelisted()'
+  - name: 'isWhitelisted'
     description: |
       Returns whether this player is whitelisted on the server.<br>
       <br>

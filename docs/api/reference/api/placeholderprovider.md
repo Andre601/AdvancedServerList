@@ -2,26 +2,30 @@
 template: api-doc.html
 
 constructors:
-  - name: 'PlaceholderProvider(String)'
+  - name: 'PlaceholderProvider'
     description: 'Constructor used to set the identifier for the class extending the PlaceholderProvider class itself.'
     parameters:
       - name: 'identifier'
         description: 'The identifier to use for the placeholder. Cannot be empty.'
+        type: String
         attributes:
           - notnull
 
 methods:
-  - name: 'parsePlaceholder(String, GenericPlayer, GenericServer)'
+  - name: 'parsePlaceholder'
     description: |
       Method called by AdvancedServerList's StringReplacer class to replace any appearances of <code>${&lt;identifier&gt; &lt;placeholder&gt;}</code> with whatever value a matching PlaceholderProvider may return.<br>
       <br>
       Returning <code>null</code> will be treated as an invalid placeholder by the plugin, making it return the placeholder as-is without any changes.
     parameters:
       - name: 'placeholder'
+        type: String
         description: 'The part of the Placeholder that comes after the identifier and before the closing curly bracket.'
       - name: 'player'
+        type: GenericPlayer
         description: 'The <a href="./../objects/genericplayer/"><code>GenericPlayer</code> instance</a> used.'
       - name: 'server'
+        type: GenericServer
         description: 'The <a href="./../objects/genericserver/"><code>GenericServer</code> instance</a> used.'
     returns: 'Possibly-parsed or possibly-null String to replace the placeholder with.'
     attributes:
@@ -30,7 +34,7 @@ methods:
     type:
       name: 'String'
       type: 'object'
-  - name: 'getIdentifier()'
+  - name: 'getIdentifier'
     description: 'Returns the identifier used by this PlaceholderProvider instance.'
     returns: 'String representing the identifier of this PlaceholderProvider instance.'
 ---

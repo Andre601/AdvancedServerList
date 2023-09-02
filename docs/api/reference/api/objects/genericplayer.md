@@ -2,7 +2,7 @@
 template: api-doc.html
 
 methods:
-  - name: 'getName()'
+  - name: 'getName'
     description: |
       Returns the name of the player.<br>
       Note that on Spigot, Paper and other forks can the name differ from the one cached by AdvancedServerList, if the plugin was able to retrieve an OfflinePlayer instance from the server. On BungeeCord and Velocity will the returned String always be the name from the cache.<br>
@@ -12,14 +12,14 @@ methods:
     type:
       name: String
       type: object
-  - name: 'getProtocol()'
+  - name: 'getProtocol'
     description: |
       Returns the protocol ID the player is using.<br>
       The protocol ID is an integer used by Minecraft to determine what version a server or client is running.
     returns: 'Integer representing the protocol version of this player.'
     type:
       name: int
-  - name: 'getUUID()'
+  - name: 'getUUID'
     description: |
       Returns the unique ID associated with this player.<br>
       <br>

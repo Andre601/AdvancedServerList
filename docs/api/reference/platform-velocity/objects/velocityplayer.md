@@ -2,7 +2,7 @@
 template: api-doc.html
 
 methods:
-  - name: 'getVersion()'
+  - name: 'getVersion'
     description: 'Returns the <a href="../../../api/objects/genericplayer/#getprotocol()">protocol version</a> of the player in a readable MC version format (i.e. 1.19.3).'
     returns: 'The readable MC version the player uses.'
     type:

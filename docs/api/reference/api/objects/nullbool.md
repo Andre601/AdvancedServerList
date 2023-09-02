@@ -10,7 +10,7 @@ enums:
     description: 'Boolean value <code>null</code>'
 
 methods:
-  - name: 'resolve(Boolean)'
+  - name: 'resolve'
     description: |
       Returns a NullBool instance based on the provided <code>Boolean</code> value.<br>
       In case of <code>null</code> being provided will <a href="#not_set"><code>NullBool.NOT_SET</code></a> be returned, otherwise will the corresponding NullBool instance matching the Boolean value be returned.
@@ -18,6 +18,7 @@ methods:
     parameters:
       - name: 'bool'
         description: 'The <code>Boolean</code> value to receive a NullBool instance for.'
+        type: Boolean
         attributes:
           - nullable
     attributes:
@@ -25,13 +26,13 @@ methods:
     type:
       name: 'NullBool'
       type: 'object'
-  - name: 'isNotSet()'
+  - name: 'isNotSet'
     description: 'Returns whether the NullBool is <a href="#not_set"><code>NullBool.NOT_SET</code></a>.'
     returns: 'True if the instance is <a href="#not_set"><code>NullBool.NOT_SET</code></a>, otherwise false.'
     type:
       name: 'boolean'
       type: 'primitive'
-  - name: 'getOrDefault(boolean)'
+  - name: 'getOrDefault'
     description: |
       Gets the corresponding boolean value associated with the NullBool instance.<br>
       In the case of NullBool <a href="#isnotset()">not being set</a> will the provided default value be returned.
@@ -39,6 +40,7 @@ methods:
     parameters:
       - name: 'def'
         description: 'The default boolean value to return should the NullBool instance be <a href="#not_set"><code>NullBool.NOT_SET</code></a>.'
+        type: boolean
     type:
       name: 'boolean'
       type: 'primitive'

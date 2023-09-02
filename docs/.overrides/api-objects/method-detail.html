@@ -3,8 +3,14 @@
 </h2>
 
 {% for method in page.meta.methods %}
+  {% set method_namespace = namespace(name = method.name ~ "(") %}
+  {% for parameter in method.parameters %}
+    {% set method_namespace.name = method_namespace.name ~ parameter.type %}
+    {% if loop.revindex > 1 %}{% set method_namespace.name = method_namespace.name ~ ", " %}{% endif %}
+  {% endfor %}
+  {% set method_namespace.name = method_namespace.name ~ ")" %}
   <div class="api-detail">
-    <h3 id="{{ method.name | lower() | e }}">
+    <h3 id="{{ method_namespace.name | lower() | e }}">
       {% for attribute in method.attributes %}
         <api__{{- attribute -}}></api__{{- attribute -}}>
       {% endfor %}
@@ -17,7 +23,7 @@
       {% else %}
         <span class="api-type__primitive">void</span>
       {% endif %}
-      <code>{{ method.name | e }}</code><a class="headerlink" href="#{{ method.name | lower() | e }}" title="Permanent link">¶</a>
+      <code>{{ method_namespace.name | e }}</code><a class="headerlink" href="#{{ method_namespace.name | lower() | e }}" title="Permanent link">¶</a>
     </h3>
     
     {% if method.description %}
@@ -38,7 +44,7 @@
           {% for attribute in parameter.attributes %}
             <api__{{- attribute -}}></api__{{- attribute -}}>
           {% endfor %}
-          <code>{{ parameter.name }}</code>{% if parameter.description %} - {{ parameter.description }}{% endif %}
+          <code>{{ parameter.type | e }}: {{ parameter.name }}</code>{% if parameter.description %} - {{ parameter.description }}{% endif %}
         </li>
       {% endfor %}
       </ul>

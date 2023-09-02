@@ -2,12 +2,12 @@
 template: api-doc.html
 
 methods:
-  - name: 'getPlayersOnline()'
+  - name: 'getPlayersOnline'
     description: 'Returns the number of players currently online on the server.'
     returns: 'Number of players online on the server.'
     type:
       name: int
-  - name: 'getPlayersMax()'
+  - name: 'getPlayersMax'
     description: 'Returns the number of total players that can join the server.'
     returns: 'Number of total players that can join the server.'
     type:

@@ -12,6 +12,8 @@ docs_dir: docs/
 repo_name: Andre601/AdvancedServerList
 repo_url: https://github.com/Andre601/AdvancedServerList
 
+not_in_nav: api/reference/structure.md
+
 nav:
   - Home:
     - index.md

@@ -2,37 +2,44 @@
 template: api-doc.html
 
 constructors:
-  - name: 'ProfileEntry(List<String>, List<String>, String, String, NullBool, NullBool, Integer)'
+  - name: 'ProfileEntry'
     description: |
       Creates a new instance of a ProfileEntry with the given values.<br>
       It's recommended to use the <a href="./builder/"><code>Builder</code> class</a> for a more convenient configuration of the Settings.
     parameters:
       - name: 'motd'
         description: 'The MOTD to use.'
+        type: 'List<String>'
         attributes:
           - notnull
       - name: 'players'
         description: 'The players (Lines) to show in the hover.'
+        type: 'List<String>'
         attributes:
           - notnull
       - name: 'playerCountText'
         description: 'The text to display instead of the player count.'
+        type: String
         attributes:
           - nullable
       - name: 'favicon'
         description: 'The favicon to use.'
+        type: String
         attributes:
           - nullable
       - name: 'hidePlayersEnabled'
         description: 'Whether player count should be hidden.'
+        type: NullBool
         attributes:
           - notnull
       - name: 'extraPlayersEnabled'
         description: 'Whether the extra players option should be enabled.'
+        type: NullBool
         attributes:
           - notnull
       - name: 'extraPlayersCount'
         description: 'The number to add to the online players for the max players number.'
+        type: Integer
         attributes:
           - nullable
     seealso:
@@ -46,7 +53,7 @@ classes:
     link: 'builder/'
 
 methods:
-  - name: 'empty()'
+  - name: 'empty'
     description: |
       Creates an "empty" PlayerEntry with the following values set:<br>
       <ul>
@@ -64,7 +71,7 @@ methods:
     type:
       name: 'ProfileEntry'
       type: 'object'
-  - name: 'copy()'
+  - name: 'copy'
     description: |
       Creates a copy of this ProfileEntry instance.<br>
       <br>
@@ -77,7 +84,7 @@ methods:
     type:
       name: 'ProfileEntry'
       type: 'object'
-  - name: 'builder()'
+  - name: 'builder'
     description: |
       Creates a <a href="./builder/"><code>Builder</code> instance</a> with the values from this ProfileEntry set.<br>
       Use this method if you would like to modify the ProfileEntry.
@@ -86,13 +93,13 @@ methods:
       name: 'Builder'
       type: 'object'
       link: './builder/'
-  - name: 'motd()'
+  - name: 'motd'
     description: 'Gets the currently set MOTD of this ProfileEntry.'
     returns: 'The current MOTD used by this ProfileEntry.'
     type:
       name: 'List<String>'
       type: 'object'
-  - name: 'players()'
+  - name: 'players'
     description: 'Gets the currently set players of this ProfileEntry.'
     returns: 'The current list of players used by this ProfileEntry.'
     type:
@@ -104,7 +111,7 @@ methods:
     type:
       name: 'String'
       type: 'object'
-  - name: 'favicon()'
+  - name: 'favicon'
     description: |
       Gets the currently set favicon of this ProfileEntry.<br>
       Note that the favicon usually is and supports one of the following options:
@@ -117,7 +124,7 @@ methods:
     type:
       name: 'String'
       type: 'object'
-  - name: 'hidePlayersEnabled()'
+  - name: 'hidePlayersEnabled'
     description: |
       Whether the player count should be hidden or not in this ProfileEntry.<br>
       To get the actual boolean value, append <a href="../../objects/nullbool/#getordefault()"><code>getOrDefault(boolean)</code></a>.
@@ -126,7 +133,7 @@ methods:
       name: 'NullBool'
       type: 'object'
       link: '../../objects/nullbool/'
-  - name: 'extraPlayersEnabled()'
+  - name: 'extraPlayersEnabled'
     description: |
       Whether the extra players feature should be used or not in this ProfileEntry.<br>
       To get the actual boolean value, append <a href="../../objects/nullbool/#getordefault()"><code>getOrDefault(boolean)</code></a>.
@@ -135,7 +142,7 @@ methods:
       name: 'NullBool'
       type: 'object'
       link: '../../objects/nullbool/'
-  - name: 'extraPlayersCount()'
+  - name: 'extraPlayersCount'
     description: 'Gets the currently set number of extra players to use by this ProfileEntry. May be <code>null</code>.'
     returns: 'Possibly-null integer number of extra players used by this ProfileEntry.'
     attributes:
@@ -143,7 +150,7 @@ methods:
     type:
       name: 'Integer'
       type: 'object'
-  - name: 'isInvalid()'
+  - name: 'isInvalid'
     description: |
       Whether this ProfileEntry is considered invalid or not.<br>
       The ProfileEntry is considered invalid if all the following is true:

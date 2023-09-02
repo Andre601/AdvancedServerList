@@ -2,7 +2,7 @@
 template: api-doc.html
 
 methods:
-  - name: 'get()'
+  - name: 'get'
     description: |
       Retrieve the instance used of this API.<br>
       If no instance has been made so far will a new one be created.
@@ -12,7 +12,7 @@ methods:
     type:
       name: 'AdvancedServerListAPI'
       type: 'object'
-  - name: 'addPlaceholderProvider(PlaceholderProvider)'
+  - name: 'addPlaceholderProvider'
     description: |
       Adds the provided <a href="./../placeholderprovider/"><code>PlaceholderProvider</code></a> to the list, if it passes the following checks:<br>
       <ul>
@@ -25,19 +25,25 @@ methods:
     parameters:
       - name: 'placeholderProvider'
         description: 'The <a href="./../placeholderprovider/"><code>PlaceholderProvider</code></a> to add.'
+        type: PlaceholderProvider
         attributes:
           - notnull
     throws:
       - name: 'InvalidPlaceholderProviderException'
         description: 'When the provided <a href="./../placeholderprovider/"><code>PlaceholderProvider</code> instance</a> is null, has a null or empty identifier, the identifier contains spaces, or another PlaceholderProvider with the same identifier is already in use.'
-  - name: 'retrievePlaceholderProvider(String)'
+  - name: 'retrievePlaceholderProvider'
     description: 'Retrieves the <a href="./../placeholderprovider/"><code>PlaceholderProvider</code></a> associated with the provided identifier, or <code>null</code> should no such entry exist.'
     parameters:
       - name: 'identifier'
         description: 'The identifier to find a matching <a href="./../placeholderprovider/"><code>PlaceholderProvider</code></a> for.'
+        type: String
     returns: 'Possibly-null <a href="./../placeholderprovider/"><code>PlaceholderProvider</code> instance</a>.'
     attributes:
       - nullable
+    type:
+      name: PlaceholderProvider
+      type: object
+      link: './../placeholderprovider'
 ---
 
 # <api__class></api__class> AdvancedServerListAPI

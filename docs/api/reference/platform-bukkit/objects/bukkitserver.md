@@ -2,7 +2,7 @@
 template: api-doc.html
 
 methods:
-  - name: 'getWorlds()'
+  - name: 'getWorlds'
     description: 'Returns a <code>Map&lt;String, World&gt;</code> where the key is the name of the World and the value the world of the server.'
     returns: 'Possibly-empty Map containing pairs of Strings and Worlds.'
     type:

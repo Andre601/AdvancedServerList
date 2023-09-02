@@ -2,10 +2,10 @@
 template: api-doc.html
 
 constructors:
-  - name: 'Builder()'
+  - name: 'Builder'
   
 methods:
-  - name: 'setMotd(List<String>)'
+  - name: 'setMotd'
     description: |
       Sets a new MOTD to use.<br>
       <br>
@@ -15,6 +15,7 @@ methods:
     parameters:
       - name: 'motd'
         description: 'The MOTD to use.'
+        type: 'List<String>'
         attributes:
           - notnull
     throws:
@@ -23,7 +24,7 @@ methods:
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'setPlayers(List<String>)'
+  - name: 'setPlayers'
     description: |
       Sets the players (lines) to use for the hover.<br>
       <br>
@@ -32,6 +33,7 @@ methods:
     parameters:
       - name: 'players'
         description: 'The lines to set for the hover.'
+        type: 'List<String>'
         attributes:
           - notnull
     throws:
@@ -40,7 +42,7 @@ methods:
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'setPlayerCountText(String)'
+  - name: 'setPlayerCountText'
     description: |
       Sets the text to override the player count with.<br>
       <br>
@@ -49,12 +51,13 @@ methods:
     parameters:
       - name: 'playerCountText'
         description: 'The text to show in the player count.'
+        type: String
         attributes:
           - nullable
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'setFavicon(String)'
+  - name: 'setFavicon'
     description: |
       Sets the value to use for the favicon.<br>
       The following values are supported:
@@ -66,12 +69,13 @@ methods:
     parameters:
       - name: 'favicon'
         description: 'The favicon to set'
+        type: String
         attributes:
           - nullable
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'setHidePlayersEnabled(NullBool)'
+  - name: 'setHidePlayersEnabled'
     description: |
       Sets whether the player count should be hidden or not.<br>
       <br>
@@ -80,6 +84,7 @@ methods:
     parameters:
       - name: 'hidePlayersEnabled'
         description: 'Whether the player count should be hidden or not.'
+        type: NullBool
         attributes:
           - notnull
     throws:
@@ -88,7 +93,7 @@ methods:
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'setExtraPlayersEnabled(NullBool)'
+  - name: 'setExtraPlayersEnabled'
     description: |
       Sets whether the extra players feature should be enabled or not.<br>
       <br>
@@ -97,6 +102,7 @@ methods:
     parameters:
       - name: 'extraPlayersEnabled'
         description: 'Whether the extra players feature should be enabled or not.'
+        type: NullBool
         attributes:
           - notnull
     throws:
@@ -105,7 +111,7 @@ methods:
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'setExtraPlayers(Integer)'
+  - name: 'setExtraPlayers'
     description: |
       Sets the number of players to add to the online players to use as the new max players value.<br>
       This option has no effect when <a href="../#extraplayersenabled()"><code>extraPlayersEnabled()</code></a> is set to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a>.<br>
@@ -115,12 +121,13 @@ methods:
     parameters:
       - name: 'extraPlayersCount'
         description: 'The number of extra players to use.'
+        type: Integer
         attributes:
           - nullable
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'build()'
+  - name: 'build'
     description: 'Creates a new <a href="./.."><code>ProfileEntry</code> instance</a> with the values set in this Builder.'
     returns: 'New <a href="./.."><code>ProfileEntry</code> instance</a>.'
     type:

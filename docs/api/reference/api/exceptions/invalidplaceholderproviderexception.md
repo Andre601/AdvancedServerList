@@ -2,9 +2,10 @@
 template: 'api-doc.html'
 
 constructors:
-  - name: 'InvalidPlaceholderProviderException(String)'
+  - name: 'InvalidPlaceholderProviderException'
     parameters:
       - name: msg
+        type: String
 ---
 
 # <api__class></api__class> InvalidPlaceholderProviderException
