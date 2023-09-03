@@ -9,7 +9,7 @@ body:
         Please make sure you've checked the following things first:
         
         - You're using the latest release of AdvancedServerList [[Download from Modrinth](https://modrinth.com/plugin/advancedserverlist)] and the right API version.
-        - You're using a supported Proxy/Server version. As of right now is only 1.19.x supported.
+        - You're using a supported Proxy/Server version. As of right now is only 1.19+ supported.
         - The Feature you suggest hasn't been suggested before.
   - type: dropdown
     attributes:

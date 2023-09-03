@@ -1,49 +1,35 @@
 {% extends "base.html" %}
+{% import "api-objects/info-template.html" as info %}
 
 {% block content %}
   {% include "partials/content.html" %}
   {% if page.meta %}
-    
-    {#-
-      Summarized Object infos
-    -#}
+    <!--
+      Object summaries
+    -->
     {% if page.meta.constructors %}
-      {% include "api-objects/constructor-summary.html" %}
+      {{ info.summary('Constructor Summary', page.meta.constructors, details_type='constructor') }}
     {% endif %}
     {% if page.meta.classes %}
-      {% include "api-objects/class-summary.html" %}
+      {{ info.summary('Class Summary', page.meta.classes, details_type='class') }}
     {% endif %}
     {% if page.meta.enums %}
-      {% include "api-objects/enum-summary.html" %}
+      {{ info.summary('Enum Constant Summary', page.meta.enums, details_type='enum') }}
     {% endif %}
     {% if page.meta.methods or page.meta.inherits %}
-      <h2 id="method-summary">
-        Method Summary<a class="headerlink" href="#method-summary" title="Permanent link">¶</a>
-      </h2>
-      <div class="md-typeset__scrollwrap">
-        <div class="md-typeset__table">
-          {% if page.meta.methods %}
-            {% include "api-objects/method-summary.html" %}
-          {% endif %}
-          
-          {% if page.meta.inherits %}
-            {% include "api-objects/method-inherits.html" %}
-          {% endif %}
-        </div>
-      </div>
-      <hr>
+      {{ info.summary('Method Summary', page.meta.methods, page.meta.inherits, details_type='method') }}
     {% endif %}
-    {#-
-      Detailed Object infos
-    -#}
+    <!--
+      Detailed object info
+    -->
     {% if page.meta.constructors %}
-      {% include "api-objects/constructor-detail.html" %}
+      {{ info.info('Constructor Detail', page.meta.constructors) }}
     {% endif %}
     {% if page.meta.enums %}
-      {% include "api-objects/enum-detail.html" %}
+      {{ info.info('Enum Constant Detail', page.meta.enums, true) }}
     {% endif %}
     {% if page.meta.methods %}
-      {% include "api-objects/method-detail.html" %}
+      {{ info.info('Method Detail', page.meta.methods)}}
     {% endif %}
   {% endif %}
 {% endblock %}

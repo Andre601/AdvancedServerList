@@ -105,7 +105,7 @@ methods:
     type:
       name: 'List<String>'
       type: 'object'
-  - name: 'playerCountText()'
+  - name: 'playerCountText'
     description: 'Gets the currently set player count text of this ProfileEntry.'
     returns: 'The current player count text used by this ProfileEntry.'
     type:

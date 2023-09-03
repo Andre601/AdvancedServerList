@@ -11,7 +11,7 @@ constructors:
 inherits:
   'ch.andre601.advancedserverlist.api.events.GenericServerListEvent':
     link: '../../../api/events/genericserverlistevent/'
-    methods:
+    list:
       - 'getEntry()'
       - 'setEntry(ProfileEntry)'
       - 'isCancelled()'

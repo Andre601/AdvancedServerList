@@ -19,14 +19,14 @@ methods:
 inherits:
   'ch.andre601.advancedserverlist.api.events.GenericServerListEvent':
     link: '../../../api/events/genericserverlistevent/'
-    methods:
+    list:
       - 'getEntry()'
       - 'setEntry(ProfileEntry)'
       - 'isCancelled()'
       - 'setCancelled(boolean)'
   'org.bukkit.event.Event':
     link: 'https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/Event.html'
-    methods:
+    list:
       - 'getHandlers()'
 ---
 

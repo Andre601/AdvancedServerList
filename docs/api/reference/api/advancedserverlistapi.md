@@ -31,6 +31,8 @@ methods:
     throws:
       - name: 'InvalidPlaceholderProviderException'
         description: 'When the provided <a href="./../placeholderprovider/"><code>PlaceholderProvider</code> instance</a> is null, has a null or empty identifier, the identifier contains spaces, or another PlaceholderProvider with the same identifier is already in use.'
+    type:
+      name: 'void'
   - name: 'retrievePlaceholderProvider'
     description: 'Retrieves the <a href="./../placeholderprovider/"><code>PlaceholderProvider</code></a> associated with the provided identifier, or <code>null</code> should no such entry exist.'
     parameters:

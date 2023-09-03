@@ -12,7 +12,7 @@ methods:
 inherits:
   'ch.andre601.advancedserverlist.api.objects.GenericServer':
     link: '../../../api/objects/genericserver/'
-    methods:
+    list:
       - 'getPlayersOnline()'
       - 'getPlayersMax()'
       - 'getHost()'

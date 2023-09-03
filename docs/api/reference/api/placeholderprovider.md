@@ -37,6 +37,9 @@ methods:
   - name: 'getIdentifier'
     description: 'Returns the identifier used by this PlaceholderProvider instance.'
     returns: 'String representing the identifier of this PlaceholderProvider instance.'
+    type:
+      name: 'String'
+      type: 'object'
 ---
 
 # <api__abstract></api__abstract> <api__class></api__class> PlaceholderProvider

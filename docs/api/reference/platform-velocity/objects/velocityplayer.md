@@ -12,7 +12,7 @@ methods:
 inherits:
   'ch.andre601.advancedserverlist.api.objects.GenericPlayer':
     link: '../../../api/objects/genericplayer/'
-    methods:
+    list:
       - 'getName()'
       - 'getProtocol()'
       - 'getUUID()'

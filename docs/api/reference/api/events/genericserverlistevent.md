@@ -22,6 +22,8 @@ methods:
     throws:
       - name: 'IllegalArgumentException'
         description: 'When the provided ProfileEntry is <code>null</code>'
+    type:
+      name: 'void'
   - name: 'isCancelled'
     description: Returns whether this event has been cancelled or not.
     returns: Whether this event has been cancelled or not.
@@ -33,6 +35,8 @@ methods:
       - name: 'cancelled'
         description: 'Boolean to set the event''s cancelled state.'
         type: boolean
+    type:
+      name: 'void'
 ---
 
 # <api__interface></api__interface> GenericServerListEvent
