@@ -1,6 +1,7 @@
 when:
   - event: push
     branch: master
+  - event: tag
 
 steps:
   pushToMirror:
