@@ -20,7 +20,6 @@ steps:
         --header 'Authorization: token $CB_TOKEN' \
         --header 'Accept: application/json' -s -S \
         --fail-with-body | jq ".[] | select (.tag_name==\"$CI_COMMIT_TAG\").")`
-      - export PLUGIN_VERSION=$CI_COMMIT_TAG
       - export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
       - export PLUGIN_PRE_RELEASE=$( echo $JSON | jq -r '.prerelease' )
       - export RELEASE_ID=$( echo $JSON | jq -r '.id' )
