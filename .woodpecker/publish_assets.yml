@@ -1,41 +1,53 @@
 when:
   event: tag
 
-depends_on:
-  - sync_mirror
-
-matrix:
-  include:
-    - PLATFORM: Bukkit
-      DIRECTORY: bukkit
-    - PLATFORM: BungeeCord
-      DIRECTORY: bungeecord
-    - PLATFORM: Velocity
-      DIRECTORY: velocity
-
 steps:
-  buildFiles:
+  createFiles:
     image: eclipse-temurin
-    secrets:
-      - cb_token
     commands:
       # Create the jar files.
       - mvn clean install
-      # Get Release ID for upload
-      - |-
-        export RELEASE_ID=`curl --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
-        --header 'Authorization: token $CB_TOKEN' \
-        --header 'Accept: application/json' -s -S \
-        --fail-with-body | jq -r ".[] | select (.tag_name==\"$CI_COMMIT_TAG\").id")`
   uploadFiles:
     image: eclipse-temurin
     secrets:
       - cb_token
+      - modrinth_api_token
+      - hangar_api_token
     commands:
+      # Get release info and setup env vars.
+      - |-
+        `curl --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
+        --header 'Authorization: token $CB_TOKEN' \
+        --header 'Accept: application/json' -s -S \
+        --fail-with-body | jq ".[] | select (.tag_name==\"$CI_COMMIT_TAG\").")` > release.json
+      - export PLUGIN_VERSION=$CI_COMMIT_TAG
+      - export PLUGIN_CHANGELOG=$( jq -r '.body' release.json )
+      - export PLUGIN_PRE_RELEASE=$( jq -r '.prerelease' release.json )
+      - export RELEASE_ID=$( jq -r '.id' release.json)
       # Upload release assets to Codeberg release
       - |-
-        curl --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
+        curl -X POST --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
         --header "Authorization: token $CB_TOKEN" \
         --header "Content-Type: multipart/form-data" -s -S \
-        --form "attachment=@${DIRECTORY}/target/AdvancedServerList-${PLATFORM}-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
+        --form "attachment=@bukkit/target/AdvancedServerList-Bukkit-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
         --fail-with-body
+      - |-
+        curl -X POST  --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
+        --header "Authorization: token $CB_TOKEN" \
+        --header "Content-Type: multipart/form-data" -s -S \
+        --form "attachment=@bungeecord/target/AdvancedServerList-BungeeCord-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
+        --fail-with-body
+      - |-
+        curl -X POST  --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
+        --header "Authorization: token $CB_TOKEN" \
+        --header "Content-Type: multipart/form-data" -s -S \
+        --form "attachment=@velocity/target/AdvancedServerList-Velocity-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
+        --fail-with-body
+      # Move VersionUploader.jar
+      - cd version-uploader/target/
+      - mv VersionUploader.jar ../../
+      - cd ../../
+      # Create Modrinth releases
+      - java -jar VersionUploader.jar --modrinth
+      # Create Hangar release
+      - java -jar VersionUploader.jar --hangar
