@@ -14,19 +14,24 @@ matrix:
       DIRECTORY: velocity
 
 steps:
-  createFiles:
+  buildFiles:
     image: eclipse-temurin
     secrets:
       - cb_token
     commands:
-      # Build the jar files
-      - mvn --projects :core,:${DIRECTORY} clean install
-      # Obtain release ID
+      # Create the jar files.
+      - mvn clean install
+      # Get Release ID for upload
       - |-
-        export RELEASE_ID=`curl --locatiion "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
+        export RELEASE_ID=`curl --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
         --header 'Authorization: token $CB_TOKEN' \
         --header 'Accept: application/json' -s -S \
-        --fail-with-body | jq -r ".[] | select (.tag_name==\"$CI_COMMIT_TAG\").id"`
+        --fail-with-body | jq -r ".[] | select (.tag_name==\"$CI_COMMIT_TAG\").id")`
+  uploadFiles:
+    image: eclipse-temurin
+    secrets:
+      - cb_token
+    commands:
       # Upload release assets to Codeberg release
       - |-
         curl --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
