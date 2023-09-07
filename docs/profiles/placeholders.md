@@ -1,7 +1,11 @@
+---
+icon: material/percent
+---
+
 # Placeholders
 
 AdvancedServerList provides a set of pre-made placeholders using the `${<identifier> <placeholder>}` format adobted from BungeeTabListPlus.  
-It also has built-in [PlaceholderAPI support](#placeholderapi) for Spigot and Paper Servers and since v2 can even allow you to [add your own placeholders](#custom-placeholders) by using its [API](../../api).
+It also has built-in [PlaceholderAPI support](#placeholderapi) for Spigot and Paper Servers and since v2 can even allow you to [add your own placeholders](#custom-placeholders) by using its [API](../api/index.md).
 
 ## Built-in Placeholders
 
@@ -42,8 +46,8 @@ These placeholders use values given by the server/proxy AdvancedServerList runs 
     An space-separated list of worlds (Spigot/Paper) or Servers (BungeeCord/Velocity) can be provided to display the number of players in these worlds/servers.  
     Example: `${server playersOnline lobby1 lobby2}` will display the numbers of players online on the servers `lobby1` and `lobby2`.
 [^5]:
-    When the [`amount` option](../#amount) is used will this placeholder display the modified max players count.  
-    The only exception is [`conditions`](../#conditions) where it uses the actual max players of the server/proxy.
+    When the [`amount` option](../index.md#amount) is used will this placeholder display the modified max players count.  
+    The only exception is [`conditions`](../index.md#conditions) where it uses the actual max players of the server/proxy.
 [^6]:
     An optional server name can be provided to display the IP/Domain associated with that server. Only works on BungeeCord/Velocity.
     Example: `${server host survival}` would display the IP/Domain associated with the `survival` server.
@@ -60,4 +64,4 @@ Depending on the placeholder used is a cached player required (i.e. `%player_nam
 Since version 2 of AdvancedServerList are developers able to provide their own placeholders to be used in a server list profile.  
 The format follows the same one as the [built-in placeholders](#built-in-placeholders), meaning it is `${<identifier> <placeholder>}`.
 
-If you're a developer and want to integrate your own placeholders into AdvancedServerList, read about it [here](../../api).
+If you're a developer and want to integrate your own placeholders into AdvancedServerList, read about it [here](../api/index.md).

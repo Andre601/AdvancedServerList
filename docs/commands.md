@@ -1,3 +1,7 @@
+---
+icon: octicons/rel-file-path-24
+---
+
 # Commands
 
 The plugin adds commands to use for various things related to the plugin itself.  
@@ -17,12 +21,18 @@ The following subcommands are available (Subcommands are case-insensitive):
 
 ### help
 
+**Permission:** `advancedserverlist.command.help`
+
 Shows a list of all available [subcommands](#subcommands) for AdvancedServerList.
 
 ### reload
 
-Reloads the plugin's `config.yml`, all available YAML files in the `profiles` folder and also clears the currently cached favicons and Players.
+**Permission:** `advancedserverlist.command.reload`
+
+Reloads the plugin's `config.yml` and all available YAML files in the `profiles` folder.
 
 ### clearCache
 
-Clears the currently cached favicons and Players.
+**Permission:** `advancedserverlist.command.clearcache`
+
+Clears the currently cached favicons and players.

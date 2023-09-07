@@ -1,0 +1,138 @@
+:root {
+    --api-label-border-radius: .2rem;
+    --api-label-padding: 0 .3em;
+    
+    --color-border: #e9ebfc1f;
+    
+    --color-api-fg__static: #00c853;
+    --color-api-fg__final: #ff9100;
+    --color-api-fg__abstract: #00bfa5;
+    
+    --color-api-fg__annotation: #00b8d4;
+    --color-api-bg__annotation: #00b8d41a;
+    
+    --color-api-fg-type__object: #9e9e9e;
+    --color-api-fg-type__primitive: #448aff;
+    
+    --color-api-bg__static: #00c8531a;
+    --color-api-bg__final: #ff91001a;
+    --color-api-bg__abstract: #00bfa51a;
+}
+
+/* Page design */
+.api-detail {
+    border: .05rem solid var(--color-border);
+    
+    border-bottom-left-radius: .1rem;
+    border-bottom-right-radius: .1rem;
+    
+    padding: 0 1em;
+    
+    margin: .5em 0;
+    
+    overflow: visible;
+}
+
+.api-detail h3 {
+    margin: .5em 0 .8em;
+}
+
+.api-detail__description {
+    margin-left: 1em;
+}
+
+/* Attributes */
+
+api__static::before {
+    color: var(--color-api-fg__static);
+    background-color: var(--color-api-bg__static);
+    
+    border-radius: var(--api-label-border-radius);
+    padding: var(--api-label-padding);
+    
+    content: "static";
+}
+
+api__final::before {
+    color: var(--color-api-fg__final);
+    background-color: var(--color-api-bg__final);
+    
+    border-radius: var(--api-label-border-radius);
+    padding: var(--api-label-padding);
+    
+    content: "final";
+}
+
+api__abstract::before {
+    color: var(--color-api-fg__abstract);
+    background-color: var(--color-api-bg__abstract);
+    
+    border-radius: var(--api-label-border-radius);
+    padding: var(--api-label-padding);
+    
+    content: "abstract";
+}
+
+/* Annotations */
+
+api__notnull::before {
+    color: var(--color-api-fg__annotation);
+    background-color: var(--color-api-bg__annotation);
+    
+    border-radius: var(--api-label-border-radius);
+    padding: var(--api-label-padding);
+    
+    content: "@NotNull";
+}
+
+api__nullable::before {
+    color: var(--color-api-fg__annotation);
+    background-color: var(--color-api-bg__annotation);
+    
+    border-radius: var(--api-label-border-radius);
+    padding: var(--api-label-padding);
+    
+    content: "@Nullable";
+}
+
+/* class types */
+
+api__class::before {
+    color: var(--color-api-fg-type__primitive);
+    font-weight: bold;
+    
+    content: "class";
+}
+
+api__interface::before {
+    color: var(--color-api-fg-type__primitive);
+    font-weight: bold;
+    
+    content: "interface";
+}
+
+api__enum::before {
+    color: var(--color-api-fg-type__primitive);
+    font-weight: bold;
+    
+    content: "enum";
+}
+
+api__record::before {
+    color: var(--color-api-fg-type__primitive);
+    font-weight: bold;
+    
+    content: "record";
+}
+
+/* object types */
+
+.api-type__object {
+    color: var(--color-api-fg-type__object);
+    font-weight: bold;
+}
+
+.api-type__primitive {
+    color: var(--color-api-fg-type__primitive);
+    font-weight: bold;
+}

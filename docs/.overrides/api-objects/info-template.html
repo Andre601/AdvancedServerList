@@ -1,0 +1,203 @@
+{% macro summary(title, summaries, inherits, details_type = 'unknown') -%}
+  <h2 id="{{ title | lower() | replace(' ', '-') |  e}}">
+    {{ title }}
+  </h2>
+  <div class="md-typeset__scrollwrap">
+    <div class="md-typeset__table">
+      {% if summaries %}
+        <table>
+          <thead>
+            <tr>
+              {% if details_type and details_type == "method" %}
+                <th>Modifier and Type</th>
+              {% endif %}
+              <th>{{ details_type | capitalize() }}</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for summary in summaries %}
+              <tr>
+                {% set modifiers = namespace(name = "") %}
+                {% for attribute in summary.attributes %}
+                  {% set modifiers.name = modifiers.name ~ attribute %}
+                  {% if loop.revindex > 0 %}{% set modifiers.name = modifiers.name ~ " " %}{% endif %}
+                {% endfor %}
+                
+                {% if modifiers.name %}{% set modifiers.name = modifiers.name ~ " " %}{% endif %}
+                
+                {% if summary.type and summary.type.name %}
+                  {% set modifiers.name = modifiers.name ~ summary.type.name %}
+                {% else %}
+                  {% set modifiers.name = modifiers.name ~ "void" %}
+                {% endif %}
+                
+                {% set desc = "" %}
+                {% if summary.description %}
+                  {% set desc = summary.description.split("<br>")[0] %}
+                {% endif %}
+                
+                {% set final_name = namespace(name = "") %}
+                {% if details_type and details_type == "enum" %}
+                  {% set final_name.name = summary.name | upper() %}
+                {% else %}
+                  {% set final_name.name = summary.name ~ "(" %}
+                {% endif %}
+      
+                {% for parameter in summary.parameters %}
+                  {% set final_name.name = final_name.name ~ parameter.type %}
+                  {% if loop.revindex > 1 %}{% set final_name.name = final_name.name ~ ", " %}{% endif %}
+                {% endfor %}
+                
+                {% if details_type != "enum" %}
+                  {% set final_name.name = final_name.name ~ ")" %}
+                {% endif %}
+                
+              {% if details_type and details_type == "method" %}
+                  {% if modifiers.name  %}
+                    <td><code>{{ modifiers.name }}</code></td>
+                  {% else %}
+                    <td></td>
+                  {% endif %}
+                {% endif %}
+                <td>
+                  {% if summary.link %}
+                    <a href="{{ summary.link }}"><code>{{ final_name.name | e}}</code></a>
+                  {% else %}
+                    <a href="#{{ final_name.name | lower() | replace(' ', '-') | e }}"><code>{{ final_name.name | e}}</code></a>
+                  {% endif %}
+                </td>
+                <td>{{ desc }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+      
+      {% if inherits %}
+        {% for classpath, inherit in inherits.items() %}
+          <table>
+            <thead>
+              <tr>
+                <th>Methods inherited from <a href="{{ inherit.link }}"><code>{{ classpath }}</code></a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {% for inh in inherit.list %}
+                    <a href="{{ inherit.link }}#{{ inh | lower() | replace(' ', '-') | e }}">
+                      <code>{{- inh | e -}}</code>
+                    </a>
+                    {%- if loop.revindex > 1 %}, {% endif -%}
+                  {% endfor %}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{%- endmacro %}
+
+{% macro info(title, details, enum = false) -%}
+  <h2 id="{{ title | lower() | replace(' ', '-') | e}}">
+    {{ title }}
+  </h2>
+  {% for detail in details %}
+    <div class="api-detail">
+      {% set final_name = namespace(name = "") %}
+      {% if enum %}
+        {% set final_name.name = detail.name | upper() %}
+      {% else %}
+        {% set final_name.name = detail.name ~ "(" %}
+      {% endif %}
+      
+      {% for parameter in detail.parameters %}
+        {% set final_name.name = final_name.name ~ parameter.type %}
+        {% if loop.revindex > 1 %}{% set final_name.name = final_name.name ~ ", " %}{% endif %}
+      {% endfor %}
+      
+      {% if not enum %}
+        {% set final_name.name = final_name.name ~ ")" %}
+      {% endif %}
+      
+      <h3 id="{{ final_name.name | lower() | replace(' ', '-') | e }}">
+        {% for attribute in detail.attributes %}
+          <api__{{- attribute -}}></api__{{- attribute -}}>
+        {% endfor %}
+        
+        {% if enum %}
+          <api__static></api__static> <api__final></api__final>
+        {% endif %}
+        
+        {% if detail.type %}
+          {% if detail.type.link %}
+            <a href="{{ detail.type.link }}" class="api-type__{{- detail.type.type | default('primitive') -}}">{{ detail.type.name | default('void') | e }}</a>
+          {% else %}
+            <span class="api-type__{{- detail.type.type | default('primitive') -}}">{{ detail.type.name | default('void') | e }}</span>
+          {% endif %}
+        {% endif %}
+        <code>{{ final_name.name | e }}</code><a href="#{{ final_name.name | lower() | replace(' ', '-') | e }}" class="headerlink" title="Permanent link">¶</a>
+      </h3>
+      
+      {% if detail.description %}
+        <p class="api-detail__description">
+          {{ detail.description }}
+        </p>
+      {% endif %}
+      
+      {% if detail.parameters %}
+        <h4 id="{{ detail.name | lower() | replace(' ', '-')  | e }}-parameters">
+          Parameters:<a href="#{{ detail.name | lower() | replace(' ', '-')  | e }}-parameters" class="headerlink" title="Permanent link">¶</a>
+        </h4>
+        <ul>
+          {% for parameter in detail.parameters %}
+            <li>
+              {% for attribute in parameter.attribute %}
+                <api__{{- attribute -}}></api__{{- attribute -}}>
+              {% endfor %}
+              <code>{{ parameter.type | e }}: {{ parameter.name }}</code>{% if parameter.description %} - {{ parameter.description }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      
+      {% if detail.returns %}
+        <h4 id="{{ detail.name | lower() | replace(' ', '-') | e }}-returns">
+          Returns:<a href="#{{ detail.name | lower() | replace(' ', '-')  | e }}-returns" class="headerlink" title="Permanent link">¶</a>
+        </h4>
+        <p class="api-detail__description">
+          {{ detail.returns }}
+        </p>
+      {% endif %}
+      
+      {% if detail.throws %}
+        <h4 id="{{ detail.name | lower() | replace(' ', '-') | e }}-throws">
+          Throws:<a href="#{{ detail.name | lower() | replace(' ', '-') | e }}-throws" class="headerlink" title="Permanent link">¶</a>
+        </h4>
+        <ul>
+          {% for throw in detail.throws %}
+            <li>
+              <code>{{ throw.name }}</code>{% if throw.description %} - {{ throw.description }}{% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      
+      {% if seealso %}
+        <h4 id="{{ detail.name | lower() | replace(' ', '-')  | e }}-see-also">
+          See also:<a href="#{{ detail.name | lower() | replace(' ', '-')  | e }}-see-also" class="headerlink" title="Permanent link">¶</a>
+        </h4>
+        <ul>
+          {% for see in detail.seealso %}
+            <li>
+              <a href="{{ see.link }}"><code>{{ see.name }}</code></a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endfor %}
+{%- endmacro %}

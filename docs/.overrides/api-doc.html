@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "api-objects/info-template.html" as info %}
+
+{% block content %}
+  {% include "partials/content.html" %}
+  {% if page.meta %}
+    <!--
+      Object summaries
+    -->
+    {% if page.meta.constructors %}
+      {{ info.summary('Constructor Summary', page.meta.constructors, details_type='constructor') }}
+    {% endif %}
+    {% if page.meta.classes %}
+      {{ info.summary('Class Summary', page.meta.classes, details_type='class') }}
+    {% endif %}
+    {% if page.meta.enums %}
+      {{ info.summary('Enum Constant Summary', page.meta.enums, details_type='enum') }}
+    {% endif %}
+    {% if page.meta.methods or page.meta.inherits %}
+      {{ info.summary('Method Summary', page.meta.methods, page.meta.inherits, details_type='method') }}
+    {% endif %}
+    <!--
+      Detailed object info
+    -->
+    {% if page.meta.constructors %}
+      {{ info.info('Constructor Detail', page.meta.constructors) }}
+    {% endif %}
+    {% if page.meta.enums %}
+      {{ info.info('Enum Constant Detail', page.meta.enums, true) }}
+    {% endif %}
+    {% if page.meta.methods %}
+      {{ info.info('Method Detail', page.meta.methods)}}
+    {% endif %}
+  {% endif %}
+{% endblock %}

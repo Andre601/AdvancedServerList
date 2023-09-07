@@ -1,3 +1,7 @@
+---
+icon: octicons/log-24
+---
+
 # Changelog
 
 This page lists the recent changes made towards the AdvancedServerListAPI.  
@@ -17,7 +21,7 @@ They are ordered newest to oldest.
     - `BungeeProxy` - Contains a `getServers()` method that returns a `Map<String, ServerInfo>` of all known Servers for BungeeCord.
     - `VelocityProxy` - Contains a `getServers()` method that returns a `Map<String, RegisteredServer>` of all known Servers for Velocity.
 
-### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v-removed }
+### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v3-removed }
 
 - All previously deprecated `getX()` methods from the `ProfileEntry` record
 

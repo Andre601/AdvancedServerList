@@ -1,18 +1,23 @@
 site_name: AdvancedServerList Wiki
 site_description: 'Wiki for the AdvancedServerList plugin'
 site_author: 'Andre_601'
-site_url: 'https://www.andre601.ch/AdvancedServerList' # Uncomment to set a canonical URL
+site_url: 'https://docs.andre601.ch/AdvancedServerList'
 
 copyright: |
-  &copy; Andre_601
+  Images &copy; Andre_601<br>
+  Docs licensed under <a href="https://github.com/Andre601/AdvancedServerList/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">MIT</a>
 
 docs_dir: docs/
 
 repo_name: Andre601/AdvancedServerList
 repo_url: https://github.com/Andre601/AdvancedServerList
 
+not_in_nav: api/reference/structure.md
+
 nav:
-  - Home: index.md
+  - Home:
+    - index.md
+    - Commands: commands.md
   - Profiles:
     - profiles/index.md
     - Formatting: profiles/formatting.md
@@ -20,11 +25,55 @@ nav:
   - API:
     - api/index.md
     - Changelog: api/changelog.md
-  - Examples: examples.md
-  - PlaceholderAPI: placeholderapi.md
+    - Reference:
+      - api/reference/index.md
+      - api:
+        - api/reference/api/index.md
+        - events:
+          - GenericServerListEvent: api/reference/api/events/genericserverlistevent.md
+        - exceptions:
+          - InvalidPlaceholderProviderException: api/reference/api/exceptions/invalidplaceholderproviderexception.md
+        - objects:
+          - GenericPlayer: api/reference/api/objects/genericplayer.md
+          - GenericServer: api/reference/api/objects/genericserver.md
+          - NullBool: api/reference/api/objects/nullbool.md
+        - profiles:
+          - ProfileEntry:
+            - api/reference/api/profiles/profileentry/index.md
+            - Builder: api/reference/api/profiles/profileentry/builder.md
+        - AdvancedServerListAPI: api/reference/api/advancedserverlistapi.md
+        - PlaceholderProvider: api/reference/api/placeholderprovider.md
+      - platform-bukkit:
+        - api/reference/platform-bukkit/index.md
+        - events:
+          - PreServerListSetEvent: api/reference/platform-bukkit/events/preserverlistsetevent.md
+        - objects:
+          - BukkitPlayer: api/reference/platform-bukkit/objects/bukkitplayer.md
+          - BukkitServer: api/reference/platform-bukkit/objects/bukkitserver.md
+      - platform-bungeecord:
+        - api/reference/platform-bungeecord/index.md
+        - events:
+          - PreServerListSetEvent: api/reference/platform-bungeecord/events/preserverlistsetevent.md
+        - objects:
+          - BungeePlayer: api/reference/platform-bungeecord/objects/bungeeplayer.md
+          - BungeeProxy: api/reference/platform-bungeecord/objects/bungeeproxy.md
+      - platform-velocity:
+        - api/reference/platform-velocity/index.md
+        - events:
+          - PreServerListSetEvent: api/reference/platform-velocity/events/preserverlistsetevent.md
+        - objects:
+          - VelocityPlayer: api/reference/platform-velocity/objects/velocityplayer.md
+          - VelocityProxy: api/reference/platform-velocity/objects/velocityproxy.md
+  - Migration:
+    - migration/index.md
+    - 'v1.5.3 to v1.6.0': migration/v1_5_3-to-v1_6_0.md
+    - 'v1.9.0 to v1.10.0': migration/v1_9_0-to-v1_10_0.md
+  - Examples: examples/index.md
+  - PlaceholderAPI: placeholderapi/index.md
 
 theme:
   name: 'material'
+  custom_dir: 'docs/.overrides'
   favicon: 'assets/images/favicon.png'
   logo: 'assets/images/favicon.png'
   palette:
@@ -40,31 +89,27 @@ theme:
   icon:
     repo: 'octicons/mark-github-16'
     admonition:
-      note: 'octicons/tag-16'
-      abstract: 'octicons/checklist-16'
-      info: 'octicons/info-16'
-      tip: 'octicons/squirrel-16'
-      success: 'octicons/check-16'
-      question: 'octicons/question-16'
-      warning: 'octicons/alert-16'
-      failure: 'octicons/x-circle-16'
-      danger: 'octicons/zap-16'
-      bug: 'octicons/bug-16'
-      example: 'octicons/beaker-16'
-      quote: 'octicons/quote-16'
+      note: 'octicons/tag-24'
+      abstract: 'octicons/checklist-24'
+      info: 'octicons/info-24'
+      tip: 'octicons/squirrel-24'
+      success: 'octicons/check-24'
+      question: 'octicons/question-24'
+      warning: 'octicons/alert-24'
+      failure: 'octicons/x-circle-24'
+      danger: 'octicons/zap-24'
+      bug: 'octicons/bug-24'
+      example: 'octicons/beaker-24'
+      quote: 'octicons/quote-24'
 
 extra_css:
   - assets/stylesheets/custom.css
+  - assets/stylesheets/api-docs.css
 
 extra:
   social:
-    - icon: 'fontawesome/brands/github'
-      link: 'https://github.com/Andre601/asl-wiki'
-  version:
-    provider: 'mike'
-    default:
-      - latest
-      - dev
+    - icon: 'simple/codeberg'
+      link: 'https://codeberg.org/Andre601/AdvancedServerList'
 
 plugins:
   - search
@@ -76,6 +121,7 @@ markdown_extensions:
       permalink: true
   - markdown.extensions.attr_list:
   - markdown.extensions.footnotes:
+  - markdown.extensions.md_in_html:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg

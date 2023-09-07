@@ -1,3 +1,7 @@
+---
+icon: octicons/note-24
+---
+
 # Profiles
 
 AdvancedServerList allows the creation of multiple profiles.  
@@ -25,7 +29,7 @@ This means that a profile with no conditions and a priority of `1` will be used 
 ## Conditions
 
 A list of conditions can be set that need to be met in order to have this profile shown to the player.  
-[Placeholders](./formatting#placeholders) can be used to further customize the conditions (PlaceholderAPI placeholders are **not** supported).
+[Placeholders](formatting.md#placeholders) can be used to further customize the conditions (PlaceholderAPI placeholders are **not** supported).
 
 Only when **all** conditions defined return true will the profile be displayed.
 
@@ -48,7 +52,9 @@ The following operants are available and can be used in the conditions.
 | `~=`    | Checks if the left value is equal to the right one, ignoring case.     |
 | `!~`    | Checks if the left value is not equal to the right one, ignoring case. |
 
-[^1]: In the case of the provided value not being a number will the plugin instead use the text length to compare with.
+[^1]:
+    Should the provided value not be a number, will AdvancedServerList use the text length to compare.  
+    Example: `SomeString > String` would be translated to `10 > 6`.
 
 ## Profiles
 
@@ -190,7 +196,7 @@ You can either remove this option or set to an empty list (`hover: []`) to not o
 ### Text
 
 This option allows to override the text usually displaying the online players and total players that can join.  
-Note that AdvancedServerList will not add the `<online>/<max>` text to the player count. Instead will you need to use [`${server playersOnline}`](./placeholders#server) and [`${server playersMax}`](./placeholders#server) respectively.
+Note that AdvancedServerList will not add the `<online>/<max>` text to the player count. Instead will you need to use [`${server playersOnline}`](placeholders.md#server) and [`${server playersMax}`](placeholders.md#server)
 
 !!! info "Note"
     This feature works by changing the "outdated server" message followed by altering the protocol version of the server.  
