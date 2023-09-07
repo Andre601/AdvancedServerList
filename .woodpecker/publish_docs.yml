@@ -17,7 +17,7 @@ steps:
       - mkdocs build
       - mv domains site/.domains
       - cd site
-      - git remote set-url https://${CB_TOKEN}@codeberg.org/Andre601/AdvancedServerList.git
+      - git remote set-url origin https://${CB_TOKEN}@codeberg.org/Andre601/AdvancedServerList.git
       - git add --all
       - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y" )) [CI SKIP]"
       - git push
