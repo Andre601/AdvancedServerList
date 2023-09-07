@@ -1,0 +1,22 @@
+when:
+  - branch: master
+    event: push
+
+steps:
+  buildDocs:
+    image: python
+    secrets:
+      - cb_token
+    commands:
+      - chmod -R a+w .
+      - git fetch --unshallow
+      - git clone -b pages https://codeberg.org/Andre601/AdvancedServerList.git site
+      - chmod -R a+w site
+      - python -m pip install --upgrade pip
+      - python -m pip install -r requirements.txt
+      - mkdocs build
+      - mv domains site/.domains
+      - cd site
+      - git add --all
+      - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y" )) [SKIP CI]"
+      - git push
