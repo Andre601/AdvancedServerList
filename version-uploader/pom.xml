@@ -89,7 +89,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>ch.andre601.advancedserverlist.hangar.HangarUploader</mainClass>
+                            <mainClass>ch.andre601.advancedserverlist.versionuploader.VersionUploader</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
