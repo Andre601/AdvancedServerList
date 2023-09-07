@@ -1,6 +1,8 @@
 when:
   - branch: master
     event: push
+    path:
+      include: ['requirements.txt', 'mkdocs.yml', 'docs/**']
 
 steps:
   buildDocs:
