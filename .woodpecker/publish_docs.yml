@@ -9,6 +9,9 @@ steps:
       - cb_token
     commands:
       - chmod -R a+w .
+      - git config --global --add safe.directory /woodpecker/src/codeberg.org/Andre601/blog-source/website
+      - git config --global user.email "github@andre601.ch"
+      - git config --global user.name "CI Website Builder"
       - git fetch --unshallow
       - git clone -b pages https://codeberg.org/Andre601/AdvancedServerList.git site
       - chmod -R a+w site
@@ -17,7 +20,7 @@ steps:
       - mkdocs build
       - mv domains site/.domains
       - cd site
-      - git remote set-url origin https://${CB_TOKEN}@codeberg.org/Andre601/AdvancedServerList.git
+      - git remote set-url origin https://$CB_TOKEN@codeberg.org/Andre601/AdvancedServerList.git
       - git add --all
       - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y" )) [CI SKIP]"
       - git push
