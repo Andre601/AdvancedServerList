@@ -37,6 +37,11 @@
     padding: 0 1em;
 }
 
+.md-banner {
+    background-color: #ff91001a;
+    border: .1rem solid #ff9100;
+}
+
 /* Override mkdocs-material styling */
 .md-banner--warning {
     background: rgba(187,128,9,0.15);
