@@ -93,10 +93,10 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 </a>
 
 <!-- Links -->
-[profiles]: https://docs.andre601.ch/AdvancedServerList/profiles/
-[conditions]: https://docs.andre601.ch/AdvancedServerList/profiles/#conditions
-[placeholders]: https://docs.andre601.ch/AdvancedServerList/profiles/placeholders/
-[minimessage]: https://docs.andre601.ch/AdvancedServerList/profiles/formatting/
+[profiles]: https://asl.andre601.ch/profiles/
+[conditions]: https://asl.andre601.ch/profiles/#conditions
+[placeholders]: https://asl.andre601.ch/profiles/placeholders/
+[minimessage]: https://asl.andre601.ch/profiles/formatting/
 
 [modrinth]: https://modrinth.com/plugin/advancedserverlist
 
