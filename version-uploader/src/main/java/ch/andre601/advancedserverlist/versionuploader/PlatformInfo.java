@@ -33,8 +33,14 @@ public enum PlatformInfo{
         "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
         "Spigot", "Paper", "Folia"
     ),
-    BUNGEECORD("",""),
-    VELOCITY("", "");
+    BUNGEECORD(
+        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
+        "BungeeCord", "Waterfall"
+    ),
+    VELOCITY(
+        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
+        "Velocity"
+    );
     
     private final String filePath;
     private final List<String> loaders;

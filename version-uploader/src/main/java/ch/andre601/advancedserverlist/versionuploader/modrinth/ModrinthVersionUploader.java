@@ -78,7 +78,7 @@ public class ModrinthVersionUploader{
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
                 .projectId("xss83sOY")
-                .name("v" + version)
+                .name("v" + version + " (" + String.join(", ", platform.getLoaders()) + ")")
                 .versionNumber(version)
                 .changelog(changelog)
                 .featured(false)
