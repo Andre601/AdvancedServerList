@@ -111,9 +111,11 @@ public class ModrinthVersionUploader{
         if(apiToken == null)
             return null;
         
-        UserAgent agent = UserAgent.builder().authorUsername("Andre_601")
+        UserAgent agent = UserAgent.builder()
+            .authorUsername("Andre_601")
             .projectVersion("v1.0.0")
             .projectName("ModrinthVersionUploader")
+            .contact("github@andre601.ch")
             .build();
         
         return ModrinthAPI.rateLimited(agent, apiToken);
