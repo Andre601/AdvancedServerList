@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.hangaruploader.version;
+package ch.andre601.advancedserverlist.versionuploader.hangar.version;
 
 import java.util.List;
 import java.util.Map;

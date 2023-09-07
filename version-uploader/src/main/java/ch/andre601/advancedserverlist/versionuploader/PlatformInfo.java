@@ -23,10 +23,32 @@
  *
  */
 
-package ch.andre601.advancedserverlist.hangaruploader.version;
+package ch.andre601.advancedserverlist.versionuploader;
 
-public enum Platform{
-    PAPER,
-    WATERFALL,
-    VELOCITY
+import java.util.List;
+
+public enum PlatformInfo{
+    
+    BUKKIT(
+        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
+        "Spigot", "Paper", "Folia"
+    ),
+    BUNGEECORD("",""),
+    VELOCITY("", "");
+    
+    private final String filePath;
+    private final List<String> loaders;
+    
+    PlatformInfo(String filePath, String... loaders){
+        this.filePath = filePath;
+        this.loaders = List.of(loaders);
+    }
+    
+    public String getFilePath(){
+        return filePath;
+    }
+    
+    public List<String> getLoaders(){
+        return loaders;
+    }
 }

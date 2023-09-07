@@ -23,9 +23,12 @@
  *
  */
 
-package ch.andre601.advancedserverlist.hangaruploader;
+package ch.andre601.advancedserverlist.versionuploader.hangar;
 
-import ch.andre601.advancedserverlist.hangaruploader.version.*;
+import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
+import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
+import ch.andre601.advancedserverlist.versionuploader.hangar.version.*;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -47,106 +50,94 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class HangarUploader{
+public class HangarVersionUploader{
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(HangarUploader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HangarVersionUploader.class);
     private static final String API_URL = "https://hangar.papermc.io/api/v1/";
     
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private final String apiKey;
     private ActiveJWT activeJWT;
     
-    public HangarUploader(String apiKey){
-        this.apiKey = apiKey;
+    public HangarVersionUploader(){
+        this.apiKey = System.getenv("HANGAR_API_TOKEN");
     }
     
-    public static void main(String[] args) throws IOException{
-        LOGGER.info("Starting Jar file...");
-        if(args.length < 3){
-            throw new IllegalStateException("Application requires HANGAR_TOKEN, RELEASE_TAG, PRERELEASE and RELEASE_BODY to work");
+    public void performUpload(){
+        LOGGER.info("Starting HangarVersionUploader...");
+        
+        if(apiKey == null || apiKey.isEmpty()){
+            LOGGER.warn("Received a null/empty API key!");
+            System.exit(1);
+            return;
         }
         
         final Namespace project = new Namespace("Andre_601", "AdvancedServerList");
         
-        String apiToken = args[0];
-        String version = args[1].startsWith("v") ? args[1].substring(1) : args[1];
-        boolean isPreRelease = args[2].equalsIgnoreCase("true");
-        String body = System.getenv("GITHUB_RELEASE_BODY");
+        final String version = VersionUploader.getVersion();
+        if(version == null){
+            LOGGER.warn("Unable to retrieve Version!");
+            System.exit(1);
+            return;
+        }
         
-        LOGGER.info("Version:         {}", version);
-        LOGGER.info("Is Prerelease:   {}", isPreRelease);
-        LOGGER.info("Release Message:");
-        LOGGER.info(body);
+        final String changelog = VersionUploader.getChangelog();
+        boolean preRelease = VersionUploader.getPreReleaseState();
         
         final List<Path> filePaths = List.of(
-            new File("bukkit/target/AdvancedServerList-Bukkit-" + version + ".jar").toPath(),
-            new File("bungeecord/target/AdvancedServerList-BungeeCord-" + version + ".jar").toPath(),
-            new File("velocity/target/AdvancedServerList-Velocity-" + version + ".jar").toPath()
+            new File(PlatformInfo.BUKKIT.getFilePath().replace("{{version}}", version)).toPath(),
+            new File(PlatformInfo.BUNGEECORD.getFilePath().replace("{{version}}", version)).toPath(),
+            new File(PlatformInfo.VELOCITY.getFilePath().replace("{{version}}", version)).toPath()
         );
-        final List<Dependency> paperDependencies = List.of(
-            Dependency.fromNamespace(
-                "ViaVersion",
-                false,
-                new Namespace("ViaVersion", "ViaVersion")
-            ),
-            Dependency.fromUrl(
-                "PlaceholderAPI",
-                false,
-                "https://www.spigotmc.org/resources/6245/"
-            )
+        
+        final List<Dependency> bukkitDependencies = List.of(
+            Dependency.fromNamespace("ViaVersion", false, new Namespace("ViaVersion", "ViaVersion")),
+            Dependency.fromUrl("PlaceholderAPI", false, "https://www.spigot.org/resources/6245/")
         );
-        final List<Dependency> bungeeDependencies = List.of(
-            Dependency.fromNamespace(
-                "PAPIProxyBridge",
-                false,
-                new Namespace("William278", "PAPIProxyBridge")
-            )
+        final List<Dependency> bungeeDependencies = Collections.singletonList(
+            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge"))
         );
-        final List<Dependency> velocityDependencies = List.of(
-            Dependency.fromNamespace(
-                "PAPIProxyBridge",
-                false,
-                new Namespace("William278", "PAPIProxyBridge")
-            )
+        final List<Dependency> velocityDependencies = Collections.singletonList(
+            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge"))
         );
         
         final List<MultipartObject> fileInfo = List.of(
-            new MultipartObject(List.of(Platform.PAPER), null),
-            new MultipartObject(List.of(Platform.WATERFALL), null),
-            new MultipartObject(List.of(Platform.VELOCITY), null)
+            new MultipartObject(Collections.singletonList(Platform.PAPER), null),
+            new MultipartObject(Collections.singletonList(Platform.WATERFALL), null),
+            new MultipartObject(Collections.singletonList(Platform.VELOCITY), null)
         );
         
         final Version versionUpload = new Version(
             version,
             Map.of(
-                Platform.PAPER, paperDependencies,
+                Platform.PAPER, bukkitDependencies,
                 Platform.WATERFALL, bungeeDependencies,
                 Platform.VELOCITY, velocityDependencies
             ),
             Map.of(
                 Platform.PAPER, List.of("1.19.x", "1.20.x"),
                 Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
-                Platform.VELOCITY, List.of("3.2")
+                Platform.VELOCITY, Collections.singletonList("3.2")
             ),
-            body,
+            changelog,
             fileInfo,
-            isPreRelease ? "Beta" : "Release"
+            preRelease ? "Beta" : "Release"
         );
         
-        HangarUploader uploader = new HangarUploader(apiToken);
         try(CloseableHttpClient client = HttpClients.createDefault()){
-            uploader.uploadVersion(client, project, versionUpload, filePaths);
-        }catch(ParseException ex){
-            LOGGER.error("Encountered ParseException while performing a request.", ex);
+            uploadVersion(client, project, versionUpload, filePaths);
+        }catch(ParseException | IOException ex){
+            LOGGER.warn("Unable to upload to Hangar! Encountered an exception.", ex);
         }
     }
     
-    public void uploadVersion(HttpClient client, Namespace namespace, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
+    private void uploadVersion(HttpClient client, Namespace namespace, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("versionUpload", new StringBody(GSON.toJson(versionUpload), ContentType.APPLICATION_JSON));
         

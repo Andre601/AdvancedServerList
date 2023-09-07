@@ -23,8 +23,11 @@
  *
  */
 
-package ch.andre601.advancedserverlist.hangaruploader.version;
+package ch.andre601.advancedserverlist.versionuploader.hangar.version;
 
-import java.util.List;
-
-public record MultipartObject(List<Platform> platforms, String url){}
+public record Namespace(String owner, String slug){
+    @Override
+    public String toString(){
+        return owner() + "/" + slug();
+    }
+}

@@ -73,6 +73,6 @@
         <module>bungeecord</module>
         <module>bukkit</module>
         <module>velocity</module>
-        <module>hangar-uploader</module>
+        <module>version-uploader</module>
     </modules>
 </project>

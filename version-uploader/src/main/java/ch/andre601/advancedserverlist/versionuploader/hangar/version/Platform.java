@@ -23,20 +23,10 @@
  *
  */
 
-package ch.andre601.advancedserverlist.hangaruploader.version;
+package ch.andre601.advancedserverlist.versionuploader.hangar.version;
 
-public record Dependency(String name, boolean required, Namespace namespace, String externalUrl){
-    
-    public Dependency{
-        if(namespace == null && externalUrl == null)
-            throw new IllegalStateException("Either a namespace or external URL needs to be defined.");
-    }
-    
-    public static Dependency fromNamespace(String name, boolean required, Namespace namespace){
-        return new Dependency(name, required, namespace, null);
-    }
-    
-    public static Dependency fromUrl(String name, boolean required, String url){
-        return new Dependency(name, required, null, url);
-    }
+public enum Platform{
+    PAPER,
+    WATERFALL,
+    VELOCITY
 }
