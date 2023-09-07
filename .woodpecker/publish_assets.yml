@@ -1,5 +1,6 @@
 when:
-  event: tag
+  - event: tag
+    branch: master
 
 steps:
   createFiles:
