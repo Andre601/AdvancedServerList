@@ -64,7 +64,8 @@ methods:
       <ul>
         <li>URL to a valid PNG file.</li>
         <li>File name (with <code>.png</code> extension) matching a file saved in the favicons folder of AdvancedServerList.</li>
-        <li><code>${player uuid}</code> to display the avatar of the player.
+        <li><code>${player uuid}</code> to display the avatar of the player.</li>
+      </ul>
     returns: 'This Builder after the favicon has been set. Useful for chaining.'
     parameters:
       - name: 'favicon'
