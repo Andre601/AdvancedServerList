@@ -134,6 +134,7 @@ public class HangarVersionUploader{
             uploadVersion(client, project, versionUpload, filePaths);
         }catch(ParseException | IOException ex){
             LOGGER.warn("Unable to upload to Hangar! Encountered an exception.", ex);
+            System.exit(1);
         }
     }
     
