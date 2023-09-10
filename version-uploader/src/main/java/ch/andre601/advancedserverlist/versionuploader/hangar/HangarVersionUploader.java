@@ -98,13 +98,16 @@ public class HangarVersionUploader{
         
         final List<Dependency> bukkitDependencies = List.of(
             Dependency.fromNamespace("ViaVersion", false, new Namespace("ViaVersion", "ViaVersion")),
+            Dependency.fromNamespace("Maintenance", false, new Namespace("kennytv", "Maintenance")),
             Dependency.fromUrl("PlaceholderAPI", false, "https://www.spigot.org/resources/6245/")
         );
-        final List<Dependency> bungeeDependencies = Collections.singletonList(
-            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge"))
+        final List<Dependency> bungeeDependencies = List.of(
+            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge")),
+            Dependency.fromNamespace("Maintenance", false, new Namespace("kennytv", "Maintenance"))
         );
-        final List<Dependency> velocityDependencies = Collections.singletonList(
-            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge"))
+        final List<Dependency> velocityDependencies = List.of(
+            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge")),
+            Dependency.fromNamespace("Maintenance", false, new Namespace("kennytv", "Maintenance"))
         );
         
         final List<MultipartObject> fileInfo = List.of(

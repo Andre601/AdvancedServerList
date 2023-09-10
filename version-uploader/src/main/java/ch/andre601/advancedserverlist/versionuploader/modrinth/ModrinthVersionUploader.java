@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 public class ModrinthVersionUploader{
@@ -86,8 +85,9 @@ public class ModrinthVersionUploader{
                 .gameVersions(versions)
                 .loaders(platform.getLoaders())
                 .versionType(preRelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE)
-                .dependencies(Collections.singletonList(
-                    new ProjectVersion.ProjectDependency(null, "papiproxabridge", null, ProjectVersion.ProjectDependencyType.OPTIONAL)
+                .dependencies(List.of(
+                    new ProjectVersion.ProjectDependency(null, "papiproxabridge", null, ProjectVersion.ProjectDependencyType.OPTIONAL),
+                    new ProjectVersion.ProjectDependency(null, "maintenance", null, ProjectVersion.ProjectDependencyType.OPTIONAL)
                 ))
                 .build();
             

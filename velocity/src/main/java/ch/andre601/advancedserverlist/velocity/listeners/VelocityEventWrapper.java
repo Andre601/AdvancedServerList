@@ -133,6 +133,14 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     }
     
     @Override
+    public boolean isMaintenanceModeActive(){
+        if(!plugin.getProxy().getPluginManager().isLoaded("maintenance"))
+            return false;
+        
+        return PingEventHandler.getMaintenanceUtil().isMaintenanceEnabled();
+    }
+    
+    @Override
     public int getProtocolVersion(){
         return protocol.getProtocol();
     }

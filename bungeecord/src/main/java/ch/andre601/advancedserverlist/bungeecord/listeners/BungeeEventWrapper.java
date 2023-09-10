@@ -134,6 +134,14 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     }
     
     @Override
+    public boolean isMaintenanceModeActive(){
+        if(plugin.getProxy().getPluginManager().getPlugin("Maintenance") == null)
+            return false;
+        
+        return PingEventHandler.getMaintenanceUtil().isMaintenanceEnabled();
+    }
+    
+    @Override
     public int getProtocolVersion(){
         return this.protocol.getProtocol();
     }
