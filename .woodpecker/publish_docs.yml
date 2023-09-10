@@ -5,6 +5,29 @@ when:
       include: ['requirements.txt', 'mkdocs.yml', 'docs/**']
 
 steps:
+  fetchRepoStats
+    secrets:
+      - cb_token
+    commands:
+      # Fetch latest release tag
+      - |-
+        export RELEASE_TAG=`curl "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/latest" \
+        --header 'Authorization: token $CB_TOKEN' \
+        --header 'Accept: aplication/json' -s -S \
+        --fail-with-body | jq -r ".tag_name"`
+      # Fetch Repo
+      - |-
+        export REPO_JSON=`curl "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList" \
+        --header 'Authorization: token $CB_TOKEN' \
+        --header 'Accept: aplication/json' -s -S \
+        --fail-with-body | jq "."`
+      # Get stars and forks count
+      - export STARS_COUNT=$( echo $JSON | jq -r '.stars_count' )
+      - export FORKS_COUNT=$( echo $REPO_JSON | jq -r '.forks_count' )
+      # Replace placeholders with obtained values.
+      - sed -i 's/__RELEASE_TAG__/$RELEASE_TAG/' docs/.overrides/partials/source.html
+      - sed -i 's/__STARS_COUNT__/$STARS_COUNT/' docs/.overrides/partials/source.html
+      - sed -i 's/__FORKS_COUNT__/$FORKS_COUNT/' docs/.overrides/partials/source.html
   buildDocs:
     image: python
     secrets:
