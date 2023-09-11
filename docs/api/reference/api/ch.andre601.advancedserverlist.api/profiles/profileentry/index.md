@@ -1,8 +1,6 @@
 ---
 template: api-doc.html
 
-title: Profile
-
 constructors:
   - name: 'ProfileEntry'
     description: |

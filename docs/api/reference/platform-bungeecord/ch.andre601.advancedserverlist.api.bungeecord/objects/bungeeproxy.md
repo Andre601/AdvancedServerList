@@ -11,7 +11,7 @@ methods:
 
 inherits:
   'ch.andre601.advancedserverlist.api.objects.GenericServer':
-    link: '../../../api/objects/genericserver/'
+    link: '../../../../api/ch.andre601.advancedserverlist.api/objects/genericserver/'
     list:
       - 'getPlayersOnline()'
       - 'getPlayersMax()'
