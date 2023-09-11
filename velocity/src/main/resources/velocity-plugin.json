@@ -10,6 +10,10 @@
     {
       "id": "papiproxybridge",
       "optional": true
+    },
+    {
+      "id": "maintenance",
+      "optional": true
     }
   ],
   "main": "ch.andre601.advancedserverlist.velocity.VelocityCore"

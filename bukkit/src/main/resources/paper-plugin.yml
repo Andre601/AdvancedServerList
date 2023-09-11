@@ -16,6 +16,9 @@ dependencies:
     ViaVersion:
       load: BEFORE
       required: false
+    Maintenance:
+      load: BEFORE
+      required: false
 
 # The below stuff is NOT used by Paper plugin.
 commands:
