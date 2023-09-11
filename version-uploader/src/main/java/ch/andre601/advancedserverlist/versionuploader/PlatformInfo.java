@@ -30,24 +30,33 @@ import java.util.List;
 public enum PlatformInfo{
     
     BUKKIT(
+        "bukkit",
         "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
         "Spigot", "Paper", "Folia"
     ),
     BUNGEECORD(
+        "bungeecord",
         "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
         "BungeeCord", "Waterfall"
     ),
     VELOCITY(
+        "velocity",
         "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
         "Velocity"
     );
     
+    private final String platform;
     private final String filePath;
     private final List<String> loaders;
     
-    PlatformInfo(String filePath, String... loaders){
+    PlatformInfo(String platform, String filePath, String... loaders){
+        this.platform = platform;
         this.filePath = filePath;
         this.loaders = List.of(loaders);
+    }
+    
+    public String getPlatform(){
+        return platform;
     }
     
     public String getFilePath(){

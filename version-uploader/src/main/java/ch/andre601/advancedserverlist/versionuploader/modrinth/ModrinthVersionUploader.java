@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModrinthVersionUploader{
@@ -68,8 +69,14 @@ public class ModrinthVersionUploader{
         final boolean preRelease = release.prerelease();
         
         for(PlatformInfo platform : platforms){
-            LOGGER.info("Creating release for Platform {}...", platform.getLoaders().get(0));
+            LOGGER.info("Creating release for Platform {}...", platform.getPlatform());
             File file = new File(platform.getFilePath().replace("{{version}}", version));
+            
+            List<ProjectVersion.ProjectDependency> dependencies = new ArrayList<>();
+            
+            dependencies.add(new ProjectVersion.ProjectDependency(null, "maintenance", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
+            if(!platform.getPlatform().equalsIgnoreCase("spigot"))
+                dependencies.add(new ProjectVersion.ProjectDependency(null, "papiproxabridge", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
                 .projectId("xss83sOY")
@@ -81,10 +88,7 @@ public class ModrinthVersionUploader{
                 .gameVersions(versions)
                 .loaders(platform.getLoaders())
                 .versionType(preRelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE)
-                .dependencies(List.of(
-                    new ProjectVersion.ProjectDependency(null, "papiproxabridge", null, ProjectVersion.ProjectDependencyType.OPTIONAL),
-                    new ProjectVersion.ProjectDependency(null, "maintenance", null, ProjectVersion.ProjectDependencyType.OPTIONAL)
-                ))
+                .dependencies(dependencies)
                 .build();
             
             api.versions().createProjectVersion(request).whenComplete((project, throwable) -> {
