@@ -9,7 +9,7 @@ steps:
       # Create the jar files.
       - mvn clean install
   uploadFiles:
-    image: eclipse-temurin
+    image: leplusorg/json
     secrets:
       - cb_token
     commands:
@@ -44,6 +44,7 @@ steps:
   uploadToModrinthAndMaven:
     image: eclipse-temurin
     secrets:
+      - cb_token
       - modrinth_api_token
       - hangar_api_token
     commands:
