@@ -25,8 +25,8 @@
 
 package ch.andre601.advancedserverlist.versionuploader.hangar;
 
+import ch.andre601.advancedserverlist.versionuploader.CodebergRelease;
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
-import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.hangar.version.*;
 
 import com.google.gson.Gson;
@@ -69,7 +69,7 @@ public class HangarVersionUploader{
         this.apiKey = System.getenv("HANGAR_API_TOKEN");
     }
     
-    public void performUpload(){
+    public void performUpload(CodebergRelease release){
         LOGGER.info("Starting HangarVersionUploader...");
         
         if(apiKey == null || apiKey.isEmpty()){
@@ -80,15 +80,10 @@ public class HangarVersionUploader{
         
         final Namespace project = new Namespace("Andre_601", "AdvancedServerList");
         
-        final String version = VersionUploader.getVersion();
-        if(version == null){
-            LOGGER.warn("Unable to retrieve Version!");
-            System.exit(1);
-            return;
-        }
+        final String version = release.tagName().startsWith("v") ? release.tagName().substring(1) : release.tagName();
         
-        final String changelog = VersionUploader.getChangelog();
-        boolean preRelease = VersionUploader.getPreReleaseState();
+        final String changelog = release.body();
+        boolean preRelease = release.prerelease();
         
         final List<Path> filePaths = List.of(
             new File(PlatformInfo.BUKKIT.getFilePath()).toPath(),

@@ -25,8 +25,8 @@
 
 package ch.andre601.advancedserverlist.versionuploader.modrinth;
 
+import ch.andre601.advancedserverlist.versionuploader.CodebergRelease;
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
-import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import masecla.modrinth4j.client.agent.UserAgent;
 import masecla.modrinth4j.endpoints.version.CreateVersion;
 import masecla.modrinth4j.main.ModrinthAPI;
@@ -53,7 +53,7 @@ public class ModrinthVersionUploader{
         this.api = createClient();
     }
     
-    public void performUploads(){
+    public void performUploads(CodebergRelease release){
         LOGGER.info("Starting ModrinthVersionUploader...");
         
         if(api == null){
@@ -62,15 +62,10 @@ public class ModrinthVersionUploader{
             return;
         }
         
-        final String version = VersionUploader.getVersion();
-        if(version == null){
-            LOGGER.warn("Unable to retrieve Version!");
-            System.exit(1);
-            return;
-        }
+        final String version = release.tagName().startsWith("v") ? release.tagName().substring(1) : release.tagName();
         
-        final String changelog = VersionUploader.getChangelog();
-        final boolean preRelease = VersionUploader.getPreReleaseState();
+        final String changelog = release.body();
+        final boolean preRelease = release.prerelease();
         
         for(PlatformInfo platform : platforms){
             File file = new File(platform.getFilePath());
@@ -108,12 +103,12 @@ public class ModrinthVersionUploader{
     
     private ModrinthAPI createClient(){
         String apiToken = System.getenv("MODRINTH_API_TOKEN");
-        if(apiToken == null)
+        if(apiToken == null || apiToken.isEmpty())
             return null;
         
         UserAgent agent = UserAgent.builder()
             .authorUsername("Andre_601")
-            .projectVersion(VersionUploader.getVersion() == null ? "UNKNOWN" : VersionUploader.getVersion())
+            .projectVersion("${plugin.version}")
             .projectName("ModrinthVersionUploader")
             .contact("github@andre601.ch")
             .build();

@@ -27,43 +27,47 @@ package ch.andre601.advancedserverlist.versionuploader;
 
 import ch.andre601.advancedserverlist.versionuploader.hangar.HangarVersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.modrinth.ModrinthVersionUploader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VersionUploader{
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(VersionUploader.class);
+    
     public static void main(String[] args) {
+        LOGGER.info("Starting release uploader...");
+        
+        CodebergRelease release = CodebergReleaseFetcher.fetchRelease();
+        if(release == null){
+            LOGGER.warn("Non-successful attempt at fetching a release from Codeberg! Aborting upload");
+            System.exit(1);
+            return;
+        }
+        
+        if(release.tagName() == null || release.tagName().isEmpty()){
+            LOGGER.info("Received invalid Release Structure. Tag name was null/empty.");
+            System.exit(1);
+            return;
+        }
+        
+        // Gson uses 0 for nummerics by default
+        if(release.id() == 0){
+            LOGGER.info("Received invalid Release Structure. ID was 0.");
+            System.exit(1);
+            return;
+        }
+        
+        LOGGER.info("Successfully obtained release info: [ID: {}, Tag: {}, Prerelease: {}]", release.id(), release.tagName(), release.prerelease());
+        
         for(String arg : args){
             if(arg.equalsIgnoreCase("--modrinth")){
-                new ModrinthVersionUploader().performUploads();
+                new ModrinthVersionUploader().performUploads(release);
                 break;
             }
             if(arg.equalsIgnoreCase("--hangar")){
-                new HangarVersionUploader().performUpload();
+                new HangarVersionUploader().performUpload(release);
                 break;
             }
         }
-    }
-    
-    public static String getVersion(){
-        String version = System.getenv("CI_COMMIT_TAG");
-        if(version == null || version.isEmpty())
-            return null;
-        
-        return version.startsWith("v") ? version.substring(1) : version;
-    }
-    
-    public static String getChangelog(){
-        String changelog = System.getenv("PLUGIN_CHANGELOG");
-        if(changelog == null || changelog.isEmpty())
-            return "*No changelog provided*";
-        
-        return changelog;
-    }
-    
-    public static boolean getPreReleaseState(){
-        String preRelease = System.getenv("PLUGIN_PRE_RELEASE");
-        if(preRelease == null || preRelease.isEmpty())
-            return false;
-        
-        return preRelease.equalsIgnoreCase("true");
     }
 }
