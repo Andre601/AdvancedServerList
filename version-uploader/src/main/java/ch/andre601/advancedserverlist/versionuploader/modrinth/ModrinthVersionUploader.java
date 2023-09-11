@@ -103,7 +103,6 @@ public class ModrinthVersionUploader{
         }
         
         LOGGER.info("Upload task completed! Shutting down jar...");
-        System.exit(0);
     }
     
     private ModrinthAPI createClient(){
