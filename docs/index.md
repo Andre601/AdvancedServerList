@@ -33,8 +33,13 @@ AdvancedServerList supports the following platforms:
     - [Formatting](profiles/formatting.md)
     - [Placeholders](profiles/placeholders.md)
 - [API](api/index.md)
+    - [Changelog](api/changelog.md)
+    - [Reference](api/reference/index.md)
 - [Examples](examples/index.md)
-- [PlaceholderAPI placeholders](placeholderapi/index.md)
+- [Migration](migration/index.md)
+    - [v1.5.3 to v1.6.0](migration/v1_5_3-to-v1_6_0.md)
+    - [v1.9.0 to v1.10.0](migration/v1_9_0-to-v1_10_0.md)
+- [PlaceholderAPI](placeholderapi/index.md)
 
 [spigot]: https://www.spigotmc.org
 [paper]: https://papermc.io

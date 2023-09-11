@@ -71,6 +71,12 @@
 
     <build>
         <finalName>VersionUploader</finalName>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${project.basedir}/src/main/java/ch/andre601/advancedserverlist/versionuploader</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

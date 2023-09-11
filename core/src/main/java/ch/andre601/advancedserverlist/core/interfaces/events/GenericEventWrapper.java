@@ -59,6 +59,8 @@ public interface GenericEventWrapper<F, P extends GenericPlayer>{
     
     boolean isInvalidProtocol();
     
+    boolean isMaintenanceModeActive();
+    
     int getProtocolVersion();
     
     int getOnlinePlayers();

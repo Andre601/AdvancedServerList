@@ -60,11 +60,13 @@ Only certain options are usable for each option. As an example does motd support
 
 ## Dependencies
 
-| Dependency       | Platforms     | Required? |
-|------------------|---------------|-----------|
-| [ProtocolLib]    | Spigot        | Yes       |
-| [PlaceholderAPI] | Spigot, Paper | No        |
-| [ViaVersion]     | Spigot, Paper | No        |
+| Dependency        | Platforms                           | Required? |
+|-------------------|-------------------------------------|-----------|
+| [ProtocolLib]     | Spigot                              | Yes       |
+| [PlaceholderAPI]  | Spigot, Paper                       | No        |
+| [ViaVersion]      | Spigot, Paper                       | No        |
+| [PAPIProxyBridge] | Spigot, Paper, BungeeCord, Velocity | No        |
+| [Maintenance]     | Spigot, Paper, BungeeCord, Velocity | No        |
 
 ## Statistics
 
@@ -100,9 +102,11 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 
 [modrinth]: https://modrinth.com/plugin/advancedserverlist
 
-[protocollib]: https://www.spigotmc.org/resources/1997/
+[protocollib]: https://hangar.papermc.io/dmulloy2/ProtocolLib
 [placeholderapi]: https://www.spigotmc.org/resources/6245/
-[viaversion]: https://www.spigotmc.org/resources/19254/
+[viaversion]: https://hangar.papermc.io/ViaVersion/ViaVersion
+[papiproxybridge]: https://hangar.papermc.io/William278/PAPIProxyBridge
+[maintenance]: https://hangar.papermc.io/kennytv/Maintenance
 
 [bstats]: https://bstats.org
 [bstats-bungee]: https://bstats.org/plugin/bungeecord/AdvancedServerList/15585

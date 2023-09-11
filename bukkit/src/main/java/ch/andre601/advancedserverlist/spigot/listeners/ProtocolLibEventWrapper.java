@@ -31,6 +31,7 @@ import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.listeners.PreServerListSetEventImpl;
 import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitServerImpl;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -131,6 +132,14 @@ public class ProtocolLibEventWrapper implements GenericEventWrapper<WrappedServe
     @Override
     public boolean isInvalidProtocol(){
         return event.getPlayer().getAddress() == null;
+    }
+    
+    @Override
+    public boolean isMaintenanceModeActive(){
+        if(!Bukkit.getPluginManager().isPluginEnabled("Maintenance"))
+            return false;
+        
+        return PingEventHandler.getMaintenanceUtil().isMaintenanceEnabled();
     }
     
     @Override

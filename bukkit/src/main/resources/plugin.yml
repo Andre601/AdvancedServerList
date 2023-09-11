@@ -20,6 +20,7 @@ libraries:
 softdepend:
   - 'ProtocolLib'
   - 'PlaceholderAPI'
+  - 'Maintenance'
 
 commands:
   advancedserverlist:

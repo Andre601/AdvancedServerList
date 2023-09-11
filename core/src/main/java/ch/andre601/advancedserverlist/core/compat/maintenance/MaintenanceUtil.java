@@ -23,27 +23,20 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.papi;
+package ch.andre601.advancedserverlist.core.compat.maintenance;
 
-import java.util.function.Supplier;
+import eu.kennytv.maintenance.api.Maintenance;
+import eu.kennytv.maintenance.api.MaintenanceProvider;
 
-public class PAPICache{
+public class MaintenanceUtil{
     
-    private CacheValue cache = null;
+    private final Maintenance api;
     
-    public PAPICache(){}
-    
-    public String get(Supplier<String> supplier){
-        if(cache == null || cache.isExpired())
-            cache = new CacheValue(supplier.get(), System.currentTimeMillis());
-        
-        return cache.server();
+    public MaintenanceUtil(){
+        this.api = MaintenanceProvider.get();
     }
     
-    private record CacheValue(String server, long timestamp){
-        // Consider the cache expired if it is older than 5 seconds.
-        public boolean isExpired(){
-            return (timestamp < 0L) || System.currentTimeMillis() - timestamp >= 5000L;
-        }
+    public boolean isMaintenanceEnabled(){
+        return api.isMaintenance();
     }
 }

@@ -38,7 +38,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.commit/>
         
-        <plugin.version>3.3.0</plugin.version>
+        <plugin.version>3.4.0</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
         
         <api.version>v3.0.0</api.version>
@@ -46,20 +46,6 @@
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
-    
-    <profiles>
-        <profile>
-            <id>gh-actions</id>
-            <activation>
-                <property>
-                    <name>env.COMMIT_SHA</name>
-                </property>
-            </activation>
-            <properties>
-                <project.build.commit>_${env.COMMIT_SHA}</project.build.commit>
-            </properties>
-        </profile>
-    </profiles>
     
     <repositories>
         <repository>

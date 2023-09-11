@@ -32,6 +32,7 @@ import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.listeners.PreServerListSetEventImpl;
 import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitServerImpl;
 import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitPlayerImpl;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
@@ -127,6 +128,14 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     @Override
     public boolean isInvalidProtocol(){
         return false;
+    }
+    
+    @Override
+    public boolean isMaintenanceModeActive(){
+        if(!Bukkit.getPluginManager().isPluginEnabled("Maintenance"))
+            return false;
+        
+        return PingEventHandler.getMaintenanceUtil().isMaintenanceEnabled();
     }
     
     @Override

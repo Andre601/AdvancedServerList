@@ -23,38 +23,27 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.core.compat.papi;
 
-import java.util.List;
+import java.util.function.Supplier;
 
-public enum PlatformInfo{
+public class PAPICache{
     
-    BUKKIT(
-        "bukkit/target/AdvancedServerList-Bukkit-${plugin.version}.jar",
-        "Spigot", "Paper", "Folia"
-    ),
-    BUNGEECORD(
-        "bungeecord/target/AdvancedServerList-BungeeCord-${plugin.version}.jar",
-        "BungeeCord", "Waterfall"
-    ),
-    VELOCITY(
-        "velocity/target/AdvancedServerList-Velocity-${plugin.version}.jar",
-        "Velocity"
-    );
+    private CacheValue cache = null;
     
-    private final String filePath;
-    private final List<String> loaders;
+    public PAPICache(){}
     
-    PlatformInfo(String filePath, String... loaders){
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+    public String get(Supplier<String> supplier){
+        if(cache == null || cache.isExpired())
+            cache = new CacheValue(supplier.get(), System.currentTimeMillis());
+        
+        return cache.server();
     }
     
-    public String getFilePath(){
-        return filePath;
-    }
-    
-    public List<String> getLoaders(){
-        return loaders;
+    private record CacheValue(String server, long timestamp){
+        // Consider the cache expired if it is older than 5 seconds.
+        public boolean isExpired(){
+            return (timestamp < 0L) || System.currentTimeMillis() - timestamp >= 5000L;
+        }
     }
 }

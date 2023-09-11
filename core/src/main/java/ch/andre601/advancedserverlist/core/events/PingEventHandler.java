@@ -29,9 +29,10 @@ import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
+import ch.andre601.advancedserverlist.core.compat.maintenance.MaintenanceUtil;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
-import ch.andre601.advancedserverlist.core.papi.PAPIUtil;
+import ch.andre601.advancedserverlist.core.compat.papi.PAPIUtil;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
@@ -40,9 +41,10 @@ import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 public class PingEventHandler{
     
     private static PAPIUtil papiUtil = null;
+    private static MaintenanceUtil maintenanceUtil = null;
     
     public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
-        if(event.isInvalidProtocol())
+        if(event.isInvalidProtocol() || event.isMaintenanceModeActive())
             return;
         
         PluginCore<F> plugin = event.getPlugin();
@@ -132,5 +134,12 @@ public class PingEventHandler{
             return papiUtil;
         
         return (papiUtil = new PAPIUtil());
+    }
+    
+    public static MaintenanceUtil getMaintenanceUtil(){
+        if(maintenanceUtil != null)
+            return maintenanceUtil;
+        
+        return (maintenanceUtil = new MaintenanceUtil());
     }
 }

@@ -35,7 +35,7 @@ methods:
 
 inherits:
   'ch.andre601.advancedserverlist.api.objects.GenericPlayer':
-    link: '../../../api/objects/genericplayer/'
+    link: '../../../../api/ch.andre601.advancedserverlist.api/objects/genericplayer/'
     list:
       - 'getName()'
       - 'getProtocol()'
@@ -44,7 +44,7 @@ inherits:
 
 # <api__interface></api__interface> BukkitPlayer
 
-[`GenericPlayer` instance](../../api/objects/genericplayer.md) for the SpigotMC/Paper server implementation of AdvancedServerList.  
+[`GenericPlayer` instance](../../../api/ch.andre601.advancedserverlist.api/objects/genericplayer.md) for the SpigotMC/Paper server implementation of AdvancedServerList.  
 This interface includes a [`OfflinePlayer` instance](#getplayer()) obtained from the server the plugin runs on alongside some getters to get if the player [has played on the server before](#hasplayedbefore()), [is banned](#isbanned()) or [is whitelisted](#iswhitelisted()). These options actually require a proper OfflinePlayer instance to be present or will otherwise default to `false`.
 
 This class is useful for cases where you want to use the OfflinePlayer. Simply cast the GenericPlayer instance to a SpigotPlayer (Granted that it actually is an instance of it to begin with).

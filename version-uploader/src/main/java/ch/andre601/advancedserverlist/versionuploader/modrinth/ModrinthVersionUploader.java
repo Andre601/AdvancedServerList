@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 public class ModrinthVersionUploader{
@@ -74,7 +73,7 @@ public class ModrinthVersionUploader{
         final boolean preRelease = VersionUploader.getPreReleaseState();
         
         for(PlatformInfo platform : platforms){
-            File file = new File(platform.getFilePath().replace("{{version}}", version));
+            File file = new File(platform.getFilePath());
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
                 .projectId("xss83sOY")
@@ -86,8 +85,9 @@ public class ModrinthVersionUploader{
                 .gameVersions(versions)
                 .loaders(platform.getLoaders())
                 .versionType(preRelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE)
-                .dependencies(Collections.singletonList(
-                    new ProjectVersion.ProjectDependency(null, "papiproxabridge", null, ProjectVersion.ProjectDependencyType.OPTIONAL)
+                .dependencies(List.of(
+                    new ProjectVersion.ProjectDependency(null, "papiproxabridge", null, ProjectVersion.ProjectDependencyType.OPTIONAL),
+                    new ProjectVersion.ProjectDependency(null, "maintenance", null, ProjectVersion.ProjectDependencyType.OPTIONAL)
                 ))
                 .build();
             
@@ -113,7 +113,7 @@ public class ModrinthVersionUploader{
         
         UserAgent agent = UserAgent.builder()
             .authorUsername("Andre_601")
-            .projectVersion("v1.0.0")
+            .projectVersion(VersionUploader.getVersion() == null ? "UNKNOWN" : VersionUploader.getVersion())
             .projectName("ModrinthVersionUploader")
             .contact("github@andre601.ch")
             .build();

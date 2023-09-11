@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.papi;
+package ch.andre601.advancedserverlist.core.compat.papi;
 
 import net.william278.papiproxybridge.api.PlaceholderAPI;
 
