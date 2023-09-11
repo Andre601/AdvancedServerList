@@ -9,7 +9,7 @@ steps:
       # Create the jar files.
       - mvn clean install
   uploadFiles:
-    image: leplusorg/json
+    image: badouralix/curl-jq
     secrets:
       - cb_token
     commands:
