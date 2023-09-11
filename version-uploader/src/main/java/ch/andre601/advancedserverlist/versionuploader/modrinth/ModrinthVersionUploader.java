@@ -68,6 +68,7 @@ public class ModrinthVersionUploader{
         final boolean preRelease = release.prerelease();
         
         for(PlatformInfo platform : platforms){
+            LOGGER.info("Creating release for Platform {}...", platform.getLoaders().get(0));
             File file = new File(platform.getFilePath().replace("{{version}}", version));
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
