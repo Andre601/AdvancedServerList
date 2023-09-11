@@ -12,8 +12,6 @@ steps:
     image: eclipse-temurin
     secrets:
       - cb_token
-      - modrinth_api_token
-      - hangar_api_token
     commands:
       # Get release info and setup env vars.
       - |-
@@ -43,6 +41,12 @@ steps:
         --header "Content-Type: multipart/form-data" -s -S \
         --form "attachment=@velocity/target/AdvancedServerList-Velocity-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
         --fail-with-body
+  uploadToModrinthAndMaven:
+    image: eclipse-temurin
+    secrets:
+      - modrinth_api_token
+      - hangar_api_token
+    commands:
       # Move VersionUploader.jar
       - cd version-uploader/target/
       - mv VersionUploader.jar ../../
