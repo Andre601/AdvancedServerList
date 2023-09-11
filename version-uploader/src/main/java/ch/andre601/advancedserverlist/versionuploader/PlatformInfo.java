@@ -30,15 +30,15 @@ import java.util.List;
 public enum PlatformInfo{
     
     BUKKIT(
-        "bukkit/target/AdvancedServerList-Bukkit-${plugin.version}.jar",
+        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
         "Spigot", "Paper", "Folia"
     ),
     BUNGEECORD(
-        "bungeecord/target/AdvancedServerList-BungeeCord-${plugin.version}.jar",
+        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
         "BungeeCord", "Waterfall"
     ),
     VELOCITY(
-        "velocity/target/AdvancedServerList-Velocity-${plugin.version}.jar",
+        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
         "Velocity"
     );
     
