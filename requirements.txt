@@ -1,2 +1,2 @@
-mkdocs-material==9.2.8
+mkdocs-material==9.3.0
 mkdocs-glightbox==0.3.4
