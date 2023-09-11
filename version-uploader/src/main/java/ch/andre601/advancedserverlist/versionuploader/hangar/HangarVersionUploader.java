@@ -91,9 +91,9 @@ public class HangarVersionUploader{
         boolean preRelease = VersionUploader.getPreReleaseState();
         
         final List<Path> filePaths = List.of(
-            new File(PlatformInfo.BUKKIT.getFilePath().replace("{{version}}", version)).toPath(),
-            new File(PlatformInfo.BUNGEECORD.getFilePath().replace("{{version}}", version)).toPath(),
-            new File(PlatformInfo.VELOCITY.getFilePath().replace("{{version}}", version)).toPath()
+            new File(PlatformInfo.BUKKIT.getFilePath()).toPath(),
+            new File(PlatformInfo.BUNGEECORD.getFilePath()).toPath(),
+            new File(PlatformInfo.VELOCITY.getFilePath()).toPath()
         );
         
         final List<Dependency> bukkitDependencies = List.of(

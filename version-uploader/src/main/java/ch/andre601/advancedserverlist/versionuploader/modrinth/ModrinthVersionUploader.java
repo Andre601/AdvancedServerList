@@ -73,7 +73,7 @@ public class ModrinthVersionUploader{
         final boolean preRelease = VersionUploader.getPreReleaseState();
         
         for(PlatformInfo platform : platforms){
-            File file = new File(platform.getFilePath().replace("{{version}}", version));
+            File file = new File(platform.getFilePath());
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
                 .projectId("xss83sOY")
@@ -113,7 +113,7 @@ public class ModrinthVersionUploader{
         
         UserAgent agent = UserAgent.builder()
             .authorUsername("Andre_601")
-            .projectVersion("v1.0.0")
+            .projectVersion(VersionUploader.getVersion() == null ? "UNKNOWN" : VersionUploader.getVersion())
             .projectName("ModrinthVersionUploader")
             .contact("github@andre601.ch")
             .build();
