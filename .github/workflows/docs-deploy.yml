@@ -13,6 +13,9 @@ on:
     tags-ignore:
       - '**'
 
+env:
+  GITHUB_REPO_INSTANCE: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
