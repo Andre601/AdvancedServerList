@@ -1,0 +1,42 @@
+<!-- Tags -->
+{% if "material/tags" in config.plugins and tags %}
+  {% include "partials/tags.html" %}
+{% endif %}
+
+<!-- Actions -->
+{% include "partials/actions.html" %}
+
+{% if config.extra.github_repository %}
+  <div class="admonition info">
+    <p class="admonition-title">Moved</p>
+    <p>
+      The documenation has been moved and can now be found at <a href="https://asl.andre601.ch" target="_blank" rel="noreferral nofollow noopener"><strong>asl.andre601.ch</strong></a>.<br>
+      This page in particular can be found at <a href="https://asl.andre601.ch/{{ page.url }}" target="_blank" rel="noreferral nofollow noopener"><strong>asl.andre601.ch/{{ page.url }}</strong></a>.
+    </p>
+  </div>
+{% endif %}
+
+<!--
+  Hack: check whether the content contains a h1 headline. If it doesn't, the
+  page title (or respectively site name) is used as the main headline.
+-->
+{% if "\x3ch1" not in page.content %}
+  <h1>{{ page.title | d(config.site_name, true)}}</h1>
+{% endif %}
+
+<!-- Page content -->
+{{ page.content }}
+
+<!-- Source file information -->
+{% if page.meta and (
+  page.meta.git_revision_date_localized or
+  page.meta.revision_date
+) %}
+  {% include "partials/source-file.html" %}
+{% endif %}
+
+<!-- Was this page helpful? -->
+{% include "partials/feedback.html" %}
+
+<!-- Comment system -->
+{% include "partials/comments.html" %}
