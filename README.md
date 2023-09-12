@@ -60,13 +60,13 @@ Only certain options are usable for each option. As an example does motd support
 
 ## Dependencies
 
-| Dependency        | Platforms                           | Required? |
-|-------------------|-------------------------------------|-----------|
-| [ProtocolLib]     | Spigot                              | Yes       |
-| [PlaceholderAPI]  | Spigot, Paper                       | No        |
-| [ViaVersion]      | Spigot, Paper                       | No        |
-| [PAPIProxyBridge] | Spigot, Paper, BungeeCord, Velocity | No        |
-| [Maintenance]     | Spigot, Paper, BungeeCord, Velocity | No        |
+| Dependency        | Platforms            | Required? |
+|-------------------|----------------------|-----------|
+| [ProtocolLib]     | Spigot               | Yes       |
+| [PlaceholderAPI]  | Spigot, Paper        | No        |
+| [ViaVersion]      | Spigot, Paper        | No        |
+| [PAPIProxyBridge] | BungeeCord, Velocity | No        |
+| [Maintenance]     | All                  | No        |
 
 ## Statistics
 
