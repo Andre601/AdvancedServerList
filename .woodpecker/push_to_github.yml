@@ -12,4 +12,4 @@ steps:
       - git config --global user.email "github@andre601.ch"
       - git config --global user.name "GitHub Mirror Sync"
       - git remote set-url origin https://$GH_TOKEN@github.com/Andre601/AdvancedServerList.git
-      - git push --force
+      - git push --force --set-upstream origin master
