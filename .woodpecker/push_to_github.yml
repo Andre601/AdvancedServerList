@@ -11,7 +11,7 @@ steps:
       - chmod -R a+w .
       - git config --global user.email "github@andre601.ch"
       - git config --global user.name "GitHub Mirror Sync"
-      - git clone https://github.com/Andr601/AdvancedServerlist.git github
+      - git clone https://github.com/Andre601/AdvancedServerlist.git github
       - mv . github/
       - cd github
       - git remote set-url origin https://$GH_TOKEN@github.com/Andre601/AdvancedServerList.git
