@@ -53,10 +53,14 @@ extra_javascript:
   - assets/js/repo-stats.js
 
 extra:
-  github_repository: !ENV [GITHUB_REPO_INSTANCE, false]
+  github_repository: !ENV [GITHUB_REPO_INSTANCE, False]
   social:
     - icon: 'simple/codeberg'
       link: 'https://codeberg.org/Andre601/AdvancedServerList'
+    - icon: 'simple/modrinth'
+      link: 'https://modrinth.com/plugin/advancedserverlist'
+    - icon: 'fontawesome/solid/paper-plane'
+      link: 'https://hangar.papermc.io/Andre_601/AdvancedServerList'
 
 plugins:
   - search

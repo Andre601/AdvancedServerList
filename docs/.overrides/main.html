@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% if config.extra.github_repository %}
+{% if config.extra.github_repository and (config.extra.github_repository != "False") %}
   {% block announce %}
-    The documenation has been moved towards <a href="https://asl.andre601.ch" target="_blank" rel="noreferral nofollow noopener"><strong>asl.andre601.ch</strong></a>.<br>
+    The documenation has been moved and can now be found at <a href="https://asl.andre601.ch" target="_blank" rel="noreferral nofollow noopener"><strong>asl.andre601.ch</strong></a>.<br>
     This page in particular can be found at <a href="https://asl.andre601.ch/{{ page.url }}" target="_blank" rel="noreferral nofollow noopener"><strong>asl.andre601.ch/{{ page.url }}</strong></a>.
   {% endblock %}
 {% endif %}

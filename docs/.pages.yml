@@ -1,9 +1,8 @@
 nav:
-  - Home:
-    - index.md
-    - commands.md
+  - Home:  index.md
+  - commands
   - profiles
   - examples
   - migration
   - api
-  - placeholderapi 
+  - PlaceholderAPI: placeholderapi 

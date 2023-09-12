@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% import "api-objects/info-template.html" as info %}
 
+{% if config.extra.github_repository %}
+  {% block announce %}
+    The documenation has been moved and can now be found at <a href="https://asl.andre601.ch" target="_blank" rel="noreferral nofollow noopener"><strong>asl.andre601.ch</strong></a>.<br>
+    This page in particular can be found at <a href="https://asl.andre601.ch/{{ page.url }}" target="_blank" rel="noreferral nofollow noopener"><strong>asl.andre601.ch/{{ page.url }}</strong></a>.
+  {% endblock %}
+{% endif %}
+
 {% block content %}
   {% include "partials/content.html" %}
   {% if page.meta %}

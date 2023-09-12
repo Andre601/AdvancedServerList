@@ -54,10 +54,7 @@ These placeholders use values given by the server/proxy AdvancedServerList runs 
 
 ## PlaceholderAPI
 
-The Spigot and Paper version of AdvancedServerList allow the usage of *any* placeholders provided by PlaceholderAPI by using the `%<identifier>_<values>%` placeholder format.  
-Depending on the placeholder used is a cached player required (i.e. `%player_name%`). AdvancedServerList will try to get a OfflinePlayer instance based on the cached UUID from the server to manage this.
-
-!!! warning "PlaceholderAPI placeholders can NOT be used in Conditions!"
+Please visit the [PlaceholderAPI page](../placeholderapi/index.md) for how AdvancedServerList works with PlaceholderAPI.
 
 ## Custom Placeholders
 
