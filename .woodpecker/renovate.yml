@@ -5,6 +5,8 @@ when:
     - cron
     - push
     - manual
+  branch:
+    - master
 
 steps:
   renovateDryRun:
