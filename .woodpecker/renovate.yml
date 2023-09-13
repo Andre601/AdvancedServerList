@@ -9,23 +9,23 @@ when:
     - master
 
 steps:
-  renovateDryRun:
-    image: renovate/renovate
-    pull: true
-    commands:
-      - renovate $${CI_REPO}
-    environment:
-      RENOVATE_PLATFORM: gitea
-      RENOVATE_ENDPOINT: https://codeberg.org
-      LOG_LEVEL: debug
-      RENOVATE_DRY_RUN: full
-    secrets:
-      - source: rb_token
-        target: renovate_token
-      - source: git_author
-        target: renovate_git_author
-    when:
-      - event: push
+  #renovateDryRun:
+  #  image: renovate/renovate
+  #  pull: true
+  #  commands:
+  #    - renovate $${CI_REPO}
+  #  environment:
+  #    RENOVATE_PLATFORM: gitea
+  #    RENOVATE_ENDPOINT: https://codeberg.org
+  #    LOG_LEVEL: debug
+  #    RENOVATE_DRY_RUN: full
+  #  secrets:
+  #    - source: rb_token
+  #      target: renovate_token
+  #    - source: git_author
+  #      target: renovate_git_author
+  #  when:
+  #    - event: push
   renovate:
     image: renovate/renovate
     pull: true
