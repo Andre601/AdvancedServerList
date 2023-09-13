@@ -11,9 +11,6 @@ steps:
     image: renovate/renovate
     pull: true
     commands:
-      - chmod -R a+w .
-      - git config --global user.email "github@andre601.ch"
-      - git config --global user.name "Andre601_Renovate_Bot"
       - renovate $${CI_REPO}
     environment:
       RENOVATE_PLATFORM: gitea
@@ -23,15 +20,14 @@ steps:
     secrets:
       - source: rb_token
         target: renovate_token
+      - source: git_author
+        target: renovate_git_author
     when:
       - event: push
   renovate:
     image: renovate/renovate
     pull: true
     commands:
-      - chmod -R a+w .
-      - git config --global user.email "github@andre601.ch"
-      - git config --global user.name "Andre601_Renovate_Bot"
       - renovate $${CI_REPO}
     environment:
       RENOVATE_PLATFORM: gitea
