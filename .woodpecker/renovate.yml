@@ -6,7 +6,7 @@ when:
     - push
     - manual
 
-pipeline:
+steps:
   renovateDryRun:
     image: renovate/renovate
     pull: true
