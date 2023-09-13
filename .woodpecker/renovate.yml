@@ -36,5 +36,5 @@ pipeline:
         target: renovate_token
     when:
       - event: cron
-      cron: renovate
-    - event: manual
+        cron: renovate
+      - event: manual
