@@ -33,7 +33,6 @@ steps:
     environment:
       RENOVATE_PLATFORM: gitea
       RENOVATE_ENDPOINT: https://codeberg.org
-      LOG_LEVEL: debug
     secrets:
       - source: rb_token
         target: renovate_token
