@@ -29,7 +29,7 @@ steps:
   #      --header 'Authorization: Bearer $GH_TOKEN'
   #      --header 'Accept: application/json'
   #      --header 'X-GitHub-Api-Version: 2022-11-28'
-  #      -d '{"tag_name": "$CI_COMMIT_TAG", "target_commitish": "master", "name": "$CI_COMMIT_TAG", "body": "$PLUGIN_CHANGELOG", "draft": false, "prerelease": $PLUGIN_PRE_RELEASE, "generate_release_notes": false}'
+  #      -d '{"tag_name": "$CI_COMMIT_TAG", "target_commitish": "master", "name": "$CI_COMMIT_TAG", "body": "> This GitHub Release was automated!\n> [Original Release](https://codeberg.org/Andre601/AdvancedServerList/releases/tag/$CI_COMMIT_TAG)\n\n$PLUGIN_CHANGELOG", "draft": false, "prerelease": $PLUGIN_PRE_RELEASE, "generate_release_notes": false}'
   #    # Upload release assets to Codeberg release
   #    - |-
   #      curl -X POST --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
