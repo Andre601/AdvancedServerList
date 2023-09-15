@@ -11,10 +11,9 @@ steps:
     commands:
       - |-
         export JSON=$( curl "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
-        --anyauth
-        --header 'Authorization: token ${CB_TOKEN}' \
+        --header 'Authorization: token $CB_TOKEN' \
         --header 'Accept: application/json' -s -S \
-        --fail-with-body | jq '.[] | select (.tag_name=="${TAG}") | .' )
+        --fail-with-body | jq '.[] | select (.tag_name=="${TAG}")' )
       - echo $JSON
       - export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
       - echo $PLUGIN_CHANGELOG
