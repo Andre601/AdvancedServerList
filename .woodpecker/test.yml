@@ -9,6 +9,7 @@ steps:
     environment:
       TAG: v3.4.0
     commands:
+      - echo $TAG
       - |-
         export JSON=$( curl "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
         --header 'Authorization: token ${CB_TOKEN}' \
