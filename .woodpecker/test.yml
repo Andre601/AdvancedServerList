@@ -14,7 +14,7 @@ steps:
         --anyauth
         --header 'Authorization: token $CB_TOKEN' \
         --header 'Accept: application/json' -s -S \
-        --fail-with-body | jq ".[] | select (.tag_name==\"$TAG\")." )
+        --fail-with-body | jq ".[] | select (.tag_name==\"$TAG\") | ." )
       - echo $JSON
       - export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
       - echo $PLUGIN_CHANGELOG
