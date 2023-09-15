@@ -26,7 +26,6 @@
 package ch.andre601.advancedserverlist.versionuploader;
 
 import ch.andre601.advancedserverlist.versionuploader.hangar.HangarVersionUploader;
-import ch.andre601.advancedserverlist.versionuploader.modrinth.ModrinthVersionUploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,33 +36,17 @@ public class VersionUploader{
     public static void main(String[] args) {
         LOGGER.info("Starting release uploader...");
         
-        CodebergRelease release = CodebergReleaseFetcher.fetchRelease();
+        
+        GitHubRelease release = GitHubRelease.fetch();
         if(release == null){
             LOGGER.warn("Non-successful attempt at fetching a release from Codeberg! Aborting upload");
             System.exit(1);
             return;
         }
         
-        if(release.tagName() == null || release.tagName().isEmpty()){
-            LOGGER.info("Received invalid Release Structure. Tag name was null/empty.");
-            System.exit(1);
-            return;
-        }
-        
-        // Gson uses 0 for nummerics by default
-        if(release.id() == 0){
-            LOGGER.info("Received invalid Release Structure. ID was 0.");
-            System.exit(1);
-            return;
-        }
-        
-        LOGGER.info("Successfully obtained release info: [ID: {}, Tag: {}, Prerelease: {}]", release.id(), release.tagName(), release.prerelease());
+        LOGGER.info("Successfully obtained release info: [Tag: {}, Prerelease: {}]", release.tagName(), release.prerelease());
         
         for(String arg : args){
-            if(arg.equalsIgnoreCase("--modrinth")){
-                new ModrinthVersionUploader().performUploads(release);
-                break;
-            }
             if(arg.equalsIgnoreCase("--hangar")){
                 new HangarVersionUploader().performUpload(release);
                 break;

@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.versionuploader.hangar;
 
-import ch.andre601.advancedserverlist.versionuploader.CodebergRelease;
+import ch.andre601.advancedserverlist.versionuploader.GitHubRelease;
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
 import ch.andre601.advancedserverlist.versionuploader.hangar.version.*;
 
@@ -66,10 +66,10 @@ public class HangarVersionUploader{
     private ActiveJWT activeJWT;
     
     public HangarVersionUploader(){
-        this.apiKey = System.getenv("HANGAR_API_TOKEN");
+        this.apiKey = System.getenv("HANGAR_TOKEN");
     }
     
-    public void performUpload(CodebergRelease release){
+    public void performUpload(GitHubRelease release){
         LOGGER.info("Starting HangarVersionUploader...");
         
         if(apiKey == null || apiKey.isEmpty()){
