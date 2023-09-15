@@ -15,10 +15,10 @@ steps:
         --header 'Authorization: token $CB_TOKEN' \
         --header 'Accept: application/json' -s -S \
         --fail-with-body | jq ".[] | select (.tag_name==\"$TAG\")." )
-        echo $JSON
-        export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
-        echo $PLUGIN_CHANGELOG
-        export PLUGIN_PRERELEASE=$( echo $JSON | jq -r '.prerelease' )
-        echo $PLUGIN_PRERELEASE
-        export RELEASE_ID=$( echo $JSON | jq -r '.id' )
-        echo $RELEASE_ID
+      - echo $JSON
+      - export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
+      - echo $PLUGIN_CHANGELOG
+      - export PLUGIN_PRERELEASE=$( echo $JSON | jq -r '.prerelease' )
+      - echo $PLUGIN_PRERELEASE
+      - export RELEASE_ID=$( echo $JSON | jq -r '.id' )
+      - echo $RELEASE_ID
