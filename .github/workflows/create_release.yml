@@ -1,0 +1,128 @@
+name: Create releases
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  buildJars:
+    runs-on: ubuntu-latest
+    outputs:
+      plugin_version: ${{ steps.github-release.outputs.PLUGIN_VERSION }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Set Release version String
+        id: github-release
+        run: |
+          version=$( echo ${{ github.event.release.tag_name }} | cut -d'v' -f2 )
+          echo "PLUGIN_VERSION=$version" >> $GITHUB_OUTPUT
+      - name: Set up JDK 16
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+          cache: 'maven'
+      - name: Build jar files
+        run: mvn clean install
+      - name: Save files to reuse.
+        uses: actiions/upload-artifact@v3
+        with:
+          name: asl-files
+          path: |
+            */target/AdvancedServerList-*.jar
+            version-uploader/target/VersionUploader.jar
+          if-no-files-found: error
+          retention-days: 1
+  publish:
+    needs: [buildJars]
+    strategy:
+      matrix:
+        include:
+          - platforms: BungeeCord, Waterfall
+            directory: bungeecord
+            loaders: |
+              bungeecord
+              waterfall
+            dependencies: |
+              papiproxybridge(optional)
+              maintenance(optional)
+          - platforms: Spigot, Paper, Folia
+            directory: bukkit
+            loaders: |
+              spigot
+              paper
+              folia
+            dependencies: |
+              maintenance(optional)
+          - platforms: Velocity
+            directory: velocity
+            loaders: velocity
+            dependencies: |
+              papiproxybridge(optional)
+              maintenance(optional)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Get jar files from previous job
+        uses: actions/download-artifact@v3
+        with:
+          name: asl-files
+      - name: '[Release] Upload AdvancedServerList v${{ needs.buildJars.outputs.plugin_version }} (${{ matrix.platforms }}) to GitHub and Modrinth'
+        if: '!needs.buildJars.outputs.plugin_prerelease'
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
+          version: ${{ needs.buildJars.outputs.plugin_version }}
+          version-type: release
+          files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
+          loaders: ${{ matrix.loaders }}
+          game-version-filter: releases
+          game-versions: '>=1.19.4'
+          java: '16'
+          dependencies: ${{ matrix.dependencies }}
+          modrinth-id: xss83sOY
+          modrinth-featured: false
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: '[Pre-Release] Upload AdvancedServerList v${{ needs.buildJars.outputs.plugin_version }} (${{ matrix.platforms }}) to GitHub and Modrinth'
+        if: 'needs.buildJars.outputs.plugin_prerelease'
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: ${{ github.event.release.tag_name }} (${{ matrix.platforms }})
+          version: ${{ needs.buildJars.outputs.plugin_version }}
+          version-type: beta
+          files: ${{ matrix.directory }}/target/AdvancedServerList-*.jar
+          loaders: ${{ matrix.loaders }}
+          game-version-filter: releases
+          game-versions: '>=1.19.4'
+          java: '16'
+          dependencies: ${{ matrix.dependencies }}
+          modrinth-id: xss83sOY
+          modrinth-featured: false
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+  publishToHangar:
+    needs: [buildJars]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup JDK 16
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: asl-files
+      - name: Move VersionUploader.jar
+        working-directory: version-uploader/target/
+        run: mv VersionUploader.jar ../../
+      - name: Execute VersionUploader.jar
+        run: java -jar VersionUploader.jar --hangar
+        env:
+          PLUGIN_VERSION: ${{ github.event.release.tag_name }}
+          PLUGIN_BODY: ${{ github.event.release.body }}
+          PLUGIN_PRERELEASE: ${{ github.event.release.prerelease }}
