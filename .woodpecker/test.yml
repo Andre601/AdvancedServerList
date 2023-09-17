@@ -19,6 +19,6 @@ steps:
         --arg target_commitish "master" \
         --arg body "$PLUGIN_CHANGELOG" \
         --arg draft false \
-        --arg prerelease $PLUGIN_PRERELEASE 
-        '{"tag_name":"$tag_name","name":"$name","target_commitish":"$target_commitish","body":"$body","draft":$draft,"prerelease":$prerelease}' )
+        --arg prerelease $PLUGIN_PRERELEASE \
+        '$ARGS.named' )
       - echo $JSON
