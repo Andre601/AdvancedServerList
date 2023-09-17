@@ -10,7 +10,7 @@ steps:
       - echo $TAG
       - |-
         export JSON=$( curl "https://codeberg.org/api/v1/user" \
-        --header 'Authorization: token ${CB_TOKEN}' \
-        --header 'Accept: application/json' -s -S \
+        --header "Authorization: token $CB_TOKEN" \
+        --header "Accept: application/json" -s -S \
         --fail-with-body )
       - echo $JSON
