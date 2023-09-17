@@ -7,7 +7,7 @@ steps:
     secrets:
       - cb_token
     environment:
-      PLUGIN_CHANGELOG: Lorem Ipsum dolor sit amed
+      PLUGIN_CHANGELOG: Lorem Ipsum dolo"r sit a'med
       TAG: v3.4.0
       PLUGIN_PRERELEASE: 'false'
     commands:
@@ -20,5 +20,5 @@ steps:
         --arg body "$PLUGIN_CHANGELOG" \
         --arg draft false \
         --arg prerelease $PLUGIN_PRERELEASE 
-        "$ARGS.named" )
+        '{"tag_name":"$tag_name","name":"$name","target_commitish":"$target_commitish","body":"$body","draft":$draft,"prerelease":$prerelease}' )
       - echo $JSON
