@@ -20,5 +20,5 @@ steps:
         --arg body "$PLUGIN_CHANGELOG" \
         --arg draft false \
         --arg prerelease $PLUGIN_PRERELEASE 
-        '$ARGS.named' )
+        "$ARGS.named" )
       - echo $JSON
