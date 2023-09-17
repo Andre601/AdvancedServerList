@@ -11,13 +11,8 @@ steps:
     commands:
       - echo $TAG
       - |-
-        export JSON=$( curl "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
+        export JSON=$( curl "https://codeberg.org/api/v1/user" \
+        --header 'Authorization: token $CB_TOKEN' \
         --header 'Accept: application/json' -s -S \
-        --fail-with-body | jq --arg tag ${TAG} '.[] | select (.tag_name=="$tag")' )
+        --fail-with-body )
       - echo $JSON
-      - export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
-      - echo $PLUGIN_CHANGELOG
-      - export PLUGIN_PRERELEASE=$( echo $JSON | jq -r '.prerelease' )
-      - echo $PLUGIN_PRERELEASE
-      - export RELEASE_ID=$( echo $JSON | jq -r '.id' )
-      - echo $RELEASE_ID
