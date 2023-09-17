@@ -11,7 +11,8 @@ steps:
       TAG: v3.4.0
       PLUGIN_PRERELEASE: 'false'
     commands:
-      - echo $TAG
+      - test="test"
+      - echo $test
       - |-
         json=$( jq -n -c \
         --arg tag_name "$TAG" \
