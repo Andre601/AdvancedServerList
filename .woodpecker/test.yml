@@ -13,7 +13,7 @@ steps:
       - |-
         export JSON=$( curl "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
         --header 'Accept: application/json' -s -S \
-        --fail-with-body | jq '.[] | select (.tag_name=="v3.4.0")' )
+        --fail-with-body | jq --arg tag ${TAG} '.[] | select (.tag_name=="$tag")' )
       - echo $JSON
       - export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
       - echo $PLUGIN_CHANGELOG
