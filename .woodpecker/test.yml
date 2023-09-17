@@ -6,11 +6,19 @@ steps:
     image: badouralix/curl-jq
     secrets:
       - cb_token
+    environment:
+      PLUGIN_CHANGELOG: Lorem Ipsum dolor sit amed
+      TAG: v3.4.0
+      PLUGIN_PRERELEASE: false
     commands:
       - echo $TAG
       - |-
-        export JSON=$( curl "https://codeberg.org/api/v1/user" \
-        --header "Authorization: token $CB_TOKEN" \
-        --header "Accept: application/json" -s -S \
-        --fail-with-body )
+        json=$( jq -n -c \
+        --arg tag_name "${TAG}" \
+        --arg name "${TAG}" \
+        --arg target_commitish "master" \
+        --arg body "${PLUGIN_CHANGELOG}" \
+        --arg draft false \
+        --arg prerelease ${PLUGIN_PRERELEASE} 
+        '$ARGS.named' )
       - echo $JSON
