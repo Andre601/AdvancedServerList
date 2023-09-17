@@ -6,13 +6,11 @@ steps:
     image: badouralix/curl-jq
     secrets:
       - cb_token
-    environment:
-      TAG: v3.4.0
     commands:
       - echo $TAG
       - |-
         export JSON=$( curl "https://codeberg.org/api/v1/user" \
-        --header 'Authorization: token $CB_TOKEN' \
+        --header 'Authorization: token ${CB_TOKEN}' \
         --header 'Accept: application/json' -s -S \
         --fail-with-body )
       - echo $JSON
