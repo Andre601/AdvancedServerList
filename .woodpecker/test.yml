@@ -9,7 +9,7 @@ steps:
     environment:
       PLUGIN_CHANGELOG: Lorem Ipsum dolor sit amed
       TAG: v3.4.0
-      PLUGIN_PRERELEASE: false
+      PLUGIN_PRERELEASE: 'false'
     commands:
       - echo $TAG
       - |-
