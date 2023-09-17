@@ -14,11 +14,11 @@ steps:
       - echo $TAG
       - |-
         json=$( jq -n -c \
-        --arg tag_name "${TAG}" \
-        --arg name "${TAG}" \
+        --arg tag_name "$TAG" \
+        --arg name "$TAG" \
         --arg target_commitish "master" \
-        --arg body "${PLUGIN_CHANGELOG}" \
+        --arg body "$PLUGIN_CHANGELOG" \
         --arg draft false \
-        --arg prerelease ${PLUGIN_PRERELEASE} 
+        --arg prerelease $PLUGIN_PRERELEASE 
         '$ARGS.named' )
       - echo $JSON
