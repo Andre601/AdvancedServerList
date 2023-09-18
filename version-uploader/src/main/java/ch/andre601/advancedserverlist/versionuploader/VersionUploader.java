@@ -25,9 +25,15 @@
 
 package ch.andre601.advancedserverlist.versionuploader;
 
+import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
+import ch.andre601.advancedserverlist.versionuploader.data.CodebergReleaseFetcher;
 import ch.andre601.advancedserverlist.versionuploader.hangar.HangarVersionUploader;
+import ch.andre601.advancedserverlist.versionuploader.modrinth.ModrinthVersionUploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 public class VersionUploader{
     
@@ -36,21 +42,45 @@ public class VersionUploader{
     public static void main(String[] args) {
         LOGGER.info("Starting release uploader...");
         
+        CodebergRelease release = CodebergReleaseFetcher.fetch();
         
-        GitHubRelease release = GitHubRelease.fetch();
-        if(release == null){
-            LOGGER.warn("Non-successful attempt at fetching a release from Codeberg! Aborting upload");
+        if(args.length == 0){
+            LOGGER.warn("MISSING ARGUMENT!");
+            LOGGER.warn("COMMAND USAGE: java -jar VersionUploader.jar [--all|--modrinth|--hangar]");
             System.exit(1);
             return;
         }
         
-        LOGGER.info("Successfully obtained release info: [Tag: {}, Prerelease: {}]", release.tagName(), release.prerelease());
-        
-        for(String arg : args){
-            if(arg.equalsIgnoreCase("--hangar")){
-                new HangarVersionUploader().performUpload(release);
-                break;
+        CompletableFuture<?> future;
+        switch(args[0].toLowerCase(Locale.ROOT)){
+            case "--modrinth" -> future = new ModrinthVersionUploader().performUpdate(release);
+            case "--hangar" -> future = new HangarVersionUploader().performUpload(release);
+            case "--all" -> future = CompletableFuture.allOf(
+                new ModrinthVersionUploader().performUpdate(release),
+                new HangarVersionUploader().performUpload(release)
+            );
+            default -> {
+                LOGGER.warn("Unknown argument '{}' provided. Supported are '--all', '--modrinth' and '--hangar'", args[0]);
+                System.exit(1);
+                return;
             }
         }
+        
+        if(future == null){
+            LOGGER.warn("Issue while performing upload. Received CompletableFuture is null.");
+            System.exit(1);
+            return;
+        }
+        
+        future.whenComplete((obj, throwable) -> {
+            if(throwable != null){
+                LOGGER.warn("Upload was not successful! Encountered exception:", throwable);
+                System.exit(1);
+                return;
+            }
+            
+            LOGGER.info("Upload completed!");
+            System.exit(0);
+        });
     }
 }
