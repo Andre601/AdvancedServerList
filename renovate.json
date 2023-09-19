@@ -1,4 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "labels": ["PR Type: Updated Dependency"]
+  "labels": ["PR Type/Dependency Update"]
 }
