@@ -7,6 +7,24 @@ icon: octicons/log-24
 This page lists the recent changes made towards the AdvancedServerListAPI.  
 They are ordered newest to oldest.
 
+## v3.1.0
+
+### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v3.1.0-added }
+
+- New getters in `ProfileEntry`:
+    - `maxPlayersEnabled()` - Returns the value for `playerCount -> maxPlayers -> enabled` as `NullBool`
+    - `maxPlayersCount()` - Returns the value of `playerCount -> maxPlayers -> amount` as nullable `Integer`
+- New setters in `ProfileEntry.Builder`:
+    - `setMaxPlayersEnabled(NullBool)` - Sets whether the max players feature is enabled or not.
+    - `setMaxPlayersCount(Integer)` - Sets the number to use for the max players count.
+    - `setExtraPlayersCount(Integer)` - Replacement for [deprecated `setExtraPlayerCount(Integer)` method](#v3.1.0-deprecated).
+
+### :octicons-zap-24:{ .changelog-breaking title="Deprecated" } Deprecated { #v3.1.0-deprecated }
+
+- `setExtraPlayerEnabled(Integer)` in `ProfileEntry.Builder` - Typo in method name.
+
+----
+
 ## v3.0.0
 
 ### :octicons-alert-24:{ .changelog-breaking title="Breaking Changes" } Breaking Changes { #v3-breaking }
@@ -25,12 +43,16 @@ They are ordered newest to oldest.
 
 - All previously deprecated `getX()` methods from the `ProfileEntry` record
 
+----
+
 ## v2.1.0
 
 ### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v2.1.0-changed }
 
 - Turned `ProfileEntry` class into a record
     - Former `getX()` methods are now deprecated in favour of the record's own `x()` methods (i.e. `getMotd()` -> `motd()`)
+
+----
 
 ## v2.0.0
 
@@ -61,6 +83,8 @@ They are ordered newest to oldest.
 
 - `UnsupportedAPIAccessException` as it is no longer used in the API itself.
 
+----
+
 ## v1.0.0
 
 ### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v1-added }
@@ -78,5 +102,6 @@ Templates for changelog
 ### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v-added }
 ### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v-changed }
 ### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v-removed }
+### :octicons-zap-24:{ .changelog-deprecated title="Deprecated" } Deprecated { #v-deprecated }
 
 -->
