@@ -4,6 +4,9 @@
     
     --color-border: #e9ebfc1f;
     
+    --color-api-fg__deprecated: #ff5252;
+    --color-api-bg__deprecated: #ff52521a;
+    
     --color-api-fg__static: #00c853;
     --color-api-fg__final: #ff9100;
     --color-api-fg__abstract: #00bfa5;
@@ -42,6 +45,16 @@
 }
 
 /* Attributes */
+
+api__deprecated::before {
+    color: var(--color-api-fg__deprecated);
+    background-color: var(--color-api-bg__deprecated);
+    
+    border-radius: var(--api-label-border-radius);
+    padding: var(--api-label-padding);
+    
+    content: "Deprecated"
+}
 
 api__static::before {
     color: var(--color-api-fg__static);

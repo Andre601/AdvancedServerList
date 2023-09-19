@@ -112,16 +112,67 @@ methods:
     type:
       name: 'Builder'
       type: 'object'
-  - name: 'setExtraPlayers'
+  - name: 'setMaxPlayersEnabled'
+    description: |
+      Sets whether the max players feature should be enabled.<br>
+      <br>
+      Set to <a href="../../objects/nullbool/#not_set"><code>NullBool.NOT_SET</code></a> to not set this.
+    returns: 'This Builder after the NullBool has been set. Useful for chaining.'
+    parameters:
+      - name: 'maxPlayersEnabled'
+        description: 'Whether the extra players feature should be enabled or not.'
+        type: NullBool
+        attributes:
+          - notnull
+    throws:
+      - name: 'IllegalArgumentException'
+        description: 'Thrown by the <code>CheckUtil</code> in case <code>null</code> has been provided as parameter.'
+    type:
+      name: 'Builder'
+      type: 'object'
+  - name: 'setExtraPlayerCount'
     description: |
       Sets the number of players to add to the online players to use as the new max players value.<br>
-      This option has no effect when <a href="../#extraplayersenabled()"><code>extraPlayersEnabled()</code></a> is set to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a>.<br>
+      This option has no effect when <a href="../#extraplayersenabled()"><code>extraPlayersEnabled</code></a> is set to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a> or <a href="../../objects/nullbool/#not_set"><code>NullBool.NOT_SET</code></a>.<br>
       <br>
       Set this to <code>null</code> to not alter the max player count. Alternatively, set <a href="#setextraplayersenabled(nullbool)"><code>setExtraPlayersEnabled(NullBool)</code></a> to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a>.
     returns: 'This Builder after the extra player count has been set. Useful for chaining.'
     parameters:
       - name: 'extraPlayersCount'
-        description: 'The number of extra players to use.'
+        description: 'The number of extra players to add.'
+        type: Integer
+        attributes:
+          - nullable
+    deprecated: 'Typo in the name. Use <a href="#setextraplayerscount(integer)">setExtraPlayersCount(Integer)</a> instead.'
+    type:
+      name: 'Builder'
+      type: 'object'
+  - name: 'setExtraPlayersCount'
+    description: |
+      Sets the number of players to add to the online players to use as the new max players value.<br>
+      This option has no effect when <a href="../#extraplayersenabled()"><code>extraPlayersEnabled</code></a> is set to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a> or <a href="../../objects/nullbool/#not_set"><code>NullBool.NOT_SET</code></a>.<br>
+      <br>
+      Set this to <code>null</code> to not alter the max player count. Alternatively, set <a href="#setextraplayersenabled(nullbool)"><code>setExtraPlayersEnabled(NullBool)</code></a> to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a>.
+    returns: 'This Builder after the extra player count has been set. Useful for chaining.'
+    parameters:
+      - name: 'extraPlayersCount'
+        description: 'The number of extra players to add.'
+        type: Integer
+        attributes:
+          - nullable
+    type:
+      name: 'Builder'
+      type: 'object'
+  - name: 'setMaxPlayersCount'
+    description: |
+      Sets the number of max players allowed to join this server.<br>
+      This option has no effect when <a href="../#maxplayersenabled()"><code>maxPlayersEnabled</code></a> is set to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a> or <a href="../../objects/nullbool/#not_set"><code>NullBool.NOT_SET</code></a>.<br>
+      <br>
+      Set this to <code>null</code> to not alter the max player count. Alternatively, set <a href="#setmaxplayersenabled(nullbool)"><code>setMaxPlayersEnabled(NullBool)</code></a> to <a href="../../objects/nullbool/#false"><code>NullBool.FALSE</code></a>.
+    returns: 'This Builder after the extra player count has been set. Useful for chaining.'
+    parameters:
+      - name: 'maxPlayersCount'
+        description: 'The number of max players to set.'
         type: Integer
         attributes:
           - nullable
