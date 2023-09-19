@@ -41,3 +41,7 @@
 .md-banner--warning {
     background: rgba(187,128,9,0.15);
 }
+
+.md-source__repository .md-source__facts {
+    animation: facts .25s ease-in;
+}
