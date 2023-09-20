@@ -1,7 +1,8 @@
 ---
 icon: octicons/list-unordered-24
 ---
-# Pages
+
+# Examples
 
 ## About
 
