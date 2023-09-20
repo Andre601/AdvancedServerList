@@ -5,47 +5,27 @@ when:
 steps:
   createFiles:
     image: maven:3.9.4-eclipse-temurin-17
+    secrets:
+      - source: cb_token
+        target: codeberg_api_token
+      - source: gh_token
+        target: github_api_token
+      - modrinth_api_token
+      - hangar_api_token
     commands:
       # Create the jar files.
       - mvn clean install
-  uploadFiles:
-    image: badouralix/curl-jq
-    secrets:
-      - cb_token
-      - gh_token
-    commands:
-      # Get release info and setup env vars.
-      - |-
-        export JSON=`curl --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases?limit=10" \
-        --header 'Authorization: token $CB_TOKEN' \
-        --header 'Accept: application/json' -s -S \
-        --fail-with-body | jq --arg tag ${CI_COMMIT_TAG} '.[] | select (.tag_name=="$tag")'`
-      - export PLUGIN_CHANGELOG=$( echo $JSON | jq -r '.body' )
-      - export PLUGIN_PRE_RELEASE=$( echo $JSON | jq -r '.prerelease' )
-      - export RELEASE_ID=$( echo $JSON | jq -r '.id' )
-      # Create GitHub release
-      - |-
-        curl -X POST "https://api.github.com/repos/Andre601/AdvancedServerList/releases" \
-        --header 'Authorization: Bearer $GH_TOKEN'
-        --header 'Accept: application/json'
-        --header 'X-GitHub-Api-Version: 2022-11-28'
-        -d '{"tag_name": "$CI_COMMIT_TAG", "target_commitish": "master", "name": "$CI_COMMIT_TAG", "body": "> This GitHub Release was automated!\n> [Original Release](https://codeberg.org/Andre601/AdvancedServerList/releases/tag/$CI_COMMIT_TAG)\n\n$PLUGIN_CHANGELOG", "draft": false, "prerelease": $PLUGIN_PRE_RELEASE, "generate_release_notes": false}'
-      # Upload release assets to Codeberg release
-      - |-
-        curl -X POST --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
-        --header "Authorization: token $CB_TOKEN" \
-        --header "Content-Type: multipart/form-data" -s -S \
-        --form "attachment=@bukkit/target/AdvancedServerList-Bukkit-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
-        --fail-with-body
-      - |-
-        curl -X POST --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
-        --header "Authorization: token $CB_TOKEN" \
-        --header "Content-Type: multipart/form-data" -s -S \
-        --form "attachment=@bungeecord/target/AdvancedServerList-BungeeCord-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
-        --fail-with-body
-      - |-
-        curl -X POST --location "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/$RELEASE_ID/assets" \
-        --header "Authorization: token $CB_TOKEN" \
-        --header "Content-Type: multipart/form-data" -s -S \
-        --form "attachment=@velocity/target/AdvancedServerList-Velocity-${CI_COMMIT_TAG##v}.jar;type=application/octet-stream" \
-        --fail-with-body
+      # Move VersionUploader jar file
+      - cd version-uploader/target/
+      - mv VersionUploader.jar ../../
+      - cd ../../
+      # Execute Jar file
+      - java -jar VersionUploader.jar --all
+  uploadToCodeberg:
+    image: woodpeckerci/plugin-gitea-release
+    settings:
+      base_url: https://codeberg.org
+      files:
+        - "*/target/AdvancedServerList-*.jar"
+      api_key:
+        from_secret: CB_TOKEN

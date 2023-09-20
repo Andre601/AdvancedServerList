@@ -25,8 +25,8 @@
 
 package ch.andre601.advancedserverlist.versionuploader.hangar;
 
-import ch.andre601.advancedserverlist.versionuploader.GitHubRelease;
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
+import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
 import ch.andre601.advancedserverlist.versionuploader.hangar.version.*;
 
 import com.google.gson.Gson;
@@ -54,6 +54,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class HangarVersionUploader{
@@ -69,13 +70,12 @@ public class HangarVersionUploader{
         this.apiKey = System.getenv("HANGAR_TOKEN");
     }
     
-    public void performUpload(GitHubRelease release){
+    public CompletableFuture<?> performUpload(CodebergRelease release){
         LOGGER.info("Starting HangarVersionUploader...");
         
         if(apiKey == null || apiKey.isEmpty()){
             LOGGER.warn("Received a null/empty API key!");
-            System.exit(1);
-            return;
+            return CompletableFuture.completedFuture(null);
         }
         
         final Namespace project = new Namespace("Andre_601", "AdvancedServerList");
@@ -129,39 +129,46 @@ public class HangarVersionUploader{
         );
         
         try(CloseableHttpClient client = HttpClients.createDefault()){
-            uploadVersion(client, project, versionUpload, filePaths);
+            return uploadVersion(client, project, versionUpload, filePaths);
         }catch(ParseException | IOException ex){
             LOGGER.warn("Unable to upload to Hangar! Encountered an exception.", ex);
-            System.exit(1);
+            return CompletableFuture.failedFuture(ex);
         }
     }
     
-    private void uploadVersion(HttpClient client, Namespace namespace, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addPart("versionUpload", new StringBody(GSON.toJson(versionUpload), ContentType.APPLICATION_JSON));
-        
-        for(Path path : filePaths){
-            builder.addPart("files", new FileBody(path.toFile(), ContentType.DEFAULT_BINARY));
-        }
-    
-        HttpPost post = new HttpPost(API_URL + "projects/" + namespace + "/upload");
-        post.setEntity(builder.build());
-        this.addAuthHeader(client, post);
-        
-        LOGGER.info("Uploading release...");
-        final boolean success = client.execute(post, response -> {
-            if(response.getCode() != 200){
-                LOGGER.error("Error while uploading version. Received response code {}: {}", response.getCode(), response.getReasonPhrase());
-                LOGGER.error("Body: {}", EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
+    private CompletableFuture<?> uploadVersion(HttpClient client, Namespace namespace, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
+        return CompletableFuture.supplyAsync(() -> {
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.addPart("versionUpload", new StringBody(GSON.toJson(versionUpload), ContentType.APPLICATION_JSON));
+            
+            for(Path path : filePaths){
+                builder.addPart("files", new FileBody(path.toFile(), ContentType.DEFAULT_BINARY));
+            }
+            
+            HttpPost post = new HttpPost(API_URL + "projects/" + namespace + "/upload");
+            post.setEntity(builder.build());
+            try{
+                this.addAuthHeader(client, post);
+                
+                LOGGER.info("Uploading release...");
+                final boolean success = client.execute(post, response -> {
+                    if(response.getCode() != 200){
+                        LOGGER.error("Error while uploading version. Received response code {}: {}", response.getCode(), response.getReasonPhrase());
+                        LOGGER.error("Body: {}", EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
+                        return false;
+                    }
+                    return true;
+                });
+                if(!success){
+                    throw new RuntimeException("Error uploading version!");
+                }
+            }catch(IOException ex){
+                LOGGER.warn("Encountered IOException while perfoming upload.", ex);
                 return false;
             }
+            
             return true;
         });
-        if(!success){
-            throw new RuntimeException("Error uploading version!");
-        }
-        LOGGER.info("Upload complete!");
-        System.exit(0);
     }
     
     private synchronized void addAuthHeader(HttpClient client, HttpMessage message) throws IOException{
