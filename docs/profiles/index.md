@@ -292,7 +292,7 @@ Note that this will also affect the `${server playersMax}` placeholder, except w
     playerCount:
       maxPlayers:
         enabled: true
-        amount: 0
+        amount: -1
     ```
     <div class="result">
 
