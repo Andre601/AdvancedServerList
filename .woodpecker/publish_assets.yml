@@ -28,6 +28,8 @@ steps:
     settings:
       base_url: https://codeberg.org
       files:
-        - "*/target/AdvancedServerList-*.jar"
+        - "bukkit/target/AdvancedServerList-*.jar"
+        - "bungeecord/target/AdvancedServerList-*.jar"
+        - "velocity/target/AdvancedServerList-*.jar"
       api_key:
         from_secret: CB_TOKEN
