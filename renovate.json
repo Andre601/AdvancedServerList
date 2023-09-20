@@ -1,4 +1,57 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "labels": ["PR Type: Updated Dependency"]
+  "labels": ["PR Type/Dependency Update"],
+  "ignoreDeps": [
+    "ch.andre601.advancedserverlist:parent",
+    "ch.andre601.advancedserverlist:core"
+  ],
+  "packageRules": [
+    {
+      "description": "Use a specific registry URL for specific dependencies",
+      "matchPackageNames": [
+        "ch.andre601.asl-api:platform-bukkit",
+        "ch.andre601.asl-api:platform-bungeecord",
+        "ch.andre601.asl-api:platform-velocity",
+        "ch.andre601.asl-api:api"
+      ],
+      "registryUrls": [
+        "https://jitpack.io"
+      ]
+    },
+    {
+      "description": "Apply label for Bukkit platform",
+      "matchFileNames": ["bukkit/pom.xml"],
+      "labels": ["PR Target/Bukkit"]
+    },
+    {
+      "description": "Apply label for BungeeCord platform",
+      "matchFileNames": ["bungeecord/pom.xml"],
+      "labels": ["PR Target/BungeeCord"]
+    },
+    {
+      "description": "Apply label for Core platform",
+      "matchFileNames": ["core/pom.xml"],
+      "labels": ["PR Target/Core"]
+    },
+    {
+      "description": "Apply label for Velocity platform",
+      "matchFileNames": ["velocity/pom.xml"],
+      "labels": ["PR Target/Velocity"]
+    },
+    {
+      "description": "Apply label for GitHub Actions",
+      "matchFileNames": [".github/workflows/*.yml"],
+      "labels": ["PR Target/GitHub Action"]
+    },
+    {
+      "description": "Apply label for MkDocs",
+      "matchFileNames": ["requirements.txt"],
+      "labels": ["PR Target/MkDocs"]
+    },
+    {
+      "description": "Apply label for Woodpecker-CI",
+      "matchFileNames": [".woodpecker/*.yml"],
+      "labels": ["PR Target/Woodpecker-CI"]
+    }
+  ]
 }
