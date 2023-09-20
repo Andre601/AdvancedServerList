@@ -42,12 +42,17 @@ public class VersionUploader{
     public static void main(String[] args) {
         LOGGER.info("Starting release uploader...");
         
-        CodebergRelease release = CodebergReleaseFetcher.fetch();
-        
         if(args.length == 0){
             LOGGER.warn("MISSING ARGUMENT!");
             LOGGER.warn("COMMAND USAGE: java -jar VersionUploader.jar [--all|--modrinth|--hangar]");
             System.exit(1);
+            return;
+        }
+        
+        CodebergRelease release = CodebergReleaseFetcher.fetch();
+        
+        if(release == null){
+            LOGGER.warn("Couldn't fetch Codeberg Release information!");
             return;
         }
         
