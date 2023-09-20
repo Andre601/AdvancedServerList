@@ -33,7 +33,9 @@
                 {% endif %}
                 
                 {% set desc = "" %}
-                {% if summary.description %}
+                {% if summary.deprecated %}
+                  {% set desc = "<api__deprecated></api__deprecated><br>" ~ summary.deprecated.split("<br>")[0] %}
+                {% elif summary.description %}
                   {% set desc = summary.description.split("<br>")[0] %}
                 {% endif %}
                 
@@ -53,7 +55,7 @@
                   {% set final_name.name = final_name.name ~ ")" %}
                 {% endif %}
                 
-              {% if details_type and details_type == "method" %}
+                {% if details_type and details_type == "method" %}
                   {% if modifiers.name  %}
                     <td><code>{{ modifiers.name }}</code></td>
                   {% else %}
@@ -124,6 +126,10 @@
       {% endif %}
       
       <h3 id="{{ final_name.name | lower() | replace(' ', '-') | e }}">
+        {% if detail.deprecated %}
+          <api__deprecated></api__deprecated>
+        {% endif %}
+        
         {% for attribute in detail.attributes %}
           <api__{{- attribute -}}></api__{{- attribute -}}>
         {% endfor %}
@@ -141,6 +147,15 @@
         {% endif %}
         <code>{{ final_name.name | e }}</code><a href="#{{ final_name.name | lower() | replace(' ', '-') | e }}" class="headerlink" title="Permanent link">¶</a>
       </h3>
+      
+      {% if detail.deprecated %}
+        <div class="admonition danger">
+          <div class="admonition-title">Deprecation Warning</div>
+          <p>
+            {{ detail.deprecated }}
+          </p>
+        </div>
+      {% endif %}
       
       {% if detail.description %}
         <p class="api-detail__description">

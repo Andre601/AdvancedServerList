@@ -2,7 +2,7 @@
 icon: octicons/note-24
 ---
 
-# Profiles
+# Profiles { #profiles-settings }
 
 AdvancedServerList allows the creation of multiple profiles.  
 A profile is a single YAML file located in the plugin's `profiles` directory containing multiple settings including [Conditions](#conditions) and [Priority](#priority).
@@ -82,8 +82,8 @@ If an option such as motd is not present in an entry will it check the file for 
     ```
     <div class="result">
     
-    ![profiles-example-1](../assets/images/examples/profiles-example-1.jpg)  
-    ![profiles-example-2](../assets/images/examples/profiles-example-2.jpg)
+    ![profiles-example-1](../assets/images/examples/profiles-example-1.jpg){ loading="lazy" }  
+    ![profiles-example-2](../assets/images/examples/profiles-example-2.jpg){ loading="lazy" }
 
     </div>
 
@@ -104,7 +104,7 @@ If you want to display multiple MOTDs will you need to use the [`Profiles` optio
     ```
     <div class="result">
 
-    ![motd-example](../assets/images/examples/motd-example.jpg)
+    ![motd-example](../assets/images/examples/motd-example.jpg){ loading="lazy" }
 
     </div>
 
@@ -135,7 +135,7 @@ Please note that AdvancedServerList will rescale the image to be 64x64 pixels, s
     ```
     <div class="result">
 
-    ![hideplayers-example](../assets/images/examples/favicon-example.jpg)
+    ![hideplayers-example](../assets/images/examples/favicon-example.jpg){ loading="lazy" }
 
     </div>
 
@@ -162,7 +162,7 @@ Additionally will the [`Text`](#text) and [`Hover`](#hover) option be ignored.
     ```
     <div class="result">
 
-    ![hideplayers-example](../assets/images/examples/hideplayers-example.jpg)
+    ![hideplayers-example](../assets/images/examples/hideplayers-example.jpg){ loading="lazy" }
 
     </div>
 
@@ -189,7 +189,7 @@ You can either remove this option or set to an empty list (`hover: []`) to not o
     ```
     <div class="result">
 
-    ![hover-example](../assets/images/examples/hover-example.jpg)
+    ![hover-example](../assets/images/examples/hover-example.jpg){ loading="lazy" }
 
     </div>
 
@@ -218,7 +218,7 @@ To not override the player count, remove this option or set it to an empty Strin
     ```
     <div class="result">
 
-    ![hover-example](../assets/images/examples/text-example.jpg)
+    ![hover-example](../assets/images/examples/text-example.jpg){ loading="lazy" }
 
     </div>
 
@@ -228,12 +228,12 @@ Contains options to modify how the `<max>` number in the player count should loo
 
 !!! warning "Using this option will modify the `${server playersMax}` placeholder (Except in conditions)"
 
-#### Enabled
+#### Enabled { #extraplayers-enabled }
 
 Boolean option to set whether the extra players feature should be used or not.  
 When set to `true` will the max amount of players be modified by taking the current amount of online players, add [`Amount`](#amount) more to it and use it.
 
-#### Amount
+#### Amount { #extraplayers-amount }
 
 Sets the number to add to the current online players to then use as the new max players count.
 
@@ -255,6 +255,47 @@ As an example, setting this to `1` while `10` players are online will display `1
     ```
     <div class="result">
 
-    ![hover-example](../assets/images/examples/extraplayers-example.jpg)
+    ![extraplayers-example](../assets/images/examples/extraplayers-example.jpg){ loading="lazy" }
+
+    </div>
+
+### MaxPlayers
+
+Contains options to set the max number of players allowed to join the server. This has only a visual effect and won't actually influence how many players can join your server.
+
+Note that this feature is ignored should [`extraPlayers`](#extraplayers) be enabled.
+
+In case [`hidePlayers`](#hideplayers) is enabled will the max player count not be displayed, but still changed by this option.  
+Should [`text`](#text) be set to a non-empty String will the max player count only be displayed when `${server playersMax}` is used.
+
+!!! warning "Using this option will modify the `${server playersMax}` placeholder (Except in conditions)"
+
+#### Enabled { #maxplayers-enabled }
+
+Boolean option to set whether the max players feature should be used or not.  
+When set to `true` will the value usually displaying how many players can join be changed to what you've set in the [`amount`](#maxplayers-amount) option.
+
+#### Amount { #maxplayers-amount }
+
+Sets the number to display as the max number of players allowed to join your server.  
+Note that this will also affect the `${server playersMax}` placeholder, except when it is used inside conditions.
+
+??? example "Example"
+    ```yaml title="YAML file"
+    priority: 0
+    
+    # We use just colour to hide the MOTD
+    motd:
+      - '<grey>'
+      - '<grey>'
+    
+    playerCount:
+      maxPlayers:
+        enabled: true
+        amount: 0
+    ```
+    <div class="result">
+
+    ![maxplayes-example](../assets/images/examples/maxplayers-example.jpg){ loading="lazy" }
 
     </div>

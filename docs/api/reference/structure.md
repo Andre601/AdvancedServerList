@@ -5,6 +5,8 @@ The Reference docs follow a specific mixture of manually created and auto-genera
 A page may look something like this:
 ```markdown
 ---
+template: api-doc.html
+
 constructors:
   - name: 'Constructor'
     description: 'Creates a new instance of this class.'
@@ -36,6 +38,7 @@ Below is a list of all custom tags. Note that these tags only render on the actu
 - `<api__final></api__final>`: <api__final></api__final>
 - `<api__notnull></api__notnull>`: <api__notnull></api__notnull>
 - `<api__nullable></api__nullable>`: <api__nullable></api__nullable>
+- `<api__deprecated></api__deprecated>`: <api__deprecated></api__deprecated>
 
 In addition are there two classes used within `span` tags to colour the text, to indicate their type:
 
@@ -67,10 +70,11 @@ constructors:
         type: '<string>'
         attributes:
           - '<string>'
+    deprecated: '<string>'
     throws:
       - name: '<string>'
         description: '<string>'
-    seealos:
+    seealso:
       - name: '<string>'
         link: '<string>'
 ```
@@ -84,6 +88,7 @@ constructors:
     - `description` - Description of the parameter.
     - `type` - The type this parameter is.
     - `attributes` - List of attributes (i.e. nullability) to display. The provided values will be turned into `<api__{name}></api__{name}>` tags that will be prependet to the parameter name.
+- `deprecated` - Adds a notice about the deprecation of this Constructor in the form of a deprecation label and a `deprecated` section with the provided explanation.
 - `throws` - List of possible throws to display.
     - `name` - Name of the throw to display.
     - `description` - Description of the throw.
@@ -115,6 +120,7 @@ enums:
   - name: '<string>'
     description: '<string>'
     type: '<string>'
+    deprecated: '<string>'
     seealso:
       - name: '<string>'
         link: '<string>'
@@ -125,6 +131,7 @@ enums:
 - `name` - The name to display for the Constructor summary and detail. This should include any parameters the Constructor has, but without any parameter name.
 - `description` - The description to display for the Constructor.
 - `type` - The return type to display. Will default to `{{ page.title }}` if not set.
+- `deprecated` - Adds a notice about the deprecation of this Enum in the form of a deprecation label and a `deprecated` section with the provided explanation.
 - `seealso` - List of "See also" text to display.
     - `name` - Name of the See also link.
     - `link` - Link (Relative, absolute or URL) to use for the See also text.
@@ -148,6 +155,7 @@ methods:
         attributes:
           - '<string>'
     returns: '<string>'
+    deprecated: '<string>'
     throws:
       - name: '<string>'
         description: '<string>'
@@ -171,6 +179,7 @@ methods:
     - `type` - The type this parameter is.
     - `attributes` - List of attributes (i.e. nullability) to display. The provided values will be turned into `<api__{name}></api__{name}>` tags that will be prependet to the parameter name.
 - `returns` - Possible return values.
+- `deprecated` - Adds a notice about the deprecation of this Method in the form of a deprecation label and a `deprecated` section with the provided explanation.
 - `throws` - List of possible throws to display.
     - `name` - Name of the throw to display.
     - `description` - Description of the throw.

@@ -2,7 +2,7 @@
 # Set the priority of this profile.
 # Higher number = Higher priority.
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#priority
+# Read more: https://asl.andre601.ch/profiles/#priority
 #
 priority: 0
 
@@ -10,7 +10,7 @@ priority: 0
 # Set conditions that needs to be met.
 # Only when all conditions return true will the profile be shown (Given no profile with higher priority is used).
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#conditions
+# Read more: https://asl.andre601.ch/profiles/#conditions
 #
 #conditions:
 #  - '{playerVersion} < 759'
@@ -25,7 +25,7 @@ priority: 0
 #
 # Remove this option or set it to profiles: [] to use the global options of this file.
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#profiles
+# Read more: https://asl.andre601.ch/profiles/#profiles
 #
 #profiles:
 #  - motd:
@@ -49,7 +49,7 @@ priority: 0
 # 
 # Remove this option or set it to motd: [] to not alter the MOTD.
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#motds
+# Read more: https://asl.andre601.ch/profiles/#motd
 #
 motd:
   - '<grey>Line 1'
@@ -64,14 +64,14 @@ motd:
 #
 # Remove this option or set to favicon: '' to not replace the Favicon.
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#favicon
+# Read more: https://asl.andre601.ch/profiles/#favicon
 #
 favicon: ''
 
 #
 # Contains various options to manipulate the player count (Text displaying online and max players allowed).
 #
-# Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#playercount
+# Read more: https://asl.andre601.ch/profiles/#playercount
 #
 playerCount:
   #
@@ -82,7 +82,7 @@ playerCount:
   #
   # Defaults to false when not present.
   #
-  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hideplayers
+  # Read more: https://asl.andre601.ch/profiles/#hideplayers
   #
   hidePlayers: false
   #
@@ -90,7 +90,7 @@ playerCount:
   #
   # Remove this option or set it to hover: [] to not modify the player samples on the player count.
   #
-  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#hover
+  # Read more: https://asl.andre601.ch/profiles/#hover
   #
   hover:
     - '<grey>Line 1'
@@ -104,24 +104,24 @@ playerCount:
   #
   # Remove this option or set it to text: '' to not modify the player count text.
   #
-  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#text
+  # Read more: https://asl.andre601.ch/profiles/#text
   #
   text: ''
   #
   # Allows you to modify the max player count displayed.
   # Note that this will affect ${server playersMax} (Except for when used in conditions).
   #
-  # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#extraPlayers
+  # Read more: https://asl.andre601.ch/profiles/#extraplayers
   #
   extraPlayers:
     #
     # Enables/Disables the extraPlayers option.
-    # When enabled will the total amount of players allowed be modified to the current
+    # When enabled will the total amount of players allowed to join be modified to the current
     # number of online players + 'amount'
     #
     # Defaults to false when not present.
     #
-    # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#enabled
+    # Read more: https://asl.andre601.ch/profiles/#extraplayers-enabled
     #
     enabled: false
     #
@@ -134,6 +134,35 @@ playerCount:
     #
     # Defaults to 0 when not present.
     #
-    # Read more: https://github.com/Andre601/AdvancedServerList/wiki/Profiles#amount
+    # Read more: https://asl.andre601.ch/profiles/#extraplayers-amount
+    #
+    amount: 0
+  #
+  # Allows you to set the max players that could join your server.
+  # Note that this option influences the '${server playersMax}' placeholder.
+  #
+  # The settings of this option have no effect should 'extraPlayers' be enabled
+  #
+  # Read more: https://asl.andre601.ch/profiles/#maxplayers
+  #
+  maxPlayers:
+    #
+    # Enables/Disables the maxPlayers option.
+    # When enabled will the total amount of players allowed to join be changed to what 'amount' is set to.
+    #
+    # Defaults to false when not present.
+    # 
+    # Read more: https://asl.andre601.ch/profiles/#maxplayers-enabled
+    #
+    enabled: false
+    #
+    # Sets the number to display for the max number of players allowed to join your server.
+    #
+    # Example:
+    # Setting this option to 0 (Default) while 1 player is online would display '1/0'
+    #
+    # Defaults to 0 if not set.
+    #
+    # Read more: https://asl.andre601.ch/profiles/#maxplayers-amount
     #
     amount: 0

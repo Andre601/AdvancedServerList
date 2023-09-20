@@ -53,13 +53,16 @@ public class ProfileManager{
         String favicon = resolveFavicon(entry, defEntry);
         boolean isHidePlayersEnabled = resolveHidePlayersEnabled(entry, defEntry);
         boolean isExtraPlayersEnabled = resolveExtraPlayersEnabled(entry, defEntry);
+        boolean isMaxPlayersEnabled = resolveMaxPlayersEnabled(entry, defEntry);
         Integer extraPlayersCount = resolveExtraPlayersCount(entry, defEntry);
+        Integer maxPlayersCount = resolveMaxPlayersCount(entry, defEntry);
         
         return new ProfileEntry(motd, players, playerCountText, favicon, 
-            NullBool.resolve(isHidePlayersEnabled), NullBool.resolve(isExtraPlayersEnabled), extraPlayersCount);
+            NullBool.resolve(isHidePlayersEnabled), NullBool.resolve(isExtraPlayersEnabled), NullBool.resolve(isMaxPlayersEnabled),
+            extraPlayersCount, maxPlayersCount);
     }
     
-    public static ServerListProfile resolveProfile(AdvancedServerList core, GenericPlayer player, GenericServer server){
+    public static ServerListProfile resolveProfile(AdvancedServerList<?> core, GenericPlayer player, GenericServer server){
         for(ServerListProfile profile : core.getFileHandler().getProfiles()){
             if(profile.isInvalidProfile())
                 continue;
@@ -78,7 +81,9 @@ public class ProfileManager{
         String favicon = node.node("favicon").getString("");
         NullBool hidePlayers = resolveNullBool(node, "playerCount", "hidePlayers");
         NullBool extraPlayersEnabled = resolveNullBool(node, "playerCount", "extraPlayers", "enabled");
-        Integer extraPlayers = resolveNullableInt(node);
+        NullBool maxPlayersEnabled = resolveNullBool(node, "playerCount", "maxPlayers", "enabled");
+        Integer extraPlayers = resolveNullableInt(node, "playerCount", "extraPlayers", "amount");
+        Integer maxPlayers = resolveNullableInt(node, "playerCount", "maxPlayers", "amount");
         
         return new ProfileEntry.Builder()
             .setMotd(motd)
@@ -87,7 +92,9 @@ public class ProfileManager{
             .setFavicon(favicon)
             .setHidePlayersEnabled(hidePlayers)
             .setExtraPlayersEnabled(extraPlayersEnabled)
-            .setExtraPlayerCount(extraPlayers)
+            .setMaxPlayersEnabled(maxPlayersEnabled)
+            .setExtraPlayersCount(extraPlayers)
+            .setMaxPlayersCount(maxPlayers)
             .build();
     }
     
@@ -150,11 +157,25 @@ public class ProfileManager{
         return profile.extraPlayersEnabled().getOrDefault(false);
     }
     
+    private static boolean resolveMaxPlayersEnabled(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null || !checkOption(profile.maxPlayersEnabled()))
+            return defaultProfile.maxPlayersEnabled().getOrDefault(false);
+        
+        return profile.maxPlayersEnabled().getOrDefault(false);
+    }
+    
     private static Integer resolveExtraPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
         if(profile == null || profile.extraPlayersCount() == null)
             return defaultProfile.extraPlayersCount() == null ? 0 : defaultProfile.extraPlayersCount();
         
         return profile.extraPlayersCount();
+    }
+    
+    private static Integer resolveMaxPlayersCount(ProfileEntry profile, ProfileEntry defaultProfile){
+        if(profile == null || profile.maxPlayersCount() == null)
+            return defaultProfile.maxPlayersCount() == null ? 0 : defaultProfile.maxPlayersCount();
+        
+        return profile.maxPlayersCount();
     }
     
     private static List<String> resolveList(ConfigurationNode node, Object... path){
@@ -172,10 +193,10 @@ public class ProfileManager{
         return NullBool.resolve(node.node(path).getBoolean());
     }
     
-    private static Integer resolveNullableInt(ConfigurationNode node){
-        if(node.node("playerCount", "extraPlayers", "amount").virtual())
+    private static Integer resolveNullableInt(ConfigurationNode node, Object... path){
+        if(node.node(path).virtual())
             return null;
         
-        return node.node("playerCount", "extraPlayers", "amount").getInt();
+        return node.node(path).getInt();
     }
 }

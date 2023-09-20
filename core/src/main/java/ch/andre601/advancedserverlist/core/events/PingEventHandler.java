@@ -72,8 +72,15 @@ public class PingEventHandler{
         if(entry.isInvalid())
             return;
         
-        if(ProfileManager.checkOption(entry.extraPlayersEnabled())){
+        boolean extraPlayers = ProfileManager.checkOption(entry.extraPlayersEnabled());
+        
+        if(extraPlayers){
             max = online + (entry.extraPlayersCount() == null ? 0 : entry.extraPlayersCount());
+            event.setMaxPlayers(max);
+        }
+        
+        if(ProfileManager.checkOption(entry.maxPlayersEnabled()) && !extraPlayers){
+            max = (entry.maxPlayersCount() == null) ? 0 : entry.maxPlayersCount();
             event.setMaxPlayers(max);
         }
         

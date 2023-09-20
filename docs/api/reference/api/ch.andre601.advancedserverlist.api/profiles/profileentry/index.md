@@ -37,8 +37,18 @@ constructors:
         type: NullBool
         attributes:
           - notnull
+      - name: 'maxPlayersEnabled'
+        description: 'Whether the max players option should be enabled.'
+        type: NullBool
+        attributes:
+          - notnull
       - name: 'extraPlayersCount'
         description: 'The number to add to the online players for the max players number.'
+        type: Integer
+        attributes:
+          - nullable
+      - name: 'maxPlayersCount'
+        description: 'The number to use for the max players count.'
         type: Integer
         attributes:
           - nullable
@@ -61,9 +71,11 @@ methods:
         <li><a href="#players()"><code>players</code></a>: Empty List</li>
         <li><a href="#playercounttext()"><code>playerCountText</code></a>: Empty String</li>
         <li><a href="#favicon()"><code>favicon</code></a>: Empty String</li>
-        <li><a href="#hideplayersenabled()"><code>hidePlayersEnabled</code></a>: <a href="../../objects/nullbool/"><code>NullBool.NOT_SET</code></a></li>
-        <li><a href="#extraplayersenabled()"><code>extraPlayersEnabled</code></a>: <a href="../../objects/nullbool/"><code>NullBool.NOT_SET</code></a></li>
+        <li><a href="#hideplayersenabled()"><code>hidePlayersEnabled</code></a>: <a href="../../objects/nullbool/#not_set"><code>NullBool.NOT_SET</code></a></li>
+        <li><a href="#extraplayersenabled()"><code>extraPlayersEnabled</code></a>: <a href="../../objects/nullbool/#not_set"><code>NullBool.NOT_SET</code></a></li>
+        <li><a href="#maxplayersenabled()"><code>maxPlayersEnabled</code></a>: <a href="../../objects/nullbool/#not_set"><code>NullBoo.NOT_SET</code></a></li>
         <li><a href="#extraplayerscount()"><code>extraPlayersCount</code></a>: <code>null</code></li>
+        <li><a href="#maxplayerscount()"><code>maxPlayersCount</code></a>: <code>null</code></li>
       </ul>
     returns: 'New ProfileEntry instance with empty/null values defined'
     attributes:
@@ -142,9 +154,26 @@ methods:
       name: 'NullBool'
       type: 'object'
       link: '../../objects/nullbool/'
+  - name: 'maxPlayersEnabled'
+    description: |
+      Whether the max players feature should be used or not.<br>
+      To get the actual boolean value, append <a href="../../objects/nullbool/#getordefault()"><code>getOrDefault(boolean)</code></a>.
+    returns: 'Whether the max players feature should be used or not.'
+    type:
+      name: 'NullBool'
+      type: 'object'
+      link: '../../objects/nullbool/'
   - name: 'extraPlayersCount'
     description: 'Gets the currently set number of extra players to use by this ProfileEntry. May be <code>null</code>.'
     returns: 'Possibly-null integer number of extra players used by this ProfileEntry.'
+    attributes:
+      - nullable
+    type:
+      name: 'Integer'
+      type: 'object'
+  - name: 'maxPlayersCount'
+    description: 'Gets the currently set number of max players of this ProfileEntry.'
+    returns: 'The current number of max players used by this ProfileEntry.'
     attributes:
       - nullable
     type:
