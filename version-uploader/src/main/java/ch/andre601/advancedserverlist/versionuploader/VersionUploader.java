@@ -72,15 +72,11 @@ public class VersionUploader{
             return;
         }
         
-        future.whenComplete((obj, throwable) -> {
-            if(throwable != null){
-                LOGGER.warn("Upload was not successful! Encountered exception:", throwable);
-                System.exit(1);
-                return;
-            }
-            
+        try{
+            future.join();
             LOGGER.info("Upload completed!");
-            System.exit(0);
-        });
+        }catch(Exception ex){
+            LOGGER.warn("Upload was not successful! Encountered an Exception!", ex);
+        }
     }
 }
