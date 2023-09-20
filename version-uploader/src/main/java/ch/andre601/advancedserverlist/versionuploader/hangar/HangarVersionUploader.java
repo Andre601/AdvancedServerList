@@ -67,7 +67,7 @@ public class HangarVersionUploader{
     private ActiveJWT activeJWT;
     
     public HangarVersionUploader(){
-        this.apiKey = System.getenv("HANGAR_TOKEN");
+        this.apiKey = System.getenv("HANGAR_API_TOKEN");
     }
     
     public CompletableFuture<?> performUpload(CodebergRelease release){
