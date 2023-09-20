@@ -23,22 +23,8 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.versionuploader.data;
 
-public record GitHubRelease(String tagName, String body, boolean prerelease){
-    
-    public static GitHubRelease fetch(){
-        String tagName = System.getenv("PLUGIN_VERSION");
-        String body = System.getenv("PLUGIN_BODY");
-        String prerelease = System.getenv("PLUGIN_PRERELEASE");
-        
-        if(tagName == null || tagName.isEmpty())
-            return null;
-        
-        return new GitHubRelease(
-            tagName,
-            (body == null || body.isEmpty()) ? "No changelog" : body,
-            prerelease != null && prerelease.equals("true")
-        );
-    }
-}
+import com.google.gson.annotations.SerializedName;
+
+public record CodebergRelease(long id, @SerializedName("tag_name") String tagName, String body, boolean prerelease){}
