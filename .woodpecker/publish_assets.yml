@@ -10,8 +10,10 @@ steps:
         target: codeberg_api_token
       - source: gh_token
         target: github_api_token
-      - modrinth_api_token
-      - hangar_api_token
+      - source: modrinth_api_token
+        target: modrinth_api_token
+      - source: hangar_api_token
+        target: hangar_api_token
     commands:
       # Create the jar files.
       - mvn clean install
