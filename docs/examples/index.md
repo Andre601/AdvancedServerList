@@ -1,6 +1,7 @@
 ---
 icon: octicons/list-unordered-24
 ---
+# Pages
 
 ## About
 
