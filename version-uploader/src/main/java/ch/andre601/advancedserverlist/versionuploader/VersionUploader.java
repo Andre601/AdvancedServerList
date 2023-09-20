@@ -53,6 +53,7 @@ public class VersionUploader{
         
         if(release == null){
             LOGGER.warn("Couldn't fetch Codeberg Release information!");
+            System.exit(1);
             return;
         }
         
@@ -82,6 +83,7 @@ public class VersionUploader{
             LOGGER.info("Upload completed!");
         }catch(Exception ex){
             LOGGER.warn("Upload was not successful! Encountered an Exception!", ex);
+            System.exit(1);
         }
     }
 }
