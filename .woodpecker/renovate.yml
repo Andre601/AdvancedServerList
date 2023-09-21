@@ -33,7 +33,7 @@ steps:
     environment:
       RENOVATE_PLATFORM: gitea
       RENOVATE_ENDPOINT: https://codeberg.org
-      #RENOVATE_ADD_LABELS: 'PR Type: Updated Dependency'
+      LOG_LEVEL: debug
     secrets:
       - source: rb_token
         target: renovate_token
