@@ -151,23 +151,18 @@ public class HangarVersionUploader{
                 this.addAuthHeader(client, post);
                 
                 LOGGER.info("Uploading release...");
-                final boolean success = client.execute(post, response -> {
+                return client.execute(post, response -> {
                     if(response.getCode() != 200){
-                        LOGGER.error("Error while uploading version. Received response code {}: {}", response.getCode(), response.getReasonPhrase());
-                        LOGGER.error("Body: {}", EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8));
-                        return false;
+                        throw new RuntimeException(String.format(
+                            "Received non-successful response while uploading release. Code: %d, Message: %s", response.getCode(), response.getReasonPhrase()
+                        ));
                     }
                     return true;
                 });
-                if(!success){
-                    throw new RuntimeException("Error uploading version!");
-                }
             }catch(IOException ex){
                 LOGGER.warn("Encountered IOException while perfoming upload.", ex);
                 return false;
             }
-            
-            return true;
         });
     }
     
