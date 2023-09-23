@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.versionuploader.hangar;
 
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
+import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
 import ch.andre601.advancedserverlist.versionuploader.hangar.version.*;
 
@@ -80,15 +81,21 @@ public class HangarVersionUploader{
         
         final Namespace project = new Namespace("Andre_601", "AdvancedServerList");
         
-        final String version = release.tagName().startsWith("v") ? release.tagName().substring(1) : release.tagName();
+        final String releaseVersion = release.tagName().startsWith("v") ? release.tagName().substring(1) : release.tagName();
+        final String pluginVersion = VersionUploader.retrieveVersion();
+        
+        if(pluginVersion == null || pluginVersion.isEmpty()){
+            LOGGER.warn("Retrieved null/empty plugin version.");
+            return CompletableFuture.completedFuture(false);
+        }
         
         final String changelog = release.body();
         boolean preRelease = release.prerelease();
         
         final List<Path> filePaths = List.of(
-            new File(PlatformInfo.BUKKIT.getFilePath().replace("{{version}}", version)).toPath(),
-            new File(PlatformInfo.BUNGEECORD.getFilePath().replace("{{version}}", version)).toPath(),
-            new File(PlatformInfo.VELOCITY.getFilePath().replace("{{version}}", version)).toPath()
+            new File(PlatformInfo.BUKKIT.getFilePath().replace("{{version}}", pluginVersion)).toPath(),
+            new File(PlatformInfo.BUNGEECORD.getFilePath().replace("{{version}}", pluginVersion)).toPath(),
+            new File(PlatformInfo.VELOCITY.getFilePath().replace("{{version}}", pluginVersion)).toPath()
         );
         
         final List<Dependency> bukkitDependencies = List.of(
@@ -112,7 +119,7 @@ public class HangarVersionUploader{
         );
         
         final Version versionUpload = new Version(
-            version,
+            releaseVersion,
             Map.of(
                 Platform.PAPER, bukkitDependencies,
                 Platform.WATERFALL, bungeeDependencies,

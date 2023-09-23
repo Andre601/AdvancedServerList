@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.versionuploader.modrinth;
 
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
+import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -66,7 +67,13 @@ public class ModrinthVersionUploader{
             return CompletableFuture.completedFuture(false);
         }
         
-        final String version = release.tagName().startsWith("v") ? release.tagName().substring(1) : release.tagName();
+        final String releaseVersion = release.tagName().startsWith("v") ? release.tagName().substring(1) : release.tagName();
+        final String pluginVersion = VersionUploader.retrieveVersion();
+        
+        if(pluginVersion == null || pluginVersion.isEmpty()){
+            LOGGER.warn("Retrieved null/empty plugin version.");
+            return CompletableFuture.completedFuture(false);
+        }
         
         final String changelog = release.body();
         final boolean prerelease = release.prerelease();
@@ -75,7 +82,7 @@ public class ModrinthVersionUploader{
         for(int i = 0; i < platforms.size(); i++){
             LOGGER.info("Creating release for platform {}...", platforms.get(i).getPlatform());
             
-            File file = new File(platforms.get(i).getFilePath().replace("{{version}}", version));
+            File file = new File(platforms.get(i).getFilePath().replace("{{version}}", pluginVersion));
             
             List<ProjectVersion.ProjectDependency> dependencies = new ArrayList<>();
             // Maintenance plugin
@@ -87,8 +94,8 @@ public class ModrinthVersionUploader{
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
                 .projectId("xss83sOY")
-                .name(String.format("v%s (%s)", version, String.join(", ", platforms.get(i).getLoaders())))
-                .versionNumber(version)
+                .name(String.format("v%s (%s)", releaseVersion, String.join(", ", platforms.get(i).getLoaders())))
+                .versionNumber(releaseVersion)
                 .changelog(changelog.replaceAll("\r\n", "\n"))
                 .featured(false)
                 .files(file)

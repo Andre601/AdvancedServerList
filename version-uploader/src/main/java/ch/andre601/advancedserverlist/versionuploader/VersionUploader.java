@@ -32,7 +32,10 @@ import ch.andre601.advancedserverlist.versionuploader.modrinth.ModrinthVersionUp
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 
 public class VersionUploader{
@@ -100,6 +103,18 @@ public class VersionUploader{
         }catch(Exception ex){
             LOGGER.warn("Upload was not successful! Encountered an Exception!", ex);
             System.exit(1);
+        }
+    }
+    
+    public static String retrieveVersion(){
+        try(InputStream is = VersionUploader.class.getResourceAsStream("/version.properties")){
+            Properties properties = new Properties();
+            
+            properties.load(is);
+            
+            return properties.getProperty("version");
+        }catch(IOException ex){
+            return null;
         }
     }
 }
