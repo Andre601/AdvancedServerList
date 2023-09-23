@@ -70,10 +70,10 @@ public class HangarVersionUploader{
         this.apiKey = System.getenv("HANGAR_API_TOKEN");
     }
     
-    public CompletableFuture<?> performUpload(CodebergRelease release){
+    public CompletableFuture<?> performUpload(CodebergRelease release, boolean dryrun){
         LOGGER.info("Starting HangarVersionUploader...");
         
-        if(apiKey == null || apiKey.isEmpty()){
+        if((apiKey == null || apiKey.isEmpty()) && !dryrun){
             LOGGER.warn("Received a null/empty API key!");
             return CompletableFuture.completedFuture(null);
         }
@@ -127,6 +127,15 @@ public class HangarVersionUploader{
             fileInfo,
             preRelease ? "Beta" : "Release"
         );
+        
+        if(dryrun){
+            String json = GSON.toJson(versionUpload);
+            
+            LOGGER.info("Namespace: {}", project);
+            LOGGER.info("JSON: {}", json);
+            
+            return CompletableFuture.completedFuture(json);
+        }
         
         try(CloseableHttpClient client = HttpClients.createDefault()){
             return uploadVersion(client, project, versionUpload, filePaths);

@@ -57,10 +57,11 @@ public class CodebergReleaseFetcher{
             return null;
         }
         
-        LOGGER.info("Using tag {}...", tag);
+        String url = "https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/tags/" + tag;
+        LOGGER.info("Fetching Release data from {}...", url);
         
         Request request = new Request.Builder()
-            .url("https://codeberg.org/api/v1/repos/Andre601/AdvancedServerList/releases/tags/" + tag)
+            .url(url)
             .header("User-Agent", "VersionUploader-CodebergReleaseFetcher/v1.0.0")
             .header("Accept", "application/json")
             .header("Authorization", "token " + codbergToken)

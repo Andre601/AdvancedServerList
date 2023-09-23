@@ -59,12 +59,28 @@ public class VersionUploader{
         
         CompletableFuture<?> future;
         switch(args[0].toLowerCase(Locale.ROOT)){
-            case "--modrinth" -> future = new ModrinthVersionUploader().performUpdate(release);
-            case "--hangar" -> future = new HangarVersionUploader().performUpload(release);
+            case "--modrinth" -> future = new ModrinthVersionUploader().performUpload(release, false);
+            case "--hangar" -> future = new HangarVersionUploader().performUpload(release, false);
             case "--all" -> future = CompletableFuture.allOf(
-                new ModrinthVersionUploader().performUpdate(release),
-                new HangarVersionUploader().performUpload(release)
+                new ModrinthVersionUploader().performUpload(release, false),
+                new HangarVersionUploader().performUpload(release, false)
             );
+            case "--dryrun" -> {
+                LOGGER.info("Performing Dry-run for Modrinth and Hangar...");
+                future = CompletableFuture.allOf(
+                    new ModrinthVersionUploader().performUpload(release, true),
+                    new HangarVersionUploader().performUpload(release, true)
+                );
+                
+                try{
+                    future.join();
+                }catch(Exception ex){
+                    LOGGER.warn("Exception while waiting for CompletableFutures to end...", ex);
+                }
+                
+                LOGGER.info("Dry-run completed!");
+                return;
+            }
             default -> {
                 LOGGER.warn("Unknown argument '{}' provided. Supported are '--all', '--modrinth' and '--hangar'", args[0]);
                 System.exit(1);

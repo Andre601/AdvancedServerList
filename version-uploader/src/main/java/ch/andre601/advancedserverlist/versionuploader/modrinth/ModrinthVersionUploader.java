@@ -27,6 +27,8 @@ package ch.andre601.advancedserverlist.versionuploader.modrinth;
 
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import masecla.modrinth4j.client.agent.UserAgent;
 import masecla.modrinth4j.endpoints.version.CreateVersion;
 import masecla.modrinth4j.main.ModrinthAPI;
@@ -56,7 +58,7 @@ public class ModrinthVersionUploader{
         this.api = createClient();
     }
     
-    public CompletableFuture<?> performUpdate(CodebergRelease release){
+    public CompletableFuture<?> performUpload(CodebergRelease release, boolean dryrun){
         LOGGER.info("Starting ModrinthVersionUploader...");
         
         if(api == null){
@@ -87,7 +89,7 @@ public class ModrinthVersionUploader{
                 .projectId("xss83sOY")
                 .name(String.format("v%s (%s)", version, String.join(", ", platforms.get(i).getLoaders())))
                 .versionNumber(version)
-                .changelog(changelog)
+                .changelog(changelog.replaceAll("\r\n", "\n"))
                 .featured(false)
                 .files(file)
                 .gameVersions(versions)
@@ -95,6 +97,16 @@ public class ModrinthVersionUploader{
                 .versionType(prerelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE)
                 .dependencies(dependencies)
                 .build();
+            
+            if(dryrun){
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String json = gson.toJson(request);
+                
+                LOGGER.info("JSON Data to send: {}", json);
+                
+                futures[i] = CompletableFuture.completedFuture(json);
+                continue;
+            }
             
             futures[i] = api.versions().createProjectVersion(request).whenComplete(((projectVersion, throwable) -> {
                 if(throwable != null){
