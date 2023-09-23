@@ -21,37 +21,37 @@
     {
       "description": "Apply label for Bukkit platform",
       "matchFileNames": ["bukkit/pom.xml"],
-      "labels": ["PR Target/Bukkit"]
+      "addLabels": ["PR Target/Bukkit"]
     },
     {
       "description": "Apply label for BungeeCord platform",
       "matchFileNames": ["bungeecord/pom.xml"],
-      "labels": ["PR Target/BungeeCord"]
+      "addLabels": ["PR Target/BungeeCord"]
     },
     {
       "description": "Apply label for Core platform",
       "matchFileNames": ["core/pom.xml"],
-      "labels": ["PR Target/Core"]
+      "addLabels": ["PR Target/Core"]
     },
     {
       "description": "Apply label for Velocity platform",
       "matchFileNames": ["velocity/pom.xml"],
-      "labels": ["PR Target/Velocity"]
+      "addLabels": ["PR Target/Velocity"]
     },
     {
       "description": "Apply label for GitHub Actions",
       "matchFileNames": [".github/workflows/*.yml"],
-      "labels": ["PR Target/GitHub Action"]
+      "addLabels": ["PR Target/GitHub Action"]
     },
     {
       "description": "Apply label for MkDocs",
       "matchFileNames": ["requirements.txt"],
-      "labels": ["PR Target/MkDocs"]
+      "addLabels": ["PR Target/MkDocs"]
     },
     {
       "description": "Apply label for Woodpecker-CI",
       "matchFileNames": [".woodpecker/*.yml"],
-      "labels": ["PR Target/Woodpecker-CI"]
+      "addLabels": ["PR Target/Woodpecker-CI"]
     }
   ]
 }
