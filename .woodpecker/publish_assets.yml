@@ -22,14 +22,14 @@ steps:
       - mv VersionUploader.jar ../../
       - cd ../../
       # Execute Jar file
-      - java -jar VersionUploader.jar --dryrun
-  #uploadToCodeberg:
-  #  image: woodpeckerci/plugin-gitea-release
-  #  settings:
-  #    base_url: https://codeberg.org
-  #    files:
-  #      - "bukkit/target/AdvancedServerList-*.jar"
-  #      - "bungeecord/target/AdvancedServerList-*.jar"
-  #      - "velocity/target/AdvancedServerList-*.jar"
-  #    api_key:
-  #      from_secret: CB_TOKEN
+      - java -jar VersionUploader.jar --all
+  uploadToCodeberg:
+    image: woodpeckerci/plugin-gitea-release
+    settings:
+      base_url: https://codeberg.org
+      files:
+        - "bukkit/target/AdvancedServerList-*.jar"
+        - "bungeecord/target/AdvancedServerList-*.jar"
+        - "velocity/target/AdvancedServerList-*.jar"
+      api_key:
+        from_secret: CB_TOKEN
