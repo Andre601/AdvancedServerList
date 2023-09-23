@@ -32,17 +32,17 @@ public enum PlatformInfo{
     BUKKIT(
         "bukkit",
         "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "Spigot", "Paper", "Folia"
+        "spigot", "paper", "folia"
     ),
     BUNGEECORD(
         "bungeecord",
         "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "BungeeCord", "Waterfall"
+        "bungeecord", "waterfall"
     ),
     VELOCITY(
         "velocity",
         "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "Velocity"
+        "velocity"
     );
     
     private final String platform;
