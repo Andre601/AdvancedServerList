@@ -130,7 +130,7 @@ public class HangarVersionUploader{
                 Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
                 Platform.VELOCITY, Collections.singletonList("3.2")
             ),
-            changelog,
+            changelog.replaceAll("\r\n", "\n"),
             fileInfo,
             preRelease ? "Beta" : "Release"
         );
