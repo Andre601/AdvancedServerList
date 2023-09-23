@@ -76,9 +76,12 @@ public class ModrinthVersionUploader{
             File file = new File(platforms.get(i).getFilePath().replace("{{version}}", version));
             
             List<ProjectVersion.ProjectDependency> dependencies = new ArrayList<>();
-            dependencies.add(new ProjectVersion.ProjectDependency(null, "maintenance", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
-            if(!platforms.get(i).getPlatform().equalsIgnoreCase("bukkit"))
-                dependencies.add(new ProjectVersion.ProjectDependency(null, "papiproxybridge", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
+            // Maintenance plugin
+            dependencies.add(new ProjectVersion.ProjectDependency(null, "VCAqN1ln", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
+            if(!platforms.get(i).getPlatform().equalsIgnoreCase("bukkit")){
+                // PAPIProxyBridge plugin
+                dependencies.add(new ProjectVersion.ProjectDependency(null, "bEIUEGTX", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
+            }
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
                 .projectId("xss83sOY")
