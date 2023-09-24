@@ -13,7 +13,7 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
 
 === ":simple-gradle: Gradle"
     
-    [![latest_release][release]][api-repo]
+    --8<-- "api_version.md"
     
     Make sure to replace `{version}` with the version displayed above.
     
@@ -34,7 +34,7 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
 
 === ":simple-apachemaven: Maven"
     
-    [![latest_release][release]][api-repo]
+    --8<-- "api_version.md"
     
     Make sure to replace `{version}` with the version displayed above.
     
@@ -71,9 +71,6 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
       </dependency>
     </dependencies>
     ```
-
-[release]: https://img.shields.io/github/v/tag/Andre601/asl-api?labelColor=252631&color=292a36&style=for-the-badge&label=Latest%20Release:
-[api-repo]: https://github.com/Andre601/asl-api
 
 ## Add own placeholders
 

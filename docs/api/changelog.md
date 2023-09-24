@@ -7,7 +7,7 @@ icon: octicons/log-24
 This page lists the recent changes made towards the AdvancedServerListAPI.  
 They are ordered newest to oldest.
 
-## v3.1.0
+## v3.1.0 { #v3.1.0 }
 
 ### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v3.1.0-added }
 
@@ -25,7 +25,7 @@ They are ordered newest to oldest.
 
 ----
 
-## v3.0.0
+## v3.0.0 { #v3.0.0 }
 
 ### :octicons-alert-24:{ .changelog-breaking title="Breaking Changes" } Breaking Changes { #v3-breaking }
 
@@ -45,7 +45,7 @@ They are ordered newest to oldest.
 
 ----
 
-## v2.1.0
+## v2.1.0 { #v2.1.0 }
 
 ### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v2.1.0-changed }
 
@@ -54,7 +54,7 @@ They are ordered newest to oldest.
 
 ----
 
-## v2.0.0
+## v2.0.0 { #v2.0.0 }
 
 ### :octicons-alert-24:{ .changelog-breaking title="Breaking Changes" } Breaking Changes { #v2-breaking }
 
@@ -85,7 +85,7 @@ They are ordered newest to oldest.
 
 ----
 
-## v1.0.0
+## v1.0.0 { #v1.0.0 }
 
 ### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v1-added }
 
