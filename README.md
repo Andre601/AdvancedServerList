@@ -3,6 +3,7 @@
 AdvancedServerList is a plugin that allowys you to customize your server's MOTD, favicon, Player count text and player count hover displayed in a player's multiplayer server list based on conditions and priorities.
 
 ## Downloads
+
 <a href="https://modrinth.com/plugin/advancedserverlist" target="_blank">
   <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/available/modrinth_vector.svg" height="46" alt="modrinth" title="Available on Modrinth">
 </a>
@@ -84,6 +85,7 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 </a>
 
 ## Support
+
 <a href="https://discord.gg/6dazXp6" target="_blank">
   <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact-minimal/social/discord-singular_vector.svg" height="64" alt="discord" title="Join my Discord Server">
 </a>
