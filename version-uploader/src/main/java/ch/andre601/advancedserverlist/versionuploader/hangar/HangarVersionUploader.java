@@ -101,7 +101,7 @@ public class HangarVersionUploader{
         final List<Dependency> bukkitDependencies = List.of(
             Dependency.fromNamespace("ViaVersion", false, new Namespace("ViaVersion", "ViaVersion")),
             Dependency.fromNamespace("Maintenance", false, new Namespace("kennytv", "Maintenance")),
-            Dependency.fromUrl("PlaceholderAPI", false, "https://www.spigot.org/resources/6245/")
+            Dependency.fromNamespace("PlaceholderAPI", false, new Namespace("HelpChat", "PlaceholderAPI"))
         );
         final List<Dependency> bungeeDependencies = List.of(
             Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge")),
@@ -173,6 +173,7 @@ public class HangarVersionUploader{
                             "Received non-successful response while uploading release. Code: %d, Message: %s", response.getCode(), response.getReasonPhrase()
                         ));
                     }
+                    LOGGER.info("Successfully uploaded new release on Hangar!");
                     return true;
                 });
             }catch(IOException ex){

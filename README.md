@@ -103,7 +103,7 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 [modrinth]: https://modrinth.com/plugin/advancedserverlist
 
 [protocollib]: https://hangar.papermc.io/dmulloy2/ProtocolLib
-[placeholderapi]: https://www.spigotmc.org/resources/6245/
+[placeholderapi]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
 [viaversion]: https://hangar.papermc.io/ViaVersion/ViaVersion
 [papiproxybridge]: https://hangar.papermc.io/William278/PAPIProxyBridge
 [maintenance]: https://hangar.papermc.io/kennytv/Maintenance
