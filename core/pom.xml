@@ -116,7 +116,7 @@
         <dependency>
             <groupId>net.william278</groupId>
             <artifactId>papiproxybridge</artifactId>
-            <version>1.3</version>
+            <version>1.4.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
