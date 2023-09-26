@@ -1,0 +1,1 @@
+<div class="mdx-badge"><span class="mdx-badge__icon" >[:octicons-alert-24:](changelog.md)</span><span class="mdx-badge__text">[v3.1.0](changelog.md#v3.1.0 'View latest Release Changelog')</span></div>

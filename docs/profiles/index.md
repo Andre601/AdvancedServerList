@@ -39,7 +39,7 @@ You can remove this option, or set it to an empty list (`conditions: []`) to alw
 
 The following operants are available and can be used in the conditions.
 
-!!! warning "Only one operant can be used per condition!"
+<!-- admo:warning Only one operant can be used per condition! -->
 
 | Operand | Description                                                            |
 |---------|------------------------------------------------------------------------|
@@ -58,7 +58,7 @@ The following operants are available and can be used in the conditions.
 
 ## Profiles
 
-!!! warning "Priority and Conditions are NOT supported!"
+<!-- admo:warning Priority and Conditions can NOT be used within profiles -->
 
 The `profiles` option allows you to set multiple MOTDs, player counts, etc. which the plugin would randomly choose from.  
 If an option such as motd is not present in an entry will it check the file for the option and use that if present.
@@ -226,7 +226,7 @@ To not override the player count, remove this option or set it to an empty Strin
 
 Contains options to modify how the `<max>` number in the player count should look like.
 
-!!! warning "Using this option will modify the `${server playersMax}` placeholder (Except in conditions)"
+<!-- admo:warning Using this option will modify the `${server playersMax}` placeholder (Except when used in conditions) -->
 
 #### Enabled { #extraplayers-enabled }
 
@@ -268,7 +268,7 @@ Note that this feature is ignored should [`extraPlayers`](#extraplayers) be enab
 In case [`hidePlayers`](#hideplayers) is enabled will the max player count not be displayed, but still changed by this option.  
 Should [`text`](#text) be set to a non-empty String will the max player count only be displayed when `${server playersMax}` is used.
 
-!!! warning "Using this option will modify the `${server playersMax}` placeholder (Except in conditions)"
+<!-- admo:warning Using this option will modify the `${server playersMax}` placeholder (Except when used in conditions) -->
 
 #### Enabled { #maxplayers-enabled }
 

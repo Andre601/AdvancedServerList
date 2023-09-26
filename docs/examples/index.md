@@ -6,7 +6,7 @@ icon: octicons/list-unordered-24
 
 ## About
 
-!!! warning "The below examples may only work in v1.10.0 or newer!"
+<!-- admo:info The below examples may only work in v1.10.0 or newer! -->
 
 This page lists some examples you may want to use for your proxy or server.
 
@@ -72,7 +72,7 @@ Examples that can be used with the Spigot or PaperMC version.
 
 ### Different profile for banned Player
 
-!!! warning "Requires a cached player to work reliably."
+<!-- admo:info Requires a cached player -->
 
 Displays a separate profile for when the player has been banned from the server.
 

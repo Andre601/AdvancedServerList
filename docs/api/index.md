@@ -11,23 +11,6 @@ It provides a way for your plugin to provide its own placeholders that should be
 
 Add the following to your `build.gradle` or `pom.xml` file to use the API:
 
-=== ":simple-gradle: Gradle"
-    
-    ```groovy title="build.gradle"
-    repositorories {
-        maven { url = 'https://jitpack.io/' }
-    }
-    
-    dependencies {
-        implementation 'ch.andre601.asl-api:api:{version}'
-        
-        // Optional platform dependencies
-        implementation 'ch.andre601.asl-api:platform-bukkit:{version}'
-        implementation 'ch.andre601.asl-api:platform-bungeecord:{version}'
-        implementation 'ch.andre601.asl-api:platform-velocity:{version}'
-    }
-    ```
-
 === ":simple-apachemaven: Maven"
     
     ```xml title="pom.xml"
@@ -43,6 +26,7 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
         <groupId>ch.andre601.asl-api</groupId>
         <artifactId>api</artifactId>
         <version>{version}</version>
+        <scope>provided</scope>
       </dependency>
       
       <!-- Optional platform dependencies -->
@@ -50,35 +34,67 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
         <groupId>ch.andre601.asl-api</groupId>
         <artifactId>platform-bukkit</artifactId>
         <version>{version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>ch.andre601.asl-api</groupId>
         <artifactId>platform-bungeecord</artifactId>
         <version>{version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>ch.andre601.asl-api</groupId>
         <artifactId>platform-velocity</artifactId>
         <version>{version}</version>
+        <scope>provided</scope>
       </dependency>
     </dependencies>
     ```
+=== ":simple-gradle: Gradle"
+    
+    ```groovy title="build.gradle"
+    repositorories {
+        maven { url = 'https://jitpack.io/' }
+    }
+    
+    dependencies {
+        compileOnly 'ch.andre601.asl-api:api:{version}'
+        
+        // Optional platform dependencies
+        compileOnly 'ch.andre601.asl-api:platform-bukkit:{version}'
+        compileOnly 'ch.andre601.asl-api:platform-bungeecord:{version}'
+        compileOnly 'ch.andre601.asl-api:platform-velocity:{version}'
+    }
+    ```
+=== ":simple-gradle: Gradle (KTS)"
+    ```kotlin title="build.gradle.kts"
+    repositories {
+        maven("https://jitpack.io")
+    }
+    
+    dependencies {
+        compileOnly("ch.andre601.asl-api:api:{version}")
+        
+        // Optional platform dependencies
+        compileOnly("ch.andre601.asl-api:platform-bukkit:{version}")
+        compileOnly("ch.andre601.asl-api:platform-bungeecord:{version}")
+        compileOnly("ch.andre601.asl-api:platform-velocity:{version}")
+    }
+    ```
 
-## Add own placeholders
+## Adding your own Placeholders
 
-To add your own placeholders will you need to do a few steps.
+<!-- admo:info This requires the main api module -->
 
-### 1) Get API instance
+The API allows you to add your own placeholders which would be available through the `${<identifier> <values>}` placeholder Pattern in a Server List profile.
 
-Use `AdvancedServerListAPI.get()` to retrieve an instance of the currently used AdvancedServerList API.  
-It will be needed at a later point.
+To add your own placeholders, follow these steps:
 
-### 2) Create a Placeholder class
+### 1. Create a Placeholder class
 
-Make a new class that you want to use for the placeholders and let it extend the `PlaceholderProvider` class of AdvancedServerList.  
-Your IDE should now tell you to implement/override some methods. Confirm this action and your class should look something alongside this:
+You should first create a new class and make it extend the abstract [`PlaceholderProvider`][placeholderprovider]. This class includes a constructor and a method you need to add, so do that:
 
-```java title="PlaceholderProvider example"
+```java
 public class MyPlaceholders extends PlaceholderProvider {
     
     public MyPlaceholders(String identifier) {
@@ -92,60 +108,256 @@ public class MyPlaceholders extends PlaceholderProvider {
 }
 ```
 
-It's recommended to replace your generated constructor with a no-args one and set the identifier directly in the `super()`.  
-For example:
-
-```java
-public MyPlaceholders() {
-    super("myplaceholders");
-}
-```
-
-The next step now would be to handle the different placeholders. These are handled in the `parsePlaceholder` method you had to override.  
-The `placeholder` String is whatever value was provided after the identifier in `${<identifier> <placeholder>}`. It can contain spaces.
-
-Something to note is, that when returning `null` will AdvancedServerList understand it as an invalid placeholder and return it unchanged.
-
-Here is a small example of the final class:
-
-```java title="PlaceholderProvider example"
-public class MyPlaceholders extends PlaceholderProvider {
-    
+!!! tip
+    You can replace the Constructor with a String argument with a no-args constructor and set the identifier directly in the `super`:
+    ```java
     public MyPlaceholders() {
         super("myplaceholders");
     }
+    ```
+
+The [`parsePlaceholder(String, GenericPlayer, GenericServer)`][parseplaceholder] method is used by AdvancedServerList to replace a matching placeholder with a value.  
+What you return is completely up to you. Just keep in mind that returning `null` will be treated as an invalid placeholder by AdvancedServerList, resulting in the placeholder being returned as-is without any changes.
+
+[placeholderprovider]: reference/api/ch.andre601.advancedserverlist.api/placeholderprovider.md
+[parseplaceholder]: reference/api/ch.andre601.advancedserverlist.api/placeholderprovider.md#parseplaceholder(string,-genericplayer,-genericserver)
+
+??? example "Example of final class"
+    ```java
+    public class MyPlaceholders extends PlaceholderProvider {
+        
+        public MyPlaceholders() {
+            super("myplaceholders");
+        }
+        
+        @Override
+        public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server) {
+            if(placeholder.equalsIgnoreCase("hello"))
+                return "Hello " + player.getName();
+            
+            return null;
+        }
+    }
+    ```
+
+### 2. Register the Placeholders
+
+Next step should be to register the placeholder. To achieve this, first obtain an instance of the [`AdvancedServerListAPI`][advancedserverlistapi] by using the static [`get()`][get] method. After that call [`addPlaceholderProvider(PlaceholderProvider placeholderProvider)`][addplaceholderprovider].  
+Your code may look similar to this:
+
+```java title="Registering PlaceholderProvider class"
+public class MyPlugin extends JavaPlugin {
     
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server) {
-        if(placeholder.equals("hello"))
-            return "Hi!";
+    public void onEnable() {
+        AdvancedServerListAPI api = AdvancedServerListAPI.get();
         
-        return null;
+        api.addPlaceholderProvider(new MyPlaceholders());
     }
 }
 ```
 
-### 3) Register the placeholder class
+[advancedserverlistapi]: reference/api/ch.andre601.advancedserverlist.api/advancedserverlistapi.md
+[get]: reference/api/ch.andre601.advancedserverlist.api/advancedserverlistapi.md#get()
+[addplaceholderprovider]: reference/api/ch.andre601.advancedserverlist.api/advancedserverlistapi.md#addplaceholderprovider(placeholderprovider)
 
-All that is left to do now is to register your class as a new PlaceholderProvider instance. To do this, get the API instance you retrieved earlier and use `addPlaceholderProvider` with a new instance of your class.
+This should register your PlaceholderExpansion as long as it is valid, meaning that the identifier...
 
-```java title="Registering PlaceholderProvider class"
-AdvancedServerListAPI api = AdvancedServerListAPI.get();
+- ...is not `null`
+- ...is not containing spaces
+- ...is not using a name already registered by the plugin
 
-api.addPlaceholderProvider(new MyPlaceholders());
-```
+### 3. Declare AdvancedServerList as (soft)depend
 
-## Events
+The final thing you should make sure is to define AdvancedServerList as a depend or soft-depend for your plugin, to make sure it loads after AdvancedServerList.
 
-!!! info "Note"
-    The mentioned event is only accessible through one of the platform dependencies, as those are used in the platform's respective event handler system.
+Below are example setups for Spigot, Paper, BungeeCord and Velocity:
 
-v2 of the API adds the `PreServerListSetEvent` to the different platform dependencies to use.  
-It allows you to modify the ProfileEntry used for the player pinging the server/proxy or even cancelling the event altogether.
+=== ":simple-spigotmc: Spigot"
+    === "Softdepend"
+        ```yaml title="plugin.yml"
+        name: "MyPlugin"
+        author: "author"
+        version: "1.0.0"
+        
+        main: "com.example.plugin.ExamplePlugin"
+        
+        softdepend:
+          - AdvancedServerList
+        ```
+    === "Depend"
+        ```yaml title="plugin.yml"
+        name: "MyPlugin"
+        author: "author"
+        version: "1.0.0"
+        
+        main: "com.example.plugin.ExamplePlugin"
+        
+        depend:
+          - AdvancedServerList
+        ```
+=== ":fontawesome-solid-paper-plane: Paper"
+    === "Softdepend"
+        ```yaml title="paper-plugin.yml"
+        name: "MyPlugin"
+        author: "author"
+        version: "1.0.0"
+        
+        main: "com.example.plugin.ExamplePlugin"
+        
+        dependencies:
+          server:
+            AdvancedServerList:
+              load: BEFORE
+              required: false # Default, not required
+        ```
+    === "Depend"
+        ```yaml title="paper-plugin.yml"
+        name: "MyPlugin"
+        author: "author"
+        version: "1.0.0"
+        
+        main: "com.example.plugin.ExamplePlugin"
+        
+        dependencies:
+          server:
+            AdvancedServerList:
+              load: BEFORE
+              required: true
+        ```
+=== ":octicons-git-merge-24: BungeeCord"
+    === "Softdepend"
+        ```yaml title="bungee.yml"
+        name: "MyPlugin"
+        author: "author"
+        version: "1.0.0"
+        
+        main: "com.example.plugin.ExamplePlugin"
+        
+        softDepends:
+          - AdvancedServerList
+        ```
+    === "Depend"
+        ```yaml title="bungee.yml"
+        name: "MyPlugin"
+        author: "author"
+        version: "1.0.0"
+        
+        main: "com.example.plugin.ExamplePlugin"
+        
+        depends:
+          - AdvancedServerList
+        ```
+=== ":octicons-git-merge-24: Velocity"
+    === "Softdepend (File)"
+        ```json title="velocity-plugin.json"
+        {
+          "id": "myplugin",
+          "name": "MyPlugin",
+          "version": "1.0.0",
+          "authors": [
+            "author"
+          ],
+          "main": "com.example.plugin.ExamplePlugin",
+          "dependencies": [
+            {
+              "id": "advancedserverlist",
+              "optional": true
+            }
+          ]
+        }
+        ```
+    === "Depend (File)"
+        ```json title="velocity-plugin.json"
+        {
+          "id": "myplugin",
+          "name": "MyPlugin",
+          "version": "1.0.0",
+          "authors": [
+            "author"
+          ],
+          "main": "com.example.plugin.ExamplePlugin",
+          "dependencies": [
+            {
+              "id": "advancedserverlist",
+              "optional": false
+            }
+          ]
+        }
+        ```
+    === "Softdepend (Annotation)"
+        ```java title="MyPlugin.java"
+        @Plugin(
+          id = "myplugin",
+          name = "MyPlugin",
+          version = "1.0.0",
+          authors = {"author"},
+          dependencies = {
+            @Dependency(
+              id = "advancedserverlist",
+              optional = true
+            )
+          }
+        )
+        public class MyPlugin {
+          
+          // ...
+          
+        }
+        ```
+    === "Depend (Annotation)"
+        ```java title="MyPlugin.java"
+        @Plugin(
+          id = "myplugin",
+          name = "MyPlugin",
+          version = "1.0.0",
+          authors = {"author"},
+          dependencies = {
+            @Dependency(
+              id = "advancedserverlist",
+              optional = false // Default, not required
+            )
+          }
+        )
+        public class MyPlugin {
+          
+          // ...
+          
+        }
+        ```
+
+### 4. You're done!
+
+Your plugin should now hook into AdvancedServerList and register its own custom placeholders to use.
+
+## Listening for events
+
+<!-- admo:info This requires the platform specific dependencies -->
+
+AdvancedServerList provides an Event that your plugin can listen for.  
+The event is called `PreServerListSetEvent` and provides the following methods to use:
+
+- [`getEntry()`][getentry] - Gets the currently set [`ProfileEntry`][profileentry].
+- [`setEntry(ProfileEntry)`][setentry] - Sets a new [`ProfileEntry`][profileentry] to use.
+- [`isCancelled()`][iscancelled] - Gets the current cancelled state of the event.
+- [`setCancelled(boolean)`][setcancelled] - Sets the current cancelled state.
+
+Setting the event's cancelled state to true will result in AdvancedServerList not altering the Server list.
+
+Please check the server/proxy's documentation on how to listen for events with your plugin.
+
+[getentry]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#getentry()
+[setentry]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#setentry(profileentry)
+[iscancelled]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#iscancelled()
+[setcancelled]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#setcancelled(boolean)
+
+[profileentry]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md
 
 ### ProfileEntry
 
-The ProfileEntry class has been moved to the API in v2 allowing you to create your own versions using the available Builder class.
+The ProfileEntry record is the core class used within the `PreServerListSetEvent`. It sets what values (MOTD, Favicon, Players, etc.) should be displayed.  
+Note that the record is - by nature - immutable and that the [`Builder`][builder] class should be used to create a new ProfileEntry instance to use.
 
-This class contains values from a Server List Profile file. The values can either be from a `profiles` list entry, one of the global options in the file, or a mix of both, depending on what options are present.  
-You can create a new entry or copy an existing one (i.e. from the [`PreServerListSetEvent`](#events)) to modify and use in the server list by setting it in the aforementioned `PreServerListSetEvent`.
+This allows you to customize the Server list using your plugin. Just keep in mind that other plugins may also do the same, overriding your changes.
+
+[builder]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md

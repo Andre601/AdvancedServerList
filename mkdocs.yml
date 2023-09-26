@@ -36,7 +36,7 @@ theme:
       note: 'octicons/tag-24'
       abstract: 'octicons/checklist-24'
       info: 'octicons/info-24'
-      tip: 'octicons/squirrel-24'
+      tip: 'octicons/flame-24'
       success: 'octicons/check-24'
       question: 'octicons/question-24'
       warning: 'octicons/alert-24'
@@ -49,6 +49,7 @@ theme:
 extra_css:
   - assets/stylesheets/custom.css
   - assets/stylesheets/api-docs.css
+  - assets/stylesheets/admo.css
 
 extra_javascript:
   - assets/js/repo-stats.js
@@ -88,3 +89,6 @@ markdown_extensions:
   - pymdownx.details:
   - pymdownx.snippets:
       base_path: docs/.snippets
+
+hooks:
+  - docs/.hooks/badges.py
