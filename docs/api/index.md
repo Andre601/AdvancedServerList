@@ -13,10 +13,6 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
 
 === ":simple-gradle: Gradle"
     
-    --8<-- "api_version.md"
-    
-    Make sure to replace `{version}` with the version displayed above.
-    
     ```groovy title="build.gradle"
     repositorories {
         maven { url = 'https://jitpack.io/' }
@@ -33,10 +29,6 @@ Add the following to your `build.gradle` or `pom.xml` file to use the API:
     ```
 
 === ":simple-apachemaven: Maven"
-    
-    --8<-- "api_version.md"
-    
-    Make sure to replace `{version}` with the version displayed above.
     
     ```xml title="pom.xml"
     <repositories>
