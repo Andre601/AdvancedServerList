@@ -2,16 +2,6 @@ name: 'Deploy Site (Push)'
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'requirements.txt'
-      - '.github/workflows/docs-deploy.yml'
-    branches:
-      - master
-    tags-ignore:
-      - '**'
 
 permissions:
   contents: read
