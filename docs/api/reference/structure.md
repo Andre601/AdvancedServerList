@@ -27,7 +27,7 @@ An example class to show how the page structure may look like.
 ## custom HTML tags
 
 There is a collection of custom HTML tags that are used to render specific text in certain styles.  
-Below is a list of all custom tags. Note that these tags only render on the actual site and not within the repository.
+Below is a list of all custom tags. Note that these tags only render on the actual site and not within the repository when viewing the source.
 
 - `<api__class></api__class>`: <api__class></api__class>
 - `<api__interface></api__interface>`: <api__interface></api__interface>
@@ -43,12 +43,12 @@ Below is a list of all custom tags. Note that these tags only render on the actu
 In addition are there two classes used within `span` tags to colour the text, to indicate their type:
 
 - `<span class="api-type__object">Object</span>`: <span class="api-type__object">Object</span>
-- `<span class="api-type__primitive">Object</span>`: <span class="api-type__primitive">Primitive</span>
+- `<span class="api-type__primitive">primitive</span>`: <span class="api-type__primitive">primitive</span>
 
 ## Auto-generated content
 
-The page template used checks for specific YAML frontmatter in the page to include other templates.  
-These templates pull the data from the YAML frontmatter to generate the page content which is then appendet to the already existing page content.
+A page template is used to auto-generate the page content based on available YAML frontmatter.  
+Depending on the frontmatter available will the template call a jinja2 Macro to generate a Summary and Detailed info on the page for the respective frontmatter data.
 
 There are 5 frontmatter options, each following a specific structure:
 
@@ -88,7 +88,7 @@ constructors:
     - `description` - Description of the parameter.
     - `type` - The type this parameter is.
     - `attributes` - List of attributes (i.e. nullability) to display. The provided values will be turned into `<api__{name}></api__{name}>` tags that will be prependet to the parameter name.
-- `deprecated` - Adds a notice about the deprecation of this Constructor in the form of a deprecation label and a `deprecated` section with the provided explanation.
+- `deprecated` - Adds a notice about the deprecation of this Constructor in the form of a deprecation label and a `deprecated` section with the provided `<string>` as explanation.
 - `throws` - List of possible throws to display.
     - `name` - Name of the throw to display.
     - `description` - Description of the throw.
@@ -128,10 +128,10 @@ enums:
 
 **Options:**
 
-- `name` - The name to display for the Constructor summary and detail. This should include any parameters the Constructor has, but without any parameter name.
-- `description` - The description to display for the Constructor.
+- `name` - The name to display for the Enum summary and detail. This should include any parameters the Enum has, but without any parameter name.
+- `description` - The description to display for the Enum.
 - `type` - The return type to display. Will default to `{{ page.title }}` if not set.
-- `deprecated` - Adds a notice about the deprecation of this Enum in the form of a deprecation label and a `deprecated` section with the provided explanation.
+- `deprecated` - Adds a notice about the deprecation of this Enum in the form of a deprecation label and a `deprecated` section with the provided `<string>` as explanation.
 - `seealso` - List of "See also" text to display.
     - `name` - Name of the See also link.
     - `link` - Link (Relative, absolute or URL) to use for the See also text.
@@ -166,8 +166,8 @@ methods:
 
 **Options:**
 
-- `name` - The name to display for the Constructor summary and detail. This should include any parameters the Constructor has, but without any parameter name.
-- `description` - The description to display for the Constructor.
+- `name` - The name to display for the Method summary and detail. This should include any parameters the Method has, but without any parameter name.
+- `description` - The description to display for the Method.
 - `type` - Options for object type to display.
     - `name` - Displayed name of the object.
     - `type` - Object type. Can be either `object` or `primitive` which would be used in a class name for styling.
@@ -179,7 +179,7 @@ methods:
     - `type` - The type this parameter is.
     - `attributes` - List of attributes (i.e. nullability) to display. The provided values will be turned into `<api__{name}></api__{name}>` tags that will be prependet to the parameter name.
 - `returns` - Possible return values.
-- `deprecated` - Adds a notice about the deprecation of this Method in the form of a deprecation label and a `deprecated` section with the provided explanation.
+- `deprecated` - Adds a notice about the deprecation of this Method in the form of a deprecation label and a `deprecated` section with the provided `<string>` as explanation.
 - `throws` - List of possible throws to display.
     - `name` - Name of the throw to display.
     - `description` - Description of the throw.

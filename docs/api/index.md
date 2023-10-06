@@ -9,7 +9,7 @@ It provides a way for your plugin to provide its own placeholders that should be
 
 ## Add dependency
 
-Add the following to your `build.gradle` or `pom.xml` file to use the API:
+Add the following to your `pom.xml`, `build.gradle` or `build.gradle.kts` depending on what you use:
 
 === ":simple-apachemaven: Maven"
     
@@ -165,7 +165,7 @@ This should register your PlaceholderExpansion as long as it is valid, meaning t
 
 - ...is not `null`
 - ...is not containing spaces
-- ...is not using a name already registered by the plugin
+- ...is not using a name already registered in the API
 
 ### 3. Declare AdvancedServerList as (soft)depend
 
@@ -357,6 +357,8 @@ Please check the server/proxy's documentation on how to listen for events with y
 
 The ProfileEntry record is the core class used within the `PreServerListSetEvent`. It sets what values (MOTD, Favicon, Players, etc.) should be displayed.  
 Note that the record is - by nature - immutable and that the [`Builder`][builder] class should be used to create a new ProfileEntry instance to use.
+
+A convenience method exists to create a `Builder` instance from an existing `ProfileEntry` in case you only want to alter certain options while everything else unchanged.
 
 This allows you to customize the Server list using your plugin. Just keep in mind that other plugins may also do the same, overriding your changes.
 
