@@ -85,7 +85,7 @@ public class VersionUploader{
                 return;
             }
             default -> {
-                LOGGER.warn("Unknown argument '{}' provided. Supported are '--all', '--modrinth' and '--hangar'", args[0]);
+                LOGGER.warn("Unknown argument '{}' provided. Supported are '--all', '--modrinth', '--hangar' and '--dryrun'", args[0]);
                 System.exit(1);
                 return;
             }

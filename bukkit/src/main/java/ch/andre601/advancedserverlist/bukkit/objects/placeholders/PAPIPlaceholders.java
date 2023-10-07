@@ -25,13 +25,14 @@
 
 package ch.andre601.advancedserverlist.bukkit.objects.placeholders;
 
+import ch.andre601.advancedserverlist.api.bukkit.objects.BukkitServer;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bukkit.BukkitCore;
 import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitPlayerImpl;
+import ch.andre601.advancedserverlist.bukkit.objects.impl.BukkitServerImpl;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.objects.GenericServerImpl;
 import ch.andre601.advancedserverlist.core.parsing.ComponentParser;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileManager;
@@ -92,7 +93,7 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         int protocol = resolveProtocol(pl);
         int online = Bukkit.getOnlinePlayers().size();
         int max = Bukkit.getMaxPlayers();
-        GenericServer server = new GenericServerImpl(online, max, host);
+        BukkitServer server = new BukkitServerImpl(plugin.getWorldCache().worlds(), online, max, host);
         GenericPlayer player = new BukkitPlayerImpl(pl, cached, protocol);
         
         ServerListProfile profile = ProfileManager.resolveProfile(plugin.getCore(), player, server);
@@ -101,17 +102,28 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         
         ProfileEntry entry = ProfileManager.merge(profile);
         
-        if(ProfileManager.checkOption(entry.extraPlayersEnabled()))
-            max = online + (entry.extraPlayersCount() == null ? 0 : entry.extraPlayersCount());
+        Integer maxPlayers = null;
+        if(ProfileManager.checkOption(entry.maxPlayersEnabled())){
+            max = entry.maxPlayersCount() == null ? 0 : entry.maxPlayersCount();
+            maxPlayers = entry.maxPlayersCount();
+        }
         
-        GenericServer finalServer = new GenericServerImpl(online, max, host);
+        Integer extraPlayers = null;
+        if(ProfileManager.checkOption(entry.extraPlayersEnabled())){
+            max = online + (entry.extraPlayersCount() == null ? 0 : entry.extraPlayersCount());
+            extraPlayers = entry.extraPlayersCount();
+        }
+        
+        BukkitServer finalServer = new BukkitServerImpl(plugin.getWorldCache().worlds(), online, max, host);
         
         return switch(identifier.toLowerCase(Locale.ROOT)){
             case "motd" -> getOption(entry.motd(), pl, player, finalServer);
             case "favicon" -> getOption(entry.favicon(), pl, player, finalServer);
             case "playercount_hover" -> getOption(entry.players(), pl, player, finalServer);
             case "playercount_text" -> getOption(entry.playerCountText(), pl, player, finalServer);
-            case "extra_players_max" -> String.valueOf(max);
+            case "extra_players_max" -> extraPlayers == null ? "null" : String.valueOf(extraPlayers);
+            case "players_max" -> maxPlayers == null ? "null" : String.valueOf(max);
+            case "players_max_modified" -> String.valueOf(max);
             default -> null;
         };
     }

@@ -6,23 +6,22 @@ icon: material/percent
 
 AdvancedServerList provides support for [PlaceholderAPI] placeholders to be used, while also providing its own set of placeholders.
 
-[placeholderapi]: https://www.spigotmc.org/resources/6245/
+[placeholderapi]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
 
 ## Own placeholders
 
-The following list of placeholders is available for use through PlaceholderAPI.  
-Please note that they are only available through the Bukkit version of AdvancedServerList.
+The below listed placeholders can be used through PlaceholderAPI in other plugins.  
+Note that the values depend on the player it is used for, as AdvancedServerList will try and get a matching [Server List Profile](../profiles/index.md) to display values from.
 
-Also note, that AdvancedServerList will try to find and use a [Server List profile](../profiles/index.md) that has maching conditions for the player, before returning any placeholder values.  
-This means that the output of a placeholder depends on what profile (if any) matches for the player.
-
-| Placeholder               | Description                                                                   |
-|---------------------------|-------------------------------------------------------------------------------|
-| `%asl_favicon%`           | Gives the value of `favicon` from a matching Profile.                         |
-| `%asl_extra_players_max%` | Gives the value of `playerCount.extraPlayers.amount` from a matching Profile. |
-| `%asl_motd%`              | Gives the value of `motd` in the matching Profile.                            |
-| `%asl_playercount_hover%` | Gives the value of `playerCount.hover` from a matching Profile.               |
-| `%asl_playercount_text%`  | Gives the value of `playerCount.text` from a matching Profile.                |
+| Placeholder                  | Description                                                                                             |
+|------------------------------|---------------------------------------------------------------------------------------------------------|
+| `%asl_favicon%`              | Gives the value of `favicon` from a matching Profile.                                                   |
+| `%asl_extra_players_max%`    | Gives the value of `playerCount -> extraPlayers -> amount` from a matching Profile. Can return `null`.  |
+| `%asl_motd%`                 | Gives the value of `motd` in the matching Profile as a single String.                                   |
+| `%asl_playercount_hover%`    | Gives the value of `playerCount -> hover` from a matching Profile as a single String.                   |
+| `%asl_playercount_text%`     | Gives the value of `playerCount -> text` from a matching Profile.                                       |
+| `%asl_players_max%`          | Gives the value of `playerCount -> maxPlayers -> amount` from a matching Profile. Can return `null`.    |
+| `%asl_players_max_modified%` | Returns the output of `${server playersMax}`.                                                           |
 
 ## Using Placeholders in Server List profiles
 
