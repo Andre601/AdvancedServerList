@@ -122,7 +122,7 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
             case "playercount_hover" -> getOption(entry.players(), pl, player, finalServer);
             case "playercount_text" -> getOption(entry.playerCountText(), pl, player, finalServer);
             case "extra_players_max" -> extraPlayers == null ? "null" : String.valueOf(extraPlayers);
-            case "players_max" -> maxPlayers == null ? "null" : String.valueOf(max);
+            case "players_max" -> maxPlayers == null ? "null" : String.valueOf(maxPlayers);
             case "players_max_modified" -> String.valueOf(max);
             default -> null;
         };
