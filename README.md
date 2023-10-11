@@ -44,10 +44,10 @@ When multiple profiles exist that have valid conditions will the one with the hi
 > [*Read More*][conditions]
 
 ### Placeholders
-Placeholders can be used within conditions to further customize them. They can also be used in any other text option (motd, playerCount and players) to display their respective values.
+Placeholders can be used within conditions to further customize them. They can also be used in any other text option to display their respective values.
 The format is `${<target> <identifier>}` which was adopted from BungeeTabListPlus. Depending on what platform you use the plugin on are only specific placeholders available.
 
-When using the SpigotMC/PaperMC version can you also use placeholders from [PlaceholderAPI][placeholderapi] using its `%<identifier>_<values>%` placeholder format. PlaceholderAPI needs to be installed for that.
+When using the SpigotMC/PaperMC version, or while PAPIProxyBridge is installed on your proxy, can you also use placeholders from [PlaceholderAPI][placeholderapi] using its `%<identifier>_<values>%` placeholder format. PlaceholderAPI needs to be installed for that.
 
 If you're a plugin dev can you even add your own custom placeholders through AdvancedServerList's own API.
 
