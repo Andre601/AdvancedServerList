@@ -150,6 +150,7 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
         
         // getProtocolVersion is only in Paper, so this is only called when main class isn't SpigotCore.
         // Also, ViaVersion is not present, so the player protocol *should* be the same as the server.
+        //noinspection deprecation
         return Bukkit.getUnsafe().getProtocolVersion();
     }
     
