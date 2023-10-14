@@ -121,9 +121,10 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
             case "favicon" -> getOption(entry.favicon(), pl, player, finalServer);
             case "playercount_hover" -> getOption(entry.players(), pl, player, finalServer);
             case "playercount_text" -> getOption(entry.playerCountText(), pl, player, finalServer);
-            case "extra_players_max" -> extraPlayers == null ? "null" : String.valueOf(extraPlayers);
-            case "players_max" -> maxPlayers == null ? "null" : String.valueOf(maxPlayers);
-            case "players_max_modified" -> String.valueOf(max);
+            // TODO: Remove extra_players_max in future release
+            case "extra_players_max", "playercount_extra_players" -> extraPlayers == null ? "null" : String.valueOf(extraPlayers);
+            case "playercount_max_players" -> maxPlayers == null ? "null" : String.valueOf(maxPlayers);
+            case "server_max_players" -> String.valueOf(max);
             default -> null;
         };
     }
