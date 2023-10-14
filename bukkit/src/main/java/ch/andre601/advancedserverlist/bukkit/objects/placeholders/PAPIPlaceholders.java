@@ -124,7 +124,7 @@ public class PAPIPlaceholders<F> extends PlaceholderExpansion{
             // TODO: Remove extra_players_max in future release
             case "extra_players_max", "playercount_extraplayers" -> extraPlayers == null ? "null" : String.valueOf(extraPlayers);
             case "playercount_maxplayers" -> maxPlayers == null ? "null" : String.valueOf(maxPlayers);
-            case "server_maxplayers" -> String.valueOf(max);
+            case "server_playersmax" -> String.valueOf(max);
             default -> null;
         };
     }
