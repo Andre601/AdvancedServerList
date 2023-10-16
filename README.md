@@ -8,9 +8,11 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
   <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/available/modrinth_vector.svg" height="46" alt="modrinth" title="Available on Modrinth">
 </a>
 <br>
+<!--
 <a href="https://hangar.papermc.io/Andre_601/AdvancedServerList" target="_blank">
   <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/available/hangar_vector.svg" height="46" alt="hangar" title="Available on Hangar">
 </a>
+-->
 
 ## Supported Platforms
 
