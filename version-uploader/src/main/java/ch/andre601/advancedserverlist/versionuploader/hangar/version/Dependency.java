@@ -25,18 +25,18 @@
 
 package ch.andre601.advancedserverlist.versionuploader.hangar.version;
 
-public record Dependency(String name, boolean required, Namespace namespace, String externalUrl){
+public record Dependency(String name, String externalUrl, boolean required){
     
     public Dependency{
-        if(namespace == null && externalUrl == null)
+        if(name == null && externalUrl == null)
             throw new IllegalStateException("Either a namespace or external URL needs to be defined.");
     }
     
-    public static Dependency fromNamespace(String name, boolean required, Namespace namespace){
-        return new Dependency(name, required, namespace, null);
+    public static Dependency fromNamespace(String name, boolean required){
+        return new Dependency(name, null, required);
     }
     
-    public static Dependency fromUrl(String name, boolean required, String url){
-        return new Dependency(name, required, null, url);
+    public static Dependency fromUrl(String url, boolean required){
+        return new Dependency(null, url, required);
     }
 }

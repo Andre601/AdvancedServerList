@@ -78,8 +78,6 @@ public class HangarVersionUploader{
             return CompletableFuture.completedFuture(null);
         }
         
-        final Namespace project = new Namespace("Andre_601", "AdvancedServerList");
-        
         final String releaseVersion = release.tagName().startsWith("v") ? release.tagName().substring(1) : release.tagName();
         final String pluginVersion = VersionUploader.retrieveVersion();
         
@@ -98,17 +96,17 @@ public class HangarVersionUploader{
         );
         
         final List<Dependency> bukkitDependencies = List.of(
-            Dependency.fromNamespace("ViaVersion", false, new Namespace("ViaVersion", "ViaVersion")),
-            Dependency.fromNamespace("Maintenance", false, new Namespace("kennytv", "Maintenance")),
-            Dependency.fromNamespace("PlaceholderAPI", false, new Namespace("HelpChat", "PlaceholderAPI"))
+            Dependency.fromNamespace("ViaVersion", false),
+            Dependency.fromNamespace("Maintenance", false),
+            Dependency.fromNamespace("PlaceholderAPI", false)
         );
         final List<Dependency> bungeeDependencies = List.of(
-            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge")),
-            Dependency.fromNamespace("Maintenance", false, new Namespace("kennytv", "Maintenance"))
+            Dependency.fromNamespace("PapiProxyBridge", false),
+            Dependency.fromNamespace("Maintenance", false)
         );
         final List<Dependency> velocityDependencies = List.of(
-            Dependency.fromNamespace("PapiProxyBridge", false, new Namespace("William278", "PAPIProxyBridge")),
-            Dependency.fromNamespace("Maintenance", false, new Namespace("kennytv", "Maintenance"))
+            Dependency.fromNamespace("PapiProxyBridge", false),
+            Dependency.fromNamespace("Maintenance", false)
         );
         
         final List<MultipartObject> fileInfo = List.of(
@@ -137,7 +135,7 @@ public class HangarVersionUploader{
         if(dryrun){
             String json = GSON.toJson(versionUpload);
             
-            LOGGER.info("Namespace: {}", project);
+            LOGGER.info("Namespace: AdvancedServerList");
             LOGGER.info("JSON: {}", json);
             
             return CompletableFuture.completedFuture(json);
@@ -145,14 +143,14 @@ public class HangarVersionUploader{
         
         try{
             HttpClient client = HttpClients.createDefault();
-            return uploadVersion(client, project, versionUpload, filePaths);
+            return uploadVersion(client, versionUpload, filePaths);
         }catch(ParseException | IOException ex){
             LOGGER.warn("Encountered an exception while uploading to Hangar!", ex);
             return CompletableFuture.completedFuture(ex);
         }
     }
     
-    private CompletableFuture<?> uploadVersion(HttpClient client, Namespace namespace, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
+    private CompletableFuture<?> uploadVersion(HttpClient client, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
         return CompletableFuture.supplyAsync(() -> {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addPart("versionUpload", new StringBody(GSON.toJson(versionUpload), ContentType.APPLICATION_JSON));
@@ -161,7 +159,7 @@ public class HangarVersionUploader{
                 builder.addPart("files", new FileBody(path.toFile(), ContentType.DEFAULT_BINARY));
             }
             
-            HttpPost post = new HttpPost(API_URL + "projects/" + namespace + "/upload");
+            HttpPost post = new HttpPost(API_URL + "projects/AdvancedServerList/upload");
             post.setEntity(builder.build());
             try{
                 this.addAuthHeader(client, post);
