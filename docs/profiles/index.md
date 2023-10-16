@@ -226,7 +226,7 @@ To not override the player count, remove this option or set it to an empty Strin
 
 Contains options to modify how the `<max>` number in the player count should look like.
 
-<!-- admo:warning Using this option will modify the `${server playersMax}` placeholder (Except when used in conditions) -->
+<!-- admo:warning Using this option will modify the <code>${server playersMax}</code> placeholder (Except when used in conditions) -->
 
 #### Enabled { #extraplayers-enabled }
 
@@ -268,7 +268,7 @@ Note that this feature is ignored should [`extraPlayers`](#extraplayers) be enab
 In case [`hidePlayers`](#hideplayers) is enabled will the max player count not be displayed, but still changed by this option.  
 Should [`text`](#text) be set to a non-empty String will the max player count only be displayed when `${server playersMax}` is used.
 
-<!-- admo:warning Using this option will modify the `${server playersMax}` placeholder (Except when used in conditions) -->
+<!-- admo:warning Using this option will modify the <code>${server playersMax}</code> placeholder (Except when used in conditions) -->
 
 #### Enabled { #maxplayers-enabled }
 

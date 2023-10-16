@@ -144,11 +144,12 @@ public class HangarVersionUploader{
             return CompletableFuture.completedFuture(json);
         }
         
-        try(CloseableHttpClient client = HttpClients.createDefault()){
+        try{
+            HttpClient client = HttpClients.createDefault();
             return uploadVersion(client, project, versionUpload, filePaths);
         }catch(ParseException | IOException ex){
-            LOGGER.warn("Unable to upload to Hangar! Encountered an exception.", ex);
-            return CompletableFuture.failedFuture(ex);
+            LOGGER.warn("Encountered an exception while uploading to Hangar!", ex);
+            return CompletableFuture.completedFuture(ex);
         }
     }
     

@@ -36,7 +36,7 @@ theme:
       note: 'octicons/tag-24'
       abstract: 'octicons/checklist-24'
       info: 'octicons/info-24'
-      tip: 'octicons/flame-24'
+      tip: 'octicons/light-bulb-24'
       success: 'octicons/check-24'
       question: 'octicons/question-24'
       warning: 'octicons/alert-24'

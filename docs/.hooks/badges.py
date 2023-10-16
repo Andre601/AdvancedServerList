@@ -48,11 +48,10 @@ def on_page_markdown(
     )
 
 def _admo(text: str = "", type: str = ""):
-    classes = f"mdx-badge mdx-badge--{type}" if type else "mdx-badge"
-    iconClasses = f"mdx-badge__icon mdx-badge--{type}" if type else "mdx-badge__icon"
+    classes = f"mdx-grid-wrapper mdx-admo--{type}" if type else "mdx-grid-wrapper"
     return "".join([
         f"<div class=\"{classes}\">",
-        f"<span class=\"{iconClasses}\"></span>",
-        *([f"<span class=\"mdx-badge__text\">{text}</span>"] if text else []),
-        f"</div>",
+        f"<div class=\"mdx-grid-child mdx-grid-child--icon\"></div>",
+        f"<div class=\"mdx-grid-child\">{text}</div>"
+        "</div>",
     ])

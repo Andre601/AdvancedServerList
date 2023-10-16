@@ -38,20 +38,28 @@
     --badge-icon--quote: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M3 6.25a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.25Zm5 6.063a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 0 1.5H8.75a.75.75 0 0 1-.75-.75Zm0 5.937a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 0 1.5H8.75a.75.75 0 0 1-.75-.75ZM3.75 11a.75.75 0 0 1 .75.75v7a.75.75 0 0 1-1.5 0v-7a.75.75 0 0 1 .75-.75Z"></path></svg>');
 }
 
-.md-typeset .mdx-badge {
-    font-size: .85em;
+/*
+ * Grid stuff
+ */
+.mdx-grid-wrapper {
+    display: grid;
+    grid-template-columns: .5fr 9fr;
+    gap: 1rem;
+    
     border: .075rem solid var(--md-badge-fg--note);
-    border-radius: .1rem;
-    padding: .3rem;
+    border-radius: .2rem;
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon {
-    background: var(--md-accent-fg-color--transparent);
-    padding: .5rem .3rem;
-    margin-left: -.3rem;
+.mdx-grid-child {
+    align-self: center;
+    font-size: .64rem;
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon::before {
+.mdx-grid-child.mdx-grid-child--icon {
+    background-color: var(--md-badge-bg--note);
+}
+
+.mdx-grid-child.mdx-grid-child--icon::before {
     content: "";
     
     background-color: var(--md-badge-fg--note);
@@ -60,20 +68,15 @@
     mask-repeat: no-repeat;
     mask-size: contain;
     
-    display: inline-block;
-    
     height: 1rem;
     width: 1rem;
     
-    vertical-align: middle;
+    margin: .4rem;
+    
+    display: block;
     
     -webkit-mask-image: var(--badge-icon--note);
     mask-image: var(--badge-icon--note);
-}
-
-.md-typeset .mdx-badge__text {
-    padding: .3rem .3rem;
-    margin: .3rem;
 }
 
 /*
@@ -81,177 +84,177 @@
  */
 
 /* Abstract */
-.md-typeset .mdx-badge.mdx-badge--abstract {
+.mdx-admo--abstract {
     border-color: var(--md-badge-fg--abstract);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--abstract {
+.mdx-admo--abstract .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--abstract);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--abstract::before {
+.mdx-admo--abstract .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--abstract);
     
-    mask-image: var(--badge-icon--abstract);
     -webkit-mask-image: var(--badge-icon--abstract);
+            mask-image: var(--badge-icon--abstract);
 }
 
 /* Info */
-.md-typeset .mdx-badge.mdx-badge--info {
+.mdx-admo--info {
     border-color: var(--md-badge-fg--info);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--info {
+.mdx-admo--info .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--info);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--info::before {
+.mdx-admo--info .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--info);
     
-    mask-image: var(--badge-icon--info);
     -webkit-mask-image: var(--badge-icon--info);
+            mask-image: var(--badge-icon--info);
 }
 
 /* Tip */
-.md-typeset .mdx-badge.mdx-badge--tip {
+.mdx-admo--tip {
     border-color: var(--md-badge-fg--tip);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--tip {
+.mdx-admo--tip .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--tip);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--tip::before {
+.mdx-admo--tip .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--tip);
     
-    mask-image: var(--badge-icon--tip);
     -webkit-mask-image: var(--badge-icon--tip);
+            mask-image: var(--badge-icon--tip);
 }
 
 /* Success */
-.md-typeset .mdx-badge.mdx-badge--success {
+.mdx-admo--success {
     border-color: var(--md-badge-fg--success);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--success {
+.mdx-admo--success .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--success);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--success::before {
+.mdx-admo--success .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--success);
     
-    mask-image: var(--badge-icon--success);
     -webkit-mask-image: var(--badge-icon--success);
+            mask-image: var(--badge-icon--success);
 }
 
 /* Question */
-.md-typeset .mdx-badge.mdx-badge--question {
+.mdx-admo--question {
     border-color: var(--md-badge-fg--question);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--question {
+.mdx-admo--question .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--question);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--question::before {
+.mdx-admo--question .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--question);
     
-    mask-image: var(--badge-icon--question);
     -webkit-mask-image: var(--badge-icon--question);
+            mask-image: var(--badge-icon--question);
 }
 
 /* Warning */
-.md-typeset .mdx-badge.mdx-badge--warning {
+.mdx-admo--warning {
     border-color: var(--md-badge-fg--warning);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--warning {
+.mdx-admo--warning .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--warning);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--warning::before {
+.mdx-admo--warning .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--warning);
     
-    mask-image: var(--badge-icon--warning);
     -webkit-mask-image: var(--badge-icon--warning);
+            mask-image: var(--badge-icon--warning);
 }
 
 /* Failure */
-.md-typeset .mdx-badge.mdx-badge--failure {
+.mdx-admo--failure {
     border-color: var(--md-badge-fg--failure);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--failure {
+.mdx-admo--failure .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--failure);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--failure::before {
+.mdx-admo--failure .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--failure);
     
-    mask-image: var(--badge-icon--failure);
     -webkit-mask-image: var(--badge-icon--failure);
+            mask-image: var(--badge-icon--failure);
 }
 
 /* Danger */
-.md-typeset .mdx-badge.mdx-badge--danger {
+.mdx-admo--danger {
     border-color: var(--md-badge-fg--danger);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--danger {
+.mdx-admo--danger .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--danger);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--danger::before {
+.mdx-admo--danger .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--danger);
     
-    mask-image: var(--badge-icon--danger);
     -webkit-mask-image: var(--badge-icon--danger);
+            mask-image: var(--badge-icon--danger);
 }
 
 /* Bug */
-.md-typeset .mdx-badge.mdx-badge--bug {
+.mdx-admo--bug {
     border-color: var(--md-badge-fg--bug);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--bug {
+.mdx-admo--bug .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--bug);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--bug::before {
+.mdx-admo--bug .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--bug);
     
-    mask-image: var(--badge-icon--bug);
     -webkit-mask-image: var(--badge-icon--bug);
+            mask-image: var(--badge-icon--bug);
 }
 
 /* Example */
-.md-typeset .mdx-badge.mdx-badge--example {
+.mdx-admo--example {
     border-color: var(--md-badge-fg--example);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--example {
+.mdx-admo--example .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--example);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--example::before {
+.mdx-admo--example .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--example);
     
-    mask-image: var(--badge-icon--example);
     -webkit-mask-image: var(--badge-icon--example);
+            mask-image: var(--badge-icon--example);
 }
 
 /* Quote */
-.md-typeset .mdx-badge.mdx-badge--quote {
+.mdx-admo--quote {
     border-color: var(--md-badge-fg--quote);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--quote {
+.mdx-admo--quote .mdx-grid-child--icon {
     background-color: var(--md-badge-bg--quote);
 }
 
-.md-typeset .mdx-badge .mdx-badge__icon.mdx-badge--quote::before {
+.mdx-admo--quote .mdx-grid-child--icon::before {
     background-color: var(--md-badge-fg--quote);
     
-    mask-image: var(--badge-icon--quote);
     -webkit-mask-image: var(--badge-icon--quote);
+            mask-image: var(--badge-icon--quote);
 }
