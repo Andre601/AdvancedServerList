@@ -33,7 +33,7 @@ theme:
   icon:
     repo: 'simple/codeberg'
     admonition:
-      note: 'octicons/tag-24'
+      note: 'octicons/pencil-24'
       abstract: 'octicons/checklist-24'
       info: 'octicons/info-24'
       tip: 'octicons/light-bulb-24'
@@ -72,7 +72,6 @@ plugins:
   - pagenav-generator
 
 markdown_extensions:
-  - markdown.extensions.admonition:
   - markdown.extensions.toc:
       permalink: true
   - markdown.extensions.attr_list:
@@ -84,11 +83,25 @@ markdown_extensions:
   - pymdownx.highlight:
   - pymdownx.magiclink:
   - pymdownx.superfences:
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.details:
   - pymdownx.snippets:
       base_path: docs/.snippets
+  - pymdownx.blocks.admonition:
+      types:
+        - note
+        - abstract
+        - info
+        - tip
+        - success
+        - question
+        - warning
+        - failure
+        - danger
+        - bug
+        - example
+        - quote
+  - pymdownx.blocks.tab:
+      alternate_style: true
+  - pymdownx.blocks.details:
 
 hooks:
   - docs/.hooks/badges.py

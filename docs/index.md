@@ -58,14 +58,18 @@ AdvancedServerList supports the following platforms:
 
 ## Pages
 
+- [Getting started](getting-started/index.md)
+- [Commands](commands/index.md)
 - [Profiles](profiles/index.md)
     - [Formatting](profiles/formatting.md)
     - [Placeholders](profiles/placeholders.md)
-- [API](api/index.md)
-    - [Changelog](api/changelog.md)
-    - [Reference](api/reference/index.md)
 - [Examples](examples/index.md)
 - [Migration](migration/index.md)
     - [v1.5.3 to v1.6.0](migration/v1_5_3-to-v1_6_0.md)
     - [v1.9.0 to v1.10.0](migration/v1_9_0-to-v1_10_0.md)
+- [API](api/index.md)
+    - [Changelog](api/changelog.md)
+    - [Javadocs](api/javadocs.md) (External site)
+    - [Source Code](api/source.md) (External site)
+    - [Reference](api/reference/index.md)
 - [PlaceholderAPI](placeholderapi/index.md)

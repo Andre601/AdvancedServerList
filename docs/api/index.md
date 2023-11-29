@@ -11,76 +11,79 @@ It provides a way for your plugin to provide its own placeholders that should be
 
 Add the following to your `pom.xml`, `build.gradle` or `build.gradle.kts` depending on what you use:
 
-=== ":simple-apachemaven: Maven"
+/// tab | :simple-apachemaven: Maven 
+```xml title="pom.xml"
+<repositories>
+  <repository>
+    <id>jitpack</id>
+    <url>https://jitpack.io/</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>ch.andre601.asl-api</groupId>
+    <artifactId>api</artifactId>
+    <version>{apiVersion}</version>
+    <scope>provided</scope>
+  </dependency>
+  
+  <!-- Optional platform dependencies -->
+  <dependency>
+    <groupId>ch.andre601.asl-api</groupId>
+    <artifactId>platform-bukkit</artifactId>
+    <version>{apiVersion}</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>ch.andre601.asl-api</groupId>
+    <artifactId>platform-bungeecord</artifactId>
+    <version>{apiVersion}</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>ch.andre601.asl-api</groupId>
+    <artifactId>platform-velocity</artifactId>
+    <version>{apiVersion}</version>
+    <scope>provided</scope>
+  </dependency>
+</dependencies>
+```
+///
+
+/// tab | :simple-gradle: Gradle
+```groovy title="build.gradle"
+repositorories {
+    maven { url = 'https://jitpack.io/' }
+}
+
+dependencies {
+    compileOnly 'ch.andre601.asl-api:api:{apiVersion}'
     
-    ```xml title="pom.xml"
-    <repositories>
-      <repository>
-        <id>jitpack</id>
-        <url>https://jitpack.io/</url>
-      </repository>
-    </repositories>
+    // Optional platform dependencies
+    compileOnly 'ch.andre601.asl-api:platform-bukkit:{apiVersion}'
+    compileOnly 'ch.andre601.asl-api:platform-bungeecord:{apiVersion}'
+    compileOnly 'ch.andre601.asl-api:platform-velocity:{apiVersion}'
+}
+```
+///
+
+/// tab | :simple-gradle: Gradle (KTS)
+```kotlin title="build.gradle.kts"
+repositories {
+    maven("https://jitpack.io")
+}
+
+dependencies {
+    compileOnly("ch.andre601.asl-api:api:{apiVersion}")
     
-    <dependencies>
-      <dependency>
-        <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>api</artifactId>
-        <version>{version}</version>
-        <scope>provided</scope>
-      </dependency>
-      
-      <!-- Optional platform dependencies -->
-      <dependency>
-        <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>platform-bukkit</artifactId>
-        <version>{version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>platform-bungeecord</artifactId>
-        <version>{version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>ch.andre601.asl-api</groupId>
-        <artifactId>platform-velocity</artifactId>
-        <version>{version}</version>
-        <scope>provided</scope>
-      </dependency>
-    </dependencies>
-    ```
-=== ":simple-gradle: Gradle"
-    
-    ```groovy title="build.gradle"
-    repositorories {
-        maven { url = 'https://jitpack.io/' }
-    }
-    
-    dependencies {
-        compileOnly 'ch.andre601.asl-api:api:{version}'
-        
-        // Optional platform dependencies
-        compileOnly 'ch.andre601.asl-api:platform-bukkit:{version}'
-        compileOnly 'ch.andre601.asl-api:platform-bungeecord:{version}'
-        compileOnly 'ch.andre601.asl-api:platform-velocity:{version}'
-    }
-    ```
-=== ":simple-gradle: Gradle (KTS)"
-    ```kotlin title="build.gradle.kts"
-    repositories {
-        maven("https://jitpack.io")
-    }
-    
-    dependencies {
-        compileOnly("ch.andre601.asl-api:api:{version}")
-        
-        // Optional platform dependencies
-        compileOnly("ch.andre601.asl-api:platform-bukkit:{version}")
-        compileOnly("ch.andre601.asl-api:platform-bungeecord:{version}")
-        compileOnly("ch.andre601.asl-api:platform-velocity:{version}")
-    }
-    ```
+    // Optional platform dependencies
+    compileOnly("ch.andre601.asl-api:platform-bukkit:{apiVersion}")
+    compileOnly("ch.andre601.asl-api:platform-bungeecord:{apiVersion}")
+    compileOnly("ch.andre601.asl-api:platform-velocity:{apiVersion}")
+}
+```
+///
 
 ## Adding your own Placeholders
 
@@ -108,13 +111,14 @@ public class MyPlaceholders extends PlaceholderProvider {
 }
 ```
 
-!!! tip
-    You can replace the Constructor with a String argument with a no-args constructor and set the identifier directly in the `super`:
-    ```java
-    public MyPlaceholders() {
-        super("myplaceholders");
-    }
-    ```
+/// tip
+You can replace the Constructor with a String argument with a no-args constructor and set the identifier directly in the `super`:
+```java
+public MyPlaceholders() {
+    super("myplaceholders");
+}
+```
+///
 
 The [`parsePlaceholder(String, GenericPlayer, GenericServer)`][parseplaceholder] method is used by AdvancedServerList to replace a matching placeholder with a value.  
 What you return is completely up to you. Just keep in mind that returning `null` will be treated as an invalid placeholder by AdvancedServerList, resulting in the placeholder being returned as-is without any changes.
@@ -122,23 +126,26 @@ What you return is completely up to you. Just keep in mind that returning `null`
 [placeholderprovider]: reference/api/ch.andre601.advancedserverlist.api/placeholderprovider.md
 [parseplaceholder]: reference/api/ch.andre601.advancedserverlist.api/placeholderprovider.md#parseplaceholder(string,-genericplayer,-genericserver)
 
-??? example "Example of final class"
-    ```java
-    public class MyPlaceholders extends PlaceholderProvider {
-        
-        public MyPlaceholders() {
-            super("myplaceholders");
-        }
-        
-        @Override
-        public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server) {
-            if(placeholder.equalsIgnoreCase("hello"))
-                return "Hello " + player.getName();
-            
-            return null;
-        }
+/// details | Example of final class
+    type: example
+
+```java
+public class MyPlaceholders extends PlaceholderProvider {
+    
+    public MyPlaceholders() {
+        super("myplaceholders");
     }
-    ```
+    
+    @Override
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server) {
+        if(placeholder.equalsIgnoreCase("hello"))
+            return "Hello " + player.getName();
+        
+        return null;
+    }
+}
+```
+///
 
 ### 2. Register the Placeholders
 
@@ -173,158 +180,181 @@ The final thing you should make sure is to define AdvancedServerList as a depend
 
 Below are example setups for Spigot, Paper, BungeeCord and Velocity:
 
-=== ":simple-spigotmc: Spigot"
-    === "Softdepend"
-        ```yaml title="plugin.yml"
-        name: "MyPlugin"
-        author: "author"
-        version: "1.0.0"
-        
-        main: "com.example.plugin.ExamplePlugin"
-        
-        softdepend:
-          - AdvancedServerList
-        ```
-    === "Depend"
-        ```yaml title="plugin.yml"
-        name: "MyPlugin"
-        author: "author"
-        version: "1.0.0"
-        
-        main: "com.example.plugin.ExamplePlugin"
-        
-        depend:
-          - AdvancedServerList
-        ```
-=== ":fontawesome-solid-paper-plane: Paper"
-    === "Softdepend"
-        ```yaml title="paper-plugin.yml"
-        name: "MyPlugin"
-        author: "author"
-        version: "1.0.0"
-        
-        main: "com.example.plugin.ExamplePlugin"
-        
-        dependencies:
-          server:
-            AdvancedServerList:
-              load: BEFORE
-              required: false # Default, not required
-        ```
-    === "Depend"
-        ```yaml title="paper-plugin.yml"
-        name: "MyPlugin"
-        author: "author"
-        version: "1.0.0"
-        
-        main: "com.example.plugin.ExamplePlugin"
-        
-        dependencies:
-          server:
-            AdvancedServerList:
-              load: BEFORE
-              required: true
-        ```
-=== ":octicons-git-merge-24: BungeeCord"
-    === "Softdepend"
-        ```yaml title="bungee.yml"
-        name: "MyPlugin"
-        author: "author"
-        version: "1.0.0"
-        
-        main: "com.example.plugin.ExamplePlugin"
-        
-        softDepends:
-          - AdvancedServerList
-        ```
-    === "Depend"
-        ```yaml title="bungee.yml"
-        name: "MyPlugin"
-        author: "author"
-        version: "1.0.0"
-        
-        main: "com.example.plugin.ExamplePlugin"
-        
-        depends:
-          - AdvancedServerList
-        ```
-=== ":octicons-git-merge-24: Velocity"
-    === "Softdepend (File)"
-        ```json title="velocity-plugin.json"
-        {
-          "id": "myplugin",
-          "name": "MyPlugin",
-          "version": "1.0.0",
-          "authors": [
-            "author"
-          ],
-          "main": "com.example.plugin.ExamplePlugin",
-          "dependencies": [
-            {
-              "id": "advancedserverlist",
-              "optional": true
-            }
-          ]
-        }
-        ```
-    === "Depend (File)"
-        ```json title="velocity-plugin.json"
-        {
-          "id": "myplugin",
-          "name": "MyPlugin",
-          "version": "1.0.0",
-          "authors": [
-            "author"
-          ],
-          "main": "com.example.plugin.ExamplePlugin",
-          "dependencies": [
-            {
-              "id": "advancedserverlist",
-              "optional": false
-            }
-          ]
-        }
-        ```
-    === "Softdepend (Annotation)"
-        ```java title="MyPlugin.java"
-        @Plugin(
-          id = "myplugin",
-          name = "MyPlugin",
-          version = "1.0.0",
-          authors = {"author"},
-          dependencies = {
-            @Dependency(
-              id = "advancedserverlist",
-              optional = true
-            )
-          }
-        )
-        public class MyPlugin {
-          
-          // ...
-          
-        }
-        ```
-    === "Depend (Annotation)"
-        ```java title="MyPlugin.java"
-        @Plugin(
-          id = "myplugin",
-          name = "MyPlugin",
-          version = "1.0.0",
-          authors = {"author"},
-          dependencies = {
-            @Dependency(
-              id = "advancedserverlist",
-              optional = false // Default, not required
-            )
-          }
-        )
-        public class MyPlugin {
-          
-          // ...
-          
-        }
-        ```
+/// tab | :simple-spigotmc: Spigot
+//// tab | Softdepend
+```yaml title="plugin.yml"
+name: "MyPlugin"
+author: "author"
+version: "1.0.0"
+
+main: "com.example.plugin.ExamplePlugin"
+
+softdepend:
+  - AdvancedServerList
+```
+////
+
+//// tab | Depend
+```yaml title="plugin.yml"
+name: "MyPlugin"
+author: "author"
+version: "1.0.0"
+
+main: "com.example.plugin.ExamplePlugin"
+
+depend:
+  - AdvancedServerList
+```
+////
+///
+
+/// tab | :fontawesome-solid-paper-plane: Paper
+//// tab | Softdepend
+```yaml title="paper-plugin.yml"
+name: "MyPlugin"
+author: "author"
+version: "1.0.0"
+
+main: "com.example.plugin.ExamplePlugin"
+
+dependencies:
+  server:
+    AdvancedServerList:
+      load: BEFORE
+      required: false # Default, not required
+```
+////
+
+//// tab | Depend
+```yaml title="paper-plugin.yml"
+name: "MyPlugin"
+author: "author"
+version: "1.0.0"
+
+main: "com.example.plugin.ExamplePlugin"
+
+dependencies:
+  server:
+    AdvancedServerList:
+      load: BEFORE
+      required: true
+```
+////
+///
+
+/// tab | :octicons-git-merge-24: BungeeCord
+//// tab | Softdepend
+```yaml title="bungee.yml"
+name: "MyPlugin"
+author: "author"
+version: "1.0.0"
+
+main: "com.example.plugin.ExamplePlugin"
+
+softDepends:
+  - AdvancedServerList
+```
+////
+
+//// tab | Depend
+```yaml title="bungee.yml"
+name: "MyPlugin"
+author: "author"
+version: "1.0.0"
+
+main: "com.example.plugin.ExamplePlugin"
+
+depends:
+  - AdvancedServerList
+```
+////
+///
+
+/// tab | :octicons-git-merge-24: Velocity
+//// tab | Softdepend (File)
+```json title="velocity-plugin.json"
+{
+  "id": "myplugin",
+  "name": "MyPlugin",
+  "version": "1.0.0",
+  "authors": [
+    "author"
+  ],
+  "main": "com.example.plugin.ExamplePlugin",
+  "dependencies": [
+    {
+      "id": "advancedserverlist",
+      "optional": true
+    }
+  ]
+}
+```
+////
+
+//// tab | Depend (File)
+```json title="velocity-plugin.json"
+{
+  "id": "myplugin",
+  "name": "MyPlugin",
+  "version": "1.0.0",
+  "authors": [
+    "author"
+  ],
+  "main": "com.example.plugin.ExamplePlugin",
+  "dependencies": [
+    {
+      "id": "advancedserverlist",
+      "optional": false // Default, not required
+    }
+  ]
+}
+```
+////
+
+//// tab | Softdepend (Annotation)
+```java title="MyPlugin.java"
+@Plugin(
+  id = "myplugin",
+  name = "MyPlugin",
+  version = "1.0.0",
+  authors = {"author"},
+  dependencies = {
+    @Dependency(
+      id = "advancedserverlist",
+      optional = true
+    )
+  }
+)
+public class MyPlugin {
+  
+  // ...
+  
+}
+```
+////
+
+//// tab | Depend (Annotation)
+```java title="MyPlugin.java"
+@Plugin(
+  id = "myplugin",
+  name = "MyPlugin",
+  version = "1.0.0",
+  authors = {"author"},
+  dependencies = {
+    @Dependency(
+      id = "advancedserverlist",
+      optional = false // Default, not required
+    )
+  }
+)
+public class MyPlugin {
+  
+  // ...
+  
+}
+```
+////
+///
 
 ### 4. You're done!
 

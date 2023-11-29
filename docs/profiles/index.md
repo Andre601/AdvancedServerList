@@ -7,17 +7,18 @@ icon: octicons/note-24
 AdvancedServerList allows the creation of multiple profiles.  
 A profile is a single YAML file located in the plugin's `profiles` directory containing multiple settings including [Conditions](#conditions) and [Priority](#priority).
 
-!!! info "Important"
-    In order for a profile to be considered "valid" by AdvancedServerList will it need to meet the following conditions:
-    
-    - Have a [`Priority`](#priority) set to a valid, whole number (i.e. `1`)
-    - Have **at least one** of the following options set:
-        - [`Profiles`](#profiles) with at least one entry containing one of the below option
-        - [`Motd`](#motd) set with at least one line of text
-        - [`Favicon`](#favicon) set with a non-empty String
-        - [`HidePlayers`](#hideplayers) set to `true`
-        - [`Hover`](#hover) set with at least one line of text
-        - [`Text`](#text) set with a non-empty String
+/// info | Important
+In order for a profile to be considered "valid" by AdvancedServerList will it need to meet the following conditions:
+
+- Have a [`Priority`](#priority) set to a valid, whole number (i.e. `1`)
+- Have **at least one** of the following options set:
+    - [`Profiles`](#profiles) with at least one entry containing one of the below option
+    - [`Motd`](#motd) set with at least one line of text
+    - [`Favicon`](#favicon) set with a non-empty String
+    - [`HidePlayers`](#hideplayers) set to `true`
+    - [`Hover`](#hover) set with at least one line of text
+    - [`Text`](#text) set with a non-empty String
+///
 
 ## Priority
 
@@ -63,29 +64,32 @@ The following operants are available and can be used in the conditions.
 The `profiles` option allows you to set multiple MOTDs, player counts, etc. which the plugin would randomly choose from.  
 If an option such as motd is not present in an entry will it check the file for the option and use that if present.
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    profiles:
-      - motd:
-          - '<rainbow>Line 1</rainbow>'
-          - '<rainbow:!>Line 2</rainbow>'
-        playerCount:
-          text: '<green><bold>Awesome!'
-      - playerCount:
-          text: '<yellow><bold>Also Awesome!'
-    
-    motd:
-      - '<rainbow:2>Line A</rainbow>'
-      - '<rainbow:!2>Line B</rainbow>'
-    ```
-    <div class="result">
-    
-    ![profiles-example-1](../assets/images/examples/profiles-example-1.jpg){ loading="lazy" }  
-    ![profiles-example-2](../assets/images/examples/profiles-example-2.jpg){ loading="lazy" }
+/// details | Example
+    type: example
 
-    </div>
+```yaml title="YAML file"
+priority: 0
+
+profiles:
+  - motd:
+      - '<rainbow>Line 1</rainbow>'
+      - '<rainbow:!>Line 2</rainbow>'
+    playerCount:
+      text: '<green><bold>Awesome!'
+  - playerCount:
+      text: '<yellow><bold>Also Awesome!'
+
+motd:
+  - '<rainbow:2>Line A</rainbow>'
+  - '<rainbow:!2>Line B</rainbow>'
+```
+<div class="result" markdown>
+
+![profiles-example-1](../assets/images/examples/profiles-example-1.jpg){ loading="lazy" }  
+![profiles-example-2](../assets/images/examples/profiles-example-2.jpg){ loading="lazy" }
+
+</div>
+///
 
 ## Motd
 
@@ -94,20 +98,22 @@ Normal colour and formatting codes such as `<aqua>` or `<bold>` are supported. O
 
 If you want to display multiple MOTDs will you need to use the [`Profiles` option](#profiles)
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    motd:
-      - '<rainbow:2>Rainbow Gradients</rainbow>'
-      - '<rainbow:!2>|||||||||||||||||||||||||||||||||||||</rainbow>'
-    ```
-    <div class="result">
+/// details | Example
+    type: example
 
-    ![motd-example](../assets/images/examples/motd-example.jpg){ loading="lazy" }
+```yaml title="YAML file"
+priority: 0
 
-    </div>
+motd:
+  - '<rainbow:2>Rainbow Gradients</rainbow>'
+  - '<rainbow:!2>|||||||||||||||||||||||||||||||||||||</rainbow>'
+```
+<div class="result" markdown>
 
+![motd-example](../assets/images/examples/motd-example.jpg){ loading="lazy" }
+
+</div>
+///
 
 ## Favicon
 
@@ -121,23 +127,26 @@ This option currently supports the following values:
 
 Please note that AdvancedServerList will rescale the image to be 64x64 pixels, so be sure to provide images at that particular scale.
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    # We use just colour to hide the MOTD
-    motd:
-      - '<grey>'
-      - '<grey>'
-    
-    # Player is Andre_601
-    favicon: ${player uuid}
-    ```
-    <div class="result">
+/// details | Example
+    type: example
 
-    ![hideplayers-example](../assets/images/examples/favicon-example.jpg){ loading="lazy" }
+```yaml title="YAML file"
+priority: 0
 
-    </div>
+# We use just colour to hide the MOTD
+motd:
+  - '<grey>'
+  - '<grey>'
+
+# Player is Andre_601
+favicon: ${player uuid}
+```
+<div class="result" markdown>
+
+![hideplayers-example](../assets/images/examples/favicon-example.jpg){ loading="lazy" }
+
+</div>
+///
 
 ## PlayerCount
 
@@ -148,23 +157,26 @@ The `playerCount` option contains multiple different options all about the Playe
 Boolean option to set whether AdvancedServerList should hide the player count or not. When set to `true` will the player count be replaced with `???`.  
 Additionally will the [`Text`](#text) and [`Hover`](#hover) option be ignored.
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    # We use just colour to hide the MOTD
-    motd:
-      - '<grey>'
-      - '<grey>'
-    
-    playerCount:
-      hidePlayers: true
-    ```
-    <div class="result">
+/// details | Example
+    type: example
 
-    ![hideplayers-example](../assets/images/examples/hideplayers-example.jpg){ loading="lazy" }
+```yaml title="YAML file"
+priority: 0
 
-    </div>
+# We use just colour to hide the MOTD
+motd:
+  - '<grey>'
+  - '<grey>'
+
+playerCount:
+  hidePlayers: true
+```
+<div class="result" markdown>
+
+![hideplayers-example](../assets/images/examples/hideplayers-example.jpg){ loading="lazy" }
+
+</div>
+///
 
 ### Hover
 
@@ -172,55 +184,62 @@ This option allows to override the hover text usually displaying the players on 
 
 You can either remove this option or set to an empty list (`hover: []`) to not override the hover.
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    # We use just colour to hide the MOTD
-    motd:
-      - '<grey>'
-      - '<grey>'
-    
-    playerCount:
-      hover:
-        - '<grey>Line 1'
-        - '<aqua>Line 2'
-        - '<gold>Line 3'
-    ```
-    <div class="result">
+/// details | Example
+    type: example
 
-    ![hover-example](../assets/images/examples/hover-example.jpg){ loading="lazy" }
+```yaml title="YAML file"
+priority: 0
 
-    </div>
+# We use just colour to hide the MOTD
+motd:
+  - '<grey>'
+  - '<grey>'
+
+playerCount:
+  hover:
+    - '<grey>Line 1'
+    - '<aqua>Line 2'
+    - '<gold>Line 3'
+```
+<div class="result" markdown>
+
+![hover-example](../assets/images/examples/hover-example.jpg){ loading="lazy" }
+
+</div>
+///
 
 ### Text
 
 This option allows to override the text usually displaying the online players and total players that can join.  
 Note that AdvancedServerList will not add the `<online>/<max>` text to the player count. Instead will you need to use [`${server playersOnline}`](placeholders.md#server) and [`${server playersMax}`](placeholders.md#server)
 
-!!! info "Note"
-    This feature works by changing the "outdated server" message followed by altering the protocol version of the server.  
-    Due to this will your server appear as "outdated" to the client (Have the ping icon crossed out). This is nothing that can be changed unfortunately.
+/// info | Note
+This feature works by changing the "outdated server" message followed by altering the protocol version of the server.  
+Due to this will your server appear as "outdated" to the client (Have the ping icon crossed out). This is nothing that can be changed unfortunately.
+///
 
 To not override the player count, remove this option or set it to an empty String (`text: ''`).
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    # We use just colour to hide the MOTD
-    motd:
-      - '<grey>'
-      - '<grey>'
-    
-    playerCount:
-      text: '<yellow><bold>Cool text!'
-    ```
-    <div class="result">
+/// details | Example
+    type: example
 
-    ![hover-example](../assets/images/examples/text-example.jpg){ loading="lazy" }
+```yaml title="YAML file"
+priority: 0
 
-    </div>
+# We use just colour to hide the MOTD
+motd:
+  - '<grey>'
+  - '<grey>'
+
+playerCount:
+  text: '<yellow><bold>Cool text!'
+```
+<div class="result" markdown>
+
+![hover-example](../assets/images/examples/text-example.jpg){ loading="lazy" }
+
+</div>
+///
 
 ### ExtraPlayers
 
@@ -239,25 +258,28 @@ Sets the number to add to the current online players to then use as the new max 
 
 As an example, setting this to `1` while `10` players are online will display `11`, while `-1` would display `9`.
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    # We use just colour to hide the MOTD
-    motd:
-      - '<grey>'
-      - '<grey>'
-    
-    playerCount:
-      extraPlayers:
-        enabled: true
-        amount: 1
-    ```
-    <div class="result">
+/// details | Example
+    type: example
 
-    ![extraplayers-example](../assets/images/examples/extraplayers-example.jpg){ loading="lazy" }
+```yaml title="YAML file"
+priority: 0
 
-    </div>
+# We use just colour to hide the MOTD
+motd:
+  - '<grey>'
+  - '<grey>'
+
+playerCount:
+  extraPlayers:
+    enabled: true
+    amount: 1
+```
+<div class="result" markdown>
+
+![extraplayers-example](../assets/images/examples/extraplayers-example.jpg){ loading="lazy" }
+
+</div>
+///
 
 ### MaxPlayers
 
@@ -280,22 +302,25 @@ When set to `true` will the value usually displaying how many players can join b
 Sets the number to display as the max number of players allowed to join your server.  
 Note that this will also affect the `${server playersMax}` placeholder, except when it is used inside conditions.
 
-??? example "Example"
-    ```yaml title="YAML file"
-    priority: 0
-    
-    # We use just colour to hide the MOTD
-    motd:
-      - '<grey>'
-      - '<grey>'
-    
-    playerCount:
-      maxPlayers:
-        enabled: true
-        amount: -1
-    ```
-    <div class="result">
+/// details | Example
+    type: example
 
-    ![maxplayes-example](../assets/images/examples/maxplayers-example.jpg){ loading="lazy" }
+```yaml title="YAML file"
+priority: 0
 
-    </div>
+# We use just colour to hide the MOTD
+motd:
+  - '<grey>'
+  - '<grey>'
+
+playerCount:
+  maxPlayers:
+    enabled: true
+    amount: -1
+```
+<div class="result" markdown>
+
+![maxplayes-example](../assets/images/examples/maxplayers-example.jpg){ loading="lazy" }
+
+</div>
+///

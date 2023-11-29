@@ -28,10 +28,19 @@ document$.subscribe(async () => {
     
     function loadApiInfo(data) {
         const version = data["version"];
-        const versionToken = '{version}';
+        const versionToken = '{apiVersion}';
         const codeBlocks = document.querySelectorAll('.md-content pre code');
         for(const codeBlock of codeBlocks) {
             codeBlock.innerHTML = codeBlock.innerHTML.replace(new RegExp(versionToken, 'g'), version);
+        }
+    }
+    
+    function loadPluginVersion(data) {
+        const version = data["version"];
+        const versionToken = '{version}'
+        const entries = document.querySelectorAll('.md-content code');
+        for(const entry of entries) {
+            entry.innerHTML = entry.innerHTML.replace(new RegExp(versionToken, 'g'), version);
         }
     }
     
@@ -60,12 +69,14 @@ document$.subscribe(async () => {
         
         __md_set("__git_repo", data, sessionStorage);
         loadCodebergInfo(data);
+        loadPluginVersion(data);
     }
     
     if(!document.querySelector('[data-md-component="source"] .md-source__facts')) {
         const cached = __md_get("__git_repo", sessionStorage);
         if((cached != null) && (cached["version"])) {
             loadCodebergInfo(cached);
+            loadPluginVersion(cached);
         } else {
             fetchInfo();
         }
