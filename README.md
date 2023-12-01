@@ -16,9 +16,6 @@ AdvancedServerList is a plugin that allowys you to customize your server's MOTD,
 
 ## Supported Platforms
 
-<a href="https://www.spigotmc.org" target="_blank">
-  <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact-minimal/supported/spigot_vector.svg" height="64" alt="platform-spigot" title="Tested on Spigot">
-</a>
 <a href="https://papermc.io" target="_blank">
   <img src="https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact-minimal/supported/paper_vector.svg" height="64" alt="platform-paper" title="Tested on Paper">
 </a>
@@ -63,13 +60,14 @@ Only certain options are usable for each option. As an example does motd support
 
 ## Dependencies
 
-| Dependency        | Platforms            | Required? |
-|-------------------|----------------------|-----------|
-| [ProtocolLib]     | Spigot               | Yes       |
-| [PlaceholderAPI]  | Spigot, Paper        | No        |
-| [ViaVersion]      | Spigot, Paper        | No        |
-| [PAPIProxyBridge] | BungeeCord, Velocity | No        |
-| [Maintenance]     | All                  | No        |
+All listed dependencies are optional.
+
+| Dependency        | Platforms            |
+|-------------------|----------------------|
+| [PlaceholderAPI]  | Paper                |
+| [ViaVersion]      | Paper                |
+| [PAPIProxyBridge] | BungeeCord, Velocity |
+| [Maintenance]     | All                  |
 
 ## Statistics
 
@@ -106,7 +104,6 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 
 [modrinth]: https://modrinth.com/plugin/advancedserverlist
 
-[protocollib]: https://hangar.papermc.io/dmulloy2/ProtocolLib
 [placeholderapi]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
 [viaversion]: https://hangar.papermc.io/ViaVersion/ViaVersion
 [papiproxybridge]: https://hangar.papermc.io/William278/PAPIProxyBridge

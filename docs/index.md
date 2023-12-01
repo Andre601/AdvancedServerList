@@ -46,8 +46,8 @@ All listed dependencies are optional.
 
 | Dependency                                                              | Platforms            |
 |-------------------------------------------------------------------------|----------------------|
-| [PlaceholderAPI]{ target="_blank" rel="noreferrer nofollow noopener" }  | Spigot, Paper        |
-| [ViaVersion]{ target="_blank" rel="noreferrer nofollow noopener" }      | Spigot, Paper        |
+| [PlaceholderAPI]{ target="_blank" rel="noreferrer nofollow noopener" }  | Paper                |
+| [ViaVersion]{ target="_blank" rel="noreferrer nofollow noopener" }      | Paper                |
 | [PAPIProxyBridge]{ target="_blank" rel="noreferrer nofollow noopener" } | BungeeCord, Velocity |
 | [Maintenance]{ target="_blank" rel="noreferrer nofollow noopener" }     | All                  |
 
