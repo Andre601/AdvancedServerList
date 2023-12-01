@@ -8,8 +8,6 @@ steps:
     secrets:
       - source: cb_token
         target: codeberg_api_token
-      - source: gh_token
-        target: github_api_token
       - source: modrinth_api_token
         target: modrinth_api_token
       - source: hangar_api_token
@@ -28,8 +26,8 @@ steps:
     settings:
       base_url: https://codeberg.org
       files:
-        - "bukkit/target/AdvancedServerList-*.jar"
         - "bungeecord/target/AdvancedServerList-*.jar"
+        - "paper/target/AdvancedServerList-*.jar"
         - "velocity/target/AdvancedServerList-*.jar"
       api_key:
         from_secret: CB_TOKEN
