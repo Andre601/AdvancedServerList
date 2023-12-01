@@ -32,7 +32,7 @@ public enum PlatformInfo{
     BUKKIT(
         "bukkit",
         "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "spigot", "paper", "folia"
+        "paper", "folia"
     ),
     BUNGEECORD(
         "bungeecord",
