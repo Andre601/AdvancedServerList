@@ -4,25 +4,33 @@ when:
     path:
       include: ['requirements.txt', 'mkdocs.yml', 'docs/**']
 
+variables:
+  setup_git: &setup_git
+    - apk add git
+    - git config --global user.email "github@andre601.ch"
+    - git config --global user.name "ASL Docs Builder"
+
 steps:
+  cloneTargetRepo:
+    image: alpine:3.18.4
+    commands:
+      - chmod -R a+w .
+      - <<: *setup_git
+      - git clone -b pages https://codeberg.org/Andre601/AdvancedServerList.git site
+      - chmod -R a+w site
   buildDocs:
-    image: python
+    image: woodpeckerci/plugin-mkdocs:latest
+    settings:
+      pip_install_file: requirements.txt
+  commitAndPush:
+    image: alpine:3.18.4
     secrets:
       - cb_token
     commands:
-      - chmod -R a+w .
-      - git config --global --add safe.directory /woodpecker/src/codeberg.org/Andre601/blog-source/website
-      - git config --global user.email "github@andre601.ch"
-      - git config --global user.name "CI Website Builder"
-      - git fetch --unshallow
-      - git clone -b pages https://codeberg.org/Andre601/AdvancedServerList.git site
-      - chmod -R a+w site
-      - python -m pip install --upgrade pip
-      - python -m pip install -r requirements.txt
-      - mkdocs build
+      - <<: *setup_git
       - mv domains site/.domains
       - cd site
       - git remote set-url origin https://$CB_TOKEN@codeberg.org/Andre601/AdvancedServerList.git
       - git add --all
-      - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y" )) [CI SKIP]"
+      - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y %Z" )) [SKIP CI]"
       - git push
