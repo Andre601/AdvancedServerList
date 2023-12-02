@@ -19,7 +19,7 @@ steps:
       - git clone -b pages https://codeberg.org/Andre601/AdvancedServerList.git site
       - chmod -R a+w site
   buildDocs:
-    image: woodpeckerci/plugin-mkdocs:1.2.0
+    image: woodpeckerci/plugin-mkdocs:latest
     settings:
       pip_install_file: requirements.txt
   commitAndPush:
