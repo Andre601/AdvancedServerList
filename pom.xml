@@ -57,7 +57,7 @@
     <modules>
         <module>core</module>
         <module>bungeecord</module>
-        <module>bukkit</module>
+        <module>paper</module>
         <module>velocity</module>
         <module>version-uploader</module>
     </modules>

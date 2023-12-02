@@ -23,47 +23,38 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.paper.logging;
 
-import java.util.List;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 
-public enum PlatformInfo{
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class PaperLogger implements PluginLogger{
     
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "paper", "folia"
-    ),
-    BUNGEECORD(
-        "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "bungeecord", "waterfall"
-    ),
-    VELOCITY(
-        "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "velocity"
-    );
+    private final Logger logger;
     
-    private final String platform;
-    private final String filePath;
-    private final List<String> loaders;
-    
-    PlatformInfo(String platform, String filePath, String... loaders){
-        this.platform = platform;
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+    public PaperLogger(Logger logger){
+        this.logger = logger;
     }
     
-    public String getPlatform(){
-        return platform;
+    @Override
+    public void info(String msg, Object... args){
+        logger.info(String.format(msg, args));
     }
     
-    public String getFilePath(){
-        return filePath;
+    @Override
+    public void warn(String msg, Object... args){
+        logger.warning(String.format(msg, args));
     }
     
-    public List<String> getLoaders(){
-        return loaders;
+    @Override
+    public void warn(String msg, Throwable throwable){
+        logger.log(Level.WARNING, msg, throwable);
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable, Object... args){
+        logger.log(Level.WARNING, String.format(msg, args), throwable);
     }
 }

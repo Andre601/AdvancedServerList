@@ -23,47 +23,29 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.paper.listeners;
 
-import java.util.List;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
 
-public enum PlatformInfo{
+public class WorldEvents implements Listener{
     
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "paper", "folia"
-    ),
-    BUNGEECORD(
-        "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "bungeecord", "waterfall"
-    ),
-    VELOCITY(
-        "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "velocity"
-    );
+    private final PaperCore plugin;
     
-    private final String platform;
-    private final String filePath;
-    private final List<String> loaders;
-    
-    PlatformInfo(String platform, String filePath, String... loaders){
-        this.platform = platform;
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+    public WorldEvents(PaperCore plugin){
+        this.plugin = plugin;
     }
     
-    public String getPlatform(){
-        return platform;
+    @EventHandler
+    public void onWorldLoad(WorldLoadEvent event){
+        plugin.getWorldCache().addWorld(event.getWorld());
     }
     
-    public String getFilePath(){
-        return filePath;
-    }
-    
-    public List<String> getLoaders(){
-        return loaders;
+    @EventHandler
+    public void onWorldUnload(WorldUnloadEvent event){
+        plugin.getWorldCache().removeWorld(event.getWorld().getName());
     }
 }

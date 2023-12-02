@@ -5,7 +5,7 @@ icon: octicons/milestone-24
 # Getting Started
 
 This page will explain how to set up AdvancedServerList and make it work for your server.  
-It tries to be a easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6) for help.
+It tries to be an easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6) for help.
 
 ## 1. Download the plugin { #download-the-plugin }
 
@@ -29,15 +29,13 @@ The plugin is available for Spigot, Paper, BungeeCord, Waterfall and Velocity, a
 
 The plugin also supports these additional plugins. Depending on the platform they are used in is the plugin required.
 
-- [ProtocolLib] - Only used and required on Spigot due to missing API features.
-- [PlaceholderAPI] - Used on the Spigot and Paper server for additional Placeholder parsing. Optional.
-- [ViaVersion] - Used on the Spigot and Paper server for additional protocol version handling. Optional.
-- [PAPIProxyBridge] - Used on BungeeCord, Waterfall and Velocity for PlaceholderAPI support. Optional.
-- [Maintenance] - Used to disable server list handling while maintenance is active. Optional.
+- [PlaceholderAPI] - Used on the Spigot and Paper server for additional Placeholder parsing.
+- - [ViaVersion] - Used on the Spigot and Paper server for additional protocol version handling.
+- [PAPIProxyBridge] - Used on BungeeCord, Waterfall and Velocity for PlaceholderAPI support.
+- [Maintenance] - Used to disable server list handling while maintenance is active.
 
-[protocollib]: https://www.spigotmc.org/resources/1997/
-[placeholderapi]: https://www.spigotmc.org/resources/6245/
-[viaversion]: https://www.spigotmc.org/resources/19254/
+[placeholderapi]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
+[viaversion]: https://hangar.papermc.io/ViaVersion/ViaVersion
 [papiproxybridge]: https://hangar.papermc.io/William278/PAPIProxyBridge
 [maintenance]: https://hangar.papermc.io/kennytv/Maintenance
 
@@ -48,7 +46,7 @@ Here is a quick table showing the jar file name with the platforms it is made fo
 
 | Jar file name                                 | Platforms             |
 |-----------------------------------------------|-----------------------|
-| `AdvancedServerList-Bukkit-{version}.jar`     | Spigot, Paper         |
+| `AdvancedServerList-Paper-{version}.jar`      | Spigot, Paper         |
 | `AdvancedServerList-BungeeCord-{version}.jar` | BungeeCord, Waterfall |
 | `AdvancedServerList-Velocity-{version}.jar`   | Velocity              |
 
@@ -251,16 +249,16 @@ playerCount:
 
 #### Config.yml
 
-The config.yml file contains settinsg related to the plugin itself and some of its functionality.  
+The config.yml file contains settings related to the plugin itself and some of its functionality.  
 These functions include, but aren't limited to:
 
 - Setting the default name and UUID used for an unknown (Not cached) player.
 - Disabling/Enabling caching of players.
 - Disabling/Enabling checking for updates
-- The config version used for migration. Don't touch this or it may reset your config.
+- The config version used for migration. Don't touch this, or it may reset your config.
 
 Similar to the default.yml is this file containing comments to try and explain the settings in questions.  
-Do note that if the config gets migrated from an older version, that the comments will be discarded in the process unfortunately.
+Do note that if the config gets migrated from an older version, that the comments will be discarded in the process, unfortunately.
 
 /// details | default config.yml content
 ```yaml
@@ -321,7 +319,7 @@ There are certain files and folders that get created when certain events happen:
 
 Creating your first profile is relatively simple.
 
-To start, open the `default.yml` file located inside the `profiles` folder using a file editor of your choice (VSCode or Notepad++ are recommendet). It should contain all the available options for a server list profile.  
+To start, open the `default.yml` file located inside the `profiles` folder using a file editor of your choice (VSCode or Notepad++ are recommended). It should contain all the available options for a server list profile.  
 Next can you edit the options available to whatever you like. All text options (Except [conditions](../profiles/index.md#conditions)) support [MiniMessage formatting](../profiles/formatting.md).
 
 If you're unsure how a specific option should look like, head over to the [Profiles page](../profiles/index.md) for more information about the general structure.  
@@ -338,7 +336,7 @@ motd:
 
 ### Additional profiles
 
-To add additional profiles, create a new YAML file inside the `profiles` folder. The name doesn't matter, but it is recommended to keep it lowercased, use alphanummeric characters (`a-z, 0-9`), hyphens (`-`), underscores (`_`) and avoid spaces.
+To add additional profiles, create a new YAML file inside the `profiles` folder. The name doesn't matter, but it is recommended to keep it lowercase, use alphanumeric characters (`a-z, 0-9`), hyphens (`-`), underscores (`_`) and avoid spaces.
 
 Inside the file, add a priority and at least one setting, similar to the above shown example.  
 This would already be enough and AdvancedServerList would use it. If you however want to only show it when certain conditions are met, should you set the priority to a higher value and add conditions.

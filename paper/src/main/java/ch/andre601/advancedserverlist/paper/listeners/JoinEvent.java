@@ -23,47 +23,33 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.paper.listeners;
 
-import java.util.List;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-public enum PlatformInfo{
+import java.net.InetSocketAddress;
+
+public class JoinEvent implements Listener{
     
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "paper", "folia"
-    ),
-    BUNGEECORD(
-        "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "bungeecord", "waterfall"
-    ),
-    VELOCITY(
-        "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "velocity"
-    );
+    private final PaperCore plugin;
     
-    private final String platform;
-    private final String filePath;
-    private final List<String> loaders;
-    
-    PlatformInfo(String platform, String filePath, String... loaders){
-        this.platform = platform;
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+    public JoinEvent(PaperCore plugin){
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
     
-    public String getPlatform(){
-        return platform;
-    }
-    
-    public String getFilePath(){
-        return filePath;
-    }
-    
-    public List<String> getLoaders(){
-        return loaders;
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event){
+        InetSocketAddress address = event.getPlayer().getAddress();
+        if(address == null)
+            return;
+        
+        Player player = event.getPlayer();
+        plugin.getCore().getPlayerHandler().addPlayer(address.getHostString(), player.getName(), player.getUniqueId());
     }
 }

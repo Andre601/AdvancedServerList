@@ -23,47 +23,28 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.paper.objects;
 
-import java.util.List;
+import org.bukkit.World;
 
-public enum PlatformInfo{
+import java.util.HashMap;
+import java.util.Map;
+
+public record WorldCache(Map<String, World> worlds){
     
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "paper", "folia"
-    ),
-    BUNGEECORD(
-        "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "bungeecord", "waterfall"
-    ),
-    VELOCITY(
-        "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "velocity"
-    );
-    
-    private final String platform;
-    private final String filePath;
-    private final List<String> loaders;
-    
-    PlatformInfo(String platform, String filePath, String... loaders){
-        this.platform = platform;
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+    public WorldCache(){
+        this(new HashMap<>());
     }
     
-    public String getPlatform(){
-        return platform;
+    public boolean containsWorld(String name){
+        return this.worlds.containsKey(name);
     }
     
-    public String getFilePath(){
-        return filePath;
+    public void addWorld(World world){
+        this.worlds.put(world.getName(), world);
     }
     
-    public List<String> getLoaders(){
-        return loaders;
+    public void removeWorld(String name){
+        this.worlds.remove(name);
     }
 }

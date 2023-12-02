@@ -23,47 +23,32 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.paper.commands;
 
-import java.util.List;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
-public enum PlatformInfo{
+import java.util.Collections;
+
+public class CmdAdvancedServerList extends Command{
     
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "paper", "folia"
-    ),
-    BUNGEECORD(
-        "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "bungeecord", "waterfall"
-    ),
-    VELOCITY(
-        "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "velocity"
-    );
+    private final PaperCore plugin;
     
-    private final String platform;
-    private final String filePath;
-    private final List<String> loaders;
-    
-    PlatformInfo(String platform, String filePath, String... loaders){
-        this.platform = platform;
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+    public CmdAdvancedServerList(PaperCore plugin){
+        super(
+            "advancedserverlist",
+            "Main command of the plugin",
+            "/asl [reload|help|clearCache]",
+            Collections.singletonList("asl")
+        );
+        this.plugin = plugin;
     }
     
-    public String getPlatform(){
-        return platform;
-    }
-    
-    public String getFilePath(){
-        return filePath;
-    }
-    
-    public List<String> getLoaders(){
-        return loaders;
+    @Override
+    public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] args){
+        plugin.getCore().getCommandHandler().handle(new PaperCmdSender(sender), args);
+        return true;
     }
 }

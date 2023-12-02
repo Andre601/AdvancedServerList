@@ -23,47 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.paper.objects.impl;
 
-import java.util.List;
+import ch.andre601.advancedserverlist.api.bukkit.objects.BukkitServer;
+import org.bukkit.World;
 
-public enum PlatformInfo{
-    
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "paper", "folia"
-    ),
-    BUNGEECORD(
-        "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "bungeecord", "waterfall"
-    ),
-    VELOCITY(
-        "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "velocity"
-    );
-    
-    private final String platform;
-    private final String filePath;
-    private final List<String> loaders;
-    
-    PlatformInfo(String platform, String filePath, String... loaders){
-        this.platform = platform;
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+import java.util.Map;
+
+public record PaperServerImpl(Map<String, World> worlds, int playersOnline, int playersMax, String host) implements BukkitServer {
+    @Override
+    public Map<String, World> getWorlds(){
+        return worlds;
     }
     
-    public String getPlatform(){
-        return platform;
+    @Override
+    public int getPlayersOnline(){
+        return playersOnline;
     }
     
-    public String getFilePath(){
-        return filePath;
+    @Override
+    public int getPlayersMax(){
+        return playersMax;
     }
     
-    public List<String> getLoaders(){
-        return loaders;
+    @Override
+    public String getHost(){
+        return host;
     }
 }

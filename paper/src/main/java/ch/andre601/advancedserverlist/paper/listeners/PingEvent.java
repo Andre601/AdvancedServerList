@@ -23,47 +23,25 @@
  *
  */
 
-package ch.andre601.advancedserverlist.versionuploader;
+package ch.andre601.advancedserverlist.paper.listeners;
 
-import java.util.List;
+import ch.andre601.advancedserverlist.core.events.PingEventHandler;
+import ch.andre601.advancedserverlist.paper.PaperCore;
+import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-public enum PlatformInfo{
+public class PingEvent implements Listener{
     
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
-        "paper", "folia"
-    ),
-    BUNGEECORD(
-        "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
-        "bungeecord", "waterfall"
-    ),
-    VELOCITY(
-        "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
-        "velocity"
-    );
+    private final PaperCore plugin;
     
-    private final String platform;
-    private final String filePath;
-    private final List<String> loaders;
-    
-    PlatformInfo(String platform, String filePath, String... loaders){
-        this.platform = platform;
-        this.filePath = filePath;
-        this.loaders = List.of(loaders);
+    public PingEvent(PaperCore plugin){
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     
-    public String getPlatform(){
-        return platform;
-    }
-    
-    public String getFilePath(){
-        return filePath;
-    }
-    
-    public List<String> getLoaders(){
-        return loaders;
+    @EventHandler
+    public void onPaperServerListPing(PaperServerListPingEvent event){
+        PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
     }
 }
