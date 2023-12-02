@@ -6,14 +6,15 @@ icon: octicons/pencil-24
 
 All text options, with exception of [`Conditions`](../index.md#conditions), allow the usage of formatting options using [MiniMessage].
 
-!!! info "Online Tool"
-    The devs of the Adventure library provide a handy online tool to create the right formatting codes to display the text properly.  
-    You can find the tool at https://webui.advntr.dev/
+/// info | Online Tool
+The devs of the Adventure library provide a handy online tool to create the right formatting codes to display the text properly.  
+You can find the tool at https://webui.advntr.dev/
+///
 
 ## Before starting
 
-Please make sure to surround your text with either single quotes (`'`) or double quotes (`"`) should they start with a color or formatting code.  
-Not surrounding these lines with (double) quotes will make the YAML parser Configurate treat them as something other than a String.
+Please make sure to surround your text with either single quotes (`'`) or double quotes (`"`).  
+This avoids possible issues where the YAML parser would treat lines starting with specific characters as special options (i.e. `<` would be treated as a scolar value).
 
 ```yaml title="Wrong formatting"
 motd:
