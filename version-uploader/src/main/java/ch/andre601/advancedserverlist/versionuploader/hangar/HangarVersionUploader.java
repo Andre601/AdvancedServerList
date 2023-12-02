@@ -90,12 +90,12 @@ public class HangarVersionUploader{
         boolean preRelease = release.prerelease();
         
         final List<Path> filePaths = List.of(
-            new File(PlatformInfo.BUKKIT.getFilePath().replace("{{version}}", pluginVersion)).toPath(),
+            new File(PlatformInfo.PAPER.getFilePath().replace("{{version}}", pluginVersion)).toPath(),
             new File(PlatformInfo.BUNGEECORD.getFilePath().replace("{{version}}", pluginVersion)).toPath(),
             new File(PlatformInfo.VELOCITY.getFilePath().replace("{{version}}", pluginVersion)).toPath()
         );
         
-        final List<Dependency> bukkitDependencies = List.of(
+        final List<Dependency> paperDependencies = List.of(
             Dependency.fromNamespace("ViaVersion", false),
             Dependency.fromNamespace("Maintenance", false),
             Dependency.fromNamespace("PlaceholderAPI", false)
@@ -118,7 +118,7 @@ public class HangarVersionUploader{
         final Version versionUpload = new Version(
             releaseVersion,
             Map.of(
-                Platform.PAPER, bukkitDependencies,
+                Platform.PAPER, paperDependencies,
                 Platform.WATERFALL, bungeeDependencies,
                 Platform.VELOCITY, velocityDependencies
             ),

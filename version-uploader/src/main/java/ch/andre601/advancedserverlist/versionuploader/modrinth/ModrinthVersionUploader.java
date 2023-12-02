@@ -47,7 +47,7 @@ public class ModrinthVersionUploader{
     private static final Logger LOGGER = LoggerFactory.getLogger(ModrinthVersionUploader.class);
     
     private final List<PlatformInfo> platforms = List.of(
-        PlatformInfo.BUKKIT,
+        PlatformInfo.PAPER,
         PlatformInfo.BUNGEECORD,
         PlatformInfo.VELOCITY
     );
@@ -87,7 +87,9 @@ public class ModrinthVersionUploader{
             List<ProjectVersion.ProjectDependency> dependencies = new ArrayList<>();
             // Maintenance plugin
             dependencies.add(new ProjectVersion.ProjectDependency(null, "VCAqN1ln", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
-            if(!platforms.get(i).getPlatform().equalsIgnoreCase("bukkit")){
+            // ViaVersion plugin
+            dependencies.add(new ProjectVersion.ProjectDependency(null, "P1OZGk5p", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
+            if(!platforms.get(i).getPlatform().equalsIgnoreCase("paper")){
                 // PAPIProxyBridge plugin
                 dependencies.add(new ProjectVersion.ProjectDependency(null, "bEIUEGTX", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
             }

@@ -29,9 +29,9 @@ import java.util.List;
 
 public enum PlatformInfo{
     
-    BUKKIT(
-        "bukkit",
-        "bukkit/target/AdvancedServerList-Bukkit-{{version}}.jar",
+    PAPER(
+        "paper",
+        "paper/target/AdvancedServerList-Paper-{{version}}.jar",
         "paper", "folia"
     ),
     BUNGEECORD(
