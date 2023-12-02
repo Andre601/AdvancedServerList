@@ -42,14 +42,19 @@ public class PaperServerPlaceholders extends PlaceholderProvider{
         if(!(server instanceof PaperServerImpl paperServer))
             return null;
         
-        String[] args = placeholder.split("\\s");
+        String[] args = placeholder.split("\\s", 2);
         
         return switch(args[0]){
             case "playersOnline" -> {
                 if(args.length >= 2){
+                    String[] worlds = args[1].split(",");
+                    
                     int players = 0;
-                    for(int i = 1; i < args.length; i++){
-                        World world = paperServer.worlds().get(args[i]);
+                    for(String worldName : worlds){
+                        if(worldName.isEmpty())
+                            continue;
+                        
+                        World world = paperServer.worlds().get(worldName);
                         if(world == null)
                             continue;
                         

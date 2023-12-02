@@ -53,10 +53,14 @@ public class BungeeServerPlaceholders extends PlaceholderProvider{
         return switch(args[0]){
             case "playersOnline" -> {
                 if(args.length >= 2){
-                    int players = 0;
+                    String[] servers = args[1].split(",");
                     
-                    for(int i = 1; i < args.length; i++){
-                        ServerInfo info = proxy.getServers().get(args[i]);
+                    int players = 0;
+                    for(String serverName : servers){
+                        if(serverName.isEmpty())
+                            continue;
+                        
+                        ServerInfo info = proxy.getServers().get(serverName);
                         if(info == null)
                             continue;
                         

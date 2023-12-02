@@ -43,14 +43,14 @@ These placeholders use values given by the server/proxy AdvancedServerList runs 
 | `${server whitelistEnabled}` | Whether the whitelist is enabled or not. Only available on Spigot/Paper |
 
 [^4]:
-    An space-separated list of worlds (Spigot/Paper) or Servers (BungeeCord/Velocity) can be provided to display the number of players in these worlds/servers.  
-    Example: `${server playersOnline lobby1 lobby2}` will display the numbers of players online on the servers `lobby1` and `lobby2`.
+    A comma-separated list of world (On Paper) or Server (On BungeeCord/Velocity) names can be provided to display the added numbers of players in these worlds/servers.  
+    **Example:** `${server playersOnline lobby1,lobby2}` will display the collective numbers of players in the servers `lobby1` and `lobby2`.
 [^5]:
     When the [`amount` option](../index.md#amount) is used will this placeholder display the modified max players count.  
     The only exception is [`conditions`](../index.md#conditions) where it uses the actual max players of the server/proxy.
 [^6]:
     An optional server name can be provided to display the IP/Domain associated with that server. Only works on BungeeCord/Velocity.
-    Example: `${server host survival}` would display the IP/Domain associated with the `survival` server.
+    **Example:** `${server host survival}` would display the IP/Domain associated with the `survival` server.
 
 ## PlaceholderAPI
 
