@@ -58,7 +58,7 @@ public class VelocityServerPlaceholders extends PlaceholderProvider{
                         if(serverName.isEmpty())
                             continue;
                         
-                        RegisteredServer registeredServer = proxy.getServers().get(serverName);
+                        RegisteredServer registeredServer = proxy.getServers().get(serverName.strip());
                         if(registeredServer == null)
                             continue;
                         

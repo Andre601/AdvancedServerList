@@ -54,7 +54,7 @@ public class PaperServerPlaceholders extends PlaceholderProvider{
                         if(worldName.isEmpty())
                             continue;
                         
-                        World world = paperServer.worlds().get(worldName);
+                        World world = paperServer.worlds().get(worldName.strip());
                         if(world == null)
                             continue;
                         

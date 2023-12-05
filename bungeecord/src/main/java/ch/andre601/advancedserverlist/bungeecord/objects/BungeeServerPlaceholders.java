@@ -60,7 +60,7 @@ public class BungeeServerPlaceholders extends PlaceholderProvider{
                         if(serverName.isEmpty())
                             continue;
                         
-                        ServerInfo info = proxy.getServers().get(serverName);
+                        ServerInfo info = proxy.getServers().get(serverName.strip());
                         if(info == null)
                             continue;
                         
