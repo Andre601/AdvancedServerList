@@ -46,7 +46,7 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
     private AdvancedServerList<Favicon> core;
     private FaviconHandler<Favicon> faviconHandler = null;
-    private final PluginLogger logger = new BungeeLogger(getLogger());
+    private final PluginLogger logger = new BungeeLogger(this);
     
     @Override
     public void onEnable(){

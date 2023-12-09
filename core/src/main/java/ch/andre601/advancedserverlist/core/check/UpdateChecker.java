@@ -81,10 +81,12 @@ public class UpdateChecker{
                     logger.warn("Failed to look for any updates. See previous messages for reasons.");
                     return;
                 }
-        
+                
+                logger.debug(UpdateChecker.class, "Comparing versions...");
+                
                 int result = version.compare(core.getVersion());
                 switch(result){
-                    case -1 -> printUpdateBanner(version.getVersionNumber(), version.getId(), version.isRelease());
+                    case -1 -> printUpdateBanner(version);
                     case 0 -> logger.info("No new update found. You're running the latest version!");
                     case 1 -> logger.info(
                         "Your version (%s) is higher than the latest release (%s). Are you running a dev build?",
@@ -119,21 +121,31 @@ public class UpdateChecker{
     private CompletableFuture<ModrinthVersion> checkUpdate(){
         return CompletableFuture.supplyAsync(() -> {
             PluginLogger logger = core.getPlugin().getPluginLogger();
+            String finalUrl = String.format(url, loader);
+            
+            logger.debug(UpdateChecker.class, "Looking for updates on '%s'...", finalUrl);
+            
             if(core.getVersion().equals("UNKNOWN")){
                 logger.warn("Cannot perform Update check! Plugin version couldn't be parsed.");
                 return null;
             }
             
             Request request = new Request.Builder()
-                .url(String.format(url, loader))
+                .url(finalUrl)
                 .header("User-Agent", "AdvancedServerList-" + loader + "/" + core.getVersion())
                 .build();
             
+            logger.debug(UpdateChecker.class, "Connecting to website...");
+            
             try(Response response = client.newCall(request).execute()){
+                logger.debug(UpdateChecker.class, "Connected! Checking response code...");
+                
                 if(!response.isSuccessful()){
                     logger.warn("Encountered a non-successful response from Modrinth! Code: %d", response.code());
                     return null;
                 }
+                
+                logger.debug(UpdateChecker.class, "Received positive response code '%d'", response.code());
     
                 ResponseBody body = response.body();
                 if(body == null){
@@ -147,6 +159,8 @@ public class UpdateChecker{
                     return null;
                 }
                 
+                logger.debug(UpdateChecker.class, "Received non-empty response body. Parsing it from JSON Array...");
+                
                 List<ModrinthVersion> list = gson.fromJson(responseString, listType);
                 if(list == null || list.isEmpty()){
                     logger.warn("Couldn't convert JSON Array into a valid list.");
@@ -155,10 +169,14 @@ public class UpdateChecker{
                 
                 ModrinthVersion version = list.get(0);
                 
+                logger.debug(UpdateChecker.class, "Found entry '%s'", version);
+                
                 if(version.getVersionNumber() == null || version.getVersionNumber().isEmpty()){
                     logger.warn("Cannot check latest version. Received version number was null/empty.");
                     return null;
                 }
+                
+                logger.debug(UpdateChecker.class, "Successfully parsed version!");
                 
                 return version;
             }catch(JsonSyntaxException ex){
@@ -171,22 +189,22 @@ public class UpdateChecker{
         });
     }
     
-    private void printUpdateBanner(String version, String versionId, boolean isRelease){
+    private void printUpdateBanner(ModrinthVersion version){
         logger.info("==================================================================");
         logger.info("You are running an outdated version of AdvancedServerList!");
         logger.info("");
         logger.info("Your version: %s", core.getVersion());
-        logger.info("Modrinth version: %s", version);
+        logger.info("Modrinth version: %s", version.getVersionNumber());
         logger.info("");
         
-        if(!isRelease){
+        if(!version.isRelease()){
             logger.info("WARNING: This release is an Alpha/Beta! It may contain");
             logger.info("         breaking changes!");
             logger.info("");
         }
         
         logger.info("You can download the latest release from here:");
-        logger.info("https://modrinth.com/plugin/advancedserverlist/version/%s", versionId);
+        logger.info("https://modrinth.com/plugin/advancedserverlist/version/%s", version.getId());
         logger.info("==================================================================");
     }
     
@@ -218,6 +236,11 @@ public class UpdateChecker{
         
         public int compare(String version){
             return FlexVerComparator.compare(version, versionNumber);
+        }
+        
+        @Override
+        public String toString(){
+            return String.format("ModrinthVersion{id=%s,versionNumber=%s,versionType=%s}", id, versionNumber, versionNumber);
         }
     }
 }

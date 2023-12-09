@@ -26,16 +26,31 @@
 package ch.andre601.advancedserverlist.paper.logging;
 
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.paper.PaperCore;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PaperLogger implements PluginLogger{
     
+    private final PaperCore plugin;
     private final Logger logger;
     
-    public PaperLogger(Logger logger){
-        this.logger = logger;
+    public PaperLogger(PaperCore plugin){
+        this.plugin = plugin;
+        this.logger = plugin.getLogger();
+    }
+    
+    @Override
+    public void debug(Class<?> clazz, String msg, Object... args){
+        if(plugin.isDebugEnabled())
+            info("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
+    }
+    
+    @Override
+    public void debugWarn(Class<?> clazz, String msg, Object... args){
+        if(plugin.isDebugEnabled())
+            warn("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
     }
     
     @Override

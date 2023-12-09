@@ -61,7 +61,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     
     @Inject
     public VelocityCore(ProxyServer proxy, @DataDirectory Path path, Metrics.Factory metrics){
-        this.logger = new VelocityLogger(LoggerFactory.getLogger("AdvancedServerList"));
+        this.logger = new VelocityLogger(this, LoggerFactory.getLogger("AdvancedServerList"));
         
         this.proxy = proxy;
         this.path = path;
