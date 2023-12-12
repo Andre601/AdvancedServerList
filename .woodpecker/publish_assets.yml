@@ -4,7 +4,7 @@ when:
 
 steps:
   createFiles:
-    image: maven:3.9.5-eclipse-temurin-17
+    image: maven:3.9.6-eclipse-temurin-17
     secrets:
       - source: cb_token
         target: codeberg_api_token
