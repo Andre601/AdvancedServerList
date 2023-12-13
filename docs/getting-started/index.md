@@ -25,12 +25,12 @@ The plugin is also available on these platforms, but not actively updated there 
 [spigot]: https://www.spigotmc.org/resources/102910/
 [hangar]: https://hangar.papermc.io/Andre_601/AdvancedServerList
 
-The plugin is available for Spigot, Paper, BungeeCord, Waterfall and Velocity, and has been tested on these platforms. It may support additional forks, but this is not guaranteed.
+The plugin is available for Paper, BungeeCord, Waterfall and Velocity, and has been tested on these platforms. It may support additional forks, but this is not guaranteed.
 
-The plugin also supports these additional plugins. Depending on the platform they are used in is the plugin required.
+The plugin also supports these additional plugins. They are all optional.
 
 - [PlaceholderAPI] - Used on the Spigot and Paper server for additional Placeholder parsing.
-- - [ViaVersion] - Used on the Spigot and Paper server for additional protocol version handling.
+- [ViaVersion] - Used on the Paper server for additional protocol version handling.
 - [PAPIProxyBridge] - Used on BungeeCord, Waterfall and Velocity for PlaceholderAPI support.
 - [Maintenance] - Used to disable server list handling while maintenance is active.
 
@@ -46,11 +46,11 @@ Here is a quick table showing the jar file name with the platforms it is made fo
 
 | Jar file name                                 | Platforms             |
 |-----------------------------------------------|-----------------------|
-| `AdvancedServerList-Paper-{version}.jar`      | Spigot, Paper         |
+| `AdvancedServerList-Paper-{version}.jar`      | Paper                 |
 | `AdvancedServerList-BungeeCord-{version}.jar` | BungeeCord, Waterfall |
 | `AdvancedServerList-Velocity-{version}.jar`   | Velocity              |
 
-After you added it to your plugins folder - alongside any other dependency you may want or need - (re)start your server or proxy to enable the plugin.  
+After you added it to your plugins folder - alongside any other dependency you may want - (re)start your server or proxy to enable the plugin.  
 If everything goes well should AdvancedServerList create a folder named `AdvancedServerList` (`advancedserverlist` on Velocity) with additional files and folders inside of it.
 
 ### Folder structure
