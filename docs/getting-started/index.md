@@ -254,7 +254,8 @@ These functions include, but aren't limited to:
 
 - Setting the default name and UUID used for an unknown (Not cached) player.
 - Disabling/Enabling caching of players.
-- Disabling/Enabling checking for updates
+- Disabling/Enabling checking for updates.
+- Disabling/Enabling debug mode.
 - The config version used for migration. Don't touch this, or it may reset your config.
 
 Similar to the default.yml is this file containing comments to try and explain the settings in questions.  
@@ -294,6 +295,17 @@ disableCache: false
 # Defaults to false when not present.
 #
 checkUpdates: true
+
+#
+# Should debug mode be enabled?
+#
+# When set to true will AdvancedServerList print additional messages to the console prefixed with "[DEBUG]".
+# It is recommended to only enable this when having problems or when being told to by the plugin dev, as it could
+# otherwise cause significant spam in your console.
+#
+# Defaults to false when not present.
+#
+debug: false
 
 #
 # DO NOT EDIT!

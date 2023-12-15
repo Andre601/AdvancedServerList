@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.file;
 
+import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -32,16 +33,31 @@ import org.spongepowered.configurate.NodePath;
 import org.spongepowered.configurate.transformation.ConfigurationTransformation;
 import org.spongepowered.configurate.transformation.TransformAction;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class ConfigMigrator{
     
-    public static final int LATEST = 1;
+    public static final int LATEST = resolveConfigVersion();
     
     private ConfigMigrator(){}
     
     public static ConfigurationTransformation.Versioned create(){
         return ConfigurationTransformation.versionedBuilder()
             .versionKey("configVersion")
-            .addVersion(LATEST, oneToTwo())
+            .addVersion(LATEST, twoToThree())
+            .addVersion(2, oneToTwo())
+            .build();
+    }
+    
+    public static ConfigurationTransformation twoToThree(){
+        return ConfigurationTransformation.builder()
+            .addAction(NodePath.path(), ((path, value) -> {
+                value.node("debug").set(false);
+                
+                return null;
+            }))
             .build();
     }
     
@@ -67,9 +83,21 @@ public class ConfigMigrator{
             versioned.apply(node);
             final int endVersion = versioned.version(node);
             if(startVersion < endVersion)
-                logger.info("Migrated config.yml from " + startVersion + " to " + endVersion);
+                logger.info("Migrated config.yml from v" + startVersion + " to v" + endVersion);
         }
         
         return node;
+    }
+    
+    private static int resolveConfigVersion(){
+        try(InputStream is = AdvancedServerList.class.getResourceAsStream("/version.properties")){
+            Properties properties = new Properties();
+            
+            properties.load(is);
+            
+            return Integer.parseInt(properties.getProperty("config-version"));
+        }catch(IOException | NumberFormatException ex){
+            return -1;
+        }
     }
 }

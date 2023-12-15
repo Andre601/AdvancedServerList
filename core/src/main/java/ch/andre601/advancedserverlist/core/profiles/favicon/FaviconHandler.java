@@ -70,21 +70,34 @@ public class FaviconHandler<F>{
     
     private CompletableFuture<F> convert(String input, Function<BufferedImage, F> function){
         return CompletableFuture.supplyAsync(() -> {
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Getting BufferedImage for input '%s'...", input);
+            
             BufferedImage img = resolveImage(core, input);
-            if(img == null)
+            if(img == null){
+                core.getPlugin().getPluginLogger().debugWarn(FaviconHandler.class, "No BufferedImage could be created!");
+                
                 return null;
+            }
+            
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Received BufferedImage! Applying it...");
             
             return function.apply(img);
         }, faviconThreadPool);
     }
     
     private BufferedImage resolveImage(AdvancedServerList<F> core, String input){
+        core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Resolving favicon for input '%s'...", input);
+        
         InputStream stream;
         
         if(input.toLowerCase(Locale.ROOT).startsWith("https://")){
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "URL detected. Getting file from it...");
+            
             stream = getFromUrl(core, input);
         }else
         if(input.toLowerCase(Locale.ROOT).endsWith(".png")){
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Image file detected. Trying to reolve it...");
+            
             File folder = core.getPlugin().getFolderPath().resolve("favicons").toFile();
             if(!folder.exists()){
                 core.getPlugin().getPluginLogger().warn("Cannot get Favicon %s from favicons folder. Folder doesn't exist!", input);
@@ -95,12 +108,16 @@ public class FaviconHandler<F>{
             
             try{
                 stream = new FileInputStream(file);
+                
+                core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Resolved image file!");
             }catch(IOException ex){
                 core.getPlugin().getPluginLogger().warn("Cannot create Favicon from File %s.", input);
                 core.getPlugin().getPluginLogger().warn("Cause: %s", ex.getMessage());
                 return null;
             }
         }else{
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Possible player name/UUID detected. Using https://mc-heads.net/avatar/%s/64...", input);
+            
             stream = getFromUrl(core, "https://mc-heads.net/avatar/" + input + "/64");
         }
         
@@ -116,6 +133,8 @@ public class FaviconHandler<F>{
                 return null;
             }
             
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Resizing image to 64x64 pixels...");
+            
             BufferedImage favicon = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
             Graphics2D img = favicon.createGraphics();
             
@@ -123,6 +142,7 @@ public class FaviconHandler<F>{
             img.drawImage(original, 0, 0, 64, 64, null);
             img.dispose();
             
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Image resized!");
             return favicon;
         }catch(IOException ex){
             core.getPlugin().getPluginLogger().warn("Unable to create Favicon. Encountered IOException during creation.");
@@ -133,11 +153,14 @@ public class FaviconHandler<F>{
     
     private InputStream getFromUrl(AdvancedServerList<F> core, String url){
         try{
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "Resolving URL '%s'...", url);
+            
             URL faviconUrl = new URL(url);
             URLConnection connection = faviconUrl.openConnection();
             connection.setRequestProperty("User-Agent", "AdvancedServerList/" + core.getVersion());
             connection.connect();
             
+            core.getPlugin().getPluginLogger().debug(FaviconHandler.class, "URL resolved!");
             return connection.getInputStream();
         }catch(IOException ex){
             core.getPlugin().getPluginLogger().warn("Error while connecting to %s for Favicon creation.", url);

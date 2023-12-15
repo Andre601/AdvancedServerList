@@ -26,14 +26,29 @@
 package ch.andre601.advancedserverlist.velocity.logging;
 
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.velocity.VelocityCore;
 import org.slf4j.Logger;
 
 public class VelocityLogger implements PluginLogger{
     
+    private final VelocityCore plugin;
     private final Logger logger;
     
-    public VelocityLogger(Logger logger){
+    public VelocityLogger(VelocityCore plugin, Logger logger){
+        this.plugin = plugin;
         this.logger = logger;
+    }
+    
+    @Override
+    public void debug(Class<?> clazz, String msg, Object... args){
+        if(plugin.isDebugEnabled())
+            info("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
+    }
+    
+    @Override
+    public void debugWarn(Class<?> clazz, String msg, Object... args){
+        if(plugin.isDebugEnabled())
+            warn("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
     }
     
     @Override

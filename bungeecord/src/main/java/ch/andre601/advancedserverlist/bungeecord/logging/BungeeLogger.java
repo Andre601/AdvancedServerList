@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.bungeecord.logging;
 
+import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 
 import java.util.logging.Level;
@@ -32,10 +33,24 @@ import java.util.logging.Logger;
 
 public class BungeeLogger implements PluginLogger{
     
+    private final BungeeCordCore plugin;
     private final Logger logger;
     
-    public BungeeLogger(Logger logger){
-        this.logger = logger;
+    public BungeeLogger(BungeeCordCore plugin){
+        this.plugin = plugin;
+        this.logger = plugin.getLogger();
+    }
+    
+    @Override
+    public void debug(Class<?> clazz, String msg, Object... args){
+        if(plugin.isDebugEnabled())
+            info("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
+    }
+    
+    @Override
+    public void debugWarn(Class<?> clazz, String msg, Object... args){
+        if(plugin.isDebugEnabled())
+            warn("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
     }
     
     @Override

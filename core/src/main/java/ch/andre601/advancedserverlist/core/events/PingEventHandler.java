@@ -30,6 +30,7 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.compat.maintenance.MaintenanceUtil;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.interfaces.events.GenericEventWrapper;
 import ch.andre601.advancedserverlist.core.compat.papi.PAPIUtil;
@@ -44,11 +45,17 @@ public class PingEventHandler{
     private static MaintenanceUtil maintenanceUtil = null;
     
     public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
-        if(event.isInvalidProtocol() || event.isMaintenanceModeActive())
+        event.getPlugin().getPluginLogger().debug(PingEventHandler.class, "Received ping event. Handling it...");
+        if(event.isInvalidProtocol() || event.isMaintenanceModeActive()){
+            event.getPlugin().getPluginLogger().debug(PingEventHandler.class, "Not handling event. Either protocol was invalid of Maintenance is enabled.");
             return;
+        }
         
         PluginCore<F> plugin = event.getPlugin();
         String host = event.getVirtualHost();
+        PluginLogger logger = plugin.getPluginLogger();
+        
+        logger.debug(PingEventHandler.class, "Protocol valid. Continue handling...");
         
         int online = event.getOnlinePlayers();
         int max = event.getMaxPlayers();
@@ -61,32 +68,50 @@ public class PingEventHandler{
         
         ServerListProfile profile = ProfileManager.resolveProfile(plugin.getCore(), player, server);
         
-        if(profile == null)
+        if(profile == null){
+            logger.debugWarn(PingEventHandler.class, "Server List Profile couldn't be resolved properly. Cancelling event handling...");
             return;
+        }
+        
+        logger.debug(PingEventHandler.class, "Received valid Server List Profile. Calling PreServerListSetEvent...");
         
         GenericServerListEvent e = event.callEvent(ProfileManager.merge(profile));
-        if(e == null || e.isCancelled())
+        if(e == null || e.isCancelled()){
+            logger.debug(PingEventHandler.class, "PreServerListSetEvent was cancelled. Stopping ping handling...");
             return;
+        }
+        
+        logger.debug(PingEventHandler.class, "PreServerListSetEvent completed. Proceeding with ping handling...");
         
         ProfileEntry entry = e.getEntry();
-        if(entry.isInvalid())
+        if(entry.isInvalid()){
+            logger.debugWarn(PingEventHandler.class, "No valid ProfileEntry retrieved. Cancelling ping handling...");
             return;
+        }
         
         boolean extraPlayers = ProfileManager.checkOption(entry.extraPlayersEnabled());
         
         if(extraPlayers){
             max = online + (entry.extraPlayersCount() == null ? 0 : entry.extraPlayersCount());
+            
+            logger.debug(PingEventHandler.class, "Extra Players enabled. Applying '%d' as max player count...", max);
+            
             event.setMaxPlayers(max);
         }
         
         if(ProfileManager.checkOption(entry.maxPlayersEnabled()) && !extraPlayers){
             max = (entry.maxPlayersCount() == null) ? 0 : entry.maxPlayersCount();
+            
+            logger.debug(PingEventHandler.class, "Max Players enabled. Applying '%d' as max player count...", max);
+            
             event.setMaxPlayers(max);
         }
         
         GenericServer finalServer = event.createGenericServer(online, max, host);
         
         if(ProfileManager.checkOption(entry.motd())){
+            logger.debug(PingEventHandler.class, "MOTD set. Applying '%s'...", String.join("\\n", entry.motd()));
+            
             event.setMotd(
                 ComponentParser.list(entry.motd())
                     .modifyText(text -> StringReplacer.replace(text, player, finalServer))
@@ -98,10 +123,14 @@ public class PingEventHandler{
         boolean hidePlayers = ProfileManager.checkOption(entry.hidePlayersEnabled());
         
         if(hidePlayers){
+            logger.debug(PingEventHandler.class, "Hide Players enabled. Hiding player count...");
+            
             event.hidePlayers();
         }
         
         if(ProfileManager.checkOption(entry.playerCountText()) && !hidePlayers){
+            logger.debug(PingEventHandler.class, "Player Count Text set. Applying '%s'...", entry.playerCountText());
+            
             event.setPlayerCount(
                 ComponentParser.text(entry.playerCountText())
                     .modifyText(text -> StringReplacer.replace(text, player, finalServer))
@@ -111,14 +140,19 @@ public class PingEventHandler{
         }
         
         if(ProfileManager.checkOption(entry.players()) && !hidePlayers){
+            logger.debug(PingEventHandler.class, "Player Count Hover set. Applying '%s'...", String.join("\\n", entry.players()));
+            
             event.setPlayers(entry.players(), player, server);
         }
         
         if(ProfileManager.checkOption(entry.favicon())){
+            logger.debug(PingEventHandler.class, "Favicon set. Resolving '%s'...", entry.favicon());
+            
             String favicon = StringReplacer.replace(entry.favicon(), player, server);
             
             F fav = plugin.getFaviconHandler().getFavicon(favicon, image -> {
                 try{
+                    logger.debug(PingEventHandler.class, "Converting BufferedImage to Server or Proxy Favicon instance...");
                     return event.createFavicon(image);
                 }catch(Exception ex){
                     plugin.getPluginLogger().warn("Encountered an Exception while creating Favicon!", ex);
@@ -127,12 +161,17 @@ public class PingEventHandler{
             });
             
             if(fav == null){
+                logger.debugWarn(PingEventHandler.class, "Favicon was invalid or not yet resolved! Using default favicon of Server/Proxy...");
+                
                 event.setDefaultFavicon();
             }else{
+                logger.debug(PingEventHandler.class, "Applying favicon...");
+                
                 event.setFavicon(fav);
             }
         }
         
+        logger.debug(PingEventHandler.class, "Event handling completed. Updating Ping data...");
         event.updateEvent();
     }
     

@@ -54,4 +54,8 @@ public interface PluginCore<F>{
     String getPlatformVersion();
     
     String getLoader();
+    
+    default boolean isDebugEnabled(){
+        return getCore().getFileHandler().getBoolean("debug");
+    }
 }

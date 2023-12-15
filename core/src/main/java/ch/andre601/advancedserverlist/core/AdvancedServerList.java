@@ -136,7 +136,7 @@ public class AdvancedServerList<F>{
         }
         
         if(getFileHandler().loadProfiles()){
-            getPlugin().getPluginLogger().info("Successfully loaded " + getFileHandler().getProfiles().size() + " profiles!");
+            getPlugin().getPluginLogger().info("Successfully loaded %d profile(s)!", getFileHandler().getProfiles().size());
         }else{
             getPlugin().getPluginLogger().warn("Unable to load profiles! Check previous lines for errors.");
             return;

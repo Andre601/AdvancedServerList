@@ -46,7 +46,7 @@ import java.nio.file.Path;
 
 public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon>{
     
-    private final PluginLogger logger = new PaperLogger(this.getLogger());
+    private final PluginLogger logger = new PaperLogger(this);
     
     private AdvancedServerList<CachedServerIcon> core;
     private FaviconHandler<CachedServerIcon> faviconHandler = null;

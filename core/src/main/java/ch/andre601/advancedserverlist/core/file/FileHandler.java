@@ -157,7 +157,7 @@ public class FileHandler{
                 continue;
             
             profiles.add(ServerListProfile.Builder.resolve(file.getName(), tmp, logger).build());
-            logger.info("Loaded " + file.getName());
+            logger.info("Loaded '%s'!", file.getName());
         }
         
         if(profiles.isEmpty()){
@@ -178,7 +178,7 @@ public class FileHandler{
         try{
             return loader.load();
         }catch(IOException ex){
-            logger.warn("Cannot load " + path.toFile().getName() + " due to an IOException!", ex);
+            logger.warn("Cannot load '%s' due to an IOException!", ex, path.toFile().getName());
             return null;
         }
     }
@@ -214,7 +214,7 @@ public class FileHandler{
             }
             
             Files.copy(config, configBackup.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            logger.info("Saved backup as '" + configBackup.getName() + "'!");
+            logger.info("Saved backup as '%s'!", configBackup.getName());
             
             return true;
         }catch(IOException ex){

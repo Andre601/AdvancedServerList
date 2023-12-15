@@ -32,9 +32,20 @@ disableCache: false
 checkUpdates: true
 
 #
+# Should debug mode be enabled?
+#
+# When set to true will AdvancedServerList print additional messages to the console prefixed with "[DEBUG]".
+# It is recommended to only enable this when having problems or when being told to by the plugin dev, as it could
+# otherwise cause significant spam in your console.
+#
+# Defaults to false when not present.
+#
+debug: false
+
+#
 # DO NOT EDIT!
 #
 # This is used internally to determine if the config needs to be migrated.
 # Changing or even removing this option could result in your config being broken.
 #
-config-version: 2
+config-version: ${plugin.config.version}
