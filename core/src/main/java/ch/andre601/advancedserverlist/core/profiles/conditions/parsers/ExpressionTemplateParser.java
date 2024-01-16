@@ -25,10 +25,9 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.parsers;
 
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.ListOperator;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.Operator;
-import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ConstantExpressionTemplate;
+import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionErrorTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplates;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
@@ -48,36 +47,32 @@ public class ExpressionTemplateParser{
         this.valueReaders = valueReaders;
     }
     
-    public ExpressionTemplate parse(List<Token> tokenList, PluginLogger logger){
+    public ExpressionTemplate parse(List<Token> tokenList){
         List<ExpressionTemplate> parts = new ArrayList<>();
         List<Operator> operators = new ArrayList<>();
         
         try{
             parts.add(read(tokenList));
         }catch(IllegalArgumentException ex){
-            logger.warn(ex.getMessage());
-            return ConstantExpressionTemplate.of("");
+            return ExpressionErrorTemplate.of(ex.getMessage());
         }
         
         while(!tokenList.isEmpty()){
             Token token = tokenList.remove(0);
             Operator operator = this.operators.get(token);
             if(operator == null){
-                logger.warn("Error while parsing Expression. Got \"" + token + "\" but expected OPERATOR.");
-                return ConstantExpressionTemplate.of("");
+                return ExpressionErrorTemplate.of("Error while parsing Expression. Got \"" + token + "\" but expected OPERATOR.");
             }
             
             operators.add(operator);
             if(tokenList.isEmpty()){
-                logger.warn("Unexpected end of input for expression.");
-                return ConstantExpressionTemplate.of("");
+                return ExpressionErrorTemplate.of("Received unexpected end of input.");
             }
             
             try{
                 parts.add(read(tokenList));
             }catch(IllegalArgumentException ex){
-                logger.warn(ex.getMessage());
-                return ConstantExpressionTemplate.of("");
+                return ExpressionErrorTemplate.of(ex.getMessage());
             }
         }
         

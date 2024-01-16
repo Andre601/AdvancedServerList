@@ -61,7 +61,7 @@ public class ExpressionEngine{
     }
     
     public ExpressionTemplate compile(String expression, PluginLogger logger){
-        return templateParser.parse(tokenizer.parse(expression, logger), logger);
+        return templateParser.parse(tokenizer.parse(expression, logger));
     }
     
     public static class Options{

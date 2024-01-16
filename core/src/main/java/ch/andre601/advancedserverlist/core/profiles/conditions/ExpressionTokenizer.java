@@ -31,7 +31,6 @@ import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers.To
 import com.google.common.collect.Ordering;
 
 import java.text.ParsePosition;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,7 +49,6 @@ public class ExpressionTokenizer{
         ParsePosition position = new ParsePosition(0);
         
         List<Token> tokens = new LinkedList<>();
-        List<String> errors = new ArrayList<>();
         
         next_token:
         while(true){
@@ -69,16 +67,10 @@ public class ExpressionTokenizer{
                 }
             }
             
-            errors.add(String.format("Illegal token '%c' at index %d.", text.charAt(position.getIndex()), position.getIndex()));
+            logger.warn("Illegal token '%c' at index %d.", text.charAt(position.getIndex()), position.getIndex());
             break;
         }
         
-        if(!errors.isEmpty()){
-            logger.warn("Encountered %d error(s) while parsing String \"%s\"", errors.size(), text);
-            for(String error : errors){
-                logger.warn(" - %s", error);
-            }
-        }
         return tokens;
     }
 }

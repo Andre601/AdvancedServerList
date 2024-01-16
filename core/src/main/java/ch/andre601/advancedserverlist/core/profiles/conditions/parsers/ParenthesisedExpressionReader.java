@@ -26,7 +26,6 @@
 package ch.andre601.advancedserverlist.core.profiles.conditions.parsers;
 
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
-import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplates;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 
 import java.util.ArrayList;
