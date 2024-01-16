@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.parsers;
 
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.ListOperator;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.Operator;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ConstantExpressionTemplate;
@@ -47,13 +48,14 @@ public class ExpressionTemplateParser{
         this.valueReaders = valueReaders;
     }
     
-    public ExpressionTemplate parse(List<Token> tokenList){
+    public ExpressionTemplate parse(List<Token> tokenList, PluginLogger logger){
         List<ExpressionTemplate> parts = new ArrayList<>();
         List<Operator> operators = new ArrayList<>();
         
         try{
             parts.add(read(tokenList));
         }catch(IllegalArgumentException ex){
+            logger.warn(ex.getMessage());
             return ConstantExpressionTemplate.of("");
         }
         
@@ -61,17 +63,20 @@ public class ExpressionTemplateParser{
             Token token = tokenList.remove(0);
             Operator operator = this.operators.get(token);
             if(operator == null){
+                logger.warn("Error while parsing Expression. Got \"" + token + "\" but expected OPERATOR.");
                 return ConstantExpressionTemplate.of("");
             }
             
             operators.add(operator);
             if(tokenList.isEmpty()){
+                logger.warn("Unexpected end of input for expression.");
                 return ConstantExpressionTemplate.of("");
             }
             
             try{
                 parts.add(read(tokenList));
             }catch(IllegalArgumentException ex){
+                logger.warn(ex.getMessage());
                 return ConstantExpressionTemplate.of("");
             }
         }
