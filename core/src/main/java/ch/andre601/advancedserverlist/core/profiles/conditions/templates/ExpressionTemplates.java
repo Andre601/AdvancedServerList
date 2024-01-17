@@ -31,7 +31,6 @@ import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ToDou
 import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ToStringExpression;
 
 import java.util.Collection;
-import java.util.function.Function;
 
 public class ExpressionTemplates{
     
@@ -101,10 +100,6 @@ public class ExpressionTemplates{
     
     public static ExpressionTemplate negateNumber(ExpressionTemplate template){
         return new NegationNumber(template);
-    }
-    
-    public static ExpressionTemplate applyStringToStringFunction(ExpressionTemplate template, Function<String, String> function){
-        return new ApplyStringToStringFunction(template, function);
     }
     
     private static class Negation extends AbstractBooleanExpressionTemplate{
@@ -362,22 +357,6 @@ public class ExpressionTemplates{
         @Override
         public ToDoubleExpression instantiateWithDoubleResult(){
             return Expressions.negateNumber(template.instantiateWithDoubleResult());
-        }
-    }
-    
-    private static class ApplyStringToStringFunction extends AbstractStringExpressionTemplate{
-        
-        private final ExpressionTemplate template;
-        private final Function<String, String> function;
-        
-        ApplyStringToStringFunction(ExpressionTemplate template, Function<String, String> function){
-            this.template = template;
-            this.function = function;
-        }
-        
-        @Override
-        public ToStringExpression instantiateWithStringResult(){
-            return Expressions.applyToStringFunction(template.instantiateWithStringResult(), function);
         }
     }
 }

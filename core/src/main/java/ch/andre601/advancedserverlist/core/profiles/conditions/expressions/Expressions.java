@@ -28,7 +28,6 @@ package ch.andre601.advancedserverlist.core.profiles.conditions.expressions;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.*;
 
 import java.util.Collection;
-import java.util.function.Function;
 
 public class Expressions{
     
@@ -206,15 +205,6 @@ public class Expressions{
             @Override
             public double evaluate(){
                 return -delegate.evaluate();
-            }
-        };
-    }
-    
-    public static ToStringExpression applyToStringFunction(ToStringExpression expression, Function<String, String> function){
-        return new AbstractUnaryToStringExpression<>(expression) {
-            @Override
-            public String evaluate(){
-                return function.apply(delegate.evaluate());
             }
         };
     }
