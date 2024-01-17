@@ -7,6 +7,15 @@
 priority: 0
 
 #
+# Set conditions that need to me met to show this profile.
+# You can use keywords 'and' or 'or' (Or alternatively '&&' or `||`) to make more complex condition sets.
+#
+# Read more: https://asl.andre601.ch/profiles/#condition
+#
+# condition: '${player protocol} < 759'
+#
+
+#
 # Set conditions that needs to be met.
 # Only when all conditions return true will the profile be shown (Given no profile with higher priority is used).
 #

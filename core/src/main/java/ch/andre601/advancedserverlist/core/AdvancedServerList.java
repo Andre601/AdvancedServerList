@@ -31,6 +31,7 @@ import ch.andre601.advancedserverlist.core.check.UpdateChecker;
 import ch.andre601.advancedserverlist.core.commands.CommandHandler;
 import ch.andre601.advancedserverlist.core.file.FileHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionEngine;
 import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class AdvancedServerList<F>{
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
     private final AdvancedServerListAPI api = AdvancedServerListAPI.get();
+    private final ExpressionEngine expressionEngine = new ExpressionEngine();
     
     private UpdateChecker updateChecker;
     
@@ -89,6 +91,10 @@ public class AdvancedServerList<F>{
     
     public AdvancedServerListAPI getApi(){
         return api;
+    }
+    
+    public ExpressionEngine getExpressionEngine(){
+        return expressionEngine;
     }
     
     public void disable(){

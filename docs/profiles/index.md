@@ -27,7 +27,37 @@ The priority option determines the order in which the profiles are checked by Ad
 It will go through each file until it finds one with [`conditions`](#conditions) returning true (Default if no conditions are set).  
 This means that a profile with no conditions and a priority of `1` will be used before a profile with a condition and priority `0` even if the player is meeting the condition.
 
+## Condition
+
+A string containing one or multiple conditions chained together using the keywords `and` or `or` (Or alternatively `&&` or `||`).  
+The system used is similar to the one used in BungeeTabListPlus.
+
+### Operands
+
+The following operands can be used for expressions in the condition option.
+
+| Operand       | Description                                                                                                      |
+|---------------|------------------------------------------------------------------------------------------------------------------|
+| `and` / `&&`  | Returns true if both expressions return true, else false.                                                        |
+| `or` / `\|\|` | Returns true if either expression returns true, else false.                                                      |
+| `()`          | Expressions in-between those are prioritized in evaluation, starting with the most inner first.                  |
+| `<`           | Returns true if the left side is less than the right. In case of text will the text length be used.              |
+| `<=`          | Returns true if the left side is less or equal to the right. In case of text will the text length be used.       |
+| `>`           | Returns true if the left side is larger than the right. In case of text will the text length be used.            |
+| `>=`          | Returns true if the left side is larger or equal to the right. In case of text will the text length be used.     |
+| `==` / `=`    | Returns true if both sides are equal to each other. This also checks capitalization.                             |
+| `!=`          | Returns true if both sides are NOT equal to each other. This also checks capitalization.                         |
+| `~=`          | Returns true if both sides are equal to each other while also ignoring capitalization.                           |
+| `!~`          | Returns true if both sides are NOT equal to each other while also ignoring capitalization.                       |
+| `.`           | Merges two strings into one.                                                                                     |
+| `+`           | Adds two numbers together. In case of text will its text length be used as number.                               |
+| `-`           | Subtracts the value from the right from the left number. In case of text will its text length be used as number. |
+| `*`           | Multiplies two numbers together. In case of text will its text length be used as number.                         |
+| `/`           | Divides the left number through the right number. In case of text will its text length be used as number.        |
+
 ## Conditions
+
+<!-- admo:deprecated This option was deprecated in favour of the new condition option! -->
 
 A list of conditions can be set that need to be met in order to have this profile shown to the player.  
 [Placeholders](formatting.md#placeholders) can be used to further customize the conditions (PlaceholderAPI placeholders are **not** supported).
@@ -36,22 +66,22 @@ Only when **all** conditions defined return true will the profile be displayed.
 
 You can remove this option, or set it to an empty list (`conditions: []`) to always return true.
 
-### Operands
+### Operands { #conditions-operands }
 
 The following operants are available and can be used in the conditions.
 
-<!-- admo:warning Only one operant can be used per condition! -->
+<!-- admo:warning For conditions option can you only use one operand per condition. -->
 
-| Operand | Description                                                            |
-|---------|------------------------------------------------------------------------|
-| `<`     | Checks if the left value is less than the right one.[^1]               |
-| `<=`    | Checks if the left value is less than or equal to the right one.[^1]   |
-| `>`     | Checks if the left value is more than the right one.[^1]               |
-| `>=`    | Checks if the left value is more than or equal to the right one.[^1]   |
-| `=`     | Checks if the left value is equal to the right one.                    |
-| `!=`    | Checks if the left value is not equal to the right one.                |
-| `~=`    | Checks if the left value is equal to the right one, ignoring case.     |
-| `!~`    | Checks if the left value is not equal to the right one, ignoring case. |
+| Operand       | Description                                                             |
+|---------------|-------------------------------------------------------------------------|
+| `<`           | Checks if the left value is less than the right one.[^1]                |
+| `<=`          | Checks if the left value is less than or equal to the right one.[^1]    |
+| `>`           | Checks if the left value is more than the right one.[^1]                |
+| `>=`          | Checks if the left value is more than or equal to the right one.[^1]    |
+| `=`           | Checks if the left value is equal to the right one.                     |
+| `!=`          | Checks if the left value is not equal to the right one.                 |
+| `~=`          | Checks if the left value is equal to the right one, ignoring case.      |
+| `!~`          | Checks if the left value is not equal to the right one, ignoring case.  |
 
 [^1]:
     Should the provided value not be a number, will AdvancedServerList use the text length to compare.  

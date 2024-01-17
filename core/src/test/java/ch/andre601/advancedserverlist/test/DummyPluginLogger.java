@@ -23,6 +23,38 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.conditions.expressions;
+package ch.andre601.advancedserverlist.test;
 
-public interface Expression{}
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+
+public class DummyPluginLogger implements PluginLogger{
+    @Override
+    public void debug(Class<?> clazz, String msg, Object... args){
+        info("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
+    }
+    
+    @Override
+    public void debugWarn(Class<?> clazz, String msg, Object... args){
+        warn("[DEBUG] [" + clazz.getSimpleName() + "] " + msg, args);
+    }
+    
+    @Override
+    public void info(String msg, Object... args){
+        System.out.printf((msg) + "%n", args);
+    }
+    
+    @Override
+    public void warn(String msg, Object... args){
+        System.out.printf((msg) + "%n", args);
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable){
+        System.out.printf((msg) + "%n", throwable);
+    }
+    
+    @Override
+    public void warn(String msg, Throwable throwable, Object... args){
+        System.out.printf((msg) + "%n", args);
+    }
+}

@@ -67,7 +67,7 @@ public class ProfileManager{
             if(profile.isInvalidProfile())
                 continue;
             
-            if(profile.evalConditions(player, server))
+            if(profile.evalConditions(core.getExpressionEngine(), core.getPlugin().getPluginLogger(), player, server))
                 return profile;
         }
         
