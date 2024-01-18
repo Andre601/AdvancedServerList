@@ -23,39 +23,20 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers;
+package ch.andre601.advancedserverlist.core.profiles.conditions.tokens;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
+import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.Placeholder;
 
-import java.text.ParsePosition;
-
-public class PatternTokenReader extends TokenReader{
+public class PlaceholderToken extends Token{
     
-    private final Token token;
-    private final String pattern;
-    private final boolean ignoreCase;
+    private final Placeholder value;
     
-    public PatternTokenReader(Token token, String pattern){
-        this(token, pattern, true);
+    public PlaceholderToken(Placeholder value){
+        super("PLACEHOLDER");
+        this.value = value;
     }
     
-    public PatternTokenReader(Token token, String pattern, boolean ignoreCase){
-        super(pattern.length());
-        
-        this.token = token;
-        this.pattern = pattern;
-        this.ignoreCase = ignoreCase;
-    }
-    
-    @Override
-    public Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server){
-        if(text.regionMatches(ignoreCase, position.getIndex(), pattern, 0, pattern.length())){
-            position.setIndex(position.getIndex() + pattern.length());
-            return token;
-        }
-        
-        return null;
+    public Placeholder getValue(){
+        return value;
     }
 }

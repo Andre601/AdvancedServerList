@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.expressions;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.ExpressionTokenizer;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.ListOperator;
@@ -60,8 +62,8 @@ public class ExpressionEngine{
         this.templateParser = new ExpressionTemplateParser(options.operators, options.valueReaders);
     }
     
-    public ExpressionTemplate compile(String expression, PluginLogger logger){
-        return templateParser.parse(tokenizer.parse(expression, logger));
+    public ExpressionTemplate compile(String expression, PluginLogger logger, GenericPlayer player, GenericServer server){
+        return templateParser.parse(tokenizer.parse(expression, logger, player, server));
     }
     
     public static class Options{
@@ -110,6 +112,7 @@ public class ExpressionEngine{
                     .tokenReader(new PatternTokenReader(DefaultTokens.DIV, "/"))
                     .tokenReader(new QuotedLiteralTokenReader(-10, '\"'))
                     .tokenReader(new QuotedLiteralTokenReader(-10, '\''))
+                    .tokenReader(new PlaceholderTokenReader(-20))
                     .tokenReader(new NumberTokenReader(-50))
                     .tokenReader(new NonQuotedLiteralTokenReader(-100));
             }
@@ -140,6 +143,7 @@ public class ExpressionEngine{
                     .valueReader(new StringConstantReader())
                     .valueReader(new NegatedExpressionReader(DefaultTokens.NEGATION))
                     .valueReader(new ParenthesisedExpressionReader(DefaultTokens.OPENING_PARENTHESIS, DefaultTokens.CLOSING_PARENTHESIS))
+                    .valueReader(new PlaceholderReader())
                     .valueReader(new NegatedNumberReader(DefaultTokens.SUB));
             }
             

@@ -68,9 +68,7 @@ public class ServerListProfile{
     
     public boolean evalConditions(ExpressionEngine expressionEngine, PluginLogger logger, GenericPlayer player, GenericServer server){
         if(condition != null && !condition.isEmpty()){
-            String parsedCondition = StringReplacer.replace(condition, player, server);
-            
-            ExpressionTemplate template = expressionEngine.compile(parsedCondition, logger);
+            ExpressionTemplate template = expressionEngine.compile(condition, logger, player, server);
             if(template instanceof ExpressionErrorTemplate errorTemplate){
                 logger.warn(errorTemplate.instantiateWithStringResult().evaluate());
                 return true;
@@ -195,7 +193,7 @@ public class ServerListProfile{
             }
             
             if(!this.expressions.isEmpty()){
-                logger.warn("'%s' uses 'conditions' which is deprecated in favour of the newer 'condition' option.");
+                logger.warn("'%s' uses 'conditions' which is deprecated in favour of the newer 'condition' option.", fileName);
                 logger.warn("The 'conditions' option will be removed in a future version.");
                 logger.warn("");
                 logger.warn("Please migrate your condition(s) over from the old option to the new option like this:");

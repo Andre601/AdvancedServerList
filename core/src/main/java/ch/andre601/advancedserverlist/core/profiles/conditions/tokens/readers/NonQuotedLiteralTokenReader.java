@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.StringToken;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 
@@ -37,7 +39,7 @@ public class NonQuotedLiteralTokenReader extends TokenReader{
     }
     
     @Override
-    public Token read(String text, ParsePosition position){
+    public Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server){
         int startIndex = position.getIndex();
         int index = position.getIndex();
         

@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions;
 
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers.TokenReader;
@@ -45,7 +47,7 @@ public class ExpressionTokenizer{
         this.tokenReaders = TOKEN_READER_ORDERING.immutableSortedCopy(tokenReaders);
     }
     
-    public List<Token> parse(String text, PluginLogger logger){
+    public List<Token> parse(String text, PluginLogger logger, GenericPlayer player, GenericServer server){
         ParsePosition position = new ParsePosition(0);
         
         List<Token> tokens = new LinkedList<>();
@@ -61,7 +63,7 @@ public class ExpressionTokenizer{
             
             for(TokenReader tokenReader : tokenReaders){
                 Token token;
-                if(null != (token = tokenReader.read(text, position))){
+                if(null != (token = tokenReader.read(text, position, player, server))){
                     tokens.add(token);
                     continue next_token;
                 }
