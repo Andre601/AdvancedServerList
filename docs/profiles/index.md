@@ -32,30 +32,30 @@ This means that a profile with no conditions and a priority of `1` will be used 
 A string containing one or multiple conditions chained together using the keywords `and` or `or` (Or alternatively `&&` or `||`).  
 The system used is similar to the one used in BungeeTabListPlus.
 
-### Operands
+### Operands { #condition-operands }
 
 The following operands can be used for expressions in the condition option.
 
-| Operand       | Description                                                                                                      |
-|---------------|------------------------------------------------------------------------------------------------------------------|
-| `and` / `&&`  | Returns true if both expressions return true, else false.                                                        |
-| `or` / `\|\|` | Returns true if either expression returns true, else false.                                                      |
-| `()`          | Expressions in-between those are prioritized in evaluation, starting with the most inner first.                  |
-| `<`           | Returns true if the left side is less than the right. In case of text will the text length be used.              |
-| `<=`          | Returns true if the left side is less or equal to the right. In case of text will the text length be used.       |
-| `>`           | Returns true if the left side is larger than the right. In case of text will the text length be used.            |
-| `>=`          | Returns true if the left side is larger or equal to the right. In case of text will the text length be used.     |
-| `==` / `=`    | Returns true if both sides are equal to each other. This also checks capitalization.                             |
-| `!=`          | Returns true if both sides are NOT equal to each other. This also checks capitalization.                         |
-| `~=`          | Returns true if both sides are equal to each other while also ignoring capitalization.                           |
-| `!~`          | Returns true if both sides are NOT equal to each other while also ignoring capitalization.                       |
-| `.`           | Merges two strings into one.                                                                                     |
-| `+`           | Adds two numbers together. In case of text will its text length be used as number.                               |
-| `-`           | Subtracts the value from the right from the left number. In case of text will its text length be used as number. |
-| `*`           | Multiplies two numbers together. In case of text will its text length be used as number.                         |
-| `/`           | Divides the left number through the right number. In case of text will its text length be used as number.        |
+| Operand      | Description                                                                                                      |
+|--------------|------------------------------------------------------------------------------------------------------------------|
+| `and` / `&&` | Returns true if the expression on the left and right side return true.                                           |
+| `or` / `||`  | Returns true if an expression from either side returns true.                                                     |
+| `()`         | Expressions in-between those are prioritized in evaluation, starting with the most inner first.                  |
+| `<`          | Returns true if the left side is less than the right. In case of text will the text length be used.              |
+| `<=`         | Returns true if the left side is less or equal to the right. In case of text will the text length be used.       |
+| `>`          | Returns true if the left side is larger than the right. In case of text will the text length be used.            |
+| `>=`         | Returns true if the left side is larger or equal to the right. In case of text will the text length be used.     |
+| `==` / `=`   | Returns true if both sides are equal to each other. This also checks capitalization.                             |
+| `!=`         | Returns true if both sides are NOT equal to each other. This also checks capitalization.                         |
+| `~=`         | Returns true if both sides are equal to each other while also ignoring capitalization.                           |
+| `!~`         | Returns true if both sides are NOT equal to each other while also ignoring capitalization.                       |
+| `.`          | Merges two strings into one.                                                                                     |
+| `+`          | Adds two numbers together. In case of text will its text length be used as number.                               |
+| `-`          | Subtracts the value from the right from the left number. In case of text will its text length be used as number. |
+| `*`          | Multiplies two numbers together. In case of text will its text length be used as number.                         |
+| `/`          | Divides the left number through the right number. In case of text will its text length be used as number.        |
 
-## Conditions
+## Conditions :octicons-trash-24:{ title="Deprecated" style="color: #ff5252;" }
 
 <!-- admo:deprecated This option was deprecated in favour of the new condition option! -->
 

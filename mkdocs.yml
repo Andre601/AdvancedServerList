@@ -29,6 +29,7 @@ theme:
   - navigation.tabs
   - navigation.tabs.sticky
   - content.code.copy
+  - content.tooltips
 
   icon:
     repo: 'simple/codeberg'
