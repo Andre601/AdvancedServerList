@@ -98,7 +98,7 @@ You can disable this in the global bStats config file located in `/plugins/bstat
 
 <!-- Links -->
 [profiles]: https://asl.andre601.ch/profiles/
-[conditions]: https://asl.andre601.ch/profiles/#conditions
+[conditions]: https://asl.andre601.ch/profiles/#condition
 [placeholders]: https://asl.andre601.ch/profiles/placeholders/
 [minimessage]: https://asl.andre601.ch/profiles/formatting/
 
