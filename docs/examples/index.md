@@ -6,7 +6,7 @@ icon: octicons/list-unordered-24
 
 ## About
 
-<!-- admo:info The below examples may only work in v1.10.0 or newer! -->
+<!-- admo:info The below examples may only work in v3.7.0 or newer! -->
 
 This page lists some examples you may want to use for your proxy or server.
 
@@ -38,8 +38,7 @@ This example here shows a separate MOTD and player count message for when the pl
 priority: 1
 
 # Display this profile, if the version of the player is below 760 (1.19.1)
-conditions:
-  - '${player protocol} < 760'
+condition: '${player protocol} < 760'
 
 motd:
   - '<red>You are using an outdated client!'
@@ -57,8 +56,7 @@ This profile would display a MOTD without HEX colours if the player's version is
 priority: 1
 
 # Display this profile, if the version of the player is below 735 (1.16)
-conditions:
-  - '${player protocol} < 735'
+condition: '${player protocol} < 735'
 
 motd:
   - '<grey>Welcome to <aqua>YourServer.com</aqua>!'
@@ -79,8 +77,7 @@ Displays a separate profile for when the player has been banned from the server.
 ```yaml title="banned.yml"
 priority: 1
 
-conditions:
-  - '${player isBanned} = true'
+condition: '${player isBanned}'
 
 motd:
   - '<red>You have been <bold>BANNED</bold>!'
@@ -103,8 +100,7 @@ Display a different profile when the playing pings a specific domain/IP.
 ```yaml title="specific-host.yml"
 priority: 1
 
-conditions:
-  - '${server host} = other.example.com'
+condition: '${server host} = "host.example.com"'
 
 motd:
   - '<grey>Please use <aqua>mc.example.com'
@@ -118,12 +114,11 @@ Display a different profile, if the player pinging the server is "known" by Adva
 ```yaml title="personalized.yml"
 priority: 1
 
-conditions:
-  - `${player name} != Anonymous` # "Anonymous" should be replaced with whatever you use in 'unknown_player'
+condition: '${player name} != Anonymous' # "Anonymous" would be the value from the "unknownPlayer > name" option.
 
 motd:
   - '<grey>Hello there <aqua>${player name}</aqua>!'
-  - '<grey>It's nice to see you again.'
+  - '<grey>It''s nice to see you again.'
 
 playerCount:
   hover:

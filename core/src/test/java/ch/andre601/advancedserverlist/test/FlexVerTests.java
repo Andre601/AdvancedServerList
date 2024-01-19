@@ -26,7 +26,9 @@
 package ch.andre601.advancedserverlist.test;
 
 import com.unascribed.flexver.FlexVerComparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FlexVerTests{
     
@@ -286,7 +288,9 @@ public class FlexVerTests{
     
     private void compare(String version1, String comparator, String version2, int expected){
         String expression = version1 + " " + comparator + " " + version2 + "?";
+        int result = FlexVerComparator.compare(version1, version2);
         
         System.out.printf("│ %-24s %5b │\n", expression, FlexVerComparator.compare(version1, version2) == expected);
+        assertEquals(result, expected);
     }
 }
