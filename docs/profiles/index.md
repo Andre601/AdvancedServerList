@@ -24,13 +24,31 @@ In order for a profile to be considered "valid" by AdvancedServerList will it ne
 
 The priority option determines the order in which the profiles are checked by AdvancedServerList, starting with the highest number.
 
-It will go through each file until it finds one with [`conditions`](#conditions) returning true (Default if no conditions are set).  
+It will go through each file until it finds one with [`condition`](#condition) returning true (Default if no conditions are set).  
 This means that a profile with no conditions and a priority of `1` will be used before a profile with a condition and priority `0` even if the player is meeting the condition.
 
 ## Condition
 
+<!-- admo:tip Surround any text that is not an operand or placeholder in single or double quotes to avoid parsing errors. -->
+
 A string containing one or multiple conditions chained together using the keywords `and` or `or` (Or alternatively `&&` or `||`).  
-The system used is similar to the one used in BungeeTabListPlus.
+The system used for conditions is adobted from BungeeTabListPlus.
+
+/// details | Example
+    type: example
+
+```yaml title="YAML file"
+priority: 0
+
+# Checks if the player is using 1.20 or newer AND is whitelisted
+condition: |
+  ${player protocol} >= 763 and
+  ${player isWhitelisted}
+
+motd:
+  - 'Welcome ${player name}!'
+```
+///
 
 ### Operands { #condition-operands }
 
