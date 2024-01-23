@@ -111,10 +111,6 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
                         <relocation>
-                            <pattern>org.spongepowered.configurate</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.velocity.depends.configurate</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.velocity.depends.bstats</shadedPattern>
                         </relocation>
