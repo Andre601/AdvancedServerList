@@ -30,6 +30,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class ExpressionParserTests{
     
     private final ExpressionEngine expressionEngine = new ExpressionEngine();
@@ -43,6 +45,7 @@ public class ExpressionParserTests{
             
             boolean result = expressionEngine.compile(values.getKey(), logger, null, null).instantiateWithBooleanResult().evaluate();
             logger.info("Result (output, isExpected): " + result + ", " + (result == values.getValue()));
+            assertEquals(result, values.getValue());
         }
     }
     
