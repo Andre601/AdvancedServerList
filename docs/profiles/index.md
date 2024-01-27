@@ -56,7 +56,7 @@ The following operands can be used for expressions in the condition option.
 
 | Operand      | Description                                                                                                      |
 |--------------|------------------------------------------------------------------------------------------------------------------|
-| `and` / `&&` | Returns true if the expression on the left and right side return true.                                           |
+| `and` / `&&` | Returns true if the expressions to the left and right of it return true.                                         |
 | `or` / `||`  | Returns true if an expression from either side returns true.                                                     |
 | `()`         | Expressions in-between those are prioritized in evaluation, starting with the most inner first.                  |
 | `<`          | Returns true if the left side is less than the right. In case of text will the text length be used.              |
