@@ -21,9 +21,9 @@ These placeholders use the player who pinged the server, to return values. They 
 | `${player protocol}`        | The protocol version of the player.                             | All          | No                          |
 | `${player uuid}`            | The UUID of the player.                                         | All          | Yes[^3]                     |
 | `${player version}`         | The protocol version of the player as readable MC version.      | Velocity     | No                          |
-| `${player hasPlayedBefore}` | Boolean for whether the player has played on the server before. | Spigot/Paper | Yes                         |
-| `${player isBanned}`        | Boolean for whether the player has been banned from the server. | Spigot/Paper | Yes                         |
-| `${player isWhitelisted}`   | Boolean for whether the player is whitelisted on the server.    | Spigot/Paper | Yes                         |
+| `${player hasPlayedBefore}` | Boolean for whether the player has played on the server before. | Paper        | Yes                         |
+| `${player isBanned}`        | Boolean for whether the player has been banned from the server. | Paper        | Yes                         |
+| `${player isWhitelisted}`   | Boolean for whether the player is whitelisted on the server.    | Paper        | Yes                         |
 
 [^1]:
     Whether this placeholder requires the player to have joined before while AdvancedServerList was running.  
@@ -35,21 +35,21 @@ These placeholders use the player who pinged the server, to return values. They 
 
 These placeholders use values given by the server/proxy AdvancedServerList runs on.
 
-| Placeholder                  | Description                                                             |
-|------------------------------|-------------------------------------------------------------------------|
-| `${server playersOnline}`    | The number of players online on this proxy/server.[^4]                  |
-| `${server playersMax}`       | The total number of players that can join this server.[^5]              |
-| `${server host}`             | The domain/IP the player pinged.[^6]                                    |
-| `${server whitelistEnabled}` | Whether the whitelist is enabled or not. Only available on Spigot/Paper |
+| Placeholder                  | Description                                                | Platforms           |
+|------------------------------|------------------------------------------------------------|---------------------|
+| `${server playersOnline}`    | The number of players online on this proxy/server.[^4]     | All                 |
+| `${server playersMax}`       | The total number of players that can join this server.[^5] | All                 |
+| `${server host}`             | The domain/IP the player pinged.[^6]                       | BungeeCord/Velocity |
+| `${server whitelistEnabled}` | Whether the whitelist is enabled or not.                   | Paper               |
 
 [^4]:
     A comma-separated list of world (On Paper) or Server (On BungeeCord/Velocity) names can be provided to display the added numbers of players in these worlds/servers.  
     **Example:** `${server playersOnline lobby1,lobby2}` will display the collective numbers of players in the servers `lobby1` and `lobby2`.
 [^5]:
-    When the [`amount` option](../index.md#amount) is used will this placeholder display the modified max players count.  
-    The only exception is [`conditions`](../index.md#conditions) where it uses the actual max players of the server/proxy.
+    Using either the [extraPlayers' `amount`](index.md#extraplayers-amount) or [maxPlayers' `amount`](index.md#maxplayers-amount) option will make this placeholder return the modified max players count.  
+    Only exception to this rule is when the placeholder is used in the [`condition`](index.md#condition) option in which case it returns the actual max player count of the proxy/server.
 [^6]:
-    An optional server name can be provided to display the IP/Domain associated with that server. Only works on BungeeCord/Velocity.
+    An optional server name can be provided to display the IP/Domain associated with that server.  
     **Example:** `${server host survival}` would display the IP/Domain associated with the `survival` server.
 
 ## PlaceholderAPI
