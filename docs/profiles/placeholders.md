@@ -35,12 +35,12 @@ These placeholders use the player who pinged the server, to return values. They 
 
 These placeholders use values given by the server/proxy AdvancedServerList runs on.
 
-| Placeholder                  | Description                                                | Platforms           |
-|------------------------------|------------------------------------------------------------|---------------------|
-| `${server playersOnline}`    | The number of players online on this proxy/server.[^4]     | All                 |
-| `${server playersMax}`       | The total number of players that can join this server.[^5] | All                 |
-| `${server host}`             | The domain/IP the player pinged.[^6]                       | BungeeCord/Velocity |
-| `${server whitelistEnabled}` | Whether the whitelist is enabled or not.                   | Paper               |
+| Placeholder                  | Description                                                | Platforms |
+|------------------------------|------------------------------------------------------------|-----------|
+| `${server playersOnline}`    | The number of players online on this proxy/server.[^4]     | All       |
+| `${server playersMax}`       | The total number of players that can join this server.[^5] | All       |
+| `${server host}`             | The domain/IP the player pinged.[^6]                       | All       |
+| `${server whitelistEnabled}` | Whether the whitelist is enabled or not.                   | Paper     |
 
 [^4]:
     A comma-separated list of world (On Paper) or Server (On BungeeCord/Velocity) names can be provided to display the added numbers of players in these worlds/servers.  
@@ -49,7 +49,7 @@ These placeholders use values given by the server/proxy AdvancedServerList runs 
     Using either the [extraPlayers' `amount`](index.md#extraplayers-amount) or [maxPlayers' `amount`](index.md#maxplayers-amount) option will make this placeholder return the modified max players count.  
     Only exception to this rule is when the placeholder is used in the [`condition`](index.md#condition) option in which case it returns the actual max player count of the proxy/server.
 [^6]:
-    An optional server name can be provided to display the IP/Domain associated with that server.  
+    An optional server name can be provided to display the IP/Domain associated with that server. This only works on BungeeCord or Velocity.  
     **Example:** `${server host survival}` would display the IP/Domain associated with the `survival` server.
 
 ## PlaceholderAPI
