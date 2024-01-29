@@ -81,12 +81,6 @@
             <version>4.1.2</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.12.0</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
     
     <build>
@@ -113,10 +107,6 @@
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.velocity.depends.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>okhttp3</pattern>
-                            <shadedPattern>ch.andre601.advancedserverlist.velocity.depends.okhttp3</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

@@ -30,18 +30,17 @@ import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import com.unascribed.flexver.FlexVerComparator;
 import io.leangen.geantyref.TypeToken;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -49,12 +48,10 @@ import java.util.concurrent.TimeUnit;
 
 public class UpdateChecker{
     
-    private final String url = "https://api.modrinth.com/v2/project/advancedserverlist/version?loaders=[\"%s\"]";
-    private final OkHttpClient client = new OkHttpClient();
-    
-    private final AdvancedServerList<?> core;
-    private final PluginLogger logger;
-    private final String loader;
+    @SuppressWarnings("FieldCanBeLocal")
+    // 'https://api.modrinth.com/v2/project/advancedserverlist/version?loaders=["%s"]' URL encoded.
+    private final String url = "https://api.modrinth.com/v2/project/advancedserverlist/version?loaders=%%5B%%22%s%%22%%5D";
+    private final HttpClient client = HttpClient.newHttpClient();
     
     private final Type listType = new TypeToken<ArrayList<ModrinthVersion>>(){}.getType();
     private final Gson gson = new GsonBuilder()
@@ -65,6 +62,10 @@ public class UpdateChecker{
     
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new UpdateCheckThread());
     
+    private final AdvancedServerList<?> core;
+    private final PluginLogger logger;
+    private final String loader;
+    
     public UpdateChecker(AdvancedServerList<?> core){
         this.core = core;
         this.logger = core.getPlugin().getPluginLogger();
@@ -73,12 +74,27 @@ public class UpdateChecker{
         startUpdateChecker();
     }
     
-    public void startUpdateChecker(){
+    public void disable(){
+        executor.shutdown();
+        try{
+            if(!executor.awaitTermination(1, TimeUnit.SECONDS)){
+                executor.shutdownNow();
+                if(!executor.awaitTermination(1, TimeUnit.SECONDS))
+                    logger.warn("Scheduler did not terminate in time!");
+            }
+        }catch(InterruptedException ex){
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
+    
+    private void startUpdateChecker(){
         executor.scheduleAtFixedRate(() -> {
-            logger.info("Checking for a new update...");
-            checkUpdate().whenComplete((version, throwable) -> {
+            logger.info("Looking for an update...");
+            
+            performUpdateCheck().whenComplete((version, throwable) -> {
                 if(version == null || throwable != null){
-                    logger.warn("Failed to look for any updates. See previous messages for reasons.");
+                    logger.warn("Failed to look for any updates. Check previous messages for causes.");
                     return;
                 }
                 
@@ -87,106 +103,44 @@ public class UpdateChecker{
                 int result = version.compare(core.getVersion());
                 switch(result){
                     case -1 -> printUpdateBanner(version);
-                    case 0 -> logger.info("No new update found. You're running the latest version!");
+                    case 0 -> logger.info("You are running the latest version!");
                     case 1 -> logger.info(
-                        "Your version (%s) is higher than the latest release (%s). Are you running a dev build?",
-                        core.getVersion(), version.getVersionNumber()
+                        "Your version (%s) seems to be newer than the latest release (%s). Are you running a dev build?",
+                        core.getVersion(), version.versionNumber()
                     );
                 }
             });
         }, 0L, 12L, TimeUnit.HOURS);
     }
     
-    public void disable(){
-        executor.shutdown();
-        client.dispatcher().executorService().shutdown();
-        try{
-            if(!executor.awaitTermination(1, TimeUnit.SECONDS)){
-                executor.shutdownNow();
-                if(!executor.awaitTermination(1, TimeUnit.SECONDS))
-                    logger.warn("Scheduler didn't terminate in time!");
-            }
-            
-            if(!client.dispatcher().executorService().awaitTermination(1, TimeUnit.SECONDS)){
-                client.dispatcher().executorService().shutdownNow();
-                if(!client.dispatcher().executorService().awaitTermination(1, TimeUnit.SECONDS))
-                    logger.warn("OkHttp's Scheduler didn't terminate in time!");
-            }
-        }catch(InterruptedException ex){
-            executor.shutdownNow();
-            Thread.currentThread().interrupt();
+    private CompletableFuture<ModrinthVersion> performUpdateCheck(){
+        String finalUrl = String.format(url, loader);
+        
+        logger.debug(UpdateChecker.class, "Checking '%s' for updates...", finalUrl);
+        
+        if(core.getVersion().equals("UNKNOWN")){
+            logger.warn("Cannot perform update check. Plugin version is 'UNKNOWN'!");
+            return CompletableFuture.completedFuture(null);
         }
-    }
-    
-    private CompletableFuture<ModrinthVersion> checkUpdate(){
-        return CompletableFuture.supplyAsync(() -> {
-            PluginLogger logger = core.getPlugin().getPluginLogger();
-            String finalUrl = String.format(url, loader);
-            
-            logger.debug(UpdateChecker.class, "Looking for updates on '%s'...", finalUrl);
-            
-            if(core.getVersion().equals("UNKNOWN")){
-                logger.warn("Cannot perform Update check! Plugin version couldn't be parsed.");
-                return null;
-            }
-            
-            Request request = new Request.Builder()
-                .url(finalUrl)
+        
+        HttpRequest request;
+        try{
+            request = HttpRequest.newBuilder()
+                .uri(new URI(finalUrl))
                 .header("User-Agent", "AdvancedServerList-" + loader + "/" + core.getVersion())
                 .build();
-            
-            logger.debug(UpdateChecker.class, "Connecting to website...");
-            
-            try(Response response = client.newCall(request).execute()){
-                logger.debug(UpdateChecker.class, "Connected! Checking response code...");
-                
-                if(!response.isSuccessful()){
-                    logger.warn("Encountered a non-successful response from Modrinth! Code: %d", response.code());
-                    return null;
-                }
-                
-                logger.debug(UpdateChecker.class, "Received positive response code '%d'", response.code());
-    
-                ResponseBody body = response.body();
-                if(body == null){
-                    logger.warn("Received an empty Response body from Modrinth!");
-                    return null;
-                }
-                
-                String responseString = body.string();
-                if(responseString.isEmpty()){
-                    logger.warn("Received an empty Response body from Modrinth!");
-                    return null;
-                }
-                
-                logger.debug(UpdateChecker.class, "Received non-empty response body. Parsing it from JSON Array...");
-                
-                List<ModrinthVersion> list = gson.fromJson(responseString, listType);
-                if(list == null || list.isEmpty()){
-                    logger.warn("Couldn't convert JSON Array into a valid list.");
-                    return null;
-                }
-                
-                ModrinthVersion version = list.get(0);
-                
-                logger.debug(UpdateChecker.class, "Found entry '%s'", version);
-                
-                if(version.getVersionNumber() == null || version.getVersionNumber().isEmpty()){
-                    logger.warn("Cannot check latest version. Received version number was null/empty.");
-                    return null;
-                }
-                
-                logger.debug(UpdateChecker.class, "Successfully parsed version!");
-                
-                return version;
-            }catch(JsonSyntaxException ex){
-                logger.warn("Encountered invalid JSON from Response body!", ex);
+        }catch(URISyntaxException ex){
+            logger.warn("Cannot perform update check. URL '%s' is not a valid URI.", ex, finalUrl);
+            return CompletableFuture.completedFuture(null);
+        }
+        
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8))
+            .thenApply(response -> new ArrayList<ModrinthVersion>(gson.fromJson(response.body(), listType)))
+            .thenApply(list -> list.get(0))
+            .exceptionally((throwable) -> {
+                logger.warn("Encountered exception while performing update check!", throwable);
                 return null;
-            }catch(IOException ex){
-                logger.warn("Encountered Exception while checking for an update!", ex);
-                return null;
-            }
-        });
+            });
     }
     
     private void printUpdateBanner(ModrinthVersion version){
@@ -194,53 +148,33 @@ public class UpdateChecker{
         logger.info("You are running an outdated version of AdvancedServerList!");
         logger.info("");
         logger.info("Your version: %s", core.getVersion());
-        logger.info("Modrinth version: %s", version.getVersionNumber());
+        logger.info("Modrinth:     %s", version.versionNumber());
         logger.info("");
         
         if(!version.isRelease()){
-            logger.info("WARNING: This release is an Alpha/Beta! It may contain");
-            logger.info("         breaking changes!");
+            logger.info("WARNING!");
+            logger.info("This is a %s version and may contain breaking changes and/or bugs!", version.versionType());
             logger.info("");
         }
         
-        logger.info("You can download the latest release from here:");
-        logger.info("https://modrinth.com/plugin/advancedserverlist/version/%s", version.getId());
+        logger.info("Download the latest version from here:");
+        logger.info("https://modrinth.com/plugin/advancedserverlist/version/%s", version.id());
         logger.info("==================================================================");
     }
     
-    public static class ModrinthVersion{
-        @SuppressWarnings("FieldMayBeFinal")
-        private String id;
-        @SuppressWarnings("FieldMayBeFinal")
-        private String versionNumber;
-        @SuppressWarnings("FieldMayBeFinal")
-        private String versionType;
-        
-        public ModrinthVersion(String id, String versionNumber, String versionType){
-            this.id = id;
-            this.versionNumber = versionNumber;
-            this.versionType = versionType;
-        }
-    
-        public String getId(){
-            return id;
-        }
-    
-        public String getVersionNumber(){
-            return versionNumber;
-        }
+    public record ModrinthVersion(String id, String versionNumber, String versionType){
         
         public boolean isRelease(){
-            return versionType.equals("release");
+            return versionType().equals("release");
         }
         
         public int compare(String version){
-            return FlexVerComparator.compare(version, versionNumber);
+            return FlexVerComparator.compare(version, versionNumber());
         }
         
         @Override
         public String toString(){
-            return String.format("ModrinthVersion{id=%s,versionNumber=%s,versionType=%s}", id, versionNumber, versionNumber);
+            return String.format("ModrinthVersion{id=%s,versionNumber=%s,versionType=%s}", id, versionNumber, versionType);
         }
     }
 }

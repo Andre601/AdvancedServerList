@@ -4,7 +4,6 @@ version: '${plugin.version}'
 description: '${plugin.description}'
 
 main: 'ch.andre601.advancedserverlist.paper.PaperCore'
-loader: 'ch.andre601.advancedserverlist.paper.ASLLoader'
 
 api-version: '1.19'
 
