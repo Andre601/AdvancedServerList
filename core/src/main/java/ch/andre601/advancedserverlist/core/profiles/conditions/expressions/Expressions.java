@@ -32,7 +32,7 @@ import java.util.Collection;
 public class Expressions{
     
     public static ToBooleanExpression negate(ToBooleanExpression expression){
-        return new AbstractUnaryToBooleanExpression<>(expression) {
+        return new AbstractUnaryToBooleanExpression<>(expression){
             @Override
             public boolean evaluate(){
                 return !delegate.evaluate();
@@ -41,7 +41,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression and(Collection<ToBooleanExpression> operands){
-        return new AbstractToBooleanExpression<>(operands) {
+        return new AbstractToBooleanExpression<>(operands){
             @Override
             public boolean evaluate(){
                 for(ToBooleanExpression operand : operands){
@@ -55,7 +55,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression or(Collection<ToBooleanExpression> operands){
-        return new AbstractToBooleanExpression<>(operands) {
+        return new AbstractToBooleanExpression<>(operands){
             @Override
             public boolean evaluate(){
                 for(ToBooleanExpression operand : operands){
@@ -69,7 +69,7 @@ public class Expressions{
     }
     
     public static ToStringExpression concat(Collection<ToStringExpression> operands){
-        return new AbstractToStringExpression<>(operands) {
+        return new AbstractToStringExpression<>(operands){
             @Override
             public String evaluate(){
                 StringBuilder result = new StringBuilder();
@@ -83,7 +83,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression equal(ToStringExpression a, ToStringExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return a.evaluate().equals(b.evaluate());
@@ -92,7 +92,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression notEqual(ToStringExpression a, ToStringExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return !a.evaluate().equals(b.evaluate());
@@ -101,7 +101,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression equalIgnoreCase(ToStringExpression a, ToStringExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return a.evaluate().equalsIgnoreCase(b.evaluate());
@@ -110,7 +110,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression notEqualIgnoreCase(ToStringExpression a, ToStringExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return !a.evaluate().equalsIgnoreCase(b.evaluate());
@@ -118,8 +118,35 @@ public class Expressions{
         };
     }
     
+    public static ToBooleanExpression startsWith(ToStringExpression a, ToStringExpression b){
+        return new AbstractBinaryToBooleanExpression<>(a, b){
+            @Override
+            public boolean evaluate(){
+                return a.evaluate().startsWith(b.evaluate());
+            }
+        };
+    }
+    
+    public static ToBooleanExpression endsWith(ToStringExpression a, ToStringExpression b){
+        return new AbstractBinaryToBooleanExpression<>(a, b){
+            @Override
+            public boolean evaluate(){
+                return a.evaluate().endsWith(b.evaluate());
+            }
+        };
+    }
+    
+    public static ToBooleanExpression contains(ToStringExpression a, ToStringExpression b){
+        return new AbstractBinaryToBooleanExpression<>(a, b){
+            @Override
+            public boolean evaluate(){
+                return a.evaluate().contains(b.evaluate());
+            }
+        };
+    }
+    
     public static ToBooleanExpression greaterThan(ToDoubleExpression a, ToDoubleExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return a.evaluate() > b.evaluate();
@@ -128,7 +155,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression greaterOrEqualThan(ToDoubleExpression a, ToDoubleExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return a.evaluate() >= b.evaluate();
@@ -137,7 +164,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression lessThan(ToDoubleExpression a, ToDoubleExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return a.evaluate() < b.evaluate();
@@ -146,7 +173,7 @@ public class Expressions{
     }
     
     public static ToBooleanExpression lessOrEqualThan(ToDoubleExpression a, ToDoubleExpression b){
-        return new AbstractBinaryToBooleanExpression<>(a, b) {
+        return new AbstractBinaryToBooleanExpression<>(a, b){
             @Override
             public boolean evaluate(){
                 return a.evaluate() <= b.evaluate();
@@ -155,7 +182,7 @@ public class Expressions{
     }
     
     public static ToDoubleExpression sum(Collection<ToDoubleExpression> operands){
-        return new AbstractToDoubleExpression<>(operands) {
+        return new AbstractToDoubleExpression<>(operands){
             @Override
             public double evaluate(){
                 double result = 0;
@@ -169,7 +196,7 @@ public class Expressions{
     }
     
     public static ToDoubleExpression product(Collection<ToDoubleExpression> operands){
-        return new AbstractToDoubleExpression<>(operands) {
+        return new AbstractToDoubleExpression<>(operands){
             @Override
             public double evaluate(){
                 double result = 1;
@@ -183,7 +210,7 @@ public class Expressions{
     }
     
     public static ToDoubleExpression sub(ToDoubleExpression a, ToDoubleExpression b){
-        return new AbstractBinaryToDoubleExpression<>(a, b) {
+        return new AbstractBinaryToDoubleExpression<>(a, b){
             @Override
             public double evaluate(){
                 return a.evaluate() - b.evaluate();
@@ -192,7 +219,7 @@ public class Expressions{
     }
     
     public static ToDoubleExpression div(ToDoubleExpression a, ToDoubleExpression b){
-        return new AbstractBinaryToDoubleExpression<>(a, b) {
+        return new AbstractBinaryToDoubleExpression<>(a, b){
             @Override
             public double evaluate(){
                 return a.evaluate() / b.evaluate();
@@ -201,7 +228,7 @@ public class Expressions{
     }
     
     public static ToDoubleExpression negateNumber(ToDoubleExpression a){
-        return new AbstractUnaryToDoubleExpression<>(a) {
+        return new AbstractUnaryToDoubleExpression<>(a){
             @Override
             public double evaluate(){
                 return -delegate.evaluate();

@@ -66,6 +66,18 @@ public class ExpressionTemplates{
         return new NotEqualIgnoreCase(a, b);
     }
     
+    public static ExpressionTemplate startsWith(ExpressionTemplate a, ExpressionTemplate b){
+        return new StartsWith(a, b);
+    }
+    
+    public static ExpressionTemplate endsWith(ExpressionTemplate a, ExpressionTemplate b){
+        return new EndsWith(a, b);
+    }
+    
+    public static ExpressionTemplate contains(ExpressionTemplate a, ExpressionTemplate b){
+        return new Contains(a, b);
+    }
+    
     public static ExpressionTemplate greater(ExpressionTemplate a, ExpressionTemplate b){
         return new Greater(a, b);
     }
@@ -219,6 +231,54 @@ public class ExpressionTemplates{
         @Override
         public ToBooleanExpression instantiateWithBooleanResult(){
             return Expressions.notEqualIgnoreCase(a.instantiateWithStringResult(), b.instantiateWithStringResult());
+        }
+    }
+    
+    private static class StartsWith extends AbstractBooleanExpressionTemplate{
+        
+        private final ExpressionTemplate a;
+        private final ExpressionTemplate b;
+        
+        private StartsWith(ExpressionTemplate a, ExpressionTemplate b){
+            this.a = a;
+            this.b = b;
+        }
+        
+        @Override
+        public ToBooleanExpression instantiateWithBooleanResult(){
+            return Expressions.startsWith(a.instantiateWithStringResult(), b.instantiateWithStringResult());
+        }
+    }
+    
+    private static class EndsWith extends AbstractBooleanExpressionTemplate{
+        
+        private final ExpressionTemplate a;
+        private final ExpressionTemplate b;
+        
+        private EndsWith(ExpressionTemplate a, ExpressionTemplate b){
+            this.a = a;
+            this.b = b;
+        }
+        
+        @Override
+        public ToBooleanExpression instantiateWithBooleanResult(){
+            return Expressions.endsWith(a.instantiateWithStringResult(), b.instantiateWithStringResult());
+        }
+    }
+    
+    private static class Contains extends AbstractBooleanExpressionTemplate{
+        
+        private final ExpressionTemplate a;
+        private final ExpressionTemplate b;
+        
+        private Contains(ExpressionTemplate a, ExpressionTemplate b){
+            this.a = a;
+            this.b = b;
+        }
+        
+        @Override
+        public ToBooleanExpression instantiateWithBooleanResult(){
+            return Expressions.contains(a.instantiateWithStringResult(), b.instantiateWithStringResult());
         }
     }
     

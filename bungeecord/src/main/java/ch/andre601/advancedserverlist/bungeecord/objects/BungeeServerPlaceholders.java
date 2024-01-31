@@ -85,6 +85,8 @@ public class BungeeServerPlaceholders extends PlaceholderProvider{
                 
                 if(args.length == 2){
                     ServerInfo info = proxy.getServers().get(args[1]);
+                    if(info == null)
+                        yield null;
                     
                     yield String.valueOf(((InetSocketAddress)info.getSocketAddress()).getHostString());
                 }
