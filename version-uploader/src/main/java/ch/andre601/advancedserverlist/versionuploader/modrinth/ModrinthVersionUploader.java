@@ -90,11 +90,12 @@ public class ModrinthVersionUploader{
             List<ProjectVersion.ProjectDependency> dependencies = new ArrayList<>();
             // Maintenance plugin
             dependencies.add(new ProjectVersion.ProjectDependency(null, "VCAqN1ln", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
-            // ViaVersion plugin
-            dependencies.add(new ProjectVersion.ProjectDependency(null, "P1OZGk5p", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
             if(!platforms.get(i).getPlatform().equalsIgnoreCase("paper")){
                 // PAPIProxyBridge plugin
                 dependencies.add(new ProjectVersion.ProjectDependency(null, "bEIUEGTX", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
+            }else{
+                // ViaVersion plugin
+                dependencies.add(new ProjectVersion.ProjectDependency(null, "P1OZGk5p", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
             }
             
             CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
