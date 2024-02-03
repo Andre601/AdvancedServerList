@@ -100,7 +100,7 @@ public class ExpressionEngine{
                     .tokenReader(new PatternTokenReader(DefaultTokens.NOT_EQUAL_IGNORE_CASE, "!~"))
                     .tokenReader(new PatternTokenReader(DefaultTokens.STARTS_WITH, "|-"))
                     .tokenReader(new PatternTokenReader(DefaultTokens.ENDS_WITH, "-|"))
-                    .tokenReader(new PatternTokenReader(DefaultTokens.CONTAINS, "<-"))
+                    .tokenReader(new PatternTokenReader(DefaultTokens.CONTAINS, "<_"))
                     .tokenReader(new PatternTokenReader(DefaultTokens.GREATER_OR_EQUAL_THAN, ">="))
                     .tokenReader(new PatternTokenReader(DefaultTokens.LESSER_OR_EQUAL_THAN, "<="))
                     .tokenReader(new PatternTokenReader(DefaultTokens.OPENING_PARENTHESIS, "("))
