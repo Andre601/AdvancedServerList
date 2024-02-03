@@ -87,7 +87,7 @@ The following binary operators can be used for boolean evaluation:
 | `!~`                             | Both expressions are not equal (Not case sensitive).                                                        |
 | <code>&#124;-</code>             | Left expression starts with right expression.                                                               |
 | <code>-&#124;</code>             | Left expression ends with right expression.                                                                 |
-| `<-`                             | Left expression contains right expression.                                                                  |
+| `<_`                             | Left expression contains right expression.                                                                  |
 | `<`                              | Left expression is less than the right expression. Strings use their text length as number.                 |
 | `<=`                             | Left expression is less than, or equal to, the right expression. Strings use their text length as number.   |
 | `>`                              | Left expression is larger than the right expression. Strings use their text length as number.               |
