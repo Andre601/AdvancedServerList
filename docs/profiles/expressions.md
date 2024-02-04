@@ -93,7 +93,7 @@ The following binary operators can be used for boolean evaluation:
 | `>`                              | Left expression is larger than the right expression. Strings use their text length as number.               |
 | `>=`                             | Left expression is larger than, or equal to, the right expression. Strings use their text length as number. |
 
-Additionally can these additional binary operators used for specific actions:
+These additional binary operators can also be used to perform certain actions:
 
 | Operator | Semantic                                                                    |
 |----------|-----------------------------------------------------------------------------|
