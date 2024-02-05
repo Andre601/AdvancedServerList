@@ -103,6 +103,13 @@ These additional binary operators can also be used to perform certain actions:
 | `*`      | Multiplies two numbers. Strings use their text length as number.            |
 | `/`      | Divides one number by another. Strings use their text length as number.     |
 
+Examples:  
+```
+${player name} != "Anonymous"
+763 > ${player protocol} > 758
+${player hasPlayedBefore} and ${player isBanned} == "false"
+```
+
 ### Parenthesis
 
 `( <expression> )` is a valid expression.
@@ -120,4 +127,4 @@ Parenthesis can be used to prevent ambiguities.
 ## Credits
 
 This page, including examples used, was adobted from the BungeeTabListPlus wiki.  
-The original wiki page can be found here: https://github.com/CodeCrafter47/BungeeTabListPlus/wiki/Expressions
+The original wiki page can be found here: https://github.com/CodeCrafter47/BungeeTabListPlus/wiki/Expressions{ target="_blank" rel="nofollow" }
