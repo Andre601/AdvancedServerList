@@ -40,7 +40,7 @@ document$.subscribe(async () => {
         const versionToken = '{version}'
         const entries = document.querySelectorAll('.md-content code');
         for(const entry of entries) {
-            entry.innerHTML = entry.innerHTML.replace(new RegExp(versionToken, 'g'), version);
+            entry.innerHTML = entry.innerHTML.replace(new RegExp(versionToken, 'g'), version.substring(1));
         }
     }
     

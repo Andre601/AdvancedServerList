@@ -11,17 +11,36 @@ It tries to be an easy to understand as possible. But if you still have problems
 
 The first step would be to download the plugin from a download page of your choice. As of writing this is AdvancedServerList updated and available on these sites:
 
-- [Modrinth]
-- [Codeberg]
+<div class="grid cards" markdown>
+
+-   [:simple-modrinth: **Modrinth**][modrinth]
+    
+    ----
+    
+    :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
+
+-   [:simple-codeberg: **Codeberg**][codeberg]
+    
+    ----
+    
+    :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
+
+-   [:fontawesome-solid-paper-plane: **HangarMC**][hangar]
+    
+    ----
+    
+    :octicons-alert-24:{ style="color: var(--md-badge-fg--warning);" } **On Pause!**
+
+-   [:simple-spigotmc: **SpigotMC**][spigot]
+    
+    ----
+    
+    :octicons-alert-24:{ style="color: var(--md-badge-fg--warning);" } **Discontinued!**
+
+</div>
 
 [modrinth]: https://modrinth.com/plugin/advancedserverlist
 [codeberg]: https://codeberg.org/Andre601/AdvancedServerList
-
-The plugin is also available on these platforms, but not actively updated there anymore:
-
-- [Spigot] (Latest version: `3.3.0-b1`)
-- [Hangar] (Latest version: `3.5.0`)
-
 [spigot]: https://www.spigotmc.org/resources/102910/
 [hangar]: https://hangar.papermc.io/Andre_601/AdvancedServerList
 
@@ -29,10 +48,44 @@ The plugin is available for Paper, BungeeCord, Waterfall and Velocity, and has b
 
 The plugin also supports these additional plugins. They are all optional.
 
-- [PlaceholderAPI] - Used on the Spigot and Paper server for additional Placeholder parsing.
-- [ViaVersion] - Used on the Paper server for additional protocol version handling.
-- [PAPIProxyBridge] - Used on BungeeCord, Waterfall and Velocity for PlaceholderAPI support.
-- [Maintenance] - Used to disable server list handling while maintenance is active.
+<div class="grid cards" markdown>
+
+-   [**PlaceholderAPI**][placeholderapi]
+
+    ----
+    
+    Supported on:
+    
+    - :fontawesome-solid-paper-plane: Paper
+
+-   [**ViaVersion**][viaversion]
+    
+    ----
+    
+    Supported on:
+    
+    - :fontawesome-solid-paper-plane: Paper
+
+-   [**PAPIProxyBridge**][papiproxybridge]
+    
+    ----
+    
+    Supported on:
+    
+    - :simple-spigotmc: BungeeCord
+    - :fontawesome-solid-paper-plane: Velocity
+
+-   [**Maintenance**][maintenance]
+    
+    ----
+    
+    Supported on:
+    
+    - :fontawesome-solid-paper-plane: Paper
+    - :simple-spigotmc: BungeeCord
+    - :fontawesome-solid-paper-plane: Velocity
+    
+</div>
 
 [placeholderapi]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
 [viaversion]: https://hangar.papermc.io/ViaVersion/ViaVersion
@@ -85,13 +138,12 @@ On first creation will the folder have a `default.yml` file. This file contains 
 priority: 0
 
 #
-# Set conditions that needs to be met.
-# Only when all conditions return true will the profile be shown (Given no profile with higher priority is used).
+# Set conditions that need to me met to show this profile.
+# You can use keywords 'and' or 'or' (Or alternatively '&&' or `||`) to make more complex condition sets.
 #
-# Read more: https://asl.andre601.ch/profiles/#conditions
+# Read more: https://asl.andre601.ch/profiles/#condition
 #
-#conditions:
-#  - '{playerVersion} < 759'
+# condition: '${player protocol} < 759'
 
 #
 # Option that allows you to define multiple profiles to use.
@@ -359,8 +411,7 @@ Here is another example profile using conditions:
 ```yaml title="other_profile.yml"
 priority: 1
 
-conditions:
-  - '${player isBanned} = true'
+condition: '${player isBanned}'
 
 motd:
   - '<red>You got <bold>banned</bold> from this server.'
