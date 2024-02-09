@@ -77,7 +77,7 @@ Displays the same MOTDs for the server when pinged on any sub-domain starting wi
 ```yaml title="lobby-motd.yml"
 priority: 1
 
-condition: '${server host} <_ "lobby"'
+condition: '${server host} |- "lobby"'
 
 motd:
   - '<green>Lobby Server'
