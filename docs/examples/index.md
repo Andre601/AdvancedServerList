@@ -135,7 +135,7 @@ Display a different profile, if the player pinging the server is "known" by Adva
 ```yaml title="personalized.yml"
 priority: 1
 
-condition: '${player name} != Anonymous' # "Anonymous" would be the value from the "unknownPlayer > name" option.
+condition: '${player name} != "Anonymous"' # "Anonymous" would be the value from the "unknownPlayer > name" option.
 
 motd:
   - '<grey>Hello there <aqua>${player name}</aqua>!'
