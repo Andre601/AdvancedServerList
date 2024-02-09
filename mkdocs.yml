@@ -106,3 +106,4 @@ markdown_extensions:
 
 hooks:
   - docs/.hooks/badges.py
+  - docs/.hooks/replacer.py

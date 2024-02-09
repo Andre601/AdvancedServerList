@@ -9,7 +9,6 @@
 
 from __future__ import annotations
 
-import posixpath
 import re
 
 from mkdocs.config.defaults import MkDocsConfig
@@ -38,9 +37,6 @@ def on_page_markdown(
         elif type == "quote":      return _admo(text = args, type = "quote")
         elif type == "deprecated": return _admo(text = args, type = "deprecated")
         else:                      return _admo(text = args)
-
-        # Otherwise, raise an error
-        raise RuntimeError(f"Unknown shortcode: {type}")
 
     # Find and replace all external asset URLs in current page
     return re.sub(

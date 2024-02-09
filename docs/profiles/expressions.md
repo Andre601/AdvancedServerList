@@ -77,21 +77,21 @@ ${server host}
 
 The following binary operators can be used for boolean evaluation:
 
-| Operator                         | True if                                                                                                     |
-|----------------------------------|-------------------------------------------------------------------------------------------------------------|
-| `and` / `&&`                     | Both expressions return true.                                                                               |
-| `or` / <code>&#124;&#124;</code> | Either expression returns true.                                                                             |
-| `==` / `=`                       | Both expressions are equal (Case sensitive).                                                                |
-| `~=`                             | Both expressions are equal (Not Case sensitive).                                                            |
-| `!=`                             | Both expressions are not equal (Case sensitive).                                                            |
-| `!~`                             | Both expressions are not equal (Not case sensitive).                                                        |
-| <code>&#124;-</code>             | Left expression starts with right expression.                                                               |
-| <code>-&#124;</code>             | Left expression ends with right expression.                                                                 |
-| `<_`                             | Left expression contains right expression.                                                                  |
-| `<`                              | Left expression is less than the right expression. Strings use their text length as number.                 |
-| `<=`                             | Left expression is less than, or equal to, the right expression. Strings use their text length as number.   |
-| `>`                              | Left expression is larger than the right expression. Strings use their text length as number.               |
-| `>=`                             | Left expression is larger than, or equal to, the right expression. Strings use their text length as number. |
+| Operator      | True if                                                                                                     |
+|---------------|-------------------------------------------------------------------------------------------------------------|
+| `and` / `&&`  | Both expressions return true.                                                                               |
+| `or` / `\|\|` | Either expression returns true.                                                                             |
+| `==` / `=`    | Both expressions are equal (Case sensitive).                                                                |
+| `~=`          | Both expressions are equal (Not Case sensitive).                                                            |
+| `!=`          | Both expressions are not equal (Case sensitive).                                                            |
+| `!~`          | Both expressions are not equal (Not case sensitive).                                                        |
+| `\|-`         | Left expression starts with right expression.                                                               |
+| `-\|`         | Left expression ends with right expression.                                                                 |
+| `<_`          | Left expression contains right expression.                                                                  |
+| `<`           | Left expression is less than the right expression. Strings use their text length as number.                 |
+| `<=`          | Left expression is less than, or equal to, the right expression. Strings use their text length as number.   |
+| `>`           | Left expression is larger than the right expression. Strings use their text length as number.               |
+| `>=`          | Left expression is larger than, or equal to, the right expression. Strings use their text length as number. |
 
 These additional binary operators can also be used to perform certain actions:
 
