@@ -17,7 +17,9 @@ Feel free to suggest additional examples on my [Discord Server](https://discord.
 - [Versions](#versions)
     - [Different List for outdated Clients](#different-list-for-outdated-clients)
     - [Different MOTD for < 1.16](#different-motd-for-116)
-- [Spigot/PaperMC](#spigotpapermc)
+- [BungeeCord/Velocity](#bungeecordvelocity)
+    - [Display MOTD for a set of subdomains](#display-motd-for-a-set-of-subdomains)
+- [PaperMC](#papermc)
     - [Different profile for banned Player](#different-profile-for-banned-player)
 - [Other](#other)
     - [Different profile for different host](#different-profile-for-different-host)
@@ -64,9 +66,28 @@ motd:
 ```
 
 ----
-## Spigot/PaperMC
+## BungeeCord/Velocity
 
-Examples that can be used with the Spigot or PaperMC version.
+Examples usable on the BungeeCord and Velocity version.
+
+### Display MOTD for a set of subdomains
+
+Displays the same MOTDs for the server when pinged on any sub-domain starting with `lobby` (i.e. `lobby-1.example.com`).
+
+```yaml title="lobby-motd.yml"
+priority: 1
+
+condition: '${server host} <_ "lobby"'
+
+motd:
+  - '<green>Lobby Server'
+  - '<grey>Example Server'
+```
+
+----
+## PaperMC
+
+Examples that can be used with the PaperMC version.
 
 ### Different profile for banned Player
 
