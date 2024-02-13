@@ -38,8 +38,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 public class ModrinthVersionUploader{
@@ -52,8 +52,7 @@ public class ModrinthVersionUploader{
         PlatformInfo.VELOCITY
     );
     private final List<String> versions = List.of(
-        "1.19", "1.19.1", "1.19.2", "1.19.3", "1.19.4",
-        "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4"
+        "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4"
     );
     
     private final ModrinthAPI api;
@@ -82,24 +81,27 @@ public class ModrinthVersionUploader{
         final boolean prerelease = release.prerelease();
         
         CompletableFuture<?>[] futures = new CompletableFuture[platforms.size()];
+        
+        List<ProjectVersion.ProjectDependency> paperDependencies = List.of(
+            new ProjectVersion.ProjectDependency(null, "VCAqN1ln", null, ProjectVersion.ProjectDependencyType.OPTIONAL), // Maintenance
+            new ProjectVersion.ProjectDependency(null, "P1OZGk5p", null, ProjectVersion.ProjectDependencyType.OPTIONAL)  // ViaVersion
+        );
+        List<ProjectVersion.ProjectDependency> bungeeDependencies = List.of(
+            new ProjectVersion.ProjectDependency(null, "VCAqN1ln", null, ProjectVersion.ProjectDependencyType.OPTIONAL), // Maintenance
+            new ProjectVersion.ProjectDependency(null, "bEIUEGTX", null, ProjectVersion.ProjectDependencyType.OPTIONAL)  // PAPIProxyBridge
+        );
+        List<ProjectVersion.ProjectDependency> velocityDependencies = List.of(
+            new ProjectVersion.ProjectDependency(null, "VCAqN1ln", null, ProjectVersion.ProjectDependencyType.OPTIONAL), // Maintenance
+            new ProjectVersion.ProjectDependency(null, "bEIUEGTX", null, ProjectVersion.ProjectDependencyType.OPTIONAL)  // PAPIProxyBridge
+        );
+        
         for(int i = 0; i < platforms.size(); i++){
             LOGGER.info("Creating release for platform {}...", platforms.get(i).getPlatform());
             
             File file = new File(platforms.get(i).getFilePath().replace("{{version}}", pluginVersion));
             
-            List<ProjectVersion.ProjectDependency> dependencies = new ArrayList<>();
-            // Maintenance plugin
-            dependencies.add(new ProjectVersion.ProjectDependency(null, "VCAqN1ln", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
-            if(!platforms.get(i).getPlatform().equalsIgnoreCase("paper")){
-                // PAPIProxyBridge plugin
-                dependencies.add(new ProjectVersion.ProjectDependency(null, "bEIUEGTX", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
-            }else{
-                // ViaVersion plugin
-                dependencies.add(new ProjectVersion.ProjectDependency(null, "P1OZGk5p", null, ProjectVersion.ProjectDependencyType.OPTIONAL));
-            }
-            
-            CreateVersion.CreateVersionRequest request = CreateVersion.CreateVersionRequest.builder()
-                .projectId("xss83sOY")
+            CreateVersion.CreateVersionRequest.CreateVersionRequestBuilder builder = CreateVersion.CreateVersionRequest.builder()
+                .projectId("xss83xOY")
                 .name(String.format("v%s (%s)", releaseVersion, String.join(", ", platforms.get(i).getLoaders())))
                 .versionNumber(releaseVersion)
                 .changelog(changelog.replaceAll("\r\n", "\n"))
@@ -107,13 +109,17 @@ public class ModrinthVersionUploader{
                 .files(file)
                 .gameVersions(versions)
                 .loaders(platforms.get(i).getLoaders())
-                .versionType(prerelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE)
-                .dependencies(dependencies)
-                .build();
+                .versionType(prerelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE);
+            
+            switch(platforms.get(i).getPlatform().toLowerCase(Locale.ROOT)){
+                case "paper" -> builder.dependencies(paperDependencies);
+                case "bungeecord" -> builder.dependencies(bungeeDependencies);
+                case "velocity" -> builder.dependencies(velocityDependencies);
+            }
             
             if(dryrun){
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String json = gson.toJson(request);
+                String json = gson.toJson(builder.build());
                 
                 LOGGER.info("JSON Data to send: {}", json);
                 
@@ -121,7 +127,7 @@ public class ModrinthVersionUploader{
                 continue;
             }
             
-            futures[i] = api.versions().createProjectVersion(request).whenComplete(((projectVersion, throwable) -> {
+            futures[i] = api.versions().createProjectVersion(builder.build()).whenComplete(((projectVersion, throwable) -> {
                 if(throwable != null){
                     LOGGER.warn("Encountered an exception while uploading a new release to Modrinth!", throwable);
                     return;
