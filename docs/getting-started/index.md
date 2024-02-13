@@ -29,7 +29,8 @@ The first step would be to download the plugin from a download page of your choi
     
     ----
     
-    :octicons-alert-24:{ style="color: var(--md-badge-fg--warning);" } **On Pause!**
+    :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
+
 
 -   [:simple-spigotmc: **SpigotMC**][spigot]
     
