@@ -101,7 +101,7 @@ public class ModrinthVersionUploader{
             File file = new File(platforms.get(i).getFilePath().replace("{{version}}", pluginVersion));
             
             CreateVersion.CreateVersionRequest.CreateVersionRequestBuilder builder = CreateVersion.CreateVersionRequest.builder()
-                .projectId("xss83xOY")
+                .projectId("xss83sOY")
                 .name(String.format("v%s (%s)", releaseVersion, String.join(", ", platforms.get(i).getLoaders())))
                 .versionNumber(releaseVersion)
                 .changelog(changelog.replaceAll("\r\n", "\n"))
