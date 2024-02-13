@@ -9,7 +9,8 @@ It tries to be an easy to understand as possible. But if you still have problems
 
 ## 1. Download the plugin { #download-the-plugin }
 
-The first step would be to download the plugin from a download page of your choice. As of writing this is AdvancedServerList updated and available on these sites:
+The first step would be to download the plugin from a download page of your choice.  
+AdvancedServerList is available on the following places (Please note the current status!):
 
 <div class="grid cards" markdown>
 
@@ -375,17 +376,17 @@ config-version: 2
 There are certain files and folders that get created when certain events happen:
 
 - A `playercache.json` file will be created on plugin shutdown containing a list of IPs, UUIDs and Player names for every player that joined the server while AdvancedServerList was running.  
-  This file allows to replace `${player name}` and `${player uuid}` with their name or UUID respectively, while they are not on the server, by using the IP they used to join with.  
-  This file is not created nor updated when `disableCache` is set to `true` in the config.yml
+    This file allows to replace `${player name}` and `${player uuid}` with their name or UUID respectively, while they are not on the server, by using the IP they used to join with.  
+    This file is not created nor updated when `disableCache` is set to `true` in the config.yml
 - A `backups` folder containing old config.yml files.  
-  This folder is created when AdvancedServerList migrates your old config to a new version. This allows you to transfer settings over in case the migration didn't work properly.
+    This folder is created when AdvancedServerList migrates your old config to a new version. This allows you to transfer settings over in case the migration didn't work properly.
 
 ## 3. Creating your first profile { #creating-your-first-profile }
 
 Creating your first profile is relatively simple.
 
 To start, open the `default.yml` file located inside the `profiles` folder using a file editor of your choice (VSCode or Notepad++ are recommended). It should contain all the available options for a server list profile.  
-Next can you edit the options available to whatever you like. All text options (Except [conditions](../profiles/index.md#conditions)) support [MiniMessage formatting](../profiles/formatting.md).
+Next can you edit the options available to whatever you like. All text options (Except [condition](../profiles/index.md#condition)) support [MiniMessage formatting](../profiles/formatting.md).
 
 If you're unsure how a specific option should look like, head over to the [Profiles page](../profiles/index.md) for more information about the general structure.  
 All you need to know is, that a bare-bones server list profile requires a valid [priority](../profiles/index.md#priority) and at least one of the settings to be present.
@@ -404,11 +405,16 @@ motd:
 To add additional profiles, create a new YAML file inside the `profiles` folder. The name doesn't matter, but it is recommended to keep it lowercase, use alphanumeric characters (`a-z, 0-9`), hyphens (`-`), underscores (`_`) and avoid spaces.
 
 Inside the file, add a priority and at least one setting, similar to the above shown example.  
-This would already be enough and AdvancedServerList would use it. If you however want to only show it when certain conditions are met, should you set the priority to a higher value and add conditions.
+This would already be enough to have a valid profile, but depending on the priority and file name may the file not be used, or used over other profiles.
 
-Conditions can be multiple strings containing [operands](../profiles/index.md#operands) to evaluate them. As an example `${server playersOnline} >= 10` would return true if the current number of online players is larger or equal to 10.
+If you want to only show this file under specific situations can you use the [`condition`](../profiles/index.md#condition) option to apply conditions that need to be met to show the profile.  
+The condition option would have a single String containing one or muliple [Expressions](../profiles/expressions). Only if the condition would return true, would the profile be displayed, granted that it has a higher priority than any other valid file with a true condition output.
 
-Here is another example profile using conditions:
+/// info | Note
+Profiles which do not have any conditions, or have an empty condition, will always considered to have a true condition, meaning that a profile with higher priority and no condition will be selected over a profile with lower priority and a condition, even if said condition returns true.
+///
+
+Here is another example profile using conditions to show it when the player was banned on the server:
 ```yaml title="other_profile.yml"
 priority: 1
 
