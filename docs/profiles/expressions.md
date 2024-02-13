@@ -32,12 +32,14 @@ The following cases are considered literal values:
 
 Any number is considered an expression, meaning the below examples are considered valid:
 
+/// example | Examples
 ```
 0
 1000
 -7
 47.2
 ```
+///
 
 #### Strings
 
@@ -50,10 +52,12 @@ As an example, `Sand` would cause the expression engine to see `S AND` due to pa
 To avoid this is it very important to always surround Strings with single or double quotes, as that tells the expression engine to treat as a String.
 ///
 
+/// example | Examples
 ```
 "Hello World!"
 ""
 ```
+///
 
 #### Booleans
 
@@ -63,6 +67,7 @@ Strings `true` and `false` are treated as boolean literals.
 
 Any [placeholder](placeholders.md) is a valid expression.
 
+/// example | Examples
 ```
 ${player protocol}
 ${player name}
@@ -70,6 +75,7 @@ ${player name}
 ${server playersOnline}
 ${server host}
 ```
+///
 
 ### Binary Operators
 
@@ -82,7 +88,7 @@ The following binary operators can be used for boolean evaluation:
 | `and` / `&&`  | Both expressions return true.                                                                               |
 | `or` / `\|\|` | Either expression returns true.                                                                             |
 | `==` / `=`    | Both expressions are equal (Case sensitive).                                                                |
-| `~=`          | Both expressions are equal (Not Case sensitive).                                                            |
+| `=~` / `~`    | Both expressions are equal (Not Case sensitive).                                                            |
 | `!=`          | Both expressions are not equal (Case sensitive).                                                            |
 | `!~`          | Both expressions are not equal (Not case sensitive).                                                        |
 | `\|-`         | Left expression starts with right expression.                                                               |
@@ -103,17 +109,17 @@ These additional binary operators can also be used to perform certain actions:
 | `*`      | Multiplies two numbers. Strings use their text length as number.            |
 | `/`      | Divides one number by another. Strings use their text length as number.     |
 
-Examples:  
+/// example | Examples
 ```
 ${player name} != "Anonymous"
 763 > ${player protocol} > 758
 ${player hasPlayedBefore} and ${player isBanned} == "false"
 ```
+///
 
 ### Parenthesis
 
 `( <expression> )` is a valid expression.
-
 Parenthesis can be used to prevent ambiguities.
 
 ### Negation

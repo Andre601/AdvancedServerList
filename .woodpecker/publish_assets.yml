@@ -20,7 +20,7 @@ steps:
       - mv VersionUploader.jar ../../
       - cd ../../
       # Execute Jar file
-      - java -jar VersionUploader.jar --modrinth
+      - java -jar VersionUploader.jar --all
   uploadToCodeberg:
     image: woodpeckerci/plugin-gitea-release
     settings:
