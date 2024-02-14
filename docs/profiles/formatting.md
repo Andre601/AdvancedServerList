@@ -38,8 +38,18 @@ The following options are **not** supported, no matter what option they are used
 
 ## Colors
 
-Color options (`<aqua>`, `<red>`, `<gray>`, etc.) are available for all text options.  
-24-Bit HEX colors (`<#ff0000>`, `<#123abc>`, etc.) are only available for the [`Motd` option](../index.md#motd) for a 1.16+ Server/Proxy.
+### Default colors
+
+Default colors such as `<red>`, `<green>`, `<aqua>`, etc. may be used in all text options.
+
+### Hex Colors
+
+Hexadecimal colors may be used in the [`motd`](index.md#motd) option using the `<#RRGGBB>` format.
+
+### Gradients
+
+Gradients can be created by using `<gradient:<color1>:<color2>>`, replacing `<color1>` with a starting color name or hex color value and `<color2>` with an ending color name or hex color value.  
+Only the [`motd`](index.md#motd) option may support hex color gradients and in all other options will it be downsampled.
 
 ## Formatting
 
