@@ -171,11 +171,11 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
         getPluginLogger().warn("  - Reliance on a different plugin for core functionalities.");
         getPluginLogger().warn("  - Bad dependency loading limited to MavenCentral only.");
         getPluginLogger().warn("");
-        getPluginLogger().warn("Please consider switching to Paper or one of the Paper-compatible forks to benefit from");
-        getPluginLogger().warn("overall performance improvements amongst other things.");
+        getPluginLogger().warn("Please consider switching to Paper or one of the Paper-compatible forks to benefit");
+        getPluginLogger().warn("from overall performance improvements amongst other things.");
         getPluginLogger().warn("");
-        getPluginLogger().warn("AdvancedServerList will now disable itself. If you believe this was a mistake, report");
-        getPluginLogger().warn("this on Codeberg: https://codeberg.org/Andre601/AdvancedServerList");
+        getPluginLogger().warn("Disabling AdvancedServerList. If you believe this is an error, report it on");
+        getPluginLogger().warn("Codeberg: https://codeberg.org/Andre601/AdvancedServerList");
         getPluginLogger().warn("======================================================================================");
         
         Bukkit.getPluginManager().disablePlugin(this);
