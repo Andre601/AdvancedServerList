@@ -132,5 +132,4 @@ Parenthesis can be used to prevent ambiguities.
 
 ## Credits
 
-This page, including examples used, was adobted from the BungeeTabListPlus wiki.  
-The original wiki page can be found here: https://github.com/CodeCrafter47/BungeeTabListPlus/wiki/Expressions{ target="_blank" rel="nofollow" }
+This page, including some examples used, was adobted from [:octicons-book-24: CodeCrafter47/BungeeTabListPlus/wiki](https://github.com/CodeCrafter47/BungeeTabListPlus/wiki/Expressions){ target="_blank" rel="nofollow" }.

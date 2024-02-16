@@ -40,33 +40,6 @@ Not setting this option, or setting it to an empty String (`condition: ''`), wil
 
 The condition option can hold one or multiple expressions. The Expression system is explained on the [Expressions page](expressions.md).
 
-## Conditions :octicons-trash-24:{ style="color: #FF5252;" title="Deprecated" }
-
-<!-- admo:deprecated Deprecated in favour of the new condition option. Will be removed in a future version. -->
-
-The `conditions` option - not to be confused with the new [`condition`](#condition) option - allows you to define one or multiple conditions/expressions that all need to return `true` in order for the profile to be used.  
-Not setting this option, or setting it to an empty list (`conditions: []`), will result in `true` being returned.
-
-Each condition can use [placeholders](placeholders.md) to further customize it. PlaceholderAPI placeholders are **not** supported!
-
-### Operands
-
-<!-- admo:warning Each condition can only hold one operand -->
-
-Each condition can use operands to compare values with each other.  
-Note that if Operands are used that compare sizes (i.e. `>`) while the values are Text and not numbers will the text length be used as number.
-
-| Operand | What it does                                                               |
-|---------|----------------------------------------------------------------------------|
-| `<`     | Returns true if the left value is less than the right value.               |
-| `<=`    | Returns true if the left value is less than, or equal to, the right value. |
-| `>`     | Returns true if the left value is more than the right value.               |
-| `>=`    | Returns true if the left value is less than, or equal to, the right value. |
-| `=`     | Returns true if both values are equal (Case sensitive).                    |
-| `!=`    | Returns true if both values are not equal (Case sensitive).                |
-| `~=`    | Returns true if both values are equal (Not case sensitive).                |
-| `!~`    | Returns true if both values are not equal (Not case sensitive).            |
-
 ## Profiles
 
 The `profile` option allows you to define a list of all other options, with the exception of [`priority`](#priority), [`condition`](#condition) or itself.
