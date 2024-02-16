@@ -111,6 +111,9 @@ public class ModrinthVersionUploader{
                 .loaders(platforms.get(i).getLoaders())
                 .versionType(prerelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE);
             
+            if(platforms.get(i).getPlatform().equalsIgnoreCase("bungeecord"))
+                builder.files(file, new File(PlatformInfo.ADVANCEDBAN_ADDON.getFilePath().replace("{{version}}", pluginVersion)));
+            
             switch(platforms.get(i).getPlatform().toLowerCase(Locale.ROOT)){
                 case "paper" -> builder.dependencies(paperDependencies);
                 case "bungeecord" -> builder.dependencies(bungeeDependencies);

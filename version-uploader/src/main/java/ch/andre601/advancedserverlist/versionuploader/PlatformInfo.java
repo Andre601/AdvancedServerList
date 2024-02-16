@@ -43,6 +43,11 @@ public enum PlatformInfo{
         "velocity",
         "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
         "velocity"
+    ),
+    ADVANCEDBAN_ADDON(
+        "bungeecord-advancedban",
+        "advancedban-addon/target/AdvancedServerList-AdvancedBan-Addon-{{version}}.jar",
+        "bungeecord", "waterfall"
     );
     
     private final String platform;
