@@ -29,63 +29,30 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.conditions.Expression;
 import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionEngine;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionErrorTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
-import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.StringJoiner;
 
-public class ServerListProfile{
-    
-    private final int priority;
-    private final String condition;
-    private final List<Expression> expressions;
-    private final ProfileEntry defaultProfile;
-    
-    private final List<ProfileEntry> profiles;
-    
-    private final Random random = new Random();
-    
-    public ServerListProfile(int priority, String condition, List<Expression> expressions, ProfileEntry defaultProfile, List<ProfileEntry> profiles){
-        this.priority = priority;
-        this.condition = condition;
-        this.expressions = expressions;
-        this.defaultProfile = defaultProfile;
-        
-        this.profiles = profiles;
-    }
-    
-    public int getPriority(){
-        return priority;
-    }
+public record ServerListProfile(int priority, String condition, ProfileEntry defaultProfile, List<ProfileEntry> profiles){
+    private static final Random random = new Random();
     
     public boolean evalConditions(ExpressionEngine expressionEngine, PluginLogger logger, GenericPlayer player, GenericServer server){
-        if(condition != null && !condition.isEmpty()){
-            ExpressionTemplate template = expressionEngine.compile(condition, logger, player, server);
-            if(template instanceof ExpressionErrorTemplate errorTemplate){
-                logger.warn(errorTemplate.instantiateWithStringResult().evaluate());
-                return true;
-            }
-            
-            return template.instantiateWithBooleanResult().evaluate();
-        }
-        
-        if(expressions.isEmpty())
+        if(condition == null || condition.isEmpty())
             return true;
         
-        for(Expression expression : expressions){
-            if(!expression.evaluate(player, server))
-                return false;
+        ExpressionTemplate template = expressionEngine.compile(condition, logger, player, server);
+        if(template instanceof ExpressionErrorTemplate errorTemplate){
+            logger.warn(errorTemplate.instantiateWithStringResult().evaluate());
+            return false;
         }
         
-        return true;
+        return template.instantiateWithBooleanResult().evaluate();
     }
     
     public ProfileEntry getRandomProfile(){
@@ -101,10 +68,6 @@ public class ServerListProfile{
         }
     }
     
-    public ProfileEntry getDefaultProfile(){
-        return defaultProfile;
-    }
-    
     /*
      * Returns true if the Profile...
      * ...doesn't have any valid MOTD set AND
@@ -113,12 +76,12 @@ public class ServerListProfile{
      * ...doesn't have a favicon set.
      */
     public boolean isInvalidProfile(){
-        if(profiles.isEmpty())
-            return defaultProfile.isInvalid();
+        if(profiles().isEmpty())
+            return defaultProfile().isInvalid();
         
         boolean profilesValid = false;
         
-        for(ProfileEntry profile : profiles){
+        for(ProfileEntry profile : profiles()){
             if(profile.isInvalid())
                 continue;
             
@@ -134,7 +97,6 @@ public class ServerListProfile{
         private final String fileName;
         private final ConfigurationNode node;
         private final int priority;
-        private final List<Expression> expressions = new ArrayList<>();
         
         private final PluginLogger logger;
         
@@ -152,7 +114,6 @@ public class ServerListProfile{
         public static Builder resolve(String fileName, ConfigurationNode node, PluginLogger logger){
             return new Builder(fileName, node, logger)
                 .resolveCondition()
-                .resolveExpressions()
                 .resolveProfiles()
                 .resolveDefaultProfile();
         }
@@ -163,43 +124,6 @@ public class ServerListProfile{
                 return this;
             
             this.condition = condition;
-            return this;
-        }
-        
-        private Builder resolveExpressions(){
-            List<String> temp;
-            try{
-                temp = node.node("conditions").getList(String.class);
-            }catch(SerializationException ex){
-                logger.warn("Encountered a SerializationException while resolving conditions for %s", ex, fileName);
-                return this;
-            }
-            
-            if(temp == null || temp.isEmpty())
-                return this;
-            
-            StringJoiner joiner = new StringJoiner(" and ");
-            
-            for(String str : temp){
-                Expression expr = Expression.resolve(str);
-                
-                if(expr.getResult() != Expression.ExpressionResult.VALID){
-                    logger.warn("Found invalid expression in condition '%s'! Reason: %s", str, expr.getResult().getMessage());
-                    continue;
-                }
-                
-                joiner.add(str);
-                this.expressions.add(expr);
-            }
-            
-            if(!this.expressions.isEmpty()){
-                logger.warn("'%s' uses 'conditions' which is deprecated in favour of the newer 'condition' option.", fileName);
-                logger.warn("The 'conditions' option will be removed in a future version.");
-                logger.warn("");
-                logger.warn("Please migrate your condition(s) over from the old option to the new option like this:");
-                logger.warn("consition: '%s'", joiner.toString());
-            }
-            
             return this;
         }
         
@@ -223,7 +147,7 @@ public class ServerListProfile{
         }
         
         public ServerListProfile build(){
-            return new ServerListProfile(this.priority, this.condition, this.expressions, this.defaultProfile, this.profiles);
+            return new ServerListProfile(this.priority, this.condition, this.defaultProfile, this.profiles);
         }
     }
 }

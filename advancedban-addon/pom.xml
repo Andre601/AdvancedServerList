@@ -73,9 +73,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>ch.andre601.advancedserverlist</groupId>
-            <artifactId>core</artifactId>
-            <version>${plugin.version}</version>
+            <groupId>ch.andre601.asl-api</groupId>
+            <artifactId>api</artifactId>
+            <version>${api.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
