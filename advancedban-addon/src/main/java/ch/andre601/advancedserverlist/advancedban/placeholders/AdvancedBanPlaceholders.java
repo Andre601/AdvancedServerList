@@ -46,6 +46,11 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
         String[] values = placeholder.split("\\s", 2);
         Punishment punishment = getPunishment(player.getUUID().toString(), manager, values[0]);
         
+        System.out.println("Placeholder called!");
+        System.out.println("Data:");
+        System.out.println("  - Player: " + player.getName() + " (" + player.getUUID() + ")");
+        System.out.println("  - Has Punishment: " + (punishment == null ? "No" : "Yes"));
+        
         if(punishment == null)
             return null;
         
@@ -73,16 +78,22 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
     private Punishment getPunishment(String uuid, PunishmentManager manager, String placeholder){
         PunishmentType type = null;
         switch(placeholder){
-            case "muteReason", "muteDuration" -> type = PunishmentType.MUTE;
-            case "banReason", "banDuration" -> type = PunishmentType.BAN;
+            case "isMuted", "muteReason", "muteDuration" -> type = PunishmentType.MUTE;
+            case "isBanned", "banReason", "banDuration" -> type = PunishmentType.BAN;
         }
         
-        if(type == null)
+        if(type == null){
+            System.out.println("Type was null");
             return null;
+        }
+        
+        System.out.println(type.getName());
         
         List<Punishment> punishments = manager.getPunishments(uuid, type, true);
-        if(punishments.isEmpty())
+        if(punishments.isEmpty()){
+            System.out.println("Punishment list was empty");
             return null;
+        }
         
         return punishments.get(0);
     }
