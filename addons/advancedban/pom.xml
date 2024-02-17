@@ -34,7 +34,7 @@
         <version>parent</version>
     </parent>
     
-    <artifactId>advancedban-addon</artifactId>
+    <artifactId>advancedban</artifactId>
     <packaging>jar</packaging>
     <version>${plugin.version}</version>
 
@@ -85,7 +85,7 @@
         <resources>
             <resource>
                 <filtering>true</filtering>
-                <directory>${project.basedir}/src/main/resources</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
         <plugins>
