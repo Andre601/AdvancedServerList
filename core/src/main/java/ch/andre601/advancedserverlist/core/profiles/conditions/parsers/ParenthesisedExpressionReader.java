@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.parsers;
 
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 
@@ -42,7 +43,7 @@ public class ParenthesisedExpressionReader extends ValueReader{
     }
     
     @Override
-    public ExpressionTemplate read(ExpressionTemplateParser parser, List<Token> tokenList){
+    public ExpressionTemplate read(ExpressionTemplateParser parser, List<Token> tokenList, ExpressionsWarnHelper warnHelper){
         if(tokenList.get(0) == openingParenthesis){
             int index = 0;
             int cnt = 1;
@@ -60,7 +61,7 @@ public class ParenthesisedExpressionReader extends ValueReader{
                 }
             }while(cnt != 0);
             
-            ExpressionTemplate result = parser.parse(new ArrayList<>(tokenList.subList(1, index)));
+            ExpressionTemplate result = parser.parse(new ArrayList<>(tokenList.subList(1, index)), warnHelper);
             tokenList.subList(0, index + 1).clear();
             
             return result;

@@ -62,8 +62,8 @@ public class ExpressionEngine{
         this.templateParser = new ExpressionTemplateParser(options.operators, options.valueReaders);
     }
     
-    public ExpressionTemplate compile(String expression, PluginLogger logger, GenericPlayer player, GenericServer server){
-        return templateParser.parse(tokenizer.parse(expression, logger, player, server));
+    public ExpressionTemplate compile(String expression, GenericPlayer player, GenericServer server, ExpressionsWarnHelper warnHelper){
+        return templateParser.parse(tokenizer.parse(expression, player, server, warnHelper), warnHelper);
     }
     
     public static class Options{

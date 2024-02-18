@@ -28,6 +28,7 @@ package ch.andre601.advancedserverlist.core.profiles.conditions;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers.TokenReader;
 import com.google.common.collect.Ordering;
@@ -47,7 +48,7 @@ public class ExpressionTokenizer{
         this.tokenReaders = TOKEN_READER_ORDERING.immutableSortedCopy(tokenReaders);
     }
     
-    public List<Token> parse(String text, PluginLogger logger, GenericPlayer player, GenericServer server){
+    public List<Token> parse(String text, GenericPlayer player, GenericServer server, ExpressionsWarnHelper warnHelper){
         ParsePosition position = new ParsePosition(0);
         
         List<Token> tokens = new LinkedList<>();
@@ -63,13 +64,13 @@ public class ExpressionTokenizer{
             
             for(TokenReader tokenReader : tokenReaders){
                 Token token;
-                if(null != (token = tokenReader.read(text, position, player, server))){
+                if(null != (token = tokenReader.read(text, position, player, server, warnHelper))){
                     tokens.add(token);
                     continue next_token;
                 }
             }
             
-            logger.warn("Illegal token '%c' at index %d.", text.charAt(position.getIndex()), position.getIndex());
+            warnHelper.appendWarning(position.getIndex(), "Illegal token '%c'.");
             break;
         }
         

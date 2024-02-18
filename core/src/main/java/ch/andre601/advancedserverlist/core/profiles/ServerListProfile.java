@@ -30,7 +30,7 @@ import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionEngine;
-import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionErrorTemplate;
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -46,10 +46,14 @@ public record ServerListProfile(int priority, String condition, ProfileEntry def
         if(condition == null || condition.isEmpty())
             return true;
         
-        ExpressionTemplate template = expressionEngine.compile(condition, logger, player, server);
-        if(template instanceof ExpressionErrorTemplate errorTemplate){
-            logger.warn(errorTemplate.instantiateWithStringResult().evaluate());
-            return false;
+        ExpressionsWarnHelper warnHelper = new ExpressionsWarnHelper(condition);
+        ExpressionTemplate template = expressionEngine.compile(condition, player, server, warnHelper);
+        
+        if(warnHelper.hasWarnings()){
+            warnHelper.printWarnings(logger);
+            
+            if(template == null)
+                return false;
         }
         
         return template.instantiateWithBooleanResult().evaluate();

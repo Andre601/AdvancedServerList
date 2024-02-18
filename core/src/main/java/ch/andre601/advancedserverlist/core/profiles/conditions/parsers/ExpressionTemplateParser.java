@@ -25,9 +25,9 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.parsers;
 
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.ListOperator;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.Operator;
-import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionErrorTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplates;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
@@ -47,32 +47,36 @@ public class ExpressionTemplateParser{
         this.valueReaders = valueReaders;
     }
     
-    public ExpressionTemplate parse(List<Token> tokenList){
+    public ExpressionTemplate parse(List<Token> tokenList, ExpressionsWarnHelper warnHelper){
         List<ExpressionTemplate> parts = new ArrayList<>();
         List<Operator> operators = new ArrayList<>();
         
         try{
-            parts.add(read(tokenList));
+            parts.add(read(tokenList, warnHelper));
         }catch(IllegalArgumentException ex){
-            return ExpressionErrorTemplate.of(ex.getMessage());
+            warnHelper.appendWarning(-1, ex.getMessage());
+            return null;
         }
         
         while(!tokenList.isEmpty()){
             Token token = tokenList.remove(0);
             Operator operator = this.operators.get(token);
             if(operator == null){
-                return ExpressionErrorTemplate.of("Error while parsing Expression. Got \"" + token + "\" but expected OPERATOR.");
+                warnHelper.appendWarning(-1, "Received \"%s\" but expected OPERATOR.", token);
+                return null;
             }
             
             operators.add(operator);
             if(tokenList.isEmpty()){
-                return ExpressionErrorTemplate.of("Received unexpected end of input.");
+                warnHelper.appendWarning(-1, "Received unexpected end of input.");
+                return null;
             }
             
             try{
-                parts.add(read(tokenList));
+                parts.add(read(tokenList, warnHelper));
             }catch(IllegalArgumentException ex){
-                return ExpressionErrorTemplate.of(ex.getMessage());
+                warnHelper.appendWarning(-1, ex.getMessage());
+                return null;
             }
         }
         
@@ -121,9 +125,9 @@ public class ExpressionTemplateParser{
         return parts.get(0);
     }
     
-    ExpressionTemplate read(List<Token> tokenList){
+    ExpressionTemplate read(List<Token> tokenList, ExpressionsWarnHelper warnHelper){
         for(ValueReader valueReader : valueReaders){
-            ExpressionTemplate template = valueReader.read(this, tokenList);
+            ExpressionTemplate template = valueReader.read(this, tokenList, warnHelper);
             if(template != null)
                 return template;
         }

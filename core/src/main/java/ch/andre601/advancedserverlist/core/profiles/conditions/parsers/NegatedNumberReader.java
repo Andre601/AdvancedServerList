@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.parsers;
 
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplates;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
@@ -40,10 +41,10 @@ public class NegatedNumberReader extends ValueReader{
     }
     
     @Override
-    public ExpressionTemplate read(ExpressionTemplateParser parser, List<Token> tokenList){
+    public ExpressionTemplate read(ExpressionTemplateParser parser, List<Token> tokenList, ExpressionsWarnHelper warnHelper){
         if(tokenList.get(0) == tokenNegation){
             tokenList.remove(0);
-            return ExpressionTemplates.negateNumber(parser.read(tokenList));
+            return ExpressionTemplates.negateNumber(parser.read(tokenList, warnHelper));
         }
         
         return null;

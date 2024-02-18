@@ -23,36 +23,40 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.conditions.templates;
+package ch.andre601.advancedserverlist.core.profiles.conditions.expressions;
 
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ToBooleanExpression;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ToDoubleExpression;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ToStringExpression;
+import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 
-public class ExpressionErrorTemplate implements ExpressionTemplate{
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExpressionsWarnHelper{
     
-    private final String msg;
+    private final String expression;
+    private final List<Context> warnings = new ArrayList<>();
     
-    private ExpressionErrorTemplate(String msg){
-        this.msg = msg;
+    public ExpressionsWarnHelper(String expression){
+        this.expression = expression;
     }
     
-    public static ExpressionErrorTemplate of(String msg){
-        return new ExpressionErrorTemplate(msg);
+    public void appendWarning(int position, String warning, Object... args){
+        warnings.add(new Context(position, String.format(warning, args)));
     }
     
-    @Override
-    public ToStringExpression instantiateWithStringResult(){
-        return ToStringExpression.literal(msg);
+    public boolean hasWarnings(){
+        return !warnings.isEmpty();
     }
     
-    @Override
-    public ToDoubleExpression instantiateWithDoubleResult(){
-        return ToDoubleExpression.literal(0);
+    public void printWarnings(PluginLogger logger){
+        logger.warn("Encountered %d issue(s) while parsing expression '%s'", warnings.size(), expression);
+        for(Context warning : warnings){
+            if(warning.position() > -1){
+                logger.warn(" - At Position %d: %s", warning.position(), warning.message());
+            }else{
+                logger.warn(" - Cause: %s", warning.message());
+            }
+        }
     }
     
-    @Override
-    public ToBooleanExpression instantiateWithBooleanResult(){
-        return ToBooleanExpression.literal(false);
-    }
+    public record Context(int position, String message){}
 }

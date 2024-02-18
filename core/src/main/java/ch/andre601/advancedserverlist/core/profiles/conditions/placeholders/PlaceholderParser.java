@@ -29,12 +29,13 @@ import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 
 import java.text.ParsePosition;
 
 public class PlaceholderParser{
     
-    public static Placeholder parse(String text, ParsePosition position, GenericPlayer player, GenericServer server){
+    public static Placeholder parse(String text, ParsePosition position, GenericPlayer player, GenericServer server, ExpressionsWarnHelper warnHelper){
         AdvancedServerListAPI api = AdvancedServerListAPI.get();
         int index = position.getIndex();
         
@@ -77,6 +78,7 @@ public class PlaceholderParser{
             if(identified)
                 raw.append(' ').append(valuesStr);
             
+            warnHelper.appendWarning(index, "Placeholder '%s' does not have a closing bracket (}).",raw.toString());
             
             return Placeholder.of(raw.toString());
         }
@@ -91,6 +93,8 @@ public class PlaceholderParser{
             
             raw.append('}');
             
+            warnHelper.appendWarning(index, "Placeholder '%s' does not have an available PlaceholderProvider.", raw.toString());
+            
             return Placeholder.of(raw.toString());
         }
         
@@ -102,6 +106,8 @@ public class PlaceholderParser{
                 raw.append(' ').append(valuesStr);
             
             raw.append('}');
+            
+            warnHelper.appendWarning(index, "Placeholder '%s' returned a null value.", raw.toString());
             
             return Placeholder.of(raw.toString());
         }

@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.test;
 
 import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionEngine;
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -43,7 +44,8 @@ public class ExpressionParserTests{
         for(Map.Entry<String, Boolean> values : testValuesMap.entrySet()){
             logger.info("TEST[expression=\"%s\", expected=%b]", values.getKey(), values.getValue());
             
-            boolean result = expressionEngine.compile(values.getKey(), logger, null, null).instantiateWithBooleanResult().evaluate();
+            ExpressionsWarnHelper warnHelper = new ExpressionsWarnHelper(values.getKey());
+            boolean result = expressionEngine.compile(values.getKey(), null, null, warnHelper).instantiateWithBooleanResult().evaluate();
             logger.info("Result (output, isExpected): " + result + ", " + (result == values.getValue()));
             assertEquals(result, values.getValue());
         }

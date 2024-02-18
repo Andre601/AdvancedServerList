@@ -27,6 +27,7 @@ package ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.NumberToken;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 
@@ -43,7 +44,7 @@ public class NumberTokenReader extends TokenReader{
     }
     
     @Override
-    public Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server){
+    public Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server, ExpressionsWarnHelper warnHelper){
         int previous = position.getIndex();
         Number number = format.parse(text, position);
         

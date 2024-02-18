@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.core.profiles.conditions.parsers;
 
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ConstantExpressionTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.StringToken;
@@ -34,7 +35,7 @@ import java.util.List;
 
 public class StringConstantReader extends ValueReader{
     @Override
-    public ExpressionTemplate read(ExpressionTemplateParser parser, List<Token> tokenList){
+    public ExpressionTemplate read(ExpressionTemplateParser parser, List<Token> tokenList, ExpressionsWarnHelper warnHelper){
         if(tokenList.get(0) instanceof StringToken){
             return ConstantExpressionTemplate.of(((StringToken)tokenList.remove(0)).getValue());
         }

@@ -27,6 +27,7 @@ package ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 
 import java.text.ParsePosition;
@@ -50,7 +51,7 @@ public class PatternTokenReader extends TokenReader{
     }
     
     @Override
-    public Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server){
+    public Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server, ExpressionsWarnHelper warnHelper){
         if(text.regionMatches(ignoreCase, position.getIndex(), pattern, 0, pattern.length())){
             position.setIndex(position.getIndex() + pattern.length());
             return token;

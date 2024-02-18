@@ -33,30 +33,41 @@ import ch.andre601.advancedserverlist.core.profiles.conditions.templates.Express
 public interface Placeholder extends ExpressionTemplate{
     
     static LiteralPlaceholderValue of(String value){
-        return new LiteralPlaceholderValue(value);
+        double doubleValue;
+        try{
+            doubleValue = Double.parseDouble(value);
+        }catch(NumberFormatException ex){
+            doubleValue = value.length();
+        }
+        
+        return new LiteralPlaceholderValue(value, doubleValue, Boolean.parseBoolean(value));
     }
     
     class LiteralPlaceholderValue implements Placeholder{
         
-        private final String value;
+        private final String stringValue;
+        private final double doubleValue;
+        private final boolean booleanValue;
         
-        public LiteralPlaceholderValue(String value){
-            this.value = value;
+        public LiteralPlaceholderValue(String stringValue, double doubleValue, boolean booleanValue){
+            this.stringValue = stringValue;
+            this.doubleValue = doubleValue;
+            this.booleanValue = booleanValue;
         }
         
         @Override
         public ToStringExpression instantiateWithStringResult(){
-            return ToStringExpression.literal(value);
+            return ToStringExpression.literal(stringValue);
         }
         
         @Override
         public ToDoubleExpression instantiateWithDoubleResult(){
-            return ToDoubleExpression.literal(value.length());
+            return ToDoubleExpression.literal(doubleValue);
         }
         
         @Override
         public ToBooleanExpression instantiateWithBooleanResult(){
-            return ToBooleanExpression.literal(Boolean.parseBoolean(value));
+            return ToBooleanExpression.literal(booleanValue);
         }
     }
 }
