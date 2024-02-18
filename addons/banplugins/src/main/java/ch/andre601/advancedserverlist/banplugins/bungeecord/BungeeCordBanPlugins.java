@@ -23,28 +23,33 @@
  *
  */
 
-package ch.andre601.advancedserverlist.advancedban;
+package ch.andre601.advancedserverlist.banplugins.bungeecord;
 
-import ch.andre601.advancedserverlist.advancedban.placeholders.AdvancedBanPlaceholders;
-import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
-import net.md_5.bungee.api.plugin.Plugin;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.banplugins.placeholders.AdvancedBanPlaceholders;
 
-public class AdvancedBanAddon extends Plugin{
+import java.util.HashMap;
+import java.util.Map;
+
+public enum BungeeCordBanPlugins{
     
-    @Override
-    public void onEnable(){
-        if(getProxy().getPluginManager().getPlugin("AdvancedServerList") == null){
-            getLogger().warning("Unable to find AdvancedServerList! This Plugin requires it to work!");
-            return;
+    ADVANCED_BANS("AdvancedBans", new AdvancedBanPlaceholders());
+    
+    private final String plugin;
+    private final PlaceholderProvider placeholderProvider;
+    
+    BungeeCordBanPlugins(String plugin, PlaceholderProvider placeholderProvider){
+        this.plugin = plugin;
+        this.placeholderProvider = placeholderProvider;
+    }
+    
+    public static Map<String, PlaceholderProvider> getBanPlugins(){
+        Map<String, PlaceholderProvider> content = new HashMap<>();
+        
+        for(BungeeCordBanPlugins bungeeCordBanPlugins : BungeeCordBanPlugins.values()){
+            content.put(bungeeCordBanPlugins.plugin, bungeeCordBanPlugins.placeholderProvider);
         }
         
-        if(getProxy().getPluginManager().getPlugin("AdvancedBan") == null){
-            getLogger().warning("Unable to find AdvancedBan! This Plugin requires it to work!");
-            return;
-        }
-        
-        getLogger().info("Registering AdvancedServerList Placeholders...");
-        AdvancedServerListAPI.get().addPlaceholderProvider(new AdvancedBanPlaceholders());
-        getLogger().info("Successfully registered AdvancedBan Placeholders for AdvancedServerList.");
+        return content;
     }
 }

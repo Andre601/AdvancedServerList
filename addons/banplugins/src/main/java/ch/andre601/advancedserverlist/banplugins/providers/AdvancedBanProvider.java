@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.advancedban.ban;
+package ch.andre601.advancedserverlist.banplugins.providers;
 
 import ch.andre601.advancedserverlist.api.ban.PunishmentProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
@@ -103,7 +103,7 @@ public class AdvancedBanProvider implements PunishmentProvider{
     }
     
     public String getBanDuration(GenericPlayer player, boolean fromStart){
-        Punishment ban = getMute(player);
+        Punishment ban = getBan(player);
         if(ban == null)
             return null;
         

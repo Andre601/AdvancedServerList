@@ -23,9 +23,9 @@
  *
  */
 
-package ch.andre601.advancedserverlist.advancedban.placeholders;
+package ch.andre601.advancedserverlist.banplugins.placeholders;
 
-import ch.andre601.advancedserverlist.advancedban.ban.AdvancedBanProvider;
+import ch.andre601.advancedserverlist.banplugins.providers.AdvancedBanProvider;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;

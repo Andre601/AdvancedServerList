@@ -41,7 +41,7 @@
         <plugin.version>4.0.0</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
         
-        <api.version>43e5e3b2f1</api.version>
+        <api.version>v3.2.0</api.version>
         
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
@@ -60,6 +60,6 @@
         <module>paper</module>
         <module>velocity</module>
         <module>version-uploader</module>
-        <module>addons/advancedban</module>
+        <module>addons/banplugins</module>
     </modules>
 </project>

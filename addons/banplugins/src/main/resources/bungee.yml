@@ -7,4 +7,4 @@ softDepends:
   - AdvancedServerList
   - AdvancedBan
 
-main: 'ch.andre601.advancedserverlist.advancedban.AdvancedBanAddon'
+main: 'ch.andre601.advancedserverlist.banplugins.bungeecord.BungeeCordBanPluginsAddon'
