@@ -94,7 +94,7 @@
     </dependencies>
     
     <build>
-        <finalName>AdvancedServerList-AdvancedBan-Addon-${plugin.version}</finalName>
+        <finalName>AdvancedServerList-BanPlugins-Addon-${plugin.version}</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>
