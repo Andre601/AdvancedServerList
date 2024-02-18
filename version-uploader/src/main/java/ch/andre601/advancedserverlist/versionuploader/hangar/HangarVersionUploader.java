@@ -123,7 +123,7 @@ public class HangarVersionUploader{
                 Platform.VELOCITY, velocityDependencies
             ),
             Map.of(
-                Platform.PAPER, List.of("1.19.4", "1.20.x"),
+                Platform.PAPER, List.of("1.20.x"),
                 Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
                 Platform.VELOCITY, Collections.singletonList("3.2")
             ),
