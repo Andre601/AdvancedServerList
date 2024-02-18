@@ -1,4 +1,4 @@
-name: 'ASLAdvancedBanAddon'
+name: 'ASLBanPluginsAddon'
 author: 'Andre_601'
 version: '${plugin.version}'
 description: 'AdvancedBan Add-on for AdvancedServerList to add placeholders to use.'
