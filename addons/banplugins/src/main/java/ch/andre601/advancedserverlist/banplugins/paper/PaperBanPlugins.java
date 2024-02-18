@@ -33,7 +33,7 @@ import java.util.Map;
 
 public enum PaperBanPlugins{
     
-    ADVANCED_BANS("AdvancedBans", new AdvancedBanPlaceholders());
+    ADVANCED_BAN("AdvancedBan", new AdvancedBanPlaceholders());
     
     private final String plugin;
     private final PlaceholderProvider placeholderProvider;

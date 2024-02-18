@@ -23,33 +23,36 @@
  *
  */
 
-package ch.andre601.advancedserverlist.banplugins.bungeecord;
+package ch.andre601.advancedserverlist.banplugins.providers;
 
-import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.banplugins.placeholders.AdvancedBanPlaceholders;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
 
-public enum BungeeCordBanPlugins{
+public interface PunishmentProvider{
     
-    ADVANCED_BAN("AdvancedBan", new AdvancedBanPlaceholders());
+    boolean muted(GenericPlayer player);
     
-    private final String plugin;
-    private final PlaceholderProvider placeholderProvider;
+    boolean banned(GenericPlayer player);
     
-    BungeeCordBanPlugins(String plugin, PlaceholderProvider placeholderProvider){
-        this.plugin = plugin;
-        this.placeholderProvider = placeholderProvider;
+    String muteReason(GenericPlayer player);
+    
+    String banReason(GenericPlayer player);
+    
+    String muteDuration(GenericPlayer player);
+    
+    String banDuration(GenericPlayer player);
+    
+    default String muteExpirationDate(GenericPlayer player){
+        return muteExpirationDate(player, "dd, MMM yyyy HH:mm:ss");
     }
     
-    public static Map<String, PlaceholderProvider> getBanPlugins(){
-        Map<String, PlaceholderProvider> content = new HashMap<>();
-        
-        for(BungeeCordBanPlugins bungeeCordBanPlugins : BungeeCordBanPlugins.values()){
-            content.put(bungeeCordBanPlugins.plugin, bungeeCordBanPlugins.placeholderProvider);
-        }
-        
-        return content;
+    String muteExpirationDate(GenericPlayer player, String pattern);
+    
+    default String banExpirationDate(GenericPlayer player){
+        return banExpirationDate(player, "dd, MMM yyyy HH:mm:ss");
     }
+    
+    String banExpirationDate(GenericPlayer player, String pattern);
+    
 }

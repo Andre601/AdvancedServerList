@@ -30,6 +30,8 @@ import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
+import java.util.Arrays;
+
 public class AdvancedBanPlaceholders extends PlaceholderProvider{
     
     private final AdvancedBanProvider provider = new AdvancedBanProvider();
@@ -40,35 +42,51 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        String[] args = placeholder.split("\\s");
+        
         return switch(placeholder) {
             // Mute-related placeholders
-            case "isMuted" -> String.valueOf(provider.isMuted(player));
-            case "muteReason" -> provider.getMuteReason(player);
+            case "isMuted" -> String.valueOf(provider.muted(player));
+            case "muteReason" -> provider.muteReason(player);
             case "muteDuration" -> {
-                String[] args = placeholder.split("\\s");
                 if(args.length == 1)
-                    yield provider.getMuteDuration(player);
+                    yield provider.muteDuration(player);
                 
                 if(args.length > 2)
                     yield null;
                 
                 boolean fromStart = Boolean.getBoolean(args[1]);
-                yield provider.getMuteDuration(player, fromStart);
+                yield provider.muteDuration(player, fromStart);
+            }
+            case "muteExpiration" -> {
+                if(args.length == 1)
+                    yield provider.muteExpirationDate(player);
+                
+                String pattern = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+                
+                yield provider.banExpirationDate(player, pattern);
             }
             
             // Ban-related placeholders
-            case "isBanned" -> String.valueOf(provider.isBanned(player));
-            case "banReason" -> provider.getBanReason(player);
+            case "isBanned" -> String.valueOf(provider.banned(player));
+            case "banReason" -> provider.banReason(player);
             case "banDuration" -> {
-                String[] args = placeholder.split("\\s");
                 if(args.length == 1)
-                    yield provider.getBanDuration(player);
+                    yield provider.banDuration(player);
                 
                 if(args.length > 2)
                     yield null;
                 
                 boolean fromStart = Boolean.getBoolean(args[1]);
-                yield provider.getBanDuration(player, fromStart);
+                yield provider.banDuration(player, fromStart);
+            }
+            case "banExpiration" -> {
+                if(args.length == 1)
+                    yield provider.banExpirationDate(player);
+                
+                String pattern = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+                
+                yield provider.banExpirationDate(player, pattern);
             }
             
             // Unknown/Invalid placeholder.

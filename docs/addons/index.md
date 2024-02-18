@@ -13,11 +13,11 @@ These Addons are made by Andre601 and available together with the plugin downloa
 
 <div class="grid cards" markdown>
 
--   [**AdvancedBan**](advancedban.md)
+-   [**BanPlugins**](banplugins.md)
 
     ----
     
-    Addon to add placeholders for the BungeeCord version of [AdvancedBan](https://www.spigotmc.org/resources/8695/){ target="_blank" rel="nofollow" } into AdvancedServerList.
+    Addon for different Punishment plugins such as AdvancedBan, that add new placeholders to use in AdvancedServerList.
 
 </div>
 

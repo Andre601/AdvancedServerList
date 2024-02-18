@@ -25,13 +25,14 @@
 
 package ch.andre601.advancedserverlist.banplugins.providers;
 
-import ch.andre601.advancedserverlist.api.ban.PunishmentProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import com.google.common.base.Strings;
 import com.google.common.primitives.UnsignedLongs;
 import me.leoko.advancedban.manager.PunishmentManager;
 import me.leoko.advancedban.utils.Punishment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class AdvancedBanProvider implements PunishmentProvider{
@@ -40,35 +41,35 @@ public class AdvancedBanProvider implements PunishmentProvider{
         return PunishmentManager.get();
     }
     
-    private static String getNoDashesUUID(UUID uuid){
-        return toHexString(uuid.getMostSignificantBits()) + toHexString(uuid.getLeastSignificantBits());
+    private static String noDashesUUID(UUID uuid){
+        return hexString(uuid.getMostSignificantBits()) + hexString(uuid.getLeastSignificantBits());
     }
     
-    private static Punishment getMute(GenericPlayer player){
-        return getAPI().getMute(getNoDashesUUID(player.getUUID()));
+    private static Punishment mute(GenericPlayer player){
+        return getAPI().getMute(noDashesUUID(player.getUUID()));
     }
     
-    private static Punishment getBan(GenericPlayer player){
-        return getAPI().getBan(getNoDashesUUID(player.getUUID()));
+    private static Punishment ban(GenericPlayer player){
+        return getAPI().getBan(noDashesUUID(player.getUUID()));
     }
     
-    private static String toHexString(long unsigned){
+    private static String hexString(long unsigned){
         return Strings.padStart(UnsignedLongs.toString(unsigned, 16), 16, '0');
     }
     
     @Override
-    public boolean isMuted(GenericPlayer player){
-        return getAPI().isMuted(getNoDashesUUID(player.getUUID()));
+    public boolean muted(GenericPlayer player){
+        return getAPI().isMuted(noDashesUUID(player.getUUID()));
     }
     
     @Override
-    public boolean isBanned(GenericPlayer player){
-        return getAPI().isBanned(getNoDashesUUID(player.getUUID()));
+    public boolean banned(GenericPlayer player){
+        return getAPI().isBanned(noDashesUUID(player.getUUID()));
     }
     
     @Override
-    public String getMuteReason(GenericPlayer player){
-        Punishment mute = getMute(player);
+    public String muteReason(GenericPlayer player){
+        Punishment mute = mute(player);
         if(mute == null)
             return null;
         
@@ -76,8 +77,8 @@ public class AdvancedBanProvider implements PunishmentProvider{
     }
     
     @Override
-    public String getBanReason(GenericPlayer player){
-        Punishment ban = getBan(player);
+    public String banReason(GenericPlayer player){
+        Punishment ban = ban(player);
         if(ban == null)
             return null;
         
@@ -85,25 +86,53 @@ public class AdvancedBanProvider implements PunishmentProvider{
     }
     
     @Override
-    public String getMuteDuration(GenericPlayer player){
-        return getMuteDuration(player, false);
+    public String muteDuration(GenericPlayer player){
+        return muteDuration(player, false);
     }
     
     @Override
-    public String getBanDuration(GenericPlayer player){
-        return getBanDuration(player, false);
+    public String banDuration(GenericPlayer player){
+        return banDuration(player, false);
     }
     
-    public String getMuteDuration(GenericPlayer player, boolean fromStart){
-        Punishment mute = getMute(player);
+    @Override
+    public String muteExpirationDate(GenericPlayer player, String pattern){
+        Punishment mute = mute(player);
+        if(mute == null)
+            return null;
+        
+        long end = mute.getEnd();
+        if(end < 0L)
+            return "never";
+        
+        Date date = new Date(end);
+        return new SimpleDateFormat(pattern).format(date);
+    }
+    
+    @Override
+    public String banExpirationDate(GenericPlayer player, String pattern){
+        Punishment ban = ban(player);
+        if(ban == null)
+            return null;
+        
+        long end = ban.getEnd();
+        if(end < 0L)
+            return "never";
+        
+        Date date = new Date(end);
+        return new SimpleDateFormat(pattern).format(date);
+    }
+    
+    public String muteDuration(GenericPlayer player, boolean fromStart){
+        Punishment mute = mute(player);
         if(mute == null)
             return null;
         
         return mute.getDuration(fromStart);
     }
     
-    public String getBanDuration(GenericPlayer player, boolean fromStart){
-        Punishment ban = getBan(player);
+    public String banDuration(GenericPlayer player, boolean fromStart){
+        Punishment ban = ban(player);
         if(ban == null)
             return null;
         
