@@ -29,5 +29,6 @@ steps:
         - "bungeecord/target/AdvancedServerList-*.jar"
         - "paper/target/AdvancedServerList-*.jar"
         - "velocity/target/AdvancedServerList-*.jar"
+        - "addons/banplugins/target/AdvancedServerList-*.jar"
       api_key:
         from_secret: CB_TOKEN

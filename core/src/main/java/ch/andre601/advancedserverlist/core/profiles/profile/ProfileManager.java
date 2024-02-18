@@ -45,7 +45,7 @@ public class ProfileManager{
      */
     public static ProfileEntry merge(ServerListProfile profile){
         ProfileEntry entry = profile.getRandomProfile();
-        ProfileEntry defEntry = profile.getDefaultProfile();
+        ProfileEntry defEntry = profile.defaultProfile();
         
         List<String> motd = resolveMOTD(entry, defEntry);
         List<String> players = resolvePlayers(entry, defEntry);

@@ -6,4 +6,5 @@ nav:
   - examples
   - migration
   - api
-  - PlaceholderAPI: placeholderapi 
+  - addons
+  - PlaceholderAPI: placeholderapi

@@ -31,27 +31,35 @@ public enum PlatformInfo{
     
     PAPER(
         "paper",
-        "paper/target/AdvancedServerList-Paper-{{version}}.jar",
+        List.of(
+            "paper/target/AdvancedServerList-Paper-{{version}}.jar",
+            "addons/banplugins/target/AdvancedServerList-BanPlugins-Addon-{{version}}.jar"
+        ),
         "paper", "folia"
     ),
     BUNGEECORD(
         "bungeecord",
-        "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
+        List.of(
+            "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
+            "addons/banplugins/target/AdvancedServerList-BanPlugins-Addon-{{version}}.jar"
+        ),
         "bungeecord", "waterfall"
     ),
     VELOCITY(
         "velocity",
-        "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
+        List.of(
+            "velocity/target/AdvancedServerList-Velocity-{{version}}.jar"
+        ),
         "velocity"
     );
     
     private final String platform;
-    private final String filePath;
+    private final List<String> filePaths;
     private final List<String> loaders;
     
-    PlatformInfo(String platform, String filePath, String... loaders){
+    PlatformInfo(String platform, List<String> filePaths, String... loaders){
         this.platform = platform;
-        this.filePath = filePath;
+        this.filePaths = filePaths;
         this.loaders = List.of(loaders);
     }
     
@@ -59,8 +67,8 @@ public enum PlatformInfo{
         return platform;
     }
     
-    public String getFilePath(){
-        return filePath;
+    public List<String> getFilePaths(){
+        return filePaths;
     }
     
     public List<String> getLoaders(){

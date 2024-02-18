@@ -165,7 +165,7 @@ public class FileHandler{
             return false;
         }
         
-        profiles.sort(Comparator.comparing(ServerListProfile::getPriority).reversed());
+        profiles.sort(Comparator.comparing(ServerListProfile::priority).reversed());
         return !profiles.isEmpty();
     }
     

@@ -408,7 +408,7 @@ Inside the file, add a priority and at least one setting, similar to the above s
 This would already be enough to have a valid profile, but depending on the priority and file name may the file not be used, or used over other profiles.
 
 If you want to only show this file under specific situations can you use the [`condition`](../profiles/index.md#condition) option to apply conditions that need to be met to show the profile.  
-The condition option would have a single String containing one or muliple [Expressions](../profiles/expressions). Only if the condition would return true, would the profile be displayed, granted that it has a higher priority than any other valid file with a true condition output.
+The condition option would have a single String containing one or muliple [Expressions](../profiles/expressions.md). Only if the condition would return true, would the profile be displayed, granted that it has a higher priority than any other valid file with a true condition output.
 
 /// info | Note
 Profiles which do not have any conditions, or have an empty condition, will always considered to have a true condition, meaning that a profile with higher priority and no condition will be selected over a profile with lower priority and a condition, even if said condition returns true.

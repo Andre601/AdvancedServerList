@@ -52,7 +52,7 @@ public class ModrinthVersionUploader{
         PlatformInfo.VELOCITY
     );
     private final List<String> versions = List.of(
-        "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4"
+        "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4"
     );
     
     private final ModrinthAPI api;
@@ -98,7 +98,10 @@ public class ModrinthVersionUploader{
         for(int i = 0; i < platforms.size(); i++){
             LOGGER.info("Creating release for platform {}...", platforms.get(i).getPlatform());
             
-            File file = new File(platforms.get(i).getFilePath().replace("{{version}}", pluginVersion));
+            List<File> files = platforms.get(i).getFilePaths().stream()
+                .map(path -> new File(path.replace("{{version}}", pluginVersion)))
+                .filter(File::exists)
+                .toList();
             
             CreateVersion.CreateVersionRequest.CreateVersionRequestBuilder builder = CreateVersion.CreateVersionRequest.builder()
                 .projectId("xss83sOY")
@@ -106,7 +109,7 @@ public class ModrinthVersionUploader{
                 .versionNumber(releaseVersion)
                 .changelog(changelog.replaceAll("\r\n", "\n"))
                 .featured(false)
-                .files(file)
+                .files(files)
                 .gameVersions(versions)
                 .loaders(platforms.get(i).getLoaders())
                 .versionType(prerelease ? ProjectVersion.VersionType.BETA : ProjectVersion.VersionType.RELEASE);

@@ -90,9 +90,9 @@ public class HangarVersionUploader{
         boolean preRelease = release.prerelease();
         
         final List<Path> filePaths = List.of(
-            new File(PlatformInfo.PAPER.getFilePath().replace("{{version}}", pluginVersion)).toPath(),
-            new File(PlatformInfo.BUNGEECORD.getFilePath().replace("{{version}}", pluginVersion)).toPath(),
-            new File(PlatformInfo.VELOCITY.getFilePath().replace("{{version}}", pluginVersion)).toPath()
+            new File(PlatformInfo.PAPER.getFilePaths().get(0).replace("{{version}}", pluginVersion)).toPath(),
+            new File(PlatformInfo.BUNGEECORD.getFilePaths().get(0).replace("{{version}}", pluginVersion)).toPath(),
+            new File(PlatformInfo.VELOCITY.getFilePaths().get(0).replace("{{version}}", pluginVersion)).toPath()
         );
         
         final List<Dependency> paperDependencies = List.of(
@@ -123,7 +123,7 @@ public class HangarVersionUploader{
                 Platform.VELOCITY, velocityDependencies
             ),
             Map.of(
-                Platform.PAPER, List.of("1.19.4", "1.20.x"),
+                Platform.PAPER, List.of("1.20.x"),
                 Platform.WATERFALL, List.of("1.19.x", "1.20.x"),
                 Platform.VELOCITY, Collections.singletonList("3.2")
             ),
