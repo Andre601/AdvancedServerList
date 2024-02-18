@@ -44,7 +44,7 @@ public class BungeeCordBanPluginsAddon extends Plugin{
         if(loadedPlaceholders == 0){
             getLogger().warning("No compatible Ban plugin was found to register placeholders for.");
         }else{
-            getLogger().info("Loaded " + loadedPlaceholders + " Placeholders for AdvancedServerList!");
+            getLogger().info("Loaded " + loadedPlaceholders + " Placeholder Set(s) for AdvancedServerList!");
         }
     }
     

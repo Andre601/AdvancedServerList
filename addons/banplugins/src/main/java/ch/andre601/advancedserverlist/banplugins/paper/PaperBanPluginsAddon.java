@@ -47,7 +47,7 @@ public class PaperBanPluginsAddon extends JavaPlugin{
             
             getServer().getPluginManager().disablePlugin(this);
         }else{
-            getLogger().info("Loaded " + loadedPlaceholders + " Placeholders for AdvancedServerList!");
+            getLogger().info("Loaded " + loadedPlaceholders + " Placeholder Set(s) for AdvancedServerList!");
         }
     }
     
