@@ -12,7 +12,8 @@
         "ch.andre601.asl-api:platform-bukkit",
         "ch.andre601.asl-api:platform-bungeecord",
         "ch.andre601.asl-api:platform-velocity",
-        "ch.andre601.asl-api:api"
+        "ch.andre601.asl-api:api",
+        "com.github.DevLeoko:AdvancedBan"
       ],
       "registryUrls": [
         "https://jitpack.io"
