@@ -191,6 +191,11 @@ public class FileHandler{
         return node.node(path).getBoolean();
     }
     
+    public long getLong(long def, long limit, Object... path){
+        long value = node.node(path).getLong(def);
+        return Math.max(value, limit);
+    }
+    
     public boolean isOldConfig(){
         return node.node("configVersion").virtual() || node.node("configVersion").getInt(0) < ConfigMigrator.LATEST;
     }

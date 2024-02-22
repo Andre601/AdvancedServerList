@@ -47,6 +47,7 @@ import org.bstats.charts.SimplePie;
 import org.bstats.velocity.Metrics;
 import org.slf4j.LoggerFactory;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 
 public class VelocityCore implements PluginCore<Favicon>{
@@ -102,11 +103,16 @@ public class VelocityCore implements PluginCore<Favicon>{
     }
     
     @Override
+    public void loadFaviconHandler(AdvancedServerList<Favicon> core){
+        faviconHandler = new FaviconHandler<>(core);
+    }
+    
+    @Override
     public void clearFaviconCache(){
         if(faviconHandler == null)
             return;
     
-        faviconHandler.clearCache();
+        faviconHandler.cleanCache();
     }
     
     @Override
@@ -145,6 +151,11 @@ public class VelocityCore implements PluginCore<Favicon>{
     @Override
     public String getLoader(){
         return "velocity";
+    }
+    
+    @Override
+    public Favicon createFavicon(BufferedImage image) throws Exception{
+        return Favicon.create(image);
     }
     
     public ProxyServer getProxy(){

@@ -44,7 +44,7 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
         String[] args = placeholder.split("\\s");
         
-        return switch(placeholder) {
+        return switch(args[0]) {
             // Mute-related placeholders
             case "isMuted" -> String.valueOf(provider.muted(player));
             case "muteReason" -> provider.muteReason(player);

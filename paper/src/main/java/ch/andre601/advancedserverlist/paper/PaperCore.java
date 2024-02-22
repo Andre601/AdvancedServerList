@@ -42,6 +42,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 
 public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon>{
@@ -108,11 +109,16 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
     }
     
     @Override
+    public void loadFaviconHandler(AdvancedServerList<CachedServerIcon> core){
+        faviconHandler = new FaviconHandler<>(core);
+    }
+    
+    @Override
     public void clearFaviconCache(){
         if(faviconHandler == null)
             return;
         
-        faviconHandler.clearCache();
+        faviconHandler.cleanCache();
     }
     
     @Override
@@ -151,6 +157,11 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
     @Override
     public String getLoader(){
         return "paper";
+    }
+    
+    @Override
+    public CachedServerIcon createFavicon(BufferedImage image) throws Exception{
+        return Bukkit.loadServerIcon(image);
     }
     
     public WorldCache getWorldCache(){

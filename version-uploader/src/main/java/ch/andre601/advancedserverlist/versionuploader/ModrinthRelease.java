@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,47 +23,20 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.interfaces.core;
+package ch.andre601.advancedserverlist.versionuploader;
 
-import ch.andre601.advancedserverlist.core.AdvancedServerList;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.awt.image.BufferedImage;
-import java.nio.file.Path;
-
-public interface PluginCore<F>{
+public class ModrinthRelease{
     
-    void loadCommands();
+    Map<String, String> releases = new HashMap<>();
     
-    void loadEvents();
+    public void addRelease(String platform, String id){
+        releases.put(platform, id);
+    }
     
-    void loadMetrics();
-    
-    void loadFaviconHandler(AdvancedServerList<F> core);
-    
-    void clearFaviconCache();
-    
-    AdvancedServerList<F> getCore();
-    
-    Path getFolderPath();
-    
-    PluginLogger getPluginLogger();
-    
-    FaviconHandler<F> getFaviconHandler();
-    
-    String getPlatformName();
-    
-    String getPlatformVersion();
-    
-    String getLoader();
-    
-    F createFavicon(BufferedImage image) throws Exception;
-    
-    default boolean isDebugEnabled(){
-        if(getCore() == null)
-            return false;
-        
-        return getCore().getFileHandler().getBoolean("debug");
+    public Map<String, String> getReleases(){
+        return releases;
     }
 }

@@ -43,6 +43,14 @@ checkUpdates: true
 debug: false
 
 #
+# Sets the time in minutes for favicons to be cached.
+# The number cannot be less than 1.
+#
+# Defaults to 1 if not set.
+#
+faviconCacheTime: 1
+
+#
 # DO NOT EDIT!
 #
 # This is used internally to determine if the config needs to be migrated.

@@ -70,7 +70,7 @@ public class ExpressionTokenizer{
                 }
             }
             
-            warnHelper.appendWarning(position.getIndex(), "Illegal token '%c'.");
+            warnHelper.appendWarning(position.getIndex(), "Illegal token '%c'.", text.charAt(position.getIndex()));
             break;
         }
         

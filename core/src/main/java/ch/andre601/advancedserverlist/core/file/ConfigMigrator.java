@@ -46,18 +46,29 @@ public class ConfigMigrator{
     public static ConfigurationTransformation.Versioned create(){
         return ConfigurationTransformation.versionedBuilder()
             .versionKey("configVersion")
-            .addVersion(LATEST, twoToThree())
+            .addVersion(LATEST, threeToFour())
+            .addVersion(3, twoToThree())
             .addVersion(2, oneToTwo())
+            .build();
+    }
+    
+    public static ConfigurationTransformation threeToFour(){
+        return ConfigurationTransformation.builder()
+            .addAction(NodePath.path(), (path, value) -> {
+                value.node("faviconCacheTime").set(1);
+                
+                return null;
+            })
             .build();
     }
     
     public static ConfigurationTransformation twoToThree(){
         return ConfigurationTransformation.builder()
-            .addAction(NodePath.path(), ((path, value) -> {
+            .addAction(NodePath.path(), (path, value) -> {
                 value.node("debug").set(false);
                 
                 return null;
-            }))
+            })
             .build();
     }
     

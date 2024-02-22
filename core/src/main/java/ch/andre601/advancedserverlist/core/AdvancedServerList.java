@@ -148,9 +148,7 @@ public class AdvancedServerList<F>{
             return;
         }
         
-        Path folder = getPlugin().getFolderPath().resolve("favicons");
-        if(!folder.toFile().exists() && folder.toFile().mkdirs())
-            getPlugin().getPluginLogger().info("Successfully created favicons folder.");
+        getPlugin().loadFaviconHandler(this);
     
         getPlugin().getPluginLogger().info("Loading Commands...");
         plugin.loadCommands();
