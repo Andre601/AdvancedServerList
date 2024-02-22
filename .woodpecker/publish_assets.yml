@@ -12,6 +12,8 @@ steps:
         target: modrinth_api_token
       - source: hangar_api_token
         target: hangar_api_token
+      - source: discord_webhook_url
+        target: discord_webhook_url
     commands:
       # Create the jar files.
       - mvn clean install
