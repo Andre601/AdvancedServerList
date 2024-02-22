@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 
 public interface PluginCore<F>{
@@ -38,6 +39,8 @@ public interface PluginCore<F>{
     void loadEvents();
     
     void loadMetrics();
+    
+    void loadFaviconHandler(AdvancedServerList<F> core);
     
     void clearFaviconCache();
     
@@ -55,7 +58,12 @@ public interface PluginCore<F>{
     
     String getLoader();
     
+    F createFavicon(BufferedImage image) throws Exception;
+    
     default boolean isDebugEnabled(){
+        if(getCore() == null)
+            return false;
+        
         return getCore().getFileHandler().getBoolean("debug");
     }
 }

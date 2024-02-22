@@ -29,12 +29,18 @@ import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergReleaseFetcher;
 import ch.andre601.advancedserverlist.versionuploader.hangar.HangarVersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.modrinth.ModrinthVersionUploader;
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.WebhookClientBuilder;
+import club.minnced.discord.webhook.receive.ReadonlyMessage;
+import club.minnced.discord.webhook.send.WebhookEmbed;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 
@@ -47,7 +53,7 @@ public class VersionUploader{
         
         if(args.length == 0){
             LOGGER.warn("MISSING ARGUMENT!");
-            LOGGER.warn("COMMAND USAGE: java -jar VersionUploader.jar [--all|--modrinth|--hangar]");
+            LOGGER.warn("COMMAND USAGE: java -jar VersionUploader.jar <--all|--modrinth|--hangar> [--dryrun]");
             System.exit(1);
             return;
         }
@@ -60,32 +66,28 @@ public class VersionUploader{
             return;
         }
         
+        boolean dryrun = false;
+        if(args.length >= 2){
+            dryrun = args[1].equalsIgnoreCase("--dryrun");
+        }
+        
         CompletableFuture<?> future;
+        ModrinthRelease modrinthRelease = null;
         switch(args[0].toLowerCase(Locale.ROOT)){
-            case "--modrinth" -> future = new ModrinthVersionUploader().performUpload(release, false);
-            case "--hangar" -> future = new HangarVersionUploader().performUpload(release, false);
-            case "--all" -> future = CompletableFuture.allOf(
-                new ModrinthVersionUploader().performUpload(release, false),
-                new HangarVersionUploader().performUpload(release, false)
-            );
-            case "--dryrun" -> {
-                LOGGER.info("Performing Dry-run for Modrinth and Hangar...");
+            case "--modrinth" -> {
+                modrinthRelease = new ModrinthRelease();
+                future = new ModrinthVersionUploader().performUpload(release, modrinthRelease, dryrun);
+            }
+            case "--hangar" -> future = new HangarVersionUploader().performUpload(release, dryrun);
+            case "--all" -> {
+                modrinthRelease = new ModrinthRelease();
                 future = CompletableFuture.allOf(
-                    new ModrinthVersionUploader().performUpload(release, true),
-                    new HangarVersionUploader().performUpload(release, true)
+                    new ModrinthVersionUploader().performUpload(release, modrinthRelease, dryrun),
+                    new HangarVersionUploader().performUpload(release, dryrun)
                 );
-                
-                try{
-                    future.join();
-                }catch(Exception ex){
-                    LOGGER.warn("Exception while waiting for CompletableFutures to end...", ex);
-                }
-                
-                LOGGER.info("Dry-run completed!");
-                return;
             }
             default -> {
-                LOGGER.warn("Unknown argument '{}' provided. Supported are '--all', '--modrinth', '--hangar' and '--dryrun'", args[0]);
+                LOGGER.warn("Unknown argument '{}' provided. Supported are '--all', '--modrinth' or '--hangar'", args[0]);
                 System.exit(1);
                 return;
             }
@@ -99,9 +101,60 @@ public class VersionUploader{
         
         try{
             future.join();
-            LOGGER.info("Upload completed!");
+            if(dryrun){
+                LOGGER.info("Dryrun complete!");
+            }else{
+                LOGGER.info("Upload completed!");
+            }
         }catch(Exception ex){
             LOGGER.warn("Upload was not successful! Encountered an Exception!", ex);
+            System.exit(1);
+        }
+        
+        if(modrinthRelease == null || modrinthRelease.getReleases().isEmpty()){
+            LOGGER.warn("No Modrinth release info on Discord to share... Skipping.");
+            return;
+        }
+        
+        String webhookUrl = System.getenv("DISCORD_WEBHOOK_URL");
+        if(webhookUrl == null || webhookUrl.isEmpty()){
+            LOGGER.warn("No valid DISCORD_WEBHOOK_URL Environment Variable found. Skipping Webhook sending.");
+            return;
+        }
+        
+        WebhookEmbedBuilder builder = new WebhookEmbedBuilder()
+            .setTitle(new WebhookEmbed.EmbedTitle("New Release", null))
+            .setDescription("A new release of AdvancedServerList is available on Modrinth for you to download!")
+            .setColor(0x1BD96A);
+        
+        for(Map.Entry<String, String> entry : modrinthRelease.getReleases().entrySet()){
+            builder.addField(new WebhookEmbed.EmbedField(
+                false,
+                entry.getKey(),
+                "https://modrinth.com/plugin/advancedserverlist/version/" + entry.getValue()
+            ));
+        }
+        
+        try(WebhookClient client = new WebhookClientBuilder(webhookUrl).build()){
+            CompletableFuture<ReadonlyMessage> webhookFuture = client.send(builder.build()).whenComplete((readonlyMessage, throwable) -> {
+                if(throwable != null){
+                    LOGGER.warn("Error while sending webhook message!", throwable);
+                    System.exit(1);
+                    return;
+                }
+                
+                LOGGER.info("Webhook message send!");
+                client.close();
+            });
+            
+            try{
+                webhookFuture.join();
+            }catch(Exception ex){
+                LOGGER.warn("Unable to complete webhook message sending!", ex);
+                System.exit(1);
+            }
+        }catch(Exception ex){
+            LOGGER.warn("Encountered Exception while creating WebhookClient!", ex);
             System.exit(1);
         }
     }

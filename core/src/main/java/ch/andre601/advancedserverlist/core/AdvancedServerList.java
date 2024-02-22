@@ -36,7 +36,6 @@ import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -148,9 +147,7 @@ public class AdvancedServerList<F>{
             return;
         }
         
-        Path folder = getPlugin().getFolderPath().resolve("favicons");
-        if(!folder.toFile().exists() && folder.toFile().mkdirs())
-            getPlugin().getPluginLogger().info("Successfully created favicons folder.");
+        getPlugin().loadFaviconHandler(this);
     
         getPlugin().getPluginLogger().info("Loading Commands...");
         plugin.loadCommands();

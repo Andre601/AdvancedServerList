@@ -25,10 +25,10 @@
 
 package ch.andre601.advancedserverlist.banplugins.placeholders;
 
-import ch.andre601.advancedserverlist.banplugins.providers.AdvancedBanProvider;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.banplugins.providers.AdvancedBanProvider;
 
 import java.util.Arrays;
 
@@ -44,7 +44,7 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
         String[] args = placeholder.split("\\s");
         
-        return switch(placeholder) {
+        return switch(args[0]) {
             // Mute-related placeholders
             case "isMuted" -> String.valueOf(provider.muted(player));
             case "muteReason" -> provider.muteReason(player);

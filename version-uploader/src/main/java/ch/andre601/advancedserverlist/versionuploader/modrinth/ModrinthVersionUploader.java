@@ -25,6 +25,7 @@
 
 package ch.andre601.advancedserverlist.versionuploader.modrinth;
 
+import ch.andre601.advancedserverlist.versionuploader.ModrinthRelease;
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
 import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
@@ -61,7 +62,7 @@ public class ModrinthVersionUploader{
         this.api = createClient();
     }
     
-    public CompletableFuture<?> performUpload(CodebergRelease release, boolean dryrun){
+    public CompletableFuture<?> performUpload(CodebergRelease release, ModrinthRelease modrinthRelease, boolean dryrun){
         LOGGER.info("Starting ModrinthVersionUploader...");
         
         if(api == null){
@@ -130,6 +131,7 @@ public class ModrinthVersionUploader{
                 continue;
             }
             
+            final int index = i;
             futures[i] = api.versions().createProjectVersion(builder.build()).whenComplete(((projectVersion, throwable) -> {
                 if(throwable != null){
                     LOGGER.warn("Encountered an exception while uploading a new release to Modrinth!", throwable);
@@ -138,6 +140,8 @@ public class ModrinthVersionUploader{
                 
                 LOGGER.info("Created new release!");
                 LOGGER.info("Link: https://modrinth.com/plugin/advancedserverlist/version/{}", projectVersion.getId());
+                
+                modrinthRelease.addRelease(String.join(", ", platforms.get(index).getLoaders()), projectVersion.getId());
             }));
         }
         

@@ -44,7 +44,6 @@ import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -204,10 +203,5 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
         plugin.getProxy().getAllServers().forEach(server -> servers.put(server.getServerInfo().getName(), server));
         
         return new VelocityProxyImpl(servers, playersOnline, playersMax, host);
-    }
-    
-    @Override
-    public Favicon createFavicon(BufferedImage image){
-        return Favicon.create(image);
     }
 }

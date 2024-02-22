@@ -27,7 +27,6 @@ package ch.andre601.advancedserverlist.core.profiles.conditions.expressions;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.ExpressionTokenizer;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.ListOperator;
 import ch.andre601.advancedserverlist.core.profiles.conditions.operators.Operator;

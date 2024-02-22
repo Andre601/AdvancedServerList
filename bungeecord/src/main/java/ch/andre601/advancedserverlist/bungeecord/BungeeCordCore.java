@@ -40,6 +40,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
 import org.bstats.charts.SimplePie;
 
+import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 
 public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
@@ -78,11 +79,16 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     }
     
     @Override
+    public void loadFaviconHandler(AdvancedServerList<Favicon> core){
+        faviconHandler = new FaviconHandler<>(core);
+    }
+    
+    @Override
     public void clearFaviconCache(){
         if(faviconHandler == null)
             return;
     
-        faviconHandler.clearCache();
+        faviconHandler.cleanCache();
     }
     
     @Override
@@ -121,5 +127,10 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     @Override
     public String getLoader(){
         return "bungeecord";
+    }
+    
+    @Override
+    public Favicon createFavicon(BufferedImage image) throws IllegalArgumentException{
+        return Favicon.create(image);
     }
 }

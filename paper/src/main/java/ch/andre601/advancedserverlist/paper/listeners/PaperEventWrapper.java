@@ -45,8 +45,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.CachedServerIcon;
 
-import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, PaperPlayerImpl>{
     
@@ -185,10 +186,5 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     @Override
     public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
         return new PaperServerImpl(plugin.getWorldCache().worlds(), playersOnline, playersMax, host);
-    }
-    
-    @Override
-    public CachedServerIcon createFavicon(BufferedImage image) throws Exception{
-        return Bukkit.loadServerIcon(image);
     }
 }

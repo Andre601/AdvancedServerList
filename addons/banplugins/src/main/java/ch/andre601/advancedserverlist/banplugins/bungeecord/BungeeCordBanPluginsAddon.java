@@ -25,8 +25,8 @@
 
 package ch.andre601.advancedserverlist.banplugins.bungeecord;
 
-import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.Map;

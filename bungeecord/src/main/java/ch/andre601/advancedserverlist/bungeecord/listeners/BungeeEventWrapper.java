@@ -25,11 +25,11 @@
 
 package ch.andre601.advancedserverlist.bungeecord.listeners;
 
+import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeePlayerImpl;
-import ch.andre601.advancedserverlist.api.events.GenericServerListEvent;
 import ch.andre601.advancedserverlist.bungeecord.objects.BungeeProxyImpl;
 import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
@@ -46,7 +46,6 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 
-import java.awt.image.BufferedImage;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
@@ -204,10 +203,5 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
         Map<String, ServerInfo> servers = plugin.getProxy().getServers();
         
         return new BungeeProxyImpl(servers, playersOnline, playersMax, host);
-    }
-    
-    @Override
-    public Favicon createFavicon(BufferedImage image) throws IllegalArgumentException{
-        return Favicon.create(image);
     }
 }

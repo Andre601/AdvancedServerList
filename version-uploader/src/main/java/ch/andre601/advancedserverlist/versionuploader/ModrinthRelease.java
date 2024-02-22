@@ -23,34 +23,20 @@
  *
  */
 
-package ch.andre601.advancedserverlist.banplugins.providers;
+package ch.andre601.advancedserverlist.versionuploader;
 
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface PunishmentProvider{
+public class ModrinthRelease{
     
-    boolean muted(GenericPlayer player);
+    Map<String, String> releases = new HashMap<>();
     
-    boolean banned(GenericPlayer player);
-    
-    String muteReason(GenericPlayer player);
-    
-    String banReason(GenericPlayer player);
-    
-    String muteDuration(GenericPlayer player);
-    
-    String banDuration(GenericPlayer player);
-    
-    default String muteExpirationDate(GenericPlayer player){
-        return muteExpirationDate(player, "dd, MMM yyyy HH:mm:ss");
+    public void addRelease(String platform, String id){
+        releases.put(platform, id);
     }
     
-    String muteExpirationDate(GenericPlayer player, String pattern);
-    
-    default String banExpirationDate(GenericPlayer player){
-        return banExpirationDate(player, "dd, MMM yyyy HH:mm:ss");
+    public Map<String, String> getReleases(){
+        return releases;
     }
-    
-    String banExpirationDate(GenericPlayer player, String pattern);
-    
 }

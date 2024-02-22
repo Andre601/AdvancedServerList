@@ -27,7 +27,6 @@ package ch.andre601.advancedserverlist.core.profiles.conditions;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
 import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers.TokenReader;
@@ -70,7 +69,7 @@ public class ExpressionTokenizer{
                 }
             }
             
-            warnHelper.appendWarning(position.getIndex(), "Illegal token '%c'.");
+            warnHelper.appendWarning(position.getIndex(), "Illegal token '%c'.", text.charAt(position.getIndex()));
             break;
         }
         

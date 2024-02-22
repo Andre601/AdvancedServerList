@@ -25,10 +25,10 @@
 
 package ch.andre601.advancedserverlist.core.file;
 
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.profiles.ServerListProfile;
-import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.profiles.profile.ProfileSerializer;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -189,6 +189,11 @@ public class FileHandler{
     
     public boolean getBoolean(Object... path){
         return node.node(path).getBoolean();
+    }
+    
+    public long getLong(long def, long limit, Object... path){
+        long value = node.node(path).getLong(def);
+        return Math.max(value, limit);
     }
     
     public boolean isOldConfig(){
