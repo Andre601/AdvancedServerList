@@ -25,10 +25,10 @@
 
 package ch.andre601.advancedserverlist.banplugins.placeholders;
 
-import ch.andre601.advancedserverlist.banplugins.providers.AdvancedBanProvider;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.banplugins.providers.AdvancedBanProvider;
 
 import java.util.Arrays;
 

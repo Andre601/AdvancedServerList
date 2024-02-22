@@ -27,8 +27,6 @@ package ch.andre601.advancedserverlist.banplugins.providers;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 
-import java.time.format.DateTimeFormatter;
-
 public interface PunishmentProvider{
     
     boolean muted(GenericPlayer player);

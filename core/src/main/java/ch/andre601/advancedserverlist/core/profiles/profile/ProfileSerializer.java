@@ -25,11 +25,11 @@
 
 package ch.andre601.advancedserverlist.core.profiles.profile;
 
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.serialize.TypeSerializer;
-import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 
 import java.lang.reflect.Type;
 

@@ -45,8 +45,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.util.CachedServerIcon;
 
-import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, PaperPlayerImpl>{
     

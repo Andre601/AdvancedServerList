@@ -28,8 +28,10 @@ package ch.andre601.advancedserverlist.versionuploader.hangar;
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
 import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
-import ch.andre601.advancedserverlist.versionuploader.hangar.version.*;
-
+import ch.andre601.advancedserverlist.versionuploader.hangar.version.Dependency;
+import ch.andre601.advancedserverlist.versionuploader.hangar.version.MultipartObject;
+import ch.andre601.advancedserverlist.versionuploader.hangar.version.Platform;
+import ch.andre601.advancedserverlist.versionuploader.hangar.version.Version;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;

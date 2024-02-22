@@ -36,7 +36,6 @@ import ch.andre601.advancedserverlist.core.profiles.players.PlayerHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
