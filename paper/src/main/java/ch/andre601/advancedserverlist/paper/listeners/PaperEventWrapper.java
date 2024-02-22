@@ -186,9 +186,4 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     public GenericServer createGenericServer(int playersOnline, int playersMax, String host){
         return new PaperServerImpl(plugin.getWorldCache().worlds(), playersOnline, playersMax, host);
     }
-    
-    @Override
-    public CachedServerIcon createFavicon(BufferedImage image) throws Exception{
-        return Bukkit.loadServerIcon(image);
-    }
 }

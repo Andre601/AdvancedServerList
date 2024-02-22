@@ -205,9 +205,4 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
         
         return new VelocityProxyImpl(servers, playersOnline, playersMax, host);
     }
-    
-    @Override
-    public Favicon createFavicon(BufferedImage image){
-        return Favicon.create(image);
-    }
 }

@@ -205,9 +205,4 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
         
         return new BungeeProxyImpl(servers, playersOnline, playersMax, host);
     }
-    
-    @Override
-    public Favicon createFavicon(BufferedImage image) throws IllegalArgumentException{
-        return Favicon.create(image);
-    }
 }
