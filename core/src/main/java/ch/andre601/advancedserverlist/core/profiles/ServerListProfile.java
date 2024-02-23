@@ -29,9 +29,9 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionEngine;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
-import ch.andre601.advancedserverlist.core.profiles.conditions.templates.ExpressionTemplate;
+import ch.andre601.advancedserverlist.core.profiles.conditions.ProfileConditionParser;
+import ch.andre601.expressionparser.ParseWarnCollector;
+import ch.andre601.expressionparser.templates.ExpressionTemplate;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -42,21 +42,29 @@ import java.util.Random;
 public record ServerListProfile(int priority, String condition, ProfileEntry defaultProfile, List<ProfileEntry> profiles){
     private static final Random random = new Random();
     
-    public boolean evalConditions(ExpressionEngine expressionEngine, PluginLogger logger, GenericPlayer player, GenericServer server){
+    public boolean evalConditions(ProfileConditionParser parser, PluginLogger logger, GenericPlayer player, GenericServer server){
         if(condition == null || condition.isEmpty())
             return true;
         
-        ExpressionsWarnHelper warnHelper = new ExpressionsWarnHelper(condition);
-        ExpressionTemplate template = expressionEngine.compile(condition, player, server, warnHelper);
+        ParseWarnCollector collector = new ParseWarnCollector(condition);
+        ExpressionTemplate template = parser.compile(condition, player, server, collector);
         
-        if(warnHelper.hasWarnings()){
-            warnHelper.printWarnings(logger);
+        if(collector.hasWarnings()){
+            logger.warn("Encountered %d Error(s) while parsing condition '%s':", collector.getWarnings().size(), condition);
             
-            if(template == null)
-                return false;
+            for(ParseWarnCollector.Context context : collector.getWarnings()){
+                if(context.position() <= -1){
+                    logger.warn("  - %s", context.message());
+                }else{
+                    logger.warn("  - At Position %d: %s", context.position(), context.message());
+                }
+            }
         }
         
-        return template.instantiateWithBooleanResult().evaluate();
+        if(template == null)
+            return false;
+        
+        return template.returnBooleanExpression().evaluate();
     }
     
     public ProfileEntry getRandomProfile(){

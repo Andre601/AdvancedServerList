@@ -23,13 +23,14 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.conditions;
+package ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.tokens;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
-import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.Token;
-import ch.andre601.advancedserverlist.core.profiles.conditions.tokens.readers.TokenReader;
+import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.reader.CustomTokenReader;
+import ch.andre601.expressionparser.ParseWarnCollector;
+import ch.andre601.expressionparser.tokens.Token;
+import ch.andre601.expressionparser.tokens.readers.TokenReader;
 import com.google.common.collect.Ordering;
 
 import java.text.ParsePosition;
@@ -37,39 +38,45 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ExpressionTokenizer{
+public class CustomExpressionTokenizer{
     
     private static final Ordering<TokenReader> TOKEN_READER_ORDERING = Ordering.from(Comparator.comparingInt(TokenReader::getPriority)).reverse();
     
     private final List<TokenReader> tokenReaders;
     
-    public ExpressionTokenizer(Iterable<TokenReader> tokenReaders){
+    public CustomExpressionTokenizer(Iterable<TokenReader> tokenReaders){
         this.tokenReaders = TOKEN_READER_ORDERING.immutableSortedCopy(tokenReaders);
     }
     
-    public List<Token> parse(String text, GenericPlayer player, GenericServer server, ExpressionsWarnHelper warnHelper){
+    public List<Token> parse(String text, GenericPlayer player, GenericServer server, ParseWarnCollector collector){
         ParsePosition position = new ParsePosition(0);
         
         List<Token> tokens = new LinkedList<>();
         
         next_token:
         while(true){
-            while(position.getIndex() < text.length() && Character.isWhitespace(text.charAt(position.getIndex()))){
+            while(position.getIndex() < text.length() && Character.isWhitespace(text.charAt(position.getIndex())))
                 position.setIndex(position.getIndex() + 1);
-            }
             
             if(position.getIndex() >= text.length())
                 break;
             
             for(TokenReader tokenReader : tokenReaders){
                 Token token;
-                if(null != (token = tokenReader.read(text, position, player, server, warnHelper))){
-                    tokens.add(token);
-                    continue next_token;
+                if(tokenReader instanceof CustomTokenReader customTokenReader){
+                    if(null != (token = customTokenReader.read(text, position, player, server, collector))){
+                        tokens.add(token);
+                        continue next_token;
+                    }
+                }else{
+                    if(null != (token = tokenReader.read(text, position, collector))){
+                        tokens.add(token);
+                        continue next_token;
+                    }
                 }
             }
             
-            warnHelper.appendWarning(position.getIndex(), "Illegal token '%c'.", text.charAt(position.getIndex()));
+            collector.appendWarningFormatted(position.getIndex(), "Illegal Token '%c'.", text.charAt(position.getIndex()));
             break;
         }
         

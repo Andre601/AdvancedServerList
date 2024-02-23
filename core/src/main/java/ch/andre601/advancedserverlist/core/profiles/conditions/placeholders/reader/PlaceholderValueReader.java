@@ -23,40 +23,24 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.conditions.expressions;
+package ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.reader;
 
-import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
+import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.tokens.PlaceholderToken;
+import ch.andre601.expressionparser.ParseWarnCollector;
+import ch.andre601.expressionparser.parsers.ExpressionTemplateParser;
+import ch.andre601.expressionparser.parsers.ValueReader;
+import ch.andre601.expressionparser.templates.ExpressionTemplate;
+import ch.andre601.expressionparser.tokens.Token;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ExpressionsWarnHelper{
-    
-    private final String expression;
-    private final List<Context> warnings = new ArrayList<>();
-    
-    public ExpressionsWarnHelper(String expression){
-        this.expression = expression;
-    }
-    
-    public void appendWarning(int position, String warning, Object... args){
-        warnings.add(new Context(position, String.format(warning, args)));
-    }
-    
-    public boolean hasWarnings(){
-        return !warnings.isEmpty();
-    }
-    
-    public void printWarnings(PluginLogger logger){
-        logger.warn("Encountered %d issue(s) while parsing expression '%s'", warnings.size(), expression);
-        for(Context warning : warnings){
-            if(warning.position() > -1){
-                logger.warn(" - At Position %d: %s", warning.position(), warning.message());
-            }else{
-                logger.warn(" - Cause: %s", warning.message());
-            }
+public class PlaceholderValueReader extends ValueReader{
+    @Override
+    public ExpressionTemplate read(ExpressionTemplateParser parser, List<Token> tokens, ParseWarnCollector collector){
+        if(tokens.get(0) instanceof PlaceholderToken){
+            PlaceholderToken token = (PlaceholderToken)tokens.remove(0);
+            return token.getValue();
         }
+        return null;
     }
-    
-    public record Context(int position, String message){}
 }

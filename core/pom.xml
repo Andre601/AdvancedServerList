@@ -67,6 +67,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>ch.andre601</groupId>
+            <artifactId>ExpressionParser</artifactId>
+            <version>v1.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>configurate-yaml</artifactId>
             <version>4.1.2</version>
@@ -167,6 +173,10 @@
                         <relocation>
                             <pattern>com.unascribed</pattern>
                             <shadedPattern>ch.andre601.advancedserverlist.core.depends.flexver</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>ch.andre601.expressionparser</pattern>
+                            <shadedPattern>ch.andre601.advancedserverlist.core.depends.expressionparser</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

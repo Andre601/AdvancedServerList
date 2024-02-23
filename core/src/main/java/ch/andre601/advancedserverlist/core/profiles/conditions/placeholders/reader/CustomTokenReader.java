@@ -23,16 +23,26 @@
  *
  */
 
-package ch.andre601.advancedserverlist.core.profiles.conditions.templates;
+package ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.reader;
 
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.Expression;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ToBooleanExpression;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.expressionparser.ParseWarnCollector;
+import ch.andre601.expressionparser.tokens.Token;
+import ch.andre601.expressionparser.tokens.readers.TokenReader;
 
-public abstract class AbstractUnaryToBooleanExpression<T extends Expression> implements ToBooleanExpression{
+import java.text.ParsePosition;
+
+public abstract class CustomTokenReader extends TokenReader{
     
-    protected final T delegate;
-    
-    public AbstractUnaryToBooleanExpression(T delegate){
-        this.delegate = delegate;
+    public CustomTokenReader(int priority){
+        super(priority);
     }
+    
+    @Override
+    public Token read(String text, ParsePosition position, ParseWarnCollector collector){
+        return null;
+    }
+    
+    public abstract Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server, ParseWarnCollector collector);
 }

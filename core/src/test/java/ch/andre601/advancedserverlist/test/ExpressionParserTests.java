@@ -25,8 +25,9 @@
 
 package ch.andre601.advancedserverlist.test;
 
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionEngine;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
+import ch.andre601.advancedserverlist.core.profiles.conditions.ProfileConditionParser;
+import ch.andre601.expressionparser.ParseWarnCollector;
+import ch.andre601.expressionparser.templates.ExpressionTemplate;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -35,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExpressionParserTests{
     
-    private final ExpressionEngine expressionEngine = new ExpressionEngine();
+    private final ProfileConditionParser parser = ProfileConditionParser.create();
     private final DummyPluginLogger logger = new DummyPluginLogger();
     private final Map<String, Boolean> testValuesMap = getTestMap();
     
@@ -44,8 +45,15 @@ public class ExpressionParserTests{
         for(Map.Entry<String, Boolean> values : testValuesMap.entrySet()){
             logger.info("TEST[expression=\"%s\", expected=%b]", values.getKey(), values.getValue());
             
-            ExpressionsWarnHelper warnHelper = new ExpressionsWarnHelper(values.getKey());
-            boolean result = expressionEngine.compile(values.getKey(), null, null, warnHelper).instantiateWithBooleanResult().evaluate();
+            ParseWarnCollector collector = new ParseWarnCollector(values.getKey());
+            ExpressionTemplate template = parser.compile(values.getKey(), null, null, collector);
+            boolean result;
+            if(template == null){
+                result = false;
+            }else{
+                result = template.returnBooleanExpression().evaluate();
+            }
+            
             logger.info("Result (output, isExpected): " + result + ", " + (result == values.getValue()));
             assertEquals(result, values.getValue());
         }

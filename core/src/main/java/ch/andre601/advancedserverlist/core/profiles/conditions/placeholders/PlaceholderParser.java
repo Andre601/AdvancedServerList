@@ -29,14 +29,19 @@ import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.profiles.conditions.expressions.ExpressionsWarnHelper;
+import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.tokens.PlaceholderToken;
+import ch.andre601.expressionparser.ParseWarnCollector;
 
 import java.text.ParsePosition;
 
 public class PlaceholderParser{
     
-    public static Placeholder parse(String text, ParsePosition position, GenericPlayer player, GenericServer server, ExpressionsWarnHelper warnHelper){
+    public static PlaceholderToken.Placeholder parse(String text, ParsePosition position, GenericPlayer player, GenericServer server, ParseWarnCollector collector){
         AdvancedServerListAPI api = AdvancedServerListAPI.get();
+        
+        // We want to point to the start of a placeholder in the ParseWarnCollector.
+        // Since the PlaceholderTokenReader updates the index by 2 are we reverting this here.
+        int placeholderStart = position.getIndex() - 2;
         int index = position.getIndex();
         
         StringBuilder identifier = new StringBuilder();
@@ -48,6 +53,7 @@ public class PlaceholderParser{
         char[] chars = text.substring(index).toCharArray();
         for(final char c : chars){
             index++;
+            
             if(c == '}'){
                 invalid = false;
                 break;
@@ -70,6 +76,7 @@ public class PlaceholderParser{
         
         StringBuilder raw = new StringBuilder();
         
+        // Skipping whatever character we currently were on (i.e. })
         position.setIndex(index + 1);
         
         if(invalid){
@@ -78,9 +85,8 @@ public class PlaceholderParser{
             if(identified)
                 raw.append(' ').append(valuesStr);
             
-            warnHelper.appendWarning(index, "Placeholder '%s' does not have a closing bracket (}).",raw.toString());
-            
-            return Placeholder.of(raw.toString());
+            collector.appendWarningFormatted(placeholderStart, "Placeholder '%s' does not have a closing bracket (}).", raw.toString());
+            return new PlaceholderToken.Placeholder(raw.toString());
         }
         
         PlaceholderProvider provider = api.retrievePlaceholderProvider(identifierStr);
@@ -90,12 +96,10 @@ public class PlaceholderParser{
             if(identified)
                 raw.append(' ').append(valuesStr);
             
-            
             raw.append('}');
             
-            warnHelper.appendWarning(index, "Placeholder '%s' does not have an available PlaceholderProvider.", raw.toString());
-            
-            return Placeholder.of(raw.toString());
+            collector.appendWarningFormatted(placeholderStart, "Placeholder '%s' does not have any available PlaceholderProvider", raw.toString());
+            return new PlaceholderToken.Placeholder(raw.toString());
         }
         
         String replacement = provider.parsePlaceholder(valuesStr, player, server);
@@ -107,11 +111,10 @@ public class PlaceholderParser{
             
             raw.append('}');
             
-            warnHelper.appendWarning(index, "Placeholder '%s' returned a null value.", raw.toString());
-            
-            return Placeholder.of(raw.toString());
+            collector.appendWarningFormatted(placeholderStart, "Placeholder '%s' has an invalid value String '%s'.", raw.toString(), valuesStr);
+            return new PlaceholderToken.Placeholder(raw.toString());
         }
         
-        return Placeholder.of(replacement);
+        return new PlaceholderToken.Placeholder(replacement);
     }
 }
