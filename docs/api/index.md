@@ -15,8 +15,8 @@ Add the following to your `pom.xml`, `build.gradle` or `build.gradle.kts` depend
 ```xml title="pom.xml"
 <repositories>
   <repository>
-    <id>jitpack</id>
-    <url>https://jitpack.io/</url>
+    <id>codeberg</id>
+    <url>https://codeberg.org/api/packages/Andre601/maven/</url>
   </repository>
 </repositories>
 
@@ -54,7 +54,7 @@ Add the following to your `pom.xml`, `build.gradle` or `build.gradle.kts` depend
 /// tab | :simple-gradle: Gradle
 ```groovy title="build.gradle"
 repositorories {
-    maven { url = 'https://jitpack.io/' }
+    maven { url = 'https://codeberg.org/api/packages/Andre601/maven/' }
 }
 
 dependencies {
@@ -71,7 +71,7 @@ dependencies {
 /// tab | :simple-gradle: Gradle (KTS)
 ```kotlin title="build.gradle.kts"
 repositories {
-    maven("https://jitpack.io")
+    maven("https://codeberg.org/api/packages/Andre601/maven/")
 }
 
 dependencies {
