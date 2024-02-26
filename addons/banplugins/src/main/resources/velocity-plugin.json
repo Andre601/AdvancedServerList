@@ -1,0 +1,20 @@
+{
+  "id": "aslbanpluginsaddon",
+  "name": "ASLBanPluginsAddon",
+  "version": "${plugin.version}",
+  "description": "${plugin.description}",
+  "authors": [
+    "Andre_601"
+  ],
+  "dependencies": [
+    {
+      "id": "advancedserverlist",
+      "optional": true
+    },
+    {
+      "id": "libertybans",
+      "optional": true
+    }
+  ],
+  "main": "ch.andre601.advancedserverlist.banplugins.velocity.VelocityBanPluginsAddon"
+}

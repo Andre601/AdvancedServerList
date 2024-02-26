@@ -41,7 +41,7 @@
         <plugin.version>4.2.0</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
         
-        <api.version>v3.1.0</api.version>
+        <api.version>3.1.0</api.version>
         
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
@@ -51,6 +51,10 @@
         <repository>
             <id>jitpack</id>
             <url>https://jitpack.io/</url>
+        </repository>
+        <repository>
+            <id>codeberg</id>
+            <url>https://codeberg.org/api/packages/Andre601/maven/</url>
         </repository>
     </repositories>
     

@@ -27,13 +27,15 @@ package ch.andre601.advancedserverlist.banplugins.bungeecord;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.banplugins.placeholders.AdvancedBanPlaceholders;
+import ch.andre601.advancedserverlist.banplugins.placeholders.LibertyBansPlaceholders;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public enum BungeeCordBanPlugins{
     
-    ADVANCED_BAN("AdvancedBan", new AdvancedBanPlaceholders());
+    ADVANCED_BAN("AdvancedBan", new AdvancedBanPlaceholders()),
+    LIBERTY_BANS("LibertyBans", new LibertyBansPlaceholders());
     
     private final String plugin;
     private final PlaceholderProvider placeholderProvider;

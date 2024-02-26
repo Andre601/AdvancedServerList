@@ -23,24 +23,23 @@
  *
  */
 
-package ch.andre601.advancedserverlist.banplugins.paper;
+package ch.andre601.advancedserverlist.banplugins.velocity;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.banplugins.placeholders.AdvancedBanPlaceholders;
+import ch.andre601.advancedserverlist.banplugins.paper.PaperBanPlugins;
 import ch.andre601.advancedserverlist.banplugins.placeholders.LibertyBansPlaceholders;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum PaperBanPlugins{
+public enum VelocityBanPlugins{
     
-    ADVANCED_BAN("AdvancedBan", new AdvancedBanPlaceholders()),
-    LIBERTY_BANS("LibertyBans", new LibertyBansPlaceholders());
+    LIBERTY_BANS("libertybans", new LibertyBansPlaceholders());
     
     private final String plugin;
     private final PlaceholderProvider placeholderProvider;
     
-    PaperBanPlugins(String plugin, PlaceholderProvider placeholderProvider){
+    VelocityBanPlugins(String plugin, PlaceholderProvider placeholderProvider){
         this.plugin = plugin;
         this.placeholderProvider = placeholderProvider;
     }
@@ -48,8 +47,8 @@ public enum PaperBanPlugins{
     public static Map<String, PlaceholderProvider> getBanPlugins(){
         Map<String, PlaceholderProvider> content = new HashMap<>();
         
-        for(PaperBanPlugins paperBanPlugins : PaperBanPlugins.values()){
-            content.put(paperBanPlugins.plugin, paperBanPlugins.placeholderProvider);
+        for(VelocityBanPlugins velocityBanPlugins : VelocityBanPlugins.values()){
+            content.put(velocityBanPlugins.plugin, velocityBanPlugins.placeholderProvider);
         }
         
         return content;
