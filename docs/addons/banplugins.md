@@ -32,6 +32,26 @@ Placeholders for the plugin [AdvancedBan](https://www.spigotmc.org/resources/869
     An optional Date and time Pattern can be set to change the displayed output. The default is `dd, MMM yyyy HH:mm:ss`.  
     Example: `${advancedban banExpiration yyyy-MM-dd HH:mm:ss}`
 
+### LibertyBans
+
+Placeholders for the plugin [LibertyBans](https://modrinth.com/plugin/libertybans/){ target="_blank" rel="nofollow" } are available to use.
+
+| Placeholder                     | Description                                                                              |
+|---------------------------------|------------------------------------------------------------------------------------------|
+| `${libertybans isMuted}`        | Whether the player is muted or not.                                                      |
+| `${libertybans muteReason}`     | The reason for why the player was muted. Returns invalid placeholder if no mute was set. |
+| `${libertybans muteExpiration}` | Date on when the mute will expire.[^5]                                                   |
+| `${libertybans isBanned}`       | Whether the player is banned or not.                                                     |
+| `${libertybans banReason}`      | The reason for why the player was banned. Returns invalid placeholder if no ban was set. |
+| `${libertybans banExpiration}`  | Date on when the ban will expire.[^6]                                                    |
+
+[^5]:
+    An optional Date and time Pattern can be set to change the displayed output. The default is `dd, MMM yyyy HH:mm:ss`.  
+    Example: `${libertybans muteExpiration yyyy-MM-dd HH:mm:ss}`
+[^6]:
+    An optional Date and time Pattern can be set to change the displayed output. The default is `dd, MMM yyyy HH:mm:ss`.  
+    Example: `${libertybans banExpiration yyyy-MM-dd HH:mm:ss}`
+
 ## Example
 
 ```yaml title="banned.yml"
