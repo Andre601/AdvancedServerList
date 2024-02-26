@@ -48,7 +48,8 @@ public enum PlatformInfo{
     VELOCITY(
         "velocity",
         List.of(
-            "velocity/target/AdvancedServerList-Velocity-{{version}}.jar"
+            "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
+            "addons/banplugins/target/AdvancedServerList-BanPlugins-Addon-{{version}}.jar"
         ),
         "velocity"
     );

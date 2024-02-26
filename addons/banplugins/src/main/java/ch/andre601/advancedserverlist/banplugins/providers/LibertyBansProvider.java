@@ -122,13 +122,10 @@ public class LibertyBansProvider implements PunishmentProvider{
         if(accounts.isEmpty())
             return null;
         
-        accounts.sort(Comparator.comparingLong(account -> account.recorded().toEpochMilli()));
-        Collections.reverse(accounts);
-        
-        KnownAccount account = accounts.get(0);
+        KnownAccount sorted = Collections.max(accounts, Comparator.comparing(KnownAccount::recorded));
         
         return libertyBans.getSelector()
-            .selectionByApplicabilityBuilder(account.uuid(), account.address())
+            .selectionByApplicabilityBuilder(sorted.uuid(), sorted.address())
             .type(type)
             .build()
             .getFirstSpecificPunishment()
