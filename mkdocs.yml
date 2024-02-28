@@ -51,6 +51,7 @@ extra_css:
   - assets/stylesheets/custom.css
   - assets/stylesheets/api-docs.css
   - assets/stylesheets/admo.css
+  - assets/stylesheets/admonition.css
 
 extra_javascript:
   - assets/js/repo-stats.js

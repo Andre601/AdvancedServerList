@@ -130,6 +130,8 @@ The profiles folder is home of the server list profile files which allow you to 
 On first creation will the folder have a `default.yml` file. This file contains all the options available to use alongside comments to try and help you in using it properly.
 
 /// details | default.yml content
+    type: file
+
 ```yaml
 #
 # Set the priority of this profile.
@@ -316,6 +318,8 @@ Similar to the default.yml is this file containing comments to try and explain t
 Do note that if the config gets migrated from an older version, that the comments will be discarded in the process, unfortunately.
 
 /// details | default config.yml content
+    type: file
+
 ```yaml
 #
 # Used for when AdvancedServerList doesn't have a cached player to use for player placeholders.
