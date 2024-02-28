@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.objects;
+package ch.andre601.advancedserverlist.bungeecord.objects.placeholders;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.bungeecord.objects.BungeeProxy;

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.velocity.objects.impl;
 
 import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
@@ -35,9 +35,9 @@ public class VelocityPlayerImpl extends GenericPlayerImpl implements VelocityPla
     private final String version;
     
     public VelocityPlayerImpl(CachedPlayer player, int protocol){
-        this.name = player.getName();
+        this.name = player.name();
         this.protocol = protocol;
-        this.uuid = player.getUuid();
+        this.uuid = player.uuid();
         this.version = ProtocolVersion.getProtocolVersion(protocol).getVersionIntroducedIn();
     }
     

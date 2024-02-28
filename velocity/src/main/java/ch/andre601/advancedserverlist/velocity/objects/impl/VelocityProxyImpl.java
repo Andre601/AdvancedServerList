@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,34 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.velocity.objects.impl;
 
-import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 
-public class VelocityPlayerPlaceholders extends PlaceholderProvider{
-    
-    private VelocityPlayerPlaceholders(){
-        super("player");
-    }
-    
-    public static VelocityPlayerPlaceholders init(){
-        return new VelocityPlayerPlaceholders();
+import java.util.Map;
+
+public record VelocityProxyImpl(Map<String, RegisteredServer> servers, int playersOnline, int playersMax, String host) implements VelocityProxy{
+    @Override
+    public Map<String, RegisteredServer> getServers(){
+        return servers;
     }
     
     @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        if(!(player instanceof VelocityPlayer velocityPlayer))
-            return null;
-        
-        return switch(placeholder){
-            case "name" -> velocityPlayer.getName();
-            case "protocol" -> String.valueOf(velocityPlayer.getProtocol());
-            case "uuid" -> String.valueOf(velocityPlayer.getUUID());
-            case "version" -> velocityPlayer.getVersion();
-            default -> null;
-        };
+    public int getPlayersOnline(){
+        return playersOnline;
+    }
+    
+    @Override
+    public int getPlayersMax(){
+        return playersMax;
+    }
+    
+    @Override
+    public String getHost(){
+        return host;
     }
 }

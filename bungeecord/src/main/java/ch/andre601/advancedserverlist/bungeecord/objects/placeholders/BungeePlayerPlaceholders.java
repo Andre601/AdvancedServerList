@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,31 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.bungeecord.objects.placeholders;
 
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
 
-import java.util.Map;
+import java.util.Locale;
 
-public record VelocityProxyImpl(Map<String, RegisteredServer> servers, int playersOnline, int playersMax, String host) implements VelocityProxy{
-    @Override
-    public Map<String, RegisteredServer> getServers(){
-        return servers;
+public class BungeePlayerPlaceholders extends PlaceholderProvider{
+    
+    private BungeePlayerPlaceholders(){
+        super("player");
+    }
+    
+    public static BungeePlayerPlaceholders init(){
+        return new BungeePlayerPlaceholders();
     }
     
     @Override
-    public int getPlayersOnline(){
-        return playersOnline;
-    }
-    
-    @Override
-    public int getPlayersMax(){
-        return playersMax;
-    }
-    
-    @Override
-    public String getHost(){
-        return host;
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        return switch(placeholder.toLowerCase(Locale.ROOT)){
+            case "name" -> player.getName();
+            case "protocol" -> String.valueOf(player.getProtocol());
+            case "uuid" -> String.valueOf(player.getUUID());
+            default -> null;
+        };
     }
 }

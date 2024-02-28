@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.objects;
+package ch.andre601.advancedserverlist.bungeecord.objects.impl;
 
-import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
-import ch.andre601.advancedserverlist.core.profiles.players.GenericPlayerImpl;
+import ch.andre601.advancedserverlist.api.bungeecord.objects.BungeeProxy;
+import net.md_5.bungee.api.config.ServerInfo;
 
-public class BungeePlayerImpl extends GenericPlayerImpl{
+import java.util.Map;
+
+public record BungeeProxyImpl(Map<String, ServerInfo> servers, int playersOnline, int playersMax, String host) implements BungeeProxy{
+    @Override
+    public Map<String, ServerInfo> getServers(){
+        return servers;
+    }
     
-    public BungeePlayerImpl(CachedPlayer player, int protocol){
-        this.name = player.getName();
-        this.protocol = protocol;
-        this.uuid = player.getUuid();
+    @Override
+    public int getPlayersOnline(){
+        return playersOnline;
+    }
+    
+    @Override
+    public int getPlayersMax(){
+        return playersMax;
+    }
+    
+    @Override
+    public String getHost(){
+        return host;
     }
 }

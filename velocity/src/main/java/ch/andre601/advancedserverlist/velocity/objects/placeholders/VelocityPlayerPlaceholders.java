@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,31 +23,34 @@
  *
  */
 
-package ch.andre601.advancedserverlist.bungeecord.objects;
+package ch.andre601.advancedserverlist.velocity.objects.placeholders;
 
-import ch.andre601.advancedserverlist.api.bungeecord.objects.BungeeProxy;
-import net.md_5.bungee.api.config.ServerInfo;
+import ch.andre601.advancedserverlist.api.PlaceholderProvider;
+import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
+import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
 
-import java.util.Map;
-
-public record BungeeProxyImpl(Map<String, ServerInfo> servers, int playersOnline, int playersMax, String host) implements BungeeProxy{
-    @Override
-    public Map<String, ServerInfo> getServers(){
-        return servers;
+public class VelocityPlayerPlaceholders extends PlaceholderProvider{
+    
+    private VelocityPlayerPlaceholders(){
+        super("player");
+    }
+    
+    public static VelocityPlayerPlaceholders init(){
+        return new VelocityPlayerPlaceholders();
     }
     
     @Override
-    public int getPlayersOnline(){
-        return playersOnline;
-    }
-    
-    @Override
-    public int getPlayersMax(){
-        return playersMax;
-    }
-    
-    @Override
-    public String getHost(){
-        return host;
+    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
+        if(!(player instanceof VelocityPlayer velocityPlayer))
+            return null;
+        
+        return switch(placeholder){
+            case "name" -> velocityPlayer.getName();
+            case "protocol" -> String.valueOf(velocityPlayer.getProtocol());
+            case "uuid" -> String.valueOf(velocityPlayer.getUUID());
+            case "version" -> velocityPlayer.getVersion();
+            default -> null;
+        };
     }
 }
