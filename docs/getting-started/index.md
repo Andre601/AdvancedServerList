@@ -5,7 +5,7 @@ icon: octicons/milestone-24
 # Getting Started
 
 This page will explain how to set up AdvancedServerList and make it work for your server.  
-It tries to be an easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6) for help.
+It tries to be as easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6) for help.
 
 ## 1. Download the plugin { #download-the-plugin }
 
@@ -312,6 +312,7 @@ These functions include, but aren't limited to:
 - Disabling/Enabling caching of players.
 - Disabling/Enabling checking for updates.
 - Disabling/Enabling debug mode.
+- Setting how long favicons should be cached for.
 - The config version used for migration. Don't touch this, or it may reset your config.
 
 Similar to the default.yml is this file containing comments to try and explain the settings in questions.  
@@ -366,12 +367,20 @@ checkUpdates: true
 debug: false
 
 #
+# Sets the time in minutes for favicons to be cached.
+# The number cannot be less than 1.
+#
+# Defaults to 1 if not set.
+#
+faviconCacheTime: 1
+
+#
 # DO NOT EDIT!
 #
 # This is used internally to determine if the config needs to be migrated.
 # Changing or even removing this option could result in your config being broken.
 #
-config-version: 2
+config-version: 4
 ```
 ///
 
@@ -379,18 +388,22 @@ config-version: 2
 
 There are certain files and folders that get created when certain events happen:
 
-- A `playercache.json` file will be created on plugin shutdown containing a list of IPs, UUIDs and Player names for every player that joined the server while AdvancedServerList was running.  
-    This file allows to replace `${player name}` and `${player uuid}` with their name or UUID respectively, while they are not on the server, by using the IP they used to join with.  
-    This file is not created nor updated when `disableCache` is set to `true` in the config.yml
+- A `playercache.json` file will be created on plugin shutdown containing a collection of IPs, UUIDs and Player names for every player that joined the server while AdvancedServerList was running.  
+    This file is used to identify a player through their last used IP, to replace placeholders such as `${player name}` or `${player uuid}` with their respective values using the cached data.  
+    This file is not created, used nor updated when `disableCache` is set to `true` in the config.yml
 - A `backups` folder containing old config.yml files.  
-    This folder is created when AdvancedServerList migrates your old config to a new version. This allows you to transfer settings over in case the migration didn't work properly.
+    This folder is created when AdvancedServerList migrates your old config to a new version. This allows you to transfer settings over in case the migration didn't work properly.  
+    Each backup will have the name pattern `config-<date>.yml` with `<date>` being the date and time of when this file has been created.
 
 ## 3. Creating your first profile { #creating-your-first-profile }
 
 Creating your first profile is relatively simple.
 
-To start, open the `default.yml` file located inside the `profiles` folder using a file editor of your choice (VSCode or Notepad++ are recommended). It should contain all the available options for a server list profile.  
-Next can you edit the options available to whatever you like. All text options (Except [condition](../profiles/index.md#condition)) support [MiniMessage formatting](../profiles/formatting.md).
+It's best to open the `default.yml` file located inside `profiles` with the file editor of your choice ([:simple-vscodium: VSCodeium](https://vscodium.com/) or [:simple-notepadplusplus: Notepad++](https://notepad-plus-plus.org/) are recommended).  
+This file should contain all available options that you can set and alter.
+
+Edit the options to whatever you like. All text-based options, except [`condition`](../profiles/index.md#condition), support [MiniMessage formatting](../profiles/formatting.md).  
+The [`motd`](../profiles/index.md#motd) option also supports Hexadecimal colors, assuming the server/proxy runs at least MC 1.16.
 
 If you're unsure how a specific option should look like, head over to the [Profiles page](../profiles/index.md) for more information about the general structure.  
 All you need to know is, that a bare-bones server list profile requires a valid [priority](../profiles/index.md#priority) and at least one of the settings to be present.
@@ -406,7 +419,7 @@ motd:
 
 ### Additional profiles
 
-To add additional profiles, create a new YAML file inside the `profiles` folder. The name doesn't matter, but it is recommended to keep it lowercase, use alphanumeric characters (`a-z, 0-9`), hyphens (`-`), underscores (`_`) and avoid spaces.
+To add additional profiles, create a new YAML file inside the `profiles` folder. The name doesn't matter, but it is recommended to keep it lowercase, use alphanumeric characters (`a-z, 0-9`), hyphens (`-`), underscores (`_`) and avoid spaces. You should also name it after what it is for, to have it more easily organized.
 
 Inside the file, add a priority and at least one setting, similar to the above shown example.  
 This would already be enough to have a valid profile, but depending on the priority and file name may the file not be used, or used over other profiles.
@@ -415,7 +428,7 @@ If you want to only show this file under specific situations can you use the [`c
 The condition option would have a single String containing one or muliple [Expressions](../profiles/expressions.md). Only if the condition would return true, would the profile be displayed, granted that it has a higher priority than any other valid file with a true condition output.
 
 /// info | Note
-Profiles which do not have any conditions, or have an empty condition, will always considered to have a true condition, meaning that a profile with higher priority and no condition will be selected over a profile with lower priority and a condition, even if said condition returns true.
+Profiles which do not have any conditions, or have an empty condition, will always be considered to have a true condition, meaning that a profile with higher priority and no condition will be selected over a profile with lower priority and a condition, even if said condition returns true.
 ///
 
 Here is another example profile using conditions to show it when the player was banned on the server:
@@ -435,7 +448,7 @@ The [Examples page](../examples/index.md) contains more examples of different se
 ## 4. Loading profiles { #loading-profiles }
 
 Once you've set up your server list profile(s) is it time to load it/them.  
-To do this, simply run `/asl reload` as player (Requires permission `advancedserverlist.admin` or `advancedserverlist.command.reload`) or through the Server/Proxy console.
+To do this, simply run `/asl reload` as player (Requires permission `advancedserverlist.admin` or `advancedserverlist.command.reload`) or `asl reload` through the Server/Proxy console.
 
 The plugin should then load any valid YAML file inside the `profiles` folder to then use.
 
