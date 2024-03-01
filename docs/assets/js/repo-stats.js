@@ -1,5 +1,5 @@
 document$.subscribe(async () => {
-    const url = 'https://codeberg-stats-proxy.vercel.app/repo'
+    const url = 'https://codeberg-stats-proxy.vercel.app'
     const repo_stats = document.querySelector('[data-md-component="source"] .md-source__repository');
     
     function loadCodebergInfo(data) {
@@ -31,7 +31,7 @@ document$.subscribe(async () => {
         const versionToken = '{apiVersion}';
         const codeBlocks = document.querySelectorAll('.md-content pre code');
         for(const codeBlock of codeBlocks) {
-            codeBlock.innerHTML = codeBlock.innerHTML.replace(new RegExp(versionToken, 'g'), version);
+            codeBlock.innerHTML = codeBlock.innerHTML.replace(new RegExp(versionToken, 'g'), version.substring(1));
         }
     }
     
@@ -45,10 +45,10 @@ document$.subscribe(async () => {
     }
     
     async function fetchApiInfo() {
-        const tag = await fetch("https://api.github.com/repos/Andre601/asl-api/releases/latest").then(_ => _.json());
+        const tag = await fetch(`${url}/api/latest-release`).then(_ => _.json());
         
         const data = {
-            "version": tag.tag_name
+            "version": tag.name
         };
         
         __md_set("__api_tag", data, sessionStorage);
@@ -57,8 +57,8 @@ document$.subscribe(async () => {
     
     async function fetchInfo() {
         const [release, repo] = await Promise.all([
-            fetch(`${url}/latest-release`).then(_ => _.json()),
-            fetch(`${url}/stats`).then(_ => _.json()),
+            fetch(`${url}/repo/latest-release`).then(_ => _.json()),
+            fetch(`${url}/repo/stats`).then(_ => _.json()),
         ]);
         
         const data = {

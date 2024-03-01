@@ -1,10 +1,10 @@
 ---
 template: redirect.html
 
-location: https://github.com/Andre601/asl-api
+location: https://codeberg.org/Andre601/asl-api
 
 title: Source Code
-icon: octicons/mark-github-16
+icon: simple/codeberg
 ---
 
 <!-- Comment to trigger proper build -->

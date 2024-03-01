@@ -1,7 +1,7 @@
 ---
 template: redirect.html
 
-location: https://docs.andre601.ch/asl-api
+location: https://jd.andre601.ch
 
 title: Javadocs
 icon: octicons/link-external-24

@@ -4,8 +4,7 @@ icon: octicons/command-palette-24
 
 # API
 
-AdvancedServerList v2 introduced a new API that plugins can hook into to use.  
-It provides a way for your plugin to provide its own placeholders that should be parsed by AdvancedServerList and also an event to modify the server list.
+AdvancedServerList offers an API that other plugins can use to add their own placeholder to the plugin, listen for specific events or even modify Server List Profiles on the fly.
 
 ## Add dependency
 
@@ -15,8 +14,8 @@ Add the following to your `pom.xml`, `build.gradle` or `build.gradle.kts` depend
 ```xml title="pom.xml"
 <repositories>
   <repository>
-    <id>jitpack</id>
-    <url>https://jitpack.io/</url>
+    <id>codeberg</id>
+    <url>https://codeberg.org/api/packages/Andre601/maven/</url>
   </repository>
 </repositories>
 
@@ -54,7 +53,7 @@ Add the following to your `pom.xml`, `build.gradle` or `build.gradle.kts` depend
 /// tab | :simple-gradle: Gradle
 ```groovy title="build.gradle"
 repositorories {
-    maven { url = 'https://jitpack.io/' }
+    maven { url = 'https://codeberg.org/api/packages/Andre601/maven/' }
 }
 
 dependencies {
@@ -71,7 +70,7 @@ dependencies {
 /// tab | :simple-gradle: Gradle (KTS)
 ```kotlin title="build.gradle.kts"
 repositories {
-    maven("https://jitpack.io")
+    maven("https://codeberg.org/api/packages/Andre601/maven/")
 }
 
 dependencies {
