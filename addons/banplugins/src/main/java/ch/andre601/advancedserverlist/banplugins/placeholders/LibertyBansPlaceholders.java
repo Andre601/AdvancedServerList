@@ -62,7 +62,7 @@ public class LibertyBansPlaceholders extends PlaceholderProvider{
             case "banReason" -> provider.banReason(player);
             case "banExpiration" -> {
                 if(args.length == 1)
-                    yield provider.muteExpirationDate(player);
+                    yield provider.banExpirationDate(player);
                 
                 String pattern = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
                 
