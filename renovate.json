@@ -7,16 +7,24 @@
   ],
   "packageRules": [
     {
-      "description": "Use a specific registry URL for specific dependencies",
+      "description": "Use Jitpack registry for AdvancedBan",
       "matchPackageNames": [
-        "ch.andre601.asl-api:platform-bukkit",
-        "ch.andre601.asl-api:platform-bungeecord",
-        "ch.andre601.asl-api:platform-velocity",
-        "ch.andre601.asl-api:api",
         "com.github.DevLeoko:AdvancedBan"
       ],
       "registryUrls": [
         "https://jitpack.io"
+      ]
+    },
+    {
+      "description": "Use Codeberg packages for asl-api",
+      "matchPackagenames": [
+        "ch.andre601.asl-api:api",
+        "ch.andre601.asl-api:platform-bukkit",
+        "ch.andre601.asl-api:platform-bungeecord",
+        "ch.andre601.asl-api:platform-velocity"
+      ],
+      "registryUrls": [
+        "https://codeberg.org/api/packages/Andre601/maven"
       ]
     },
     {
