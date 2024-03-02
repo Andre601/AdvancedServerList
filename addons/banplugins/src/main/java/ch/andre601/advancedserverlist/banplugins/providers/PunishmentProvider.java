@@ -27,6 +27,9 @@ package ch.andre601.advancedserverlist.banplugins.providers;
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public interface PunishmentProvider{
     
     boolean muted(GenericPlayer player);
@@ -52,5 +55,14 @@ public interface PunishmentProvider{
     }
     
     String banExpirationDate(GenericPlayer player, String pattern);
+    
+    default String returnDate(String pattern, long end){
+        Date date = new Date(end);
+        try{
+            return new SimpleDateFormat(pattern).format(date);
+        }catch(IllegalArgumentException ex){
+            return new SimpleDateFormat("dd, MMM yyyy HH:mm:ss").format(date);
+        }
+    }
     
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022-2023 Andre_601
+ * Copyright (c) 2022-2024 Andre_601
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,34 +23,34 @@
  *
  */
 
-package ch.andre601.advancedserverlist.velocity.objects;
+package ch.andre601.advancedserverlist.banplugins.velocity;
 
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
-import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.api.velocity.objects.VelocityPlayer;
+import ch.andre601.advancedserverlist.banplugins.paper.PaperBanPlugins;
+import ch.andre601.advancedserverlist.banplugins.placeholders.LibertyBansPlaceholders;
 
-public class VelocityPlayerPlaceholders extends PlaceholderProvider{
+import java.util.HashMap;
+import java.util.Map;
+
+public enum VelocityBanPlugins{
     
-    private VelocityPlayerPlaceholders(){
-        super("player");
+    LIBERTY_BANS("libertybans", new LibertyBansPlaceholders());
+    
+    private final String plugin;
+    private final PlaceholderProvider placeholderProvider;
+    
+    VelocityBanPlugins(String plugin, PlaceholderProvider placeholderProvider){
+        this.plugin = plugin;
+        this.placeholderProvider = placeholderProvider;
     }
     
-    public static VelocityPlayerPlaceholders init(){
-        return new VelocityPlayerPlaceholders();
-    }
-    
-    @Override
-    public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        if(!(player instanceof VelocityPlayer velocityPlayer))
-            return null;
+    public static Map<String, PlaceholderProvider> getBanPlugins(){
+        Map<String, PlaceholderProvider> content = new HashMap<>();
         
-        return switch(placeholder){
-            case "name" -> velocityPlayer.getName();
-            case "protocol" -> String.valueOf(velocityPlayer.getProtocol());
-            case "uuid" -> String.valueOf(velocityPlayer.getUUID());
-            case "version" -> velocityPlayer.getVersion();
-            default -> null;
-        };
+        for(VelocityBanPlugins velocityBanPlugins : VelocityBanPlugins.values()){
+            content.put(velocityBanPlugins.plugin, velocityBanPlugins.placeholderProvider);
+        }
+        
+        return content;
     }
 }

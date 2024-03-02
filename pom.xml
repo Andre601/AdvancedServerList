@@ -52,6 +52,10 @@
             <id>jitpack</id>
             <url>https://jitpack.io/</url>
         </repository>
+        <repository>
+            <id>codeberg</id>
+            <url>https://codeberg.org/api/packages/Andre601/maven/</url>
+        </repository>
     </repositories>
     
     <modules>

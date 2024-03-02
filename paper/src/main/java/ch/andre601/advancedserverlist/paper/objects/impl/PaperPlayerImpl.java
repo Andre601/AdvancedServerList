@@ -40,9 +40,9 @@ public class PaperPlayerImpl extends GenericPlayerImpl implements BukkitPlayer{
     public PaperPlayerImpl(OfflinePlayer player, CachedPlayer cachedPlayer, int protocol){
         this.player = player;
         
-        this.name = player == null ? cachedPlayer.getName() : player.getName();
+        this.name = player == null ? cachedPlayer.name() : player.getName();
         this.protocol = protocol;
-        this.uuid = player == null ? cachedPlayer.getUuid() : player.getUniqueId();
+        this.uuid = player == null ? cachedPlayer.uuid() : player.getUniqueId();
         
         if(player == null)
             return;

@@ -29,6 +29,8 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.objects.CachedPlayer;
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import io.leangen.geantyref.TypeToken;
 
 import java.io.BufferedReader;
@@ -70,18 +72,17 @@ public class PlayerHandler{
         }
         
         if(core.getFileHandler().getBoolean("disableCache")){
-            logger.info("'disable_cache' is set to true. Skipping playercache.json loading...");
+            logger.info("'disableCache' is set to true. Skipping playercache.json loading...");
             return;
         }
-    
-        try{
-            BufferedReader reader = Files.newBufferedReader(cache);
-            
+        
+        try(BufferedReader reader = Files.newBufferedReader(cache)){
             cachedPlayers = gson.fromJson(reader, listType);
-            
-            reader.close();
         }catch(IOException ex){
             logger.warn("Encountered IOException while reading the playercache.json file!", ex);
+            return;
+        }catch(JsonIOException | JsonSyntaxException ex){
+            logger.warn("Encountered Json exception while parsing playercache.json file!", ex);
             return;
         }
         
@@ -129,7 +130,7 @@ public class PlayerHandler{
             return getDefaultPlayer();
         
         for(CachedPlayer player : cachedPlayers){
-            if(player.getIp().equals(key))
+            if(player.ip().equals(key))
                 return player;
         }
         
@@ -138,7 +139,7 @@ public class PlayerHandler{
     
     public CachedPlayer getCachedPlayer(UUID uuid){
         for(CachedPlayer player : cachedPlayers){
-            if(player.getUuid().equals(uuid))
+            if(player.uuid().equals(uuid))
                 return player;
         }
         
@@ -152,7 +153,7 @@ public class PlayerHandler{
     
     private boolean contains(String ip){
         for(CachedPlayer player : cachedPlayers){
-            if(player.getIp().equals(ip))
+            if(player.ip().equals(ip))
                 return true;
         }
         

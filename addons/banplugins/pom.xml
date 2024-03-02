@@ -54,6 +54,10 @@
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>libertybans</id>
+            <url>https://mvn-repo.arim.space/affero-gpl3/</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -78,12 +82,24 @@
             <version>1.20-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.velocitypowered</groupId>
+            <artifactId>velocity-api</artifactId>
+            <version>3.3.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
         
         <!-- Plugin APIs -->
         <dependency>
             <groupId>com.github.DevLeoko</groupId>
             <artifactId>AdvancedBan</artifactId>
             <version>v2.3.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>space.arim.libertybans</groupId>
+            <artifactId>bans-api</artifactId>
+            <version>1.1.0-RC1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

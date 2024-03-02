@@ -57,6 +57,10 @@
             <id>sonatype</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>codeberg</id>
+            <url>https://codeberg.org/api/packages/Andre601/maven/</url>
+        </repository>
     </repositories>
     
     <dependencies>
@@ -68,7 +72,7 @@
         </dependency>
         <dependency>
             <groupId>ch.andre601</groupId>
-            <artifactId>ExpressionParser</artifactId>
+            <artifactId>expressionparser</artifactId>
             <version>v1.2.0</version>
             <scope>compile</scope>
         </dependency>

@@ -23,35 +23,31 @@
  *
  */
 
-package ch.andre601.advancedserverlist.banplugins.paper;
+package ch.andre601.advancedserverlist.velocity.objects.impl;
 
-import ch.andre601.advancedserverlist.api.PlaceholderProvider;
-import ch.andre601.advancedserverlist.banplugins.placeholders.AdvancedBanPlaceholders;
-import ch.andre601.advancedserverlist.banplugins.placeholders.LibertyBansPlaceholders;
+import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public enum PaperBanPlugins{
-    
-    ADVANCED_BAN("AdvancedBan", new AdvancedBanPlaceholders()),
-    LIBERTY_BANS("LibertyBans", new LibertyBansPlaceholders());
-    
-    private final String plugin;
-    private final PlaceholderProvider placeholderProvider;
-    
-    PaperBanPlugins(String plugin, PlaceholderProvider placeholderProvider){
-        this.plugin = plugin;
-        this.placeholderProvider = placeholderProvider;
+public record VelocityProxyImpl(Map<String, RegisteredServer> servers, int playersOnline, int playersMax, String host) implements VelocityProxy{
+    @Override
+    public Map<String, RegisteredServer> getServers(){
+        return servers;
     }
     
-    public static Map<String, PlaceholderProvider> getBanPlugins(){
-        Map<String, PlaceholderProvider> content = new HashMap<>();
-        
-        for(PaperBanPlugins paperBanPlugins : PaperBanPlugins.values()){
-            content.put(paperBanPlugins.plugin, paperBanPlugins.placeholderProvider);
-        }
-        
-        return content;
+    @Override
+    public int getPlayersOnline(){
+        return playersOnline;
+    }
+    
+    @Override
+    public int getPlayersMax(){
+        return playersMax;
+    }
+    
+    @Override
+    public String getHost(){
+        return host;
     }
 }

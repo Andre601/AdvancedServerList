@@ -178,7 +178,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     
     @Override
     public PaperPlayerImpl createPlayer(CachedPlayer player, int protocol){
-        OfflinePlayer pl = Bukkit.getOfflinePlayer(player.getUuid());
+        OfflinePlayer pl = Bukkit.getOfflinePlayer(player.uuid());
         
         return new PaperPlayerImpl(pl.hasPlayedBefore() ? pl : null, player, protocol);
     }
