@@ -7,6 +7,85 @@ icon: octicons/log-24
 This page lists the recent changes made towards the AdvancedServerListAPI.  
 They are ordered newest to oldest.
 
+## v3.2.1 { #v3.2.1 }
+
+### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v3.2.1-changed }
+
+- Removed usage of `${api.version}` in the different pom.xml for version resolving.
+
+## v3.2.0 { #v3.2.0 }
+
+### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v3.2.0-added }
+
+- New setter methods added to [`ProfileEntry.Builder`][profileentry.builder] class, replacing old ones (See deprecations below):
+    - [`extraPlayersCount(Integer)`][extraplayerscount]
+    - [`extraPlayersEnabled(NullBool)`][extraplayersenabled]
+    - [`favicon(String)`][favicon]
+    - [`hidePlayersEnabled(NullBool)`][hideplayersenabled]
+    - [`maxPlayersCount(Integer)`][maxplayerscount]
+    - [`maxPlayersEnabled(NullBool)`][maxplayersenabled]
+    - [`motd(List<String>)`][motd]
+    - [`playerCountText(String)`][playercounttext]
+    - [`players(List<String>)`][players]
+
+[extraplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#extraplayerscount(integer)
+[extraplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#extraplayersenabled(nullbool)
+[favicon]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#favicon(string)
+[hideplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#hideplayersenabled(nullbool)
+[maxplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#maxplayerscount(integer)
+[maxplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#maxplayersenabled(nullbool)
+[motd]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#motd(list<string>)
+[playercounttext]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#playercounttext(string)
+[players]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#players(list<string>)
+
+### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v3.2.0-changed }
+
+- The API has been moved to Codeberg and is now available under a new repository URL to download. The group and artifact ID remained the same, but version no longer has a `v` prefix:
+    
+    /// tab | ":simple-apachemaven: Maven (pom.xml)"
+    ```xml
+    <repositories>
+      <repository>
+        <id>codeberg</id>
+        <url>https://codeberg.org/api/packages/Andre601/maven/</url>
+      </repository>
+    </repositories>
+    
+    <dependencies>
+      <dependency>
+        <groupId>ch.andre601.asl-api</groupId>
+        <artifactId>api</artifactId>
+        <version>{apiVersion}</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+    ```
+    ///
+    /// tab | ":simple-gradle: Gradle (build.gradle)"
+    ```groovy
+    repositories {
+        maven = { url ="https://codeberg.org/api/packages/Andre601/maven/" }
+    }
+    
+    dependencies {
+        compileOnly "ch.andre601.asl-api:api:{apiVersion}"
+    }
+    ```
+    ///
+
+### :octicons-zap-24:{ .changelog-breaking title="Deprecated" } Deprecated { #v3.2.0-deprecated }
+
+- Setters in [`ProfileEntry.Builder`][profileentry.builder] deprecated in favour of more consistent method naming.
+    - `setExtraPlayersCount(Integer)`
+    - `setExtraPlayersEnabled(NullBool)`
+    - `setFavicon(String)`
+    - `setHidePlayersEnabled(NullBool)`
+    - `setMaxPlayersCount(Integer)`
+    - `setMaxPlayersEnabled(NullBool)`
+    - `setMotd(List<String>)`
+    - `setPlayerCountText(String)`
+    - `setPlayers(List<String>)`
+
 ## v3.1.0 { #v3.1.0 }
 
 ### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v3.1.0-added }
@@ -111,6 +190,6 @@ Templates for changelog
 ### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v-added }
 ### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v-changed }
 ### :octicons-trash-24:{ .changelog-removed title="Removed" } Removed { #v-removed }
-### :octicons-zap-24:{ .changelog-deprecated title="Deprecated" } Deprecated { #v-deprecated }
+### :octicons-zap-24:{ .changelog-breaking title="Deprecated" } Deprecated { #v-deprecated }
 
 -->

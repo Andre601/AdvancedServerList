@@ -1,4 +1,4 @@
-{% macro summary(title, summaries, inherits, details_type = 'unknown') -%}
+{% macro summary(title, summaries, inherits, details_type = 'unknown', defaults = []) -%}
   <h2 id="{{ title | lower() | replace(' ', '-') |  e}}">
     {{ title }}
   </h2>
@@ -28,6 +28,8 @@
                 
                 {% if summary.type and summary.type.name %}
                   {% set modifiers.name = modifiers.name ~ summary.type.name %}
+                {% elif defaults and defaults.type and defaults.type.name %}
+                  {% set modifiers.name = modifiers.name ~ defaults.type.name %}
                 {% else %}
                   {% set modifiers.name = modifiers.name ~ "void" %}
                 {% endif %}
@@ -103,7 +105,7 @@
   </div>
 {%- endmacro %}
 
-{% macro info(title, details, enum = false) -%}
+{% macro info(title, details, enum = false, defaults = []) -%}
   <h2 id="{{ title | lower() | replace(' ', '-') | e}}">
     {{ title }}
   </h2>
@@ -144,6 +146,14 @@
           {% else %}
             <span class="api-type__{{- detail.type.type | default('primitive') -}}">{{ detail.type.name | default('void') | e }}</span>
           {% endif %}
+        {% elif defaults and defaults.type %}
+          {% if defaults.type.link %}
+            <a href="{{ defaults.type.link }}" class="api-type__{{- defaults.type.type | default('primitive') -}}">{{ defaults.type.name | default('void') | e }}</a>
+          {% else %}
+            <span class="api-type__{{- defaults.type.type | default('primitive') -}}">{{ defaults.type.name | default('void') }}</span>
+          {% endif %}
+        {% else %}
+          <span class="api-type__primitive">void</span>
         {% endif %}
         <code>{{ final_name.name | e }}</code><a href="#{{ final_name.name | lower() | replace(' ', '-') | e }}" class="headerlink" title="Permanent link">¶</a>
       </h3>

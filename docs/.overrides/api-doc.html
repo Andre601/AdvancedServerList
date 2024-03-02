@@ -8,28 +8,28 @@
       Object summaries
     -->
     {% if page.meta.constructors %}
-      {{ info.summary('Constructor Summary', page.meta.constructors, details_type='constructor') }}
+      {{ info.summary('Constructor Summary', page.meta.constructors, details_type='constructor', defaults=page.meta.defaults) }}
     {% endif %}
     {% if page.meta.classes %}
-      {{ info.summary('Class Summary', page.meta.classes, details_type='class') }}
+      {{ info.summary('Class Summary', page.meta.classes, details_type='class', defaults=page.meta.defaults) }}
     {% endif %}
     {% if page.meta.enums %}
-      {{ info.summary('Enum Constant Summary', page.meta.enums, details_type='enum') }}
+      {{ info.summary('Enum Constant Summary', page.meta.enums, details_type='enum', defaults=page.meta.defaults) }}
     {% endif %}
     {% if page.meta.methods or page.meta.inherits %}
-      {{ info.summary('Method Summary', page.meta.methods, page.meta.inherits, details_type='method') }}
+      {{ info.summary('Method Summary', page.meta.methods, page.meta.inherits, details_type='method', defaults=page.meta.defaults) }}
     {% endif %}
     <!--
       Detailed object info
     -->
     {% if page.meta.constructors %}
-      {{ info.info('Constructor Detail', page.meta.constructors) }}
+      {{ info.info('Constructor Detail', page.meta.constructors, defaults=page.meta.defaults) }}
     {% endif %}
     {% if page.meta.enums %}
-      {{ info.info('Enum Constant Detail', page.meta.enums, true) }}
+      {{ info.info('Enum Constant Detail', page.meta.enums, true, defaults=page.meta.defaults) }}
     {% endif %}
     {% if page.meta.methods %}
-      {{ info.info('Method Detail', page.meta.methods)}}
+      {{ info.info('Method Detail', page.meta.methods, defaults=page.meta.defaults)}}
     {% endif %}
   {% endif %}
 {% endblock %}
