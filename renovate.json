@@ -17,7 +17,7 @@
     },
     {
       "description": "Use Codeberg packages for asl-api",
-      "matchPackagenames": [
+      "matchPackageNames": [
         "ch.andre601.asl-api:api",
         "ch.andre601.asl-api:platform-bukkit",
         "ch.andre601.asl-api:platform-bungeecord",
