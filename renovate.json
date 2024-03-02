@@ -19,6 +19,7 @@
       "description": "Use Codeberg packages for asl-api",
       "matchPackageNames": [
         "ch.andre601.asl-api:api",
+        "ch.andre601.asl-api:parent",
         "ch.andre601.asl-api:platform-bukkit",
         "ch.andre601.asl-api:platform-bungeecord",
         "ch.andre601.asl-api:platform-velocity",
