@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public record ServerListProfile(int priority, String condition, ProfileEntry defaultProfile, List<ProfileEntry> profiles){
+public record ServerListProfile(int priority, String condition, ProfileEntry defaultProfile, List<ProfileEntry> profiles, String file){
     private static final Random random = new Random();
     
     public boolean evalConditions(ProfileConditionParser parser, PluginLogger logger, GenericPlayer player, GenericServer server){
@@ -50,13 +50,17 @@ public record ServerListProfile(int priority, String condition, ProfileEntry def
         ExpressionTemplate template = parser.compile(condition, player, server, collector);
         
         if(collector.hasWarnings()){
-            logger.warn("Encountered %d Error(s) while parsing condition '%s':", collector.getWarnings().size(), condition);
+            logger.warn("Encountered %d Error(s) while parsing condition for file '%s':", collector.getWarnings().size(), file);
             
             for(ParseWarnCollector.Context context : collector.getWarnings()){
                 if(context.position() <= -1){
-                    logger.warn("  - %s", context.message());
+                    logger.warn("  - %s", condition);
+                    logger.warn("    -> %s", context.message());
                 }else{
-                    logger.warn("  - At Position %d: %s", context.position(), context.message());
+                    logger.warn("  - At position %d:", context.position());
+                    logger.warn("    %s", condition);
+                    logger.warn(" ".repeat(context.position() + 5) + "^");
+                    logger.warn("    -> %s", context.message());
                 }
             }
         }
@@ -159,7 +163,7 @@ public record ServerListProfile(int priority, String condition, ProfileEntry def
         }
         
         public ServerListProfile build(){
-            return new ServerListProfile(this.priority, this.condition, this.defaultProfile, this.profiles);
+            return new ServerListProfile(this.priority, this.condition, this.defaultProfile, this.profiles, this.fileName);
         }
     }
 }

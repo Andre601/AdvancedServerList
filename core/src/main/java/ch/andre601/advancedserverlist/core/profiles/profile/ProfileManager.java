@@ -86,15 +86,15 @@ public class ProfileManager{
         Integer maxPlayers = resolveNullableInt(node, "playerCount", "maxPlayers", "amount");
         
         return new ProfileEntry.Builder()
-            .setMotd(motd)
-            .setPlayers(players)
-            .setPlayerCountText(playerCountText)
-            .setFavicon(favicon)
-            .setHidePlayersEnabled(hidePlayers)
-            .setExtraPlayersEnabled(extraPlayersEnabled)
-            .setMaxPlayersEnabled(maxPlayersEnabled)
-            .setExtraPlayersCount(extraPlayers)
-            .setMaxPlayersCount(maxPlayers)
+            .motd(motd)
+            .players(players)
+            .playerCountText(playerCountText)
+            .favicon(favicon)
+            .hidePlayersEnabled(hidePlayers)
+            .extraPlayersEnabled(extraPlayersEnabled)
+            .maxPlayersEnabled(maxPlayersEnabled)
+            .extraPlayersCount(extraPlayers)
+            .maxPlayersCount(maxPlayers)
             .build();
     }
     
