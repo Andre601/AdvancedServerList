@@ -53,46 +53,57 @@ The plugin also supports these additional plugins. They are all optional.
 <div class="grid cards" markdown>
 
 -   [**PlaceholderAPI**][placeholderapi]
-
+    
     ----
     
-    Supported on:
+    AdvancedServerList supports the use of placeholder from PlaceholderAPI in all its text options, excluding the `condition` option.
     
-    - :fontawesome-solid-paper-plane: Paper
+    Supported on:  
+    :fontawesome-solid-paper-plane: Paper
 
 -   [**ViaVersion**][viaversion]
     
     ----
     
-    Supported on:
+    When installed will AdvancedServerList use ViaVersion to resolve the protocol version of a player for its PlaceholderAPI placeholders.
     
-    - :fontawesome-solid-paper-plane: Paper
+    Supported on:  
+    :fontawesome-solid-paper-plane: Paper
 
 -   [**PAPIProxyBridge**][papiproxybridge]
     
     ----
     
-    Supported on:
+    Allows AdvancedServerList to parse placeholders from PlaceholderAPI while being used on a proxy.
     
-    - :simple-spigotmc: BungeeCord
-    - :fontawesome-solid-paper-plane: Velocity
+    Supported on:  
+    :simple-spigotmc: BungeeCord, :fontawesome-solid-paper-plane: Velocity
 
 -   [**Maintenance**][maintenance]
     
     ----
     
-    Supported on:
+    AdvancedServerList will disable any modification of the server list entry should Maintenance mode be enabled.
     
-    - :fontawesome-solid-paper-plane: Paper
-    - :simple-spigotmc: BungeeCord
-    - :fontawesome-solid-paper-plane: Velocity
+    Supported on:  
+    :fontawesome-solid-paper-plane: Paper, :simple-spigotmc: BungeeCord, :fontawesome-solid-paper-plane: Velocity
+
+-   [**BanPlugins Addon**][addon]
     
+    ----
+    
+    Official Add-on for AdvancedServerList that adds placeholders for different Ban/Punishment plugins such as AdvancedBan and LibertyBans.
+    
+    Supported on:  
+    :fontawesome-solid-paper-plane: Paper, :simple-spigotmc: BungeeCord, :fontawesone-solid-paper-plane: Velocity
+
 </div>
 
 [placeholderapi]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
 [viaversion]: https://hangar.papermc.io/ViaVersion/ViaVersion
 [papiproxybridge]: https://hangar.papermc.io/William278/PAPIProxyBridge
 [maintenance]: https://hangar.papermc.io/kennytv/Maintenance
+[addon]: ../addons/banplugins.md
 
 ## 2. Installation { #installation }
 
