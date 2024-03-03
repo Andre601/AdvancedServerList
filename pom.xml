@@ -36,7 +36,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.commit/>
         
         <plugin.version>4.3.1</plugin.version>
         <plugin.description>Create multiple Server lists based on conditions.</plugin.description>
