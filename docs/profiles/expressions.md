@@ -33,7 +33,7 @@ The following cases are considered literal values:
 Any number is considered an expression, meaning the below examples are considered valid:
 
 /// example | Examples
-```
+```shell
 0
 1000
 -7
@@ -53,7 +53,7 @@ To avoid this is it very important to always surround Strings with single or dou
 ///
 
 /// example | Examples
-```
+```shell
 "Hello World!"
 ""
 ```
@@ -68,7 +68,7 @@ Strings `true` and `false` are treated as boolean literals.
 Any [placeholder](placeholders.md) is a valid expression.
 
 /// example | Examples
-```
+```shell
 ${player protocol}
 ${player name}
 
@@ -110,7 +110,7 @@ These additional binary operators can also be used to perform certain actions:
 | `/`      | Divides one number by another. Strings use their text length as number.     |
 
 /// example | Examples
-```
+```shell
 ${player name} != "Anonymous"
 763 > ${player protocol} > 758
 ${player hasPlayedBefore} and ${player isBanned} == "false"
@@ -126,7 +126,7 @@ Parenthesis can be used to prevent ambiguities.
 
 `!` can be used to negate boolean expressions.
 
-```
+```shell
 !${player isWhitelisted}
 ```
 
