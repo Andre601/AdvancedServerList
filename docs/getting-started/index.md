@@ -58,7 +58,9 @@ The plugin also supports these additional plugins. They are all optional.
     
     AdvancedServerList supports the use of placeholder from PlaceholderAPI in all its text options, excluding the `condition` option.
     
-    Supported on:  
+    ----
+    
+    **Supported on:**  
     :fontawesome-solid-paper-plane: Paper
 
 -   [**ViaVersion**][viaversion]
@@ -67,7 +69,9 @@ The plugin also supports these additional plugins. They are all optional.
     
     When installed will AdvancedServerList use ViaVersion to resolve the protocol version of a player for its PlaceholderAPI placeholders.
     
-    Supported on:  
+    ----
+
+    **Supported on:**  
     :fontawesome-solid-paper-plane: Paper
 
 -   [**PAPIProxyBridge**][papiproxybridge]
@@ -76,7 +80,9 @@ The plugin also supports these additional plugins. They are all optional.
     
     Allows AdvancedServerList to parse placeholders from PlaceholderAPI while being used on a proxy.
     
-    Supported on:  
+    ----
+
+    **Supported on:**  
     :simple-spigotmc: BungeeCord, :fontawesome-solid-paper-plane: Velocity
 
 -   [**Maintenance**][maintenance]
@@ -85,7 +91,9 @@ The plugin also supports these additional plugins. They are all optional.
     
     AdvancedServerList will disable any modification of the server list entry should Maintenance mode be enabled.
     
-    Supported on:  
+    ----
+
+    **Supported on:**  
     :fontawesome-solid-paper-plane: Paper, :simple-spigotmc: BungeeCord, :fontawesome-solid-paper-plane: Velocity
 
 -   [**BanPlugins Addon**][addon]
@@ -94,7 +102,9 @@ The plugin also supports these additional plugins. They are all optional.
     
     Official Add-on for AdvancedServerList that adds placeholders for different Ban/Punishment plugins such as AdvancedBan and LibertyBans.
     
-    Supported on:  
+    ----
+
+    **Supported on:**  
     :fontawesome-solid-paper-plane: Paper, :simple-spigotmc: BungeeCord, :fontawesone-solid-paper-plane: Velocity
 
 </div>
