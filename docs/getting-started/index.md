@@ -105,7 +105,7 @@ The plugin also supports these additional plugins. They are all optional.
     ----
 
     **Supported on:**  
-    :fontawesome-solid-paper-plane: Paper, :simple-spigotmc: BungeeCord, :fontawesone-solid-paper-plane: Velocity
+    :fontawesome-solid-paper-plane: Paper, :simple-spigotmc: BungeeCord, :fontawesome-solid-paper-plane: Velocity
 
 </div>
 
