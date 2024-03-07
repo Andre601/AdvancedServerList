@@ -29,6 +29,10 @@ import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.tokens.PlaceholderToken;
+import ch.andre601.expressionparser.ParseWarnCollector;
+
+import java.text.ParsePosition;
 
 public class StringReplacer{
     
@@ -36,99 +40,113 @@ public class StringReplacer{
         if(input == null)
             return null;
         
-        char[] chars = input.toCharArray();
+        ParsePosition position = new ParsePosition(0);
         StringBuilder builder = new StringBuilder(input.length());
         
-        StringBuilder identifier = new StringBuilder();
-        StringBuilder placeholder = new StringBuilder();
-        
-        AdvancedServerListAPI api = AdvancedServerListAPI.get();
-        
-        for(int i = 0; i < chars.length; i++){
-            char c = chars[i];
-            char next = (i == (chars.length - 1)) ? '\0' : chars[i + 1];
-            
-            if(c != '$' || i + 2 >= chars.length){
-                builder.append(c);
+        while(position.getIndex() < input.length()){
+            if(position.getIndex() + 1 < input.length() && input.charAt(position.getIndex()) == '$' && input.charAt(position.getIndex() + 1) == '{'){
+                position.setIndex(position.getIndex() + 2);
+                builder.append(parsePlaceholder0(input, position, player, server, null));
                 continue;
             }
             
-            if(next != '{'){
-                if(next == '\0')
-                    continue;
-                
-                builder.append(next);
-                i++;
-                continue;
-            }
-            
-            i++;
-            
-            boolean identified = false;
-            boolean invalid = true;
-            
-            while(++i < chars.length){
-                final char id = chars[i];
-                
-                if(id == '}'){
-                    invalid = false;
-                    break;
-                }
-                
-                if(id == ' ' && !identified){
-                    identified = true;
-                    continue;
-                }
-                
-                if(identified){
-                    placeholder.append(id);
-                }else{
-                    identifier.append(id);
-                }
-            }
-            
-            String identifierString = identifier.toString();
-            String placeholderString = placeholder.toString();
-            
-            identifier.setLength(0);
-            placeholder.setLength(0);
-            
-            if(invalid){
-                builder.append("${").append(identifierString);
-                
-                if(identified){
-                    builder.append(' ').append(placeholderString);
-                }
-                continue;
-            }
-            
-            PlaceholderProvider provider = api.retrievePlaceholderProvider(identifierString);
-            if(provider == null){
-                builder.append("${").append(identifierString);
-    
-                if(identified){
-                    builder.append(' ').append(placeholderString);
-                }
-                
-                builder.append('}');
-                continue;
-            }
-            
-            String replacement = provider.parsePlaceholder(placeholderString, player, server);
-            if(replacement == null){
-                builder.append("${").append(identifierString);
-    
-                if(identified){
-                    builder.append(' ').append(placeholderString);
-                }
-    
-                builder.append('}');
-                continue;
-            }
-            
-            builder.append(replacement);
+            builder.append(input.charAt(position.getIndex()));
+            position.setIndex(position.getIndex() + 1);
         }
         
         return builder.toString();
+    }
+    
+    public static PlaceholderToken.Placeholder parsePlaceholder(String input, ParsePosition position, GenericPlayer player, GenericServer server, ParseWarnCollector collector){
+        return new PlaceholderToken.Placeholder(parsePlaceholder0(input, position, player, server, collector));
+    }
+    
+    private static String parsePlaceholder0(String input, ParsePosition position, GenericPlayer player, GenericServer server, ParseWarnCollector collector){
+        AdvancedServerListAPI api = AdvancedServerListAPI.get();
+        
+        int placeholderStart = position.getIndex() - 2;
+        int index = position.getIndex();
+        
+        StringBuilder identifier = new StringBuilder();
+        StringBuilder values = new StringBuilder();
+        
+        boolean identified = false;
+        boolean invalid = true;
+        
+        char[] chars = input.substring(index).toCharArray();
+        for(final char c : chars){
+            index++;
+            
+            if(c == '}'){
+                invalid = false;
+                break;
+            }
+            
+            if(c == ' ' && !identified){
+                identified = true;
+                continue;
+            }
+            
+            if(identified){
+                values.append(c);
+            }else{
+                identifier.append(c);
+            }
+        }
+        
+        String identifierStr = identifier.toString();
+        String valuesStr = values.toString();
+        
+        StringBuilder raw = new StringBuilder();
+        
+        // Condition parsing needs one extra increase of index... for some reason
+        if(collector != null)
+            index++;
+        
+        position.setIndex(index);
+        
+        if(invalid){
+            raw.append("${").append(identifierStr);
+            
+            if(identified)
+                raw.append(' ').append(valuesStr);
+            
+            if(collector != null)
+                collector.appendWarningFormatted(placeholderStart, "Placeholder '%s' does not have a closing bracket (})", raw.toString());
+            
+            return raw.toString();
+        }
+        
+        PlaceholderProvider provider = api.retrievePlaceholderProvider(identifierStr);
+        if(provider == null){
+            raw.append("${").append(identifierStr);
+            
+            if(identified)
+                raw.append(' ').append(valuesStr);
+            
+            raw.append('}');
+            
+            if(collector != null)
+                collector.appendWarningFormatted(placeholderStart, "Placeholder '%s' does not have any available PlaceholderProvider", raw.toString());
+            
+            return raw.toString();
+        }
+        
+        String replacement = provider.parsePlaceholder(valuesStr, player, server);
+        if(replacement == null){
+            raw.append("${").append(identifierStr);
+            
+            if(identified)
+                raw.append(' ').append(valuesStr);
+            
+            raw.append('}');
+            
+            if(collector != null)
+                collector.appendWarningFormatted(placeholderStart, "Placeholder '%s' has an invalid value String '%s'", raw.toString(), valuesStr);
+            
+            return raw.toString();
+        }
+        
+        return replacement;
     }
 }

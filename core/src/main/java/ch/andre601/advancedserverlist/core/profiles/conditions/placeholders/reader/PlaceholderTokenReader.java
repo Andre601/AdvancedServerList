@@ -27,8 +27,8 @@ package ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.rea
 
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
-import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.PlaceholderParser;
 import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.tokens.PlaceholderToken;
+import ch.andre601.advancedserverlist.core.profiles.replacer.StringReplacer;
 import ch.andre601.expressionparser.ParseWarnCollector;
 import ch.andre601.expressionparser.tokens.Token;
 
@@ -44,7 +44,7 @@ public class PlaceholderTokenReader extends CustomTokenReader{
     public Token read(String text, ParsePosition position, GenericPlayer player, GenericServer server, ParseWarnCollector collector){
         if(position.getIndex() + 1 < text.length() && text.charAt(position.getIndex()) == '$' && text.charAt(position.getIndex() + 1) == '{'){
             position.setIndex(position.getIndex() + 2);
-            return new PlaceholderToken(PlaceholderParser.parse(text, position, player, server, collector));
+            return new PlaceholderToken(StringReplacer.parsePlaceholder(text, position, player, server, collector));
         }
         return null;
     }
