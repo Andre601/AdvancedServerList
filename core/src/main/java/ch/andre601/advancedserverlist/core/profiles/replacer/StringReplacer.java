@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.api.AdvancedServerListAPI;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.profiles.conditions.placeholders.tokens.PlaceholderToken;
 import ch.andre601.expressionparser.ParseWarnCollector;
 
@@ -62,7 +63,7 @@ public class StringReplacer{
     }
     
     private static String parsePlaceholder0(String input, ParsePosition position, GenericPlayer player, GenericServer server, ParseWarnCollector collector){
-        AdvancedServerListAPI api = AdvancedServerListAPI.get();
+        AdvancedServerListAPI api = AdvancedServerList.getApi();
         
         int placeholderStart = position.getIndex() - 2;
         int index = position.getIndex();

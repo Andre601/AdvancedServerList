@@ -145,7 +145,7 @@ public class PaperEventWrapper implements GenericEventWrapper<CachedServerIcon, 
     
     @Override
     public int getOnlinePlayers(){
-        return event.getNumPlayers();
+        return plugin.getPlayersOnline(null);
     }
     
     @Override

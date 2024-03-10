@@ -39,11 +39,16 @@ import ch.andre601.advancedserverlist.paper.objects.placeholders.PaperServerPlac
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.CachedServerIcon;
 
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon>{
     
@@ -68,7 +73,7 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
             }
         }
         
-        this.core = AdvancedServerList.init(this, new PaperPlayerPlaceholders(), new PaperServerPlaceholders());
+        this.core = AdvancedServerList.init(this, new PaperPlayerPlaceholders(), new PaperServerPlaceholders(this));
         
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI"))
             papiPlaceholders = new PAPIPlaceholders(this);
@@ -169,6 +174,21 @@ public class PaperCore extends JavaPlugin implements PluginCore<CachedServerIcon
             return worldCache;
         
         return (worldCache = new WorldCache());
+    }
+    
+    public int getPlayersOnline(World world){
+        List<? extends Player> players = new ArrayList<>(world == null ? getServer().getOnlinePlayers() : world.getPlayers());
+        
+        players.removeIf(player -> {
+            for(MetadataValue metadata : player.getMetadata("vanished")){
+                if(metadata.asBoolean())
+                    return true;
+            }
+            
+            return false;
+        });
+        
+        return players.size();
     }
     
     private void printNoPaperWarning(){

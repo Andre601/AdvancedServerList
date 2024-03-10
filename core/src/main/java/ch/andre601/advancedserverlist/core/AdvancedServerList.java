@@ -46,7 +46,7 @@ public class AdvancedServerList<F>{
     private final FileHandler fileHandler;
     private final CommandHandler commandHandler;
     private final PlayerHandler playerHandler;
-    private final AdvancedServerListAPI api = AdvancedServerListAPI.get();
+    private static final AdvancedServerListAPI api = AdvancedServerListAPI.get();
     private final ProfileConditionParser parser = ProfileConditionParser.create();
     
     private UpdateChecker updateChecker;
@@ -59,7 +59,7 @@ public class AdvancedServerList<F>{
         this.commandHandler = new CommandHandler(this);
         this.playerHandler = new PlayerHandler(this);
         
-        placeholders.forEach(this.api::addPlaceholderProvider);
+        placeholders.forEach(AdvancedServerList.getApi()::addPlaceholderProvider);
         
         load();
     }
@@ -88,7 +88,7 @@ public class AdvancedServerList<F>{
         return version;
     }
     
-    public AdvancedServerListAPI getApi(){
+    public static AdvancedServerListAPI getApi(){
         return api;
     }
     

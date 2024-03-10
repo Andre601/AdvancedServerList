@@ -44,10 +44,7 @@ import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import net.kyori.adventure.text.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class VelocityEventWrapper implements GenericEventWrapper<Favicon, VelocityPlayerImpl>{
@@ -146,7 +143,11 @@ public class VelocityEventWrapper implements GenericEventWrapper<Favicon, Veloci
     
     @Override
     public int getOnlinePlayers(){
-        return builder.getOnlinePlayers();
+        int players = plugin.getOnlinePlayers(null);
+        if(players == -1)
+            return builder.getOnlinePlayers();
+        
+        return players;
     }
     
     @Override

@@ -29,18 +29,22 @@ import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.bungeecord.objects.BungeeProxy;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import net.md_5.bungee.api.config.ServerInfo;
 
 import java.net.InetSocketAddress;
 
 public class BungeeServerPlaceholders extends PlaceholderProvider{
     
-    private BungeeServerPlaceholders(){
+    private final BungeeCordCore plugin;
+    
+    private BungeeServerPlaceholders(BungeeCordCore plugin){
         super("server");
+        this.plugin = plugin;
     }
     
-    public static BungeeServerPlaceholders init(){
-        return new BungeeServerPlaceholders();
+    public static BungeeServerPlaceholders init(BungeeCordCore plugin){
+        return new BungeeServerPlaceholders(plugin);
     }
     
     @Override
@@ -64,7 +68,7 @@ public class BungeeServerPlaceholders extends PlaceholderProvider{
                         if(info == null)
                             continue;
                         
-                        players += info.getPlayers().size();
+                        players += plugin.getOnlinePlayers(info);
                     }
                     
                     yield String.valueOf(players);

@@ -35,13 +35,18 @@ import ch.andre601.advancedserverlist.core.AdvancedServerList;
 import ch.andre601.advancedserverlist.core.interfaces.PluginLogger;
 import ch.andre601.advancedserverlist.core.interfaces.core.PluginCore;
 import ch.andre601.advancedserverlist.core.profiles.favicon.FaviconHandler;
+import de.myzelyam.api.vanish.BungeeVanishAPI;
 import net.md_5.bungee.api.Favicon;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.bstats.bungeecord.Metrics;
 import org.bstats.charts.SimplePie;
 
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
@@ -51,7 +56,7 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     
     @Override
     public void onEnable(){
-        this.core = AdvancedServerList.init(this, BungeePlayerPlaceholders.init(), BungeeServerPlaceholders.init());
+        this.core = AdvancedServerList.init(this, BungeePlayerPlaceholders.init(), BungeeServerPlaceholders.init(this));
     }
     
     @Override
@@ -132,5 +137,16 @@ public class BungeeCordCore extends Plugin implements PluginCore<Favicon>{
     @Override
     public Favicon createFavicon(BufferedImage image) throws IllegalArgumentException{
         return Favicon.create(image);
+    }
+    
+    public int getOnlinePlayers(ServerInfo server){
+        List<ProxiedPlayer> players = new ArrayList<>(server == null ? getProxy().getPlayers() : server.getPlayers());
+        
+        // Exclude players when PremiumVanish is enabled and player is hidden.
+        if(getProxy().getPluginManager().getPlugin("PremiumVanish") != null){
+            players.removeIf(BungeeVanishAPI::isInvisible);
+        }
+        
+        return players.size();
     }
 }

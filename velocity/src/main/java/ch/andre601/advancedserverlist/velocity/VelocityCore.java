@@ -41,14 +41,19 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import com.velocitypowered.api.util.Favicon;
+import de.myzelyam.api.vanish.VelocityVanishAPI;
 import org.bstats.charts.SimplePie;
 import org.bstats.velocity.Metrics;
 import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VelocityCore implements PluginCore<Favicon>{
     
@@ -71,7 +76,7 @@ public class VelocityCore implements PluginCore<Favicon>{
     
     @Subscribe
     public void init(ProxyInitializeEvent event){
-        this.core = AdvancedServerList.init(this, VelocityPlayerPlaceholders.init(), VelocityServerPlaceholders.init());
+        this.core = AdvancedServerList.init(this, VelocityPlayerPlaceholders.init(), VelocityServerPlaceholders.init(this));
     }
     
     @Subscribe
@@ -154,11 +159,25 @@ public class VelocityCore implements PluginCore<Favicon>{
     }
     
     @Override
-    public Favicon createFavicon(BufferedImage image) throws Exception{
+    public Favicon createFavicon(BufferedImage image){
         return Favicon.create(image);
     }
     
     public ProxyServer getProxy(){
         return proxy;
+    }
+    
+    public int getOnlinePlayers(RegisteredServer server){
+        if(getProxy() == null)
+            return -1;
+        
+        List<Player> players = new ArrayList<>(server == null ? getProxy().getAllPlayers() : server.getPlayersConnected());
+        
+        // Exclude players when PremiumVanish is enabled and player is hidden.
+        if(getProxy().getPluginManager().isLoaded("premiumvanish")){
+            players.removeIf(VelocityVanishAPI::isInvisible);
+        }
+        
+        return players.size();
     }
 }

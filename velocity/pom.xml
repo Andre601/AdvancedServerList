@@ -63,22 +63,36 @@
             <version>${api.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Velocity API -->
         <dependency>
             <groupId>com.velocitypowered</groupId>
             <artifactId>velocity-api</artifactId>
             <version>3.1.2-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Metrics -->
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-velocity</artifactId>
             <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Configurate -->
         <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>configurate-yaml</artifactId>
             <version>4.1.2</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Plugins -->
+        <dependency>
+            <groupId>com.github.LeonMangler</groupId>
+            <artifactId>PremiumVanishAPI</artifactId>
+            <version>2.9.0-4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

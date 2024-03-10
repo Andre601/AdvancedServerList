@@ -28,15 +28,20 @@ package ch.andre601.advancedserverlist.paper.objects.placeholders;
 import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
+import ch.andre601.advancedserverlist.paper.PaperCore;
 import ch.andre601.advancedserverlist.paper.objects.impl.PaperServerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 public class PaperServerPlaceholders extends PlaceholderProvider{
     
-    public PaperServerPlaceholders(){
+    private final PaperCore plugin;
+    
+    public PaperServerPlaceholders(PaperCore plugin){
         super("server");
+        this.plugin = plugin;
     }
+    
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
         if(!(server instanceof PaperServerImpl paperServer))
@@ -58,7 +63,7 @@ public class PaperServerPlaceholders extends PlaceholderProvider{
                         if(world == null)
                             continue;
                         
-                        players += world.getPlayers().size();
+                        players += plugin.getPlayersOnline(world);
                     }
                     
                     yield String.valueOf(players);

@@ -64,6 +64,8 @@
             <version>${api.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- BungeeCord API -->
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
@@ -78,6 +80,8 @@
             <type>javadoc</type>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Adventure Library. Needs to be shaded in -->
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
@@ -96,17 +100,29 @@
             <version>4.3.2</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Metrics -->
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bungeecord</artifactId>
             <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Configurate -->
         <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>configurate-yaml</artifactId>
             <version>4.1.2</version>
             <scope>compile</scope>
+        </dependency>
+        
+        <!-- Plugins -->
+        <dependency>
+            <groupId>com.github.LeonMangler</groupId>
+            <artifactId>PremiumVanishAPI</artifactId>
+            <version>2.9.0-4</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

@@ -29,16 +29,20 @@ import ch.andre601.advancedserverlist.api.PlaceholderProvider;
 import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.api.velocity.objects.VelocityProxy;
+import ch.andre601.advancedserverlist.velocity.VelocityCore;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 public class VelocityServerPlaceholders extends PlaceholderProvider{
     
-    private VelocityServerPlaceholders(){
+    private final VelocityCore plugin;
+    
+    private VelocityServerPlaceholders(VelocityCore plugin){
         super("server");
+        this.plugin = plugin;
     }
     
-    public static VelocityServerPlaceholders init(){
-        return new VelocityServerPlaceholders();
+    public static VelocityServerPlaceholders init(VelocityCore core){
+        return new VelocityServerPlaceholders(core);
     }
     
     @Override
@@ -62,7 +66,11 @@ public class VelocityServerPlaceholders extends PlaceholderProvider{
                         if(registeredServer == null)
                             continue;
                         
-                        players += registeredServer.getPlayersConnected().size();
+                        int connected = plugin.getOnlinePlayers(registeredServer);
+                        if(connected == -1)
+                            continue;
+                        
+                        players += connected;
                     }
                     
                     yield String.valueOf(players);

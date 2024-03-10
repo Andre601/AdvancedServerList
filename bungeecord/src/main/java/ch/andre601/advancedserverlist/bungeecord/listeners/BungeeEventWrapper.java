@@ -147,7 +147,7 @@ public class BungeeEventWrapper implements GenericEventWrapper<Favicon, BungeePl
     
     @Override
     public int getOnlinePlayers(){
-        return ping.getPlayers().getOnline();
+        return plugin.getOnlinePlayers(null);
     }
     
     @Override
