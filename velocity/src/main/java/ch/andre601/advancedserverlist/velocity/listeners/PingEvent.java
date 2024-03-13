@@ -40,7 +40,7 @@ public class PingEvent{
         plugin.getProxy().getEventManager().register(plugin, this);
     }
     
-    @Subscribe(order = PostOrder.EARLY)
+    @Subscribe(order = PostOrder.LAST) // Maintenance has LAST priority, so ASL needs it too.
     public void onProxyPing(ProxyPingEvent event){
         PingEventHandler.handleEvent(new VelocityEventWrapper(plugin, event));
     }
