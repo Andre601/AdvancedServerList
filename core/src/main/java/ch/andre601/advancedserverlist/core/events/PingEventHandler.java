@@ -185,6 +185,6 @@ public class PingEventHandler{
         if(!event.isMaintenanceModeActive())
             return true;
         
-        return !event.getPlugin().getCore().getFileHandler().getBoolean(true, "disableDuringMaintenance", option);
+        return !event.getPlugin().getCore().getFileHandler().getBool(true, "disableDuringMaintenance", option);
     }
 }

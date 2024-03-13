@@ -187,12 +187,12 @@ public class FileHandler{
         return node.node(path).getString(def);
     }
     
-    public boolean getBoolean(boolean def, Object... path){
+    public boolean getBool(boolean def, Object... path){
         return node.node(path).getBoolean(def);
     }
     
     public boolean getBoolean(Object... path){
-        return getBoolean(false, path);
+        return getBool(false, path);
     }
     
     public long getLong(long def, long limit, Object... path){
