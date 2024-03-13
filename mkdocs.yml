@@ -69,8 +69,6 @@ extra:
 plugins:
   - search
   - glightbox
-  - awesome-pages:
-      filename: .pages.yml
   - pagenav-generator
 
 markdown_extensions:
@@ -108,3 +106,72 @@ markdown_extensions:
 hooks:
   - docs/.hooks/badges.py
   - docs/.hooks/replacer.py
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started/index.md
+  - Commands: commands/index.md
+  - Profiles:
+    - profiles/index.md
+    - Expressions: profiles/expressions.md
+    - Formatting: profiles/formatting.md
+    - Placeholders: profiles/placeholders.md
+  - Examples: examples/index.md
+  - Migration:
+    - migration/index.md
+    - v3.8.0 to v3.9.0: migration/v3_8_0-to-v3_9_0.md
+    - v3.7.0 to v3.8.0: migration/v3_7_0-to-v3_8_0.md
+    - '< v3.7.0 to v3.7.0': migration/pre-v3_7_0-to-v3_7_0.md
+    - v1.9.0 to v1.10.0: migration/v1_9_0-to-v1_10_0.md
+    - v1.5.3 to v1.6.0: migration/v1_5_3-to-v1_6_0.md
+  - API:
+    - api/index.md
+    - Changelog: api/changelog.md
+    - Javadocs: api/javadocs.md
+    - Source Code: api/source.md
+    - Reference:
+      - api/reference/index.md
+      - api:
+        - api/reference/api/index.md
+        - ch.andre601.advancedserverlist.api:
+          - api/reference/api/ch.andre601.advancedserverlist.api/advancedserverlistapi.md
+          - api/reference/api/ch.andre601.advancedserverlist.api/placeholderprovider.md
+          - events:
+            - api/reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md
+          - exceptions:
+            - api/reference/api/ch.andre601.advancedserverlist.api/exceptions/invalidplaceholderproviderexception.md
+          - objects:
+            - api/reference/api/ch.andre601.advancedserverlist.api/objects/genericplayer.md
+            - api/reference/api/ch.andre601.advancedserverlist.api/objects/genericserver.md
+            - api/reference/api/ch.andre601.advancedserverlist.api/objects/nullbool.md
+          - profiles:
+            - api/reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry.md
+            - api/reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md
+      - platform-bukkit:
+        - api/reference/platform-bukkit/index.md
+        - ch.andre601.advancedserverlist.api.bukkit:
+          - events:
+            - api/reference/platform-bukkit/ch.andre601.advancedserverlist.api.bukkit/events/preserverlistsetevent.md
+          - objects:
+            - api/reference/platform-bukkit/ch.andre601.advancedserverlist.api.bukkit/objects/bukkitplayer.md
+            - api/reference/platform-bukkit/ch.andre601.advancedserverlist.api.bukkit/objects/bukkitserver.md
+      - platform-bungeecord:
+        - api/reference/platform-bungeecord/index.md
+        - ch.andre601.advancedserverlist.api.bungeecord:
+          - events:
+            - api/reference/platform-bungeecord/ch.andre601.advancedserverlist.api.bungeecord/events/preserverlistsetevent.md
+          - objects:
+            - api/reference/platform-bungeecord/ch.andre601.advancedserverlist.api.bungeecord/objects/bungeeplayer.md
+            - api/reference/platform-bungeecord/ch.andre601.advancedserverlist.api.bungeecord/objects/bungeeproxy.md
+      - platform-velocity:
+        - api/reference/platform-velocity/index.md
+        - ch.andre601.advancedserverlist.api.velocity:
+          - events:
+            - api/reference/platform-velocity/ch.andre601.advancedserverlist.api.velocity/events/preserverlistsetevent.md
+          - objects:
+            - api/reference/platform-velocity/ch.andre601.advancedserverlist.api.velocity/objects/velocityplayer.md
+            - api/reference/platform-velocity/ch.andre601.advancedserverlist.api.velocity/objects/velocityproxy.md
+  - Addons:
+    - addons/index.md
+    - BanPlugins: addons/banplugins.md
+  - PlaceholderAPI: placeholderapi/index.md

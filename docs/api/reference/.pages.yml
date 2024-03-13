@@ -1,6 +1,0 @@
-nav:
-  - index.md
-  - api: api
-  - platform-bukkit: platform-bukkit
-  - platform-bungeecord: platform-bungeecord
-  - platform-velocity: platform-velocity

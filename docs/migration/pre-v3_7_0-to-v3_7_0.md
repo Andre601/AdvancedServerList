@@ -49,8 +49,12 @@ priority: 0
 -conditions:
 -  - '${player protocol} >= 763'
 -  - '${player isWhitelisted} == true'
++# The text can all be in one line. This is only for better readability.
 +condition: |
 +  ${player protocol} >= 763 and
 +  ${player isWhitelisted}
+
+motd:
+  - 'Welcome ${player name}!'
 ```
 ///

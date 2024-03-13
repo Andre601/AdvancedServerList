@@ -58,18 +58,54 @@ All listed dependencies are optional.
 
 ## Pages
 
-- [Getting started](getting-started/index.md)
-- [Commands](commands/index.md)
-- [Profiles](profiles/index.md)
-    - [Formatting](profiles/formatting.md)
-    - [Placeholders](profiles/placeholders.md)
-- [Examples](examples/index.md)
-- [Migration](migration/index.md)
-    - [v1.5.3 to v1.6.0](migration/v1_5_3-to-v1_6_0.md)
-    - [v1.9.0 to v1.10.0](migration/v1_9_0-to-v1_10_0.md)
-- [API](api/index.md)
-    - [Changelog](api/changelog.md)
-    - [Javadocs](api/javadocs.md) (External site)
-    - [Source Code](api/source.md) (External site)
-    - [Reference](api/reference/index.md)
-- [PlaceholderAPI](placeholderapi/index.md)
+<div class="grid cards" markdown>
+
+-   [:octicons-milestone-24: **Getting Started**](getting-started/index.md)
+    
+    ----
+    
+    A simple guide on how to get started with AdvancedServerList.
+
+-   [:octicons-rel-file-path-24: **Commands**](commands/index.md)
+    
+    ----
+    
+    A list of all available commands in AdvancedServerList.
+
+-   [:octicons-note-24: **Profiles**](profiles/index.md)
+    
+    ----
+    
+    Pages containing information about the Server List Profile System and all its available options.
+
+-   [:octicons-list-unordered-24: **Examples**](examples/index.md)
+    
+    ----
+    
+    Collection of various profile examples to use for different situations.
+
+-   [:octicons-file-directory-symlink-24: **Migration**](migration/index.md)
+    
+    ----
+    
+    Pages explaining how to migrate from one version of the plugin to another.
+
+-   [:octicons-command-palette-24: **API**](api/index.md)
+    
+    ----
+    
+    Pages all about the API of AdvancedServerList.
+
+-   [:octicons-plus-circle-24: **Addons**](addons/index.md)
+    
+    ----
+    
+    Pages listing 1st-party and 3rd-party add-ons for AdvancedServerList.
+    
+-   [:material-percent: **PlaceholderAPI**](placeholderapi/index.md)
+    
+    ----
+    
+    Information about available placeholders to use in PlaceholderAPI and how to use placeholders from other plugins in AdvancedServerList using PlaceholderAPI.
+
+</div>

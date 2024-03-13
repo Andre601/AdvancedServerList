@@ -12,6 +12,12 @@ Note that these pages only cover server list profile files. The config.yml is au
 
 <div class="grid cards" markdown>
 
+-   [**v3.8.0 to v3.9.0**](v3_8_0-to-v3_9_0.md)
+    
+    ----
+    
+    Migrate from version 3.8.0 to 3.9.0.
+
 -   [**v3.7.0 to v3.8.0**](v3_7_0-to-v3_8_0.md)
 
     ----
