@@ -145,8 +145,9 @@ nav:
             - api/reference/api/ch.andre601.advancedserverlist.api/objects/genericserver.md
             - api/reference/api/ch.andre601.advancedserverlist.api/objects/nullbool.md
           - profiles:
-            - api/reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry.md
-            - api/reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md
+            - '<api__record></api__record> ProfileEntry':
+              - api/reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md
+              - api/reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md
       - platform-bukkit:
         - api/reference/platform-bukkit/index.md
         - ch.andre601.advancedserverlist.api.bukkit:

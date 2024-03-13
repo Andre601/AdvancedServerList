@@ -28,15 +28,15 @@ They are ordered newest to oldest.
     - [`playerCountText(String)`][playercounttext]
     - [`players(List<String>)`][players]
 
-[extraplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#extraplayerscount(integer)
-[extraplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#extraplayersenabled(nullbool)
-[favicon]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#favicon(string)
-[hideplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#hideplayersenabled(nullbool)
-[maxplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#maxplayerscount(integer)
-[maxplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#maxplayersenabled(nullbool)
-[motd]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#motd(list<string>)
-[playercounttext]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#playercounttext(string)
-[players]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#players(list<string>)
+[extraplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#extraplayerscount(integer)
+[extraplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#extraplayersenabled(nullbool)
+[favicon]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#favicon(string)
+[hideplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#hideplayersenabled(nullbool)
+[maxplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#maxplayerscount(integer)
+[maxplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#maxplayersenabled(nullbool)
+[motd]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#motd(list<string>)
+[playercounttext]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#playercounttext(string)
+[players]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#players(list<string>)
 
 ### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v3.2.0-changed }
 
@@ -102,14 +102,14 @@ They are ordered newest to oldest.
 
 - `setExtraPlayerEnabled(Integer)` in `ProfileEntry.Builder` - Typo in method name.
 
-[profileentry]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry.md
-[maxplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry.md#maxplayersenabled()
-[maxplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry.md#maxplayerscount()
+[profileentry]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md
+[maxplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md#maxplayersenabled()
+[maxplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md#maxplayerscount()
 
-[profileentry.builder]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md
-[setmaxplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#setmaxplayersenabled(nullbool)
-[setmaxplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#setmaxplayerscount(integer)
-[setextraplayersecount]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md#setextraplayerscount(integer)
+[profileentry.builder]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md
+[setmaxplayersenabled]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#setmaxplayersenabled(nullbool)
+[setmaxplayerscount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#setmaxplayerscount(integer)
+[setextraplayersecount]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md#setextraplayerscount(integer)
 
 ----
 

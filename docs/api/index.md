@@ -380,7 +380,7 @@ Please check the server/proxy's documentation on how to listen for events with y
 [iscancelled]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#iscancelled()
 [setcancelled]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#setcancelled(boolean)
 
-[profileentry]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry.md
+[profileentry]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md
 
 ### ProfileEntry
 
@@ -391,4 +391,4 @@ A convenience method exists to create a `Builder` instance from an existing `Pro
 
 This allows you to customize the Server list using your plugin. Just keep in mind that other plugins may also do the same, overriding your changes.
 
-[builder]: reference/api/ch.andre601.advancedserverlist.api/profiles/builder.md
+[builder]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md

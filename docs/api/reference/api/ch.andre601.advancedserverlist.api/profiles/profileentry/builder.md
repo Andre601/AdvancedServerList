@@ -345,4 +345,4 @@ methods:
 
 # <api__class></api__class> Builder
 
-Builder class to create a new [`ProfileEntry` instance](profileentry.md).
+Builder class to create a new [`ProfileEntry` instance](index.md).
