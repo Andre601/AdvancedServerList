@@ -46,9 +46,26 @@ public class ConfigMigrator{
     public static ConfigurationTransformation.Versioned create(){
         return ConfigurationTransformation.versionedBuilder()
             .versionKey("configVersion")
-            .addVersion(LATEST, threeToFour())
+            .addVersion(LATEST, fourToFive())
+            .addVersion(4, threeToFour())
             .addVersion(3, twoToThree())
             .addVersion(2, oneToTwo())
+            .build();
+    }
+    
+    public static ConfigurationTransformation fourToFive(){
+        return ConfigurationTransformation.builder()
+            .addAction(NodePath.path(), (path, value) -> {
+                value.node("disableDuringMaintenance", "motd").set(true);
+                value.node("disableDuringMaintenance", "favicon").set(true);
+                value.node("disableDuringMaintenance", "hidePlayers").set(true);
+                value.node("disableDuringMaintenance", "playerCountText").set(true);
+                value.node("disableDuringMaintenance", "playerCountHover").set(true);
+                value.node("disableDuringMaintenance", "extraPlayers").set(true);
+                value.node("disableDuringMaintenance", "maxPlayers").set(true);
+                
+                return null;
+            })
             .build();
     }
     

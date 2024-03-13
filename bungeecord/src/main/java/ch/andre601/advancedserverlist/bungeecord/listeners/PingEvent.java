@@ -30,7 +30,6 @@ import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import net.md_5.bungee.api.event.ProxyPingEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventPriority;
 
 public class PingEvent implements Listener{
     
@@ -41,7 +40,7 @@ public class PingEvent implements Listener{
         plugin.getProxy().getPluginManager().registerListener(plugin, this);
     }
     
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = 90) // Maintenance has Event Priority 80, so we need to be AFTER it.
     public void onProxyPing(ProxyPingEvent event){
         PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
     }

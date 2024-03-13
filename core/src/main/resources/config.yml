@@ -51,6 +51,42 @@ debug: false
 faviconCacheTime: 1
 
 #
+# List of options that should be disabled while the Maintenance Mode of the plugin Maintenance is active.
+# Any option not listed here will NOT be disabled, meaning AdvancedServerList will continue to handle it.
+#
+# Each option defaults to true when not present, disabling said option while Maintenance is active.
+#
+disableDuringMaintenance:
+  #
+  # When true (Default), disables handling of MOTD while Maintenance is enabled.
+  #
+  motd: true
+  #
+  # When true (Default), disables handling of Favicon while Maintenance is enabled.
+  #
+  favicon: true
+  #
+  # When true (Default), disables hiding of player count while Maintenance is enabled.
+  #
+  hidePlayers: true
+  #
+  # When true (Default), disables handling of player count text while Maintenance is enabled.
+  #
+  playerCountText: true
+  #
+  # When true (Default), disables handling of player count hover while Maintenance is enabled.
+  #
+  playerCountHover: true
+  #
+  # When true (Default), disables use of extra players feature while Maintenance is enabled.
+  #
+  extraPlayers: true
+  #
+  # When true (Default), disables use of max players feature while Maintenance is enabled.
+  #
+  maxPlayers: true
+
+#
 # DO NOT EDIT!
 #
 # This is used internally to determine if the config needs to be migrated.

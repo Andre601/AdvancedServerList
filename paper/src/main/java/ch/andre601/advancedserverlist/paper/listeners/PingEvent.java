@@ -29,6 +29,7 @@ import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.paper.PaperCore;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 public class PingEvent implements Listener{
@@ -40,7 +41,7 @@ public class PingEvent implements Listener{
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST) // Maintenance plugin has HIGHEST priority, so ASL needs too.
     public void onPaperServerListPing(PaperServerListPingEvent event){
         PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
     }
