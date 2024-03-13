@@ -46,8 +46,8 @@ public class PingEventHandler{
     
     public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
         event.getPlugin().getPluginLogger().debug(PingEventHandler.class, "Received ping event. Handling it...");
-        if(event.isInvalidProtocol() || event.isMaintenanceModeActive()){
-            event.getPlugin().getPluginLogger().debug(PingEventHandler.class, "Not handling event. Either protocol was invalid of Maintenance is enabled.");
+        if(event.isInvalidProtocol()){
+            event.getPlugin().getPluginLogger().debug(PingEventHandler.class, "Not handling event. Protocol was invalid.");
             return;
         }
         
@@ -91,7 +91,7 @@ public class PingEventHandler{
         
         boolean extraPlayers = ProfileManager.checkOption(entry.extraPlayersEnabled());
         
-        if(extraPlayers){
+        if(extraPlayers && ignoreMaintenance(event, "extraPlayers")){
             max = online + (entry.extraPlayersCount() == null ? 0 : entry.extraPlayersCount());
             
             logger.debug(PingEventHandler.class, "Extra Players enabled. Applying '%d' as max player count...", max);
@@ -99,7 +99,7 @@ public class PingEventHandler{
             event.setMaxPlayers(max);
         }
         
-        if(ProfileManager.checkOption(entry.maxPlayersEnabled()) && !extraPlayers){
+        if(ProfileManager.checkOption(entry.maxPlayersEnabled()) && !extraPlayers && ignoreMaintenance(event, "maxPlayers")){
             max = (entry.maxPlayersCount() == null) ? 0 : entry.maxPlayersCount();
             
             logger.debug(PingEventHandler.class, "Max Players enabled. Applying '%d' as max player count...", max);
@@ -109,7 +109,7 @@ public class PingEventHandler{
         
         GenericServer finalServer = event.createGenericServer(online, max, host);
         
-        if(ProfileManager.checkOption(entry.motd())){
+        if(ProfileManager.checkOption(entry.motd()) && ignoreMaintenance(event, "motd")){
             logger.debug(PingEventHandler.class, "MOTD set. Applying '%s'...", String.join("\\n", entry.motd()));
             
             event.setMotd(
@@ -122,13 +122,13 @@ public class PingEventHandler{
         
         boolean hidePlayers = ProfileManager.checkOption(entry.hidePlayersEnabled());
         
-        if(hidePlayers){
+        if(hidePlayers && ignoreMaintenance(event, "hidePlayers")){
             logger.debug(PingEventHandler.class, "Hide Players enabled. Hiding player count...");
             
             event.hidePlayers();
         }
         
-        if(ProfileManager.checkOption(entry.playerCountText()) && !hidePlayers){
+        if(ProfileManager.checkOption(entry.playerCountText()) && !hidePlayers && ignoreMaintenance(event, "playerCountText")){
             logger.debug(PingEventHandler.class, "Player Count Text set. Applying '%s'...", entry.playerCountText());
             
             event.setPlayerCount(
@@ -139,13 +139,13 @@ public class PingEventHandler{
             );
         }
         
-        if(ProfileManager.checkOption(entry.players()) && !hidePlayers){
+        if(ProfileManager.checkOption(entry.players()) && !hidePlayers && ignoreMaintenance(event, "playerCountHover")){
             logger.debug(PingEventHandler.class, "Player Count Hover set. Applying '%s'...", String.join("\\n", entry.players()));
             
             event.setPlayers(entry.players(), player, server);
         }
         
-        if(ProfileManager.checkOption(entry.favicon())){
+        if(ProfileManager.checkOption(entry.favicon()) && ignoreMaintenance(event, "favicon")){
             logger.debug(PingEventHandler.class, "Favicon set. Resolving '%s'...", entry.favicon());
             
             String faviconString = StringReplacer.replace(entry.favicon(), player, server);
@@ -179,5 +179,12 @@ public class PingEventHandler{
             return maintenanceUtil;
         
         return (maintenanceUtil = new MaintenanceUtil());
+    }
+    
+    private static <F, P extends GenericPlayer> boolean ignoreMaintenance(GenericEventWrapper<F, P> event, String option){
+        if(!event.isMaintenanceModeActive())
+            return true;
+        
+        return !event.getPlugin().getCore().getFileHandler().getBoolean(true, "disableDuringMaintenance", option);
     }
 }
