@@ -44,11 +44,11 @@ public class PingEventHandler{
     private static PAPIUtil papiUtil = null;
     private static MaintenanceUtil maintenanceUtil = null;
     
-    public static <F, P extends GenericPlayer> void handleEvent(GenericEventWrapper<F, P> event){
+    public static <F, P extends GenericPlayer> ProfileEntry handleEvent(GenericEventWrapper<F, P> event){
         event.getPlugin().getPluginLogger().debug(PingEventHandler.class, "Received ping event. Handling it...");
         if(event.isInvalidProtocol()){
             event.getPlugin().getPluginLogger().debug(PingEventHandler.class, "Not handling event. Protocol was invalid.");
-            return;
+            return null;
         }
         
         PluginCore<F> plugin = event.getPlugin();
@@ -70,7 +70,7 @@ public class PingEventHandler{
         
         if(profile == null){
             logger.debugWarn(PingEventHandler.class, "Server List Profile couldn't be resolved properly. Cancelling event handling...");
-            return;
+            return null;
         }
         
         logger.debug(PingEventHandler.class, "Received valid Server List Profile. Calling PreServerListSetEvent...");
@@ -78,7 +78,7 @@ public class PingEventHandler{
         GenericServerListEvent e = event.callEvent(ProfileManager.merge(profile));
         if(e == null || e.isCancelled()){
             logger.debug(PingEventHandler.class, "PreServerListSetEvent was cancelled. Stopping ping handling...");
-            return;
+            return null;
         }
         
         logger.debug(PingEventHandler.class, "PreServerListSetEvent completed. Proceeding with ping handling...");
@@ -86,7 +86,7 @@ public class PingEventHandler{
         ProfileEntry entry = e.getEntry();
         if(entry.isInvalid()){
             logger.debugWarn(PingEventHandler.class, "No valid ProfileEntry retrieved. Cancelling ping handling...");
-            return;
+            return null;
         }
         
         boolean extraPlayers = ProfileManager.checkOption(entry.extraPlayersEnabled());
@@ -165,6 +165,8 @@ public class PingEventHandler{
         
         logger.debug(PingEventHandler.class, "Event handling completed. Updating Ping data...");
         event.updateEvent();
+        
+        return entry;
     }
     
     public static PAPIUtil getPAPIUtil(){

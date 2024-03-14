@@ -25,7 +25,7 @@
 
 package ch.andre601.advancedserverlist.versionuploader.modrinth;
 
-import ch.andre601.advancedserverlist.versionuploader.ModrinthRelease;
+import ch.andre601.advancedserverlist.versionuploader.ReleaseHolder;
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
 import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
@@ -45,7 +45,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModrinthVersionUploader{
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModrinthVersionUploader.class);
+    private final Logger logger = LoggerFactory.getLogger(ModrinthVersionUploader.class);
+    
+    private final String versionUrl = "https://modrinth.com/plugin/advancedserverlist/version/";
     
     private final List<PlatformInfo> platforms = List.of(
         PlatformInfo.PAPER,
@@ -62,11 +64,11 @@ public class ModrinthVersionUploader{
         this.api = createClient();
     }
     
-    public CompletableFuture<?> performUpload(CodebergRelease release, ModrinthRelease modrinthRelease, boolean dryrun){
-        LOGGER.info("Starting ModrinthVersionUploader...");
+    public CompletableFuture<?> performUpload(CodebergRelease release, ReleaseHolder releaseHolder, boolean dryrun){
+        logger.info("Starting ModrinthVersionUploader...");
         
         if(api == null){
-            LOGGER.warn("Cannot create updates on Modrinth. API instance is null.");
+            logger.warn("Cannot create updates on Modrinth. API instance is null.");
             return CompletableFuture.completedFuture(false);
         }
         
@@ -74,7 +76,7 @@ public class ModrinthVersionUploader{
         final String pluginVersion = VersionUploader.retrieveVersion();
         
         if(pluginVersion == null || pluginVersion.isEmpty()){
-            LOGGER.warn("Retrieved null/empty plugin version.");
+            logger.warn("Retrieved null/empty plugin version.");
             return CompletableFuture.completedFuture(false);
         }
         
@@ -97,7 +99,7 @@ public class ModrinthVersionUploader{
         );
         
         for(int i = 0; i < platforms.size(); i++){
-            LOGGER.info("Creating release for platform {}...", platforms.get(i).getPlatform());
+            logger.info("Creating release for platform {}...", platforms.get(i).getPlatform());
             
             List<File> files = platforms.get(i).getFilePaths().stream()
                 .map(path -> new File(path.replace("{{version}}", pluginVersion)))
@@ -125,7 +127,7 @@ public class ModrinthVersionUploader{
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 String json = gson.toJson(builder.build());
                 
-                LOGGER.info("JSON Data to send: {}", json);
+                logger.info("JSON Data to send: {}", json);
                 
                 futures[i] = CompletableFuture.completedFuture(json);
                 continue;
@@ -134,14 +136,20 @@ public class ModrinthVersionUploader{
             final int index = i;
             futures[i] = api.versions().createProjectVersion(builder.build()).whenComplete(((projectVersion, throwable) -> {
                 if(throwable != null){
-                    LOGGER.warn("Encountered an exception while uploading a new release to Modrinth!", throwable);
+                    logger.warn("Encountered an exception while uploading a new release to Modrinth!", throwable);
                     return;
                 }
                 
-                LOGGER.info("Created new release!");
-                LOGGER.info("Link: https://modrinth.com/plugin/advancedserverlist/version/{}", projectVersion.getId());
+                String url = versionUrl + projectVersion.getId();
                 
-                modrinthRelease.addRelease(String.join(", ", platforms.get(index).getLoaders()), projectVersion.getId());
+                logger.info("Created new release!");
+                logger.info("Link: {}", url);
+                
+                releaseHolder.addRelease(
+                    "modrinth",
+                    String.join(", ", platforms.get(index).getPlatformNames()),
+                    url
+                );
             }));
         }
         

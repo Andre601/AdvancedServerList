@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.paper.listeners;
 
+import ch.andre601.advancedserverlist.api.bukkit.events.PostServerListSetEvent;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import ch.andre601.advancedserverlist.paper.PaperCore;
 import com.destroystokyo.paper.event.server.PaperServerListPingEvent;
@@ -43,6 +45,8 @@ public class PingEvent implements Listener{
     
     @EventHandler(priority = EventPriority.HIGHEST) // Maintenance plugin has HIGHEST priority, so ASL needs too.
     public void onPaperServerListPing(PaperServerListPingEvent event){
-        PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
+        ProfileEntry entry = PingEventHandler.handleEvent(new PaperEventWrapper(plugin, event));
+        
+        plugin.getServer().getPluginManager().callEvent(new PostServerListSetEvent(entry));
     }
 }

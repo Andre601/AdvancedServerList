@@ -35,7 +35,7 @@ public enum PlatformInfo{
             "paper/target/AdvancedServerList-Paper-{{version}}.jar",
             "addons/banplugins/target/AdvancedServerList-BanPlugins-Addon-{{version}}.jar"
         ),
-        "paper", "folia"
+        List.of("Paper", "Folia")
     ),
     BUNGEECORD(
         "bungeecord",
@@ -43,7 +43,7 @@ public enum PlatformInfo{
             "bungeecord/target/AdvancedServerList-BungeeCord-{{version}}.jar",
             "addons/banplugins/target/AdvancedServerList-BanPlugins-Addon-{{version}}.jar"
         ),
-        "bungeecord", "waterfall"
+        List.of("BungeeCord", "Waterfall")
     ),
     VELOCITY(
         "velocity",
@@ -51,17 +51,19 @@ public enum PlatformInfo{
             "velocity/target/AdvancedServerList-Velocity-{{version}}.jar",
             "addons/banplugins/target/AdvancedServerList-BanPlugins-Addon-{{version}}.jar"
         ),
-        "velocity"
+        List.of("Velocity")
     );
     
     private final String platform;
     private final List<String> filePaths;
     private final List<String> loaders;
+    private final List<String> platformNames;
     
-    PlatformInfo(String platform, List<String> filePaths, String... loaders){
+    PlatformInfo(String platform, List<String> filePaths, List<String> loaders){
         this.platform = platform;
         this.filePaths = filePaths;
-        this.loaders = List.of(loaders);
+        this.loaders = loaders.stream().map(String::toLowerCase).toList();
+        this.platformNames = loaders;
     }
     
     public String getPlatform(){
@@ -74,5 +76,9 @@ public enum PlatformInfo{
     
     public List<String> getLoaders(){
         return loaders;
+    }
+    
+    public List<String> getPlatformNames(){
+        return platformNames;
     }
 }

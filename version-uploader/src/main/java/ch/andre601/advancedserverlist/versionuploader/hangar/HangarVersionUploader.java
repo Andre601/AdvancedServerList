@@ -26,6 +26,7 @@
 package ch.andre601.advancedserverlist.versionuploader.hangar;
 
 import ch.andre601.advancedserverlist.versionuploader.PlatformInfo;
+import ch.andre601.advancedserverlist.versionuploader.ReleaseHolder;
 import ch.andre601.advancedserverlist.versionuploader.VersionUploader;
 import ch.andre601.advancedserverlist.versionuploader.data.CodebergRelease;
 import ch.andre601.advancedserverlist.versionuploader.hangar.version.Dependency;
@@ -35,6 +36,7 @@ import ch.andre601.advancedserverlist.versionuploader.hangar.version.Version;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.FileBody;
@@ -72,7 +74,7 @@ public class HangarVersionUploader{
         this.apiKey = System.getenv("HANGAR_API_TOKEN");
     }
     
-    public CompletableFuture<?> performUpload(CodebergRelease release, boolean dryrun){
+    public CompletableFuture<?> performUpload(CodebergRelease release, ReleaseHolder releaseInfo, boolean dryrun){
         LOGGER.info("Starting HangarVersionUploader...");
         
         if((apiKey == null || apiKey.isEmpty()) && !dryrun){
@@ -145,14 +147,14 @@ public class HangarVersionUploader{
         
         try{
             HttpClient client = HttpClients.createDefault();
-            return uploadVersion(client, versionUpload, filePaths);
+            return uploadVersion(client, versionUpload, filePaths, releaseInfo);
         }catch(ParseException | IOException ex){
             LOGGER.warn("Encountered an exception while uploading to Hangar!", ex);
             return CompletableFuture.completedFuture(ex);
         }
     }
     
-    private CompletableFuture<?> uploadVersion(HttpClient client, Version versionUpload, List<Path> filePaths) throws IOException, ParseException{
+    private CompletableFuture<?> uploadVersion(HttpClient client, Version versionUpload, List<Path> filePaths, ReleaseHolder releaseInfo) throws IOException, ParseException{
         return CompletableFuture.supplyAsync(() -> {
             MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addPart("versionUpload", new StringBody(GSON.toJson(versionUpload), ContentType.APPLICATION_JSON));
@@ -174,7 +176,22 @@ public class HangarVersionUploader{
                         ));
                     }
                     LOGGER.info("Successfully uploaded new release on Hangar!");
-                    return true;
+                    
+                    String body = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+                    try{
+                        JsonObject json = GSON.fromJson(body, JsonObject.class);
+                        if(json == null)
+                            return true;
+                        
+                        releaseInfo.addRelease(
+                            "hangar",
+                            "Paper, Waterfall, Velocity",
+                            json.getAsJsonPrimitive("url").getAsString()
+                        );
+                        return true;
+                    }catch(JsonSyntaxException ex){
+                        return true;
+                    }
                 });
             }catch(IOException ex){
                 LOGGER.warn("Encountered IOException while perfoming upload.", ex);

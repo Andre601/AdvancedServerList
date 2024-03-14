@@ -25,18 +25,22 @@
 
 package ch.andre601.advancedserverlist.versionuploader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class ModrinthRelease{
+public class ReleaseHolder{
     
-    Map<String, String> releases = new HashMap<>();
+    private final List<ReleaseInfo> releases = new ArrayList<>();
     
-    public void addRelease(String platform, String id){
-        releases.put(platform, id);
+    public void addRelease(String type, String platform, String url){
+        releases.add(new ReleaseInfo(type, platform, url));
     }
     
-    public Map<String, String> getReleases(){
+    public List<ReleaseInfo> getReleases(){
         return releases;
     }
+    
+    record ReleaseInfo(String type, String platform, String url){}
 }

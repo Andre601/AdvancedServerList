@@ -25,6 +25,8 @@
 
 package ch.andre601.advancedserverlist.bungeecord.listeners;
 
+import ch.andre601.advancedserverlist.api.bungeecord.events.PostServerListSetEvent;
+import ch.andre601.advancedserverlist.api.profiles.ProfileEntry;
 import ch.andre601.advancedserverlist.bungeecord.BungeeCordCore;
 import ch.andre601.advancedserverlist.core.events.PingEventHandler;
 import net.md_5.bungee.api.event.ProxyPingEvent;
@@ -42,6 +44,8 @@ public class PingEvent implements Listener{
     
     @EventHandler(priority = 90) // Maintenance has Event Priority 80, so we need to be AFTER it.
     public void onProxyPing(ProxyPingEvent event){
-        PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
+        ProfileEntry entry = PingEventHandler.handleEvent(new BungeeEventWrapper(plugin, event));
+        
+        plugin.getProxy().getPluginManager().callEvent(new PostServerListSetEvent(entry));
     }
 }

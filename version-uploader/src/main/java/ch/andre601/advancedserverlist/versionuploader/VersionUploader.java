@@ -40,8 +40,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Properties;
+import java.util.StringJoiner;
 import java.util.concurrent.CompletableFuture;
 
 public class VersionUploader{
@@ -53,7 +53,7 @@ public class VersionUploader{
         
         if(args.length == 0){
             LOGGER.warn("MISSING ARGUMENT!");
-            LOGGER.warn("COMMAND USAGE: java -jar VersionUploader.jar <--all|--modrinth|--hangar> [--dryrun]");
+            LOGGER.warn("COMMAND USAGE: java -jar VersionUploader.jar [--dryrun] --all | --modrinth | --hangar");
             System.exit(1);
             return;
         }
@@ -72,22 +72,19 @@ public class VersionUploader{
         }
         
         CompletableFuture<?> future;
-        ModrinthRelease modrinthRelease = null;
+        ReleaseHolder releaseHolder = new ReleaseHolder();
         switch(args[0].toLowerCase(Locale.ROOT)){
-            case "--modrinth" -> {
-                modrinthRelease = new ModrinthRelease();
-                future = new ModrinthVersionUploader().performUpload(release, modrinthRelease, dryrun);
-            }
-            case "--hangar" -> future = new HangarVersionUploader().performUpload(release, dryrun);
+            case "--modrinth" -> future = new ModrinthVersionUploader().performUpload(release, releaseHolder, dryrun);
+            case "--hangar" -> future = new HangarVersionUploader().performUpload(release, releaseHolder, dryrun);
             case "--all" -> {
-                modrinthRelease = new ModrinthRelease();
                 future = CompletableFuture.allOf(
-                    new ModrinthVersionUploader().performUpload(release, modrinthRelease, dryrun),
-                    new HangarVersionUploader().performUpload(release, dryrun)
+                    new ModrinthVersionUploader().performUpload(release, releaseHolder, dryrun),
+                    new HangarVersionUploader().performUpload(release, releaseHolder, dryrun)
                 );
             }
             default -> {
-                LOGGER.warn("Unknown argument '{}' provided. Supported are '--all', '--modrinth' or '--hangar'", args[0]);
+                LOGGER.warn("Unknown argument '{}' provided.", args[0]);
+                LOGGER.warn("COMMAND USAGE: java -jar VersionUploader.jar [--dryrun] --all | --modrinth | --hangar");
                 System.exit(1);
                 return;
             }
@@ -111,8 +108,8 @@ public class VersionUploader{
             System.exit(1);
         }
         
-        if(modrinthRelease == null || modrinthRelease.getReleases().isEmpty()){
-            LOGGER.warn("No Modrinth release info on Discord to share... Skipping.");
+        if(releaseHolder.getReleases().isEmpty()){
+            LOGGER.warn("No releases to share on Discord... Skipping.");
             return;
         }
         
@@ -124,16 +121,30 @@ public class VersionUploader{
         
         WebhookEmbedBuilder builder = new WebhookEmbedBuilder()
             .setTitle(new WebhookEmbed.EmbedTitle("New Release", null))
-            .setDescription("A new release of AdvancedServerList is available on Modrinth for you to download!")
+            .setDescription("A new release of AdvancedServerList is available on Modrinth and Hangar for you to download!")
             .setColor(0x1BD96A);
         
-        for(Map.Entry<String, String> entry : modrinthRelease.getReleases().entrySet()){
-            builder.addField(new WebhookEmbed.EmbedField(
-                false,
-                entry.getKey(),
-                "https://modrinth.com/plugin/advancedserverlist/version/" + entry.getValue()
-            ));
+        StringJoiner modrinthText = new StringJoiner("\n");
+        String hangarText = null;
+        for(ReleaseHolder.ReleaseInfo info : releaseHolder.getReleases()){
+            String text = String.format("[%s](%s)", info.platform(), info.url());
+            
+            if(info.type().equalsIgnoreCase("modrinth")){
+                modrinthText.add(text);
+            }else{
+                hangarText = text;
+            }
         }
+        
+        builder.addField(new WebhookEmbed.EmbedField(
+            true,
+            "Modrinth:",
+            modrinthText.toString()
+        )).addField(new WebhookEmbed.EmbedField(
+            true,
+            "Hangar:",
+            hangarText == null ? "No download available" : hangarText
+        ));
         
         try(WebhookClient client = new WebhookClientBuilder(webhookUrl).build()){
             CompletableFuture<ReadonlyMessage> webhookFuture = client.send(builder.build()).whenComplete((readonlyMessage, throwable) -> {
