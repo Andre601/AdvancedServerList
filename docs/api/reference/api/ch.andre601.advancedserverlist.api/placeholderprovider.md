@@ -8,7 +8,7 @@ constructors:
       - name: 'identifier'
         description: 'The identifier to use for the placeholder. Cannot be empty.'
         type: String
-        attributes:
+        attribute:
           - notnull
 
 methods:
@@ -28,7 +28,7 @@ methods:
         type: GenericServer
         description: 'The <a href="./../objects/genericserver/"><code>GenericServer</code> instance</a> used.'
     returns: 'Possibly-parsed or possibly-null String to replace the placeholder with.'
-    attributes:
+    attribute:
       - nullable
       - abstract
     type:

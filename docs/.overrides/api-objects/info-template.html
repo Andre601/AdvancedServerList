@@ -105,14 +105,14 @@
   </div>
 {%- endmacro %}
 
-{% macro info(title, details, enum = false, defaults = []) -%}
+{% macro info(title, details, details_type = 'unknown', defaults = []) -%}
   <h2 id="{{ title | lower() | replace(' ', '-') | e}}">
     {{ title }}
   </h2>
   {% for detail in details %}
     <div class="api-detail">
       {% set final_name = namespace(name = "") %}
-      {% if enum %}
+      {% if details_type == "enum" %}
         {% set final_name.name = detail.name | upper() %}
       {% else %}
         {% set final_name.name = detail.name ~ "(" %}
@@ -123,7 +123,7 @@
         {% if loop.revindex > 1 %}{% set final_name.name = final_name.name ~ ", " %}{% endif %}
       {% endfor %}
       
-      {% if not enum %}
+      {% if details_type != "enum" %}
         {% set final_name.name = final_name.name ~ ")" %}
       {% endif %}
       
@@ -140,19 +140,19 @@
           <api__static></api__static> <api__final></api__final>
         {% endif %}
         
-        {% if detail.type %}
+        {% if detail.type and details_type == "method" %}
           {% if detail.type.link %}
             <a href="{{ detail.type.link }}" class="api-type__{{- detail.type.type | default('primitive') -}}">{{ detail.type.name | default('void') | e }}</a>
           {% else %}
             <span class="api-type__{{- detail.type.type | default('primitive') -}}">{{ detail.type.name | default('void') | e }}</span>
           {% endif %}
-        {% elif defaults and defaults.type %}
+        {% elif defaults and defaults.type and details_type == "method" %}
           {% if defaults.type.link %}
             <a href="{{ defaults.type.link }}" class="api-type__{{- defaults.type.type | default('primitive') -}}">{{ defaults.type.name | default('void') | e }}</a>
           {% else %}
             <span class="api-type__{{- defaults.type.type | default('primitive') -}}">{{ defaults.type.name | default('void') }}</span>
           {% endif %}
-        {% else %}
+        {% elif details_type == "method" %}
           <span class="api-type__primitive">void</span>
         {% endif %}
         <code>{{ final_name.name | e }}</code><a href="#{{ final_name.name | lower() | replace(' ', '-') | e }}" class="headerlink" title="Permanent link">¶</a>

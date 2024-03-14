@@ -152,6 +152,7 @@ nav:
         - api/reference/platform-bukkit/index.md
         - ch.andre601.advancedserverlist.api.bukkit:
           - events:
+            - api/reference/platform-bukkit/ch.andre601.advancedserverlist.api.bukkit/events/postserverlistsetevent.md
             - api/reference/platform-bukkit/ch.andre601.advancedserverlist.api.bukkit/events/preserverlistsetevent.md
           - objects:
             - api/reference/platform-bukkit/ch.andre601.advancedserverlist.api.bukkit/objects/bukkitplayer.md
@@ -160,6 +161,7 @@ nav:
         - api/reference/platform-bungeecord/index.md
         - ch.andre601.advancedserverlist.api.bungeecord:
           - events:
+            - api/reference/platform-bungeecord/ch.andre601.advancedserverlist.api.bungeecord/events/postserverlistsetevent.md
             - api/reference/platform-bungeecord/ch.andre601.advancedserverlist.api.bungeecord/events/preserverlistsetevent.md
           - objects:
             - api/reference/platform-bungeecord/ch.andre601.advancedserverlist.api.bungeecord/objects/bungeeplayer.md
@@ -168,6 +170,7 @@ nav:
         - api/reference/platform-velocity/index.md
         - ch.andre601.advancedserverlist.api.velocity:
           - events:
+            - api/reference/platform-velocity/ch.andre601.advancedserverlist.api.velocity/events/postserverlistsetevent.md
             - api/reference/platform-velocity/ch.andre601.advancedserverlist.api.velocity/events/preserverlistsetevent.md
           - objects:
             - api/reference/platform-velocity/ch.andre601.advancedserverlist.api.velocity/objects/velocityplayer.md

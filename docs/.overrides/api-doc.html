@@ -23,13 +23,13 @@
       Detailed object info
     -->
     {% if page.meta.constructors %}
-      {{ info.info('Constructor Detail', page.meta.constructors, defaults=page.meta.defaults) }}
+      {{ info.info('Constructor Detail', page.meta.constructors, 'constructor', defaults=page.meta.defaults) }}
     {% endif %}
     {% if page.meta.enums %}
-      {{ info.info('Enum Constant Detail', page.meta.enums, true, defaults=page.meta.defaults) }}
+      {{ info.info('Enum Constant Detail', page.meta.enums, 'enum', defaults=page.meta.defaults) }}
     {% endif %}
     {% if page.meta.methods %}
-      {{ info.info('Method Detail', page.meta.methods, defaults=page.meta.defaults)}}
+      {{ info.info('Method Detail', page.meta.methods, 'method', defaults=page.meta.defaults)}}
     {% endif %}
   {% endif %}
 {% endblock %}
