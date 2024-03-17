@@ -7,6 +7,14 @@ icon: octicons/log-24
 This page lists the recent changes made towards the AdvancedServerListAPI.  
 They are ordered newest to oldest.
 
+## v3.3.0 { #v3.3.0 }
+
+### :octicons-plus-circle-24:{ .changelog-added title="Added" } Added { #v3.3.0-added }
+
+- Added `PostServerListSetEvent` to the different platform APIs.
+    - Fired **after** AdvancedServerList is done with handling the PingEvent.
+    - Allows to retrieve the [`ProfileEntry`][profileentry] used for the PingEvent.
+
 ## v3.2.1 { #v3.2.1 }
 
 ### :octicons-pencil-24:{ .changelog-changed title="Changed" } Changed { #v3.2.1-changed }
