@@ -1,13 +1,13 @@
 when:
-  - branch: '${CI_COMMIT_SOURCE_BRANCH}'
-    event: pull_request
+  - event: pull_request
+    evaluate: 'CI_COMMIT_TARGET_BRANCH == master'
     path:
       include: ['.woodpecker/publish_docs.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
 
 variables:
   setup_git: &setup_git
     - apk add git
-    - git config --global user.email "github@andre601.ch"
+    - git config --global user.email "andre@andre601.ch"
     - git config --global user.name "ASL Docs Builder"
 
 steps:
