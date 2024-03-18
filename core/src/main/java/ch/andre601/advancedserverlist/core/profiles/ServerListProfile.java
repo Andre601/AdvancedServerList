@@ -53,15 +53,11 @@ public record ServerListProfile(int priority, String condition, ProfileEntry def
             logger.warn("Encountered %d Error(s) while parsing condition for file '%s':", collector.getWarnings().size(), file);
             
             for(ParseWarnCollector.Context context : collector.getWarnings()){
-                if(context.position() <= -1){
-                    logger.warn("  - %s", condition);
-                    logger.warn("    -> %s", context.message());
-                }else{
-                    logger.warn("  - At position %d:", context.position());
-                    logger.warn("    %s", condition);
-                    logger.warn(" ".repeat(context.position() + 5) + "^");
-                    logger.warn("    -> %s", context.message());
-                }
+                logger.warn("  - At position %s:", context.position() == -1 ? "Unknown" : context.position());
+                logger.warn("    %s", condition);
+                logger.warn(" ".repeat(context.position() + 5) + "^");
+                logger.warn("    -> %s", context.message());
+                
             }
         }
         
