@@ -25,23 +25,23 @@ steps:
   commitAndPush:
     image: alpine:3.18.4
     secrets:
-      - cb_token
+      - bot_token
     commands:
       - <<: *setup_git
       - mv domains site/.domains
       - cd site
-      - git remote add origin https://$CB_TOKEN@codeberg.org/Andre601/asl-docs.git
+      - git remote add origin https://$BOT_TOKEN@codeberg.org/Andre601/asl-docs.git
       - git add --all
       - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y %Z" )) [SKIP CI]"
       - git push --set-upstream origin pr-${CI_COMMIT_PULL_REQUEST}
   writeComment:
     image: mcs94/gitea-comment
     secrets:
-      - cb_token
+      - bot_token
     settings:
       gitea_address: https://codeberg.org
       gitea_token:
-        from_secret: cb_token
+        from_secret: BOT_TOKEN
       comment: >
         Build-preview created!
 
