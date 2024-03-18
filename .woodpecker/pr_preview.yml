@@ -1,6 +1,6 @@
 when:
   - event: pull_request
-    evaluate: 'CI_COMMIT_TARGET_BRANCH == master'
+    evaluate: 'CI_COMMIT_TARGET_BRANCH == "master"'
     path:
       include: ['.woodpecker/publish_docs.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
 
