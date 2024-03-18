@@ -16,8 +16,10 @@ steps:
     commands:
       - chmod -R a+w .
       - <<: *setup_git
-      - git init -b pr-${CI_COMMIT_PULL_REQUEST} site
+      - git clone https://codeberg.org/Andre601/asl-docs.git site
       - chmod -R a+w site
+      - cd site
+      - git switch pr-${CI_COMMIT_PULL_REQUEST} 2>/dev/null || git switch -c ${CI_COMMIT_PULL_REQUEST}
   buildDocs:
     image: woodpeckerci/plugin-mkdocs:latest
     settings:
@@ -31,9 +33,10 @@ steps:
       - mv domains site/.domains
       - cd site
       - git remote add origin https://$BOT_TOKEN@codeberg.org/Andre601/asl-docs.git
+      - git remote set-branches pr-${CI_COMMIT_PULL_REQUEST}
       - git add --all
       - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y %Z" )) [SKIP CI]"
-      - git push --set-upstream origin pr-${CI_COMMIT_PULL_REQUEST}
+      - git push --set-upstream origin pr-${CI_COMMIT_PULL_REQUEST} -f
   writeComment:
     image: mcs94/gitea-comment
     secrets:
