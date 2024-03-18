@@ -1,6 +1,6 @@
 when:
-  - branch: '${CI_COMMIT_SOURCE_BRANCH}'
-    event: pull_request
+  - event: pull_request
+    evaluate: 'CI_COMMIT_TARGET_BRANCH == CI_COMMIT_DEFAULT_BRANCH'
     path:
       include: ['.woodpecker/publish_docs.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
 
