@@ -25,12 +25,12 @@ steps:
   commitAndPush:
     image: alpine:3.18.4
     secrets:
-      - cb_token
+      - bot_token
     commands:
       - <<: *setup_git
       - mv domains site/.domains
       - cd site
-      - git remote set-url origin https://$CB_TOKEN@codeberg.org/Andre601/asl-docs.git
+      - git remote set-url origin https://$BOT_TOKEN@codeberg.org/Andre601/asl-docs.git
       - git add --all
       - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y %Z" )) [SKIP CI]"
       - git push
