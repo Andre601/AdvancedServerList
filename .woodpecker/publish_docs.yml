@@ -1,5 +1,5 @@
 when:
-  - branch: master
+  - branch: '${CI_REPO_DEFAULT_BRANCH}'
     event: push
     path:
       include: ['requirements.txt', 'mkdocs.yml', 'docs/**']
@@ -16,7 +16,7 @@ steps:
     commands:
       - chmod -R a+w .
       - <<: *setup_git
-      - git clone -b pages https://codeberg.org/Andre601/AdvancedServerList.git site
+      - git clone -b pages https://codeberg.org/Andre601/asl-docs site
       - chmod -R a+w site
   buildDocs:
     image: woodpeckerci/plugin-mkdocs:latest
