@@ -2,7 +2,7 @@ when:
   - branch: '${CI_REPO_DEFAULT_BRANCH}'
     event: push
     path:
-      include: ['requirements.txt', 'mkdocs.yml', 'docs/**']
+      include: ['.woodpecker/publish_docs.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
 
 variables:
   setup_git: &setup_git
