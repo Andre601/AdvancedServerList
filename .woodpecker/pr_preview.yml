@@ -2,7 +2,7 @@ when:
   - event: pull_request
     evaluate: 'CI_COMMIT_TARGET_BRANCH == "master"'
     path:
-      include: ['.woodpecker/publish_docs.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
+      include: ['.woodpecker/pr_preview.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
 
 variables:
   setup_git: &setup_git
