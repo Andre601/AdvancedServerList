@@ -1,0 +1,51 @@
+when:
+  - branch: '${CI_COMMIT_SOURCE_BRANCH}'
+    event: pull_request
+    path:
+      include: ['.woodpecker/publish_docs.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
+
+variables:
+  setup_git: &setup_git
+    - apk add git
+    - git config --global user.email "github@andre601.ch"
+    - git config --global user.name "ASL Docs Builder"
+
+steps:
+  cloneTargetRepo:
+    image: alpine:3.18.4
+    commands:
+      - chmod -R a+w .
+      - <<: *setup_git
+      - git init -b pr-${CI_COMMIT_PULL_REQUEST} site
+      - chmod -R a+w site
+  buildDocs:
+    image: woodpeckerci/plugin-mkdocs:latest
+    settings:
+      pip_install_file: requirements.txt
+  commitAndPush:
+    image: alpine:3.18.4
+    secrets:
+      - cb_token
+    commands:
+      - <<: *setup_git
+      - mv domains site/.domains
+      - cd site
+      - git remote add origin https://$CB_TOKEN@codeberg.org/Andre601/asl-docs.git
+      - git add --all
+      - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y %Z" )) [SKIP CI]"
+      - git push --set-upstream origin pr-${CI_COMMIT_PULL_REQUEST}
+  writeComment:
+    image: mcs94/gitea-comment
+    secrets:
+      - cb_token
+    settings:
+      gitea_address: https://codeberg.org
+      gitea_token:
+        from_secret: cb_token
+      comment: >
+        Build-preview created!
+
+        | Name   | Value                                                 |
+        |--------|-------------------------------------------------------|
+        | Commit | ${CI_COMMIT_SHA}                                      |
+        | Link   | https://asl.andre601.ch/@pr-${CI_COMMIT_PULL_REQUEST} |
