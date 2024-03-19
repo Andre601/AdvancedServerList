@@ -12,13 +12,16 @@ If you're new to the plugin is it recommended to check out the [Profiles page](p
 ## Downloads
 
 [![modrinth-img]{ width="260" loading="lazy" }][modrinth-download]{ target="_blank" rel="noreferrer nofollow noopener" }  
-[![hangar-img]{ width="260" loading="lazy" }][hangar-download]{ target="_blank" rel="noreferrer nofollow noopener" }
+[![hangar-img]{ width="260" loading="lazy" }][hangar-download]{ target="_blank" rel="noreferrer nofollow noopener" }  
+[![codeberg-img]]{ width="260" loading="lazy" }][codeberg-download]{ target="_blank" rel="noreferrer nofollow noopener" }
 
 [modrinth-img]: https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/available/modrinth_vector.svg "Available on Modrinth"
 [hangar-img]: https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/available/hangar_vector.svg "Available on Hangar"
+[codeberg-img]: https://cdn.jsdelivr.net/gh/Andre601/devins-badges@13e0142/assets/compact/available/codeberg_vector.svg "Available on Codeberg"
 
 [modrinth-download]: https://modrinth.com/plugin/advancedserverlist
 [hangar-download]: https://hangar.papermc.io/Andre_601/AdvancedServerList
+[codeberg-download]: https://codeberg.org/Andre601/AdvancedServerList
 
 ## Platforms
 
