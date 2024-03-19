@@ -9,13 +9,6 @@ variables:
     - git config --global user.email "andre@andre601.ch"
     - git config --global user.name "ASL Docs Builder"
 
-clone:
-  git:
-    image: woodpeckerci/plugin-git
-    settings:
-      branch: $CI_COMMIT_SOURCE_BRANCH
-
-
 steps:
   cloneTargetRepo:
     image: alpine:3.18.4
@@ -39,7 +32,6 @@ steps:
       - mv domains site/.domains
       - cd site
       - git remote add upstream https://$BOT_TOKEN@codeberg.org/Andre601/asl-docs.git
-      - git remote set-branches pr-${CI_COMMIT_PULL_REQUEST}
       - git add --all
       - git commit -m "Update AdvancedServerList Docs ($( env TZ=Europe/Zurich date +"%d.%m.%Y %Z" )) [SKIP CI]"
       - git push --set-upstream upstream pr-${CI_COMMIT_PULL_REQUEST} -f
