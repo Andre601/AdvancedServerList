@@ -56,7 +56,7 @@ The plugin also supports these additional plugins. They are all optional.
     
     ----
     
-    AdvancedServerList supports the use of placeholder from PlaceholderAPI in all its text options, excluding the `condition` option.
+    AdvancedServerList supports the use of placeholder from PlaceholderAPI in all its text options, except for the `condition` option.
     
     ----
     
