@@ -1,5 +1,6 @@
 when:
   - event: pull_request
+    branch: master
     path:
       include: ['.woodpecker/pr_preview.yml', 'requirements.txt', 'mkdocs.yml', 'docs/**']
 
