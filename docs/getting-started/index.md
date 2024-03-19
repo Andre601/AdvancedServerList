@@ -5,7 +5,7 @@ icon: octicons/milestone-24
 # Getting Started
 
 This page will explain how to set up AdvancedServerList and make it work for your server.  
-It tries to be as easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6) for help.
+It tries to be as easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6){ target="_blank" rel="nofollow" } for help.
 
 ## 1. Download the plugin { #download-the-plugin }
 
@@ -14,26 +14,26 @@ AdvancedServerList is available on the following places (Please note the current
 
 <div class="grid cards" markdown>
 
--   [:simple-modrinth: **Modrinth**][modrinth]
+-   [:simple-modrinth: **Modrinth**][modrinth]{ target="_blank" rel="nofollow" }
     
     ----
     
     :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
 
--   [:simple-codeberg: **Codeberg**][codeberg]
+-   [:simple-codeberg: **Codeberg**][codeberg]{ target="_blank" rel="nofollow" }
     
     ----
     
     :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
 
--   [:fontawesome-solid-paper-plane: **HangarMC**][hangar]
+-   [:fontawesome-solid-paper-plane: **HangarMC**][hangar]{ target="_blank" rel="nofollow" }
     
     ----
     
     :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
 
 
--   [:simple-spigotmc: **SpigotMC**][spigot]
+-   [:simple-spigotmc: **SpigotMC**][spigot]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -52,7 +52,7 @@ The plugin also supports these additional plugins. They are all optional.
 
 <div class="grid cards" markdown>
 
--   [**PlaceholderAPI**][placeholderapi]
+-   [**PlaceholderAPI**][placeholderapi]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -63,7 +63,7 @@ The plugin also supports these additional plugins. They are all optional.
     **Supported on:**  
     :fontawesome-solid-paper-plane: Paper
 
--   [**ViaVersion**][viaversion]
+-   [**ViaVersion**][viaversion]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -74,7 +74,7 @@ The plugin also supports these additional plugins. They are all optional.
     **Supported on:**  
     :fontawesome-solid-paper-plane: Paper
 
--   [**PAPIProxyBridge**][papiproxybridge]
+-   [**PAPIProxyBridge**][papiproxybridge]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -85,7 +85,7 @@ The plugin also supports these additional plugins. They are all optional.
     **Supported on:**  
     :simple-spigotmc: BungeeCord, :fontawesome-solid-paper-plane: Velocity
 
--   [**Maintenance**][maintenance]
+-   [**Maintenance**][maintenance]{ target="_blank" rel="nofollow" }
     
     ----
     
