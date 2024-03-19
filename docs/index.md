@@ -41,24 +41,6 @@ AdvancedServerList supports the following platforms:
 [paper]: https://papermc.io
 [velocity]: https://velocitypowered.com
 
-## Dependencies
-
-/// info
-All listed dependencies are optional.
-///
-
-| Dependency                                                              | Platforms            |
-|-------------------------------------------------------------------------|----------------------|
-| [PlaceholderAPI]{ target="_blank" rel="noreferrer nofollow noopener" }  | Paper                |
-| [ViaVersion]{ target="_blank" rel="noreferrer nofollow noopener" }      | Paper                |
-| [PAPIProxyBridge]{ target="_blank" rel="noreferrer nofollow noopener" } | BungeeCord, Velocity |
-| [Maintenance]{ target="_blank" rel="noreferrer nofollow noopener" }     | All                  |
-
-[placeholderapi]: https://hangar.papermc.io/HelpChat/PlaceholderAPI
-[viaversion]: https://hangar.papermc.io/ViaVersion/ViaVersion
-[papiproxybridge]: https://hangar.papermc.io/William278/PAPIProxyBridge
-[maintenance]: https://hangar.papermc.io/kennytv/Maintenance
-
 ## Pages
 
 <div class="grid cards" markdown>

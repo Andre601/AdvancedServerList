@@ -5,7 +5,7 @@ icon: octicons/milestone-24
 # Getting Started
 
 This page will explain how to set up AdvancedServerList and make it work for your server.  
-It tries to be as easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6) for help.
+It tries to be as easy to understand as possible. But if you still have problems, consider joining the [Discord Server](https://discord.gg/6dazXp6){ target="_blank" rel="nofollow" } for help.
 
 ## 1. Download the plugin { #download-the-plugin }
 
@@ -14,26 +14,26 @@ AdvancedServerList is available on the following places (Please note the current
 
 <div class="grid cards" markdown>
 
--   [:simple-modrinth: **Modrinth**][modrinth]
+-   [:simple-modrinth: **Modrinth**][modrinth]{ target="_blank" rel="nofollow" }
     
     ----
     
     :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
 
--   [:simple-codeberg: **Codeberg**][codeberg]
+-   [:simple-codeberg: **Codeberg**][codeberg]{ target="_blank" rel="nofollow" }
     
     ----
     
     :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
 
--   [:fontawesome-solid-paper-plane: **HangarMC**][hangar]
+-   [:fontawesome-solid-paper-plane: **HangarMC**][hangar]{ target="_blank" rel="nofollow" }
     
     ----
     
     :octicons-check-24:{ style="color: var(--md-badge-fg--success);" } **Actively updated!**
 
 
--   [:simple-spigotmc: **SpigotMC**][spigot]
+-   [:simple-spigotmc: **SpigotMC**][spigot]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -52,18 +52,18 @@ The plugin also supports these additional plugins. They are all optional.
 
 <div class="grid cards" markdown>
 
--   [**PlaceholderAPI**][placeholderapi]
+-   [**PlaceholderAPI**][placeholderapi]{ target="_blank" rel="nofollow" }
     
     ----
     
-    AdvancedServerList supports the use of placeholder from PlaceholderAPI in all its text options, excluding the `condition` option.
+    AdvancedServerList supports the use of placeholder from PlaceholderAPI in all its text options, except for the `condition` option.
     
     ----
     
     **Supported on:**  
     :fontawesome-solid-paper-plane: Paper
 
--   [**ViaVersion**][viaversion]
+-   [**ViaVersion**][viaversion]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -74,7 +74,7 @@ The plugin also supports these additional plugins. They are all optional.
     **Supported on:**  
     :fontawesome-solid-paper-plane: Paper
 
--   [**PAPIProxyBridge**][papiproxybridge]
+-   [**PAPIProxyBridge**][papiproxybridge]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -85,7 +85,7 @@ The plugin also supports these additional plugins. They are all optional.
     **Supported on:**  
     :simple-spigotmc: BungeeCord, :fontawesome-solid-paper-plane: Velocity
 
--   [**Maintenance**][maintenance]
+-   [**Maintenance**][maintenance]{ target="_blank" rel="nofollow" }
     
     ----
     
@@ -156,167 +156,170 @@ On first creation will the folder have a `default.yml` file. This file contains 
 ```yaml
 #
 # Set the priority of this profile.
-# Higher number = Higher priority.
+# If there are multiple profiles (files) will they be sorted by priority, starting with highest.
 #
 # Read more: https://asl.andre601.ch/profiles/#priority
 #
 priority: 0
 
 #
-# Set conditions that need to me met to show this profile.
-# You can use keywords 'and' or 'or' (Or alternatively '&&' or `||`) to make more complex condition sets.
+# Set condition(s) that should return true to display this profile.
+# This allows you to create profiles to only show for specific scenarios (i.e. player is banned).
+#
+# Multiple conditions can be chaing with the keywords 'and', 'or', or their counterparts '&&' and '||'.
+#
+# No condition or an empty condition will be treated as true by default.
 #
 # Read more: https://asl.andre601.ch/profiles/#condition
 #
-# condition: '${player protocol} < 759'
+condition: ''
 
 #
-# Option that allows you to define multiple profiles to use.
-# Each entry supports the same options as the server list profile does. Whenever an option is not present, or set to
-# an empty value (If supported) would the option in the file be used (if present).
-# This allows you to f.e. randomize the MOTD while keeping other options the same, without copy-pasting the same options.
+# Set one or multiple profiles.
 #
-# A profile will be selected randomly.
+# A profile can contain the same options as used in the file itself, except for priority and condition.
+# If multiple entries are present, a random one will be selected. Any options set in the selected profile will override
+# any existing option in the file.
 #
-# Remove this option or set it to profiles: [] to use the global options of this file.
+# Example: The below profile configuration will randomly change the MOTD between two types, but keep the Hover text
+#          the same.
+#
+# When not present or empty (profiles: []), no profiles will be used and global options from the file will be used instead.
 #
 # Read more: https://asl.andre601.ch/profiles/#profiles
 #
-#profiles:
-#  - motd:
-#      - '<aqua>Line 1'
-#      - '<aqua>Line 2'
-#    favicon: ''
-#    playerCount:
-#      hidePlayers: false
-#      hover:
-#        - '<green>Line 1'
-#        - '<green>Line 2'
-#        - '<green>Line 3'
-#      text: ''
-#      extraPlayers:
-#        enabled: false
-#        amount: 0
+profiles:
+  - motd: ['<aqua>Line A', '<gold>Line B']
+  - motd:
+      - '<aqua>Line 1'
+      - '<gold>Line 2'
 
 #
-# Set the default (Global) MOTD used by this server list profile.
-# Supports HEX colors for 1.16+ servers including gradients using MiniMessage's <gradient:color:color> format.
-# 
-# Remove this option or set it to motd: [] to not alter the MOTD.
+# Set the "Message of the day" to display.
+# This option supports RGB colors for 1.16+ Servers and clients, including gradients using MiniMessage's <gradient>
+# option.
+#
+# Only the first two lines will be considered and any additional one is ignored.
+#
+# When not present or empty (motd: []), no MOTD will be set.
 #
 # Read more: https://asl.andre601.ch/profiles/#motd
 #
 motd:
-  - '<grey>Line 1'
-  - '<grey>Line 2'
+  - '<grey>First Line'
+  - '<grey>Second Line'
 
 #
-# Allows you to set a global (Default) favicon for this server list profile.
-# You can use one of three possible options:
-#   1. A file name matching a PNG file located in the 'favicons' folder (Needs to end with .png)
-#   2. A URL pointing to a valid Image
-#   3. ${player name} to display the player's head as favicon. Uses https://mc-heads.net for this
+# Set the Favicon (image on the left of a server entry) to display.
+# This option supports three types of inputs:
 #
-# Remove this option or set to favicon: '' to not replace the Favicon.
+#   1. Name, including .png extension, pointing to an image located in the plugin's favicons folder.
+#   2. URL pointing to an image.*
+#   3. Player name, UUID or placeholders returning one of these.*
+#      https://mc-heads.net will be used to retrieve an image of the provided name/UUID.
+#
+# * These images are loaded asynchronously, meaning they may not yet be "ready" when AdvancedServerList is done with
+#   the event, requiring a refresh of the server list by the player to have it shown.
+#
+# Any images above or below 64x64 pixels will be automatically resized to these dimensions.
+#
+# If not present or empty (favicon: ''), defaults to not modifying the favicon.
 #
 # Read more: https://asl.andre601.ch/profiles/#favicon
 #
 favicon: ''
 
 #
-# Contains various options to manipulate the player count (Text displaying online and max players allowed).
+# Contains options for modifying the player count (Text displaying <online>/<max>).
 #
 # Read more: https://asl.andre601.ch/profiles/#playercount
 #
 playerCount:
   #
-  # Whether AdvancedServerList should hide the player count or not.
-  # When set to true will the player count display '???' instead of <online>/<max>
+  # Set whether the Player count should be hidden.
+  # When set to true, the player count will be displayed as '???' instead of the usual '<online>/<max>' and all other
+  # playerCount options, except for extraPlayers and maxPlayers, will be ignored.
   #
-  # Note that when this is enabled will all other options, except for 'extraPlayers', be ignored.
-  #
-  # Defaults to false when not present.
+  # If not present, defaults to false.
   #
   # Read more: https://asl.andre601.ch/profiles/#hideplayers
   #
   hidePlayers: false
   #
-  # Sets the text displayed when hovering over the player count.
+  # Set the lines shown when the player hovers over the player count.
+  # Unlike the MOTD option does this one only support basic color and formatting codes. Any RGB colors will be
+  # downsampled to the nearest matching color.
   #
-  # Remove this option or set it to hover: [] to not modify the player samples on the player count.
+  # If not present or empty (hover: []), defaults to not modifying the hover.
   #
   # Read more: https://asl.andre601.ch/profiles/#hover
   #
   hover:
-    - '<grey>Line 1'
-    - '<grey>Line 2'
-    - '<grey>Line 3'
+    - '<aqua>Line 1'
+    - '<yellow>Line 2'
+    - '<green>Line 3'
   #
-  # Modifies the text that usually displays '<online>/<max>'
-  # 
-  # Note that when used, the Ping icon will display as 'outdated server'/'outdated client'.
-  # This is nothing that can be fixed or avoided and would require changes from Mojang.
+  # Set the text that should be displayed instead of the default '<online>/<max>' text.
   #
-  # Remove this option or set it to text: '' to not modify the player count text.
+  # Using this option will show the server as "outdated" to the client (Have the ping icon crossed out).
+  # This cannot be fixed and would require Mojang to change stuff.
+  #
+  # If not present or empty (text: ''), defaults to not modifying the text.
   #
   # Read more: https://asl.andre601.ch/profiles/#text
   #
   text: ''
   #
-  # Allows you to modify the max player count displayed.
-  # Note that this will affect ${server playersMax} (Except for when used in conditions).
+  # The extraPlayers feature allows to set a number that should be added to the current online players and then be
+  # used as the "max" player count.
+  #
+  # Using this feature will modify the ${server playersMax} placeholder, except for usage in the condition option.
   #
   # Read more: https://asl.andre601.ch/profiles/#extraplayers
   #
   extraPlayers:
     #
-    # Enables/Disables the extraPlayers option.
-    # When enabled will the total amount of players allowed to join be modified to the current
-    # number of online players + 'amount'
+    # Set whether the extraPlayers feature should be enabled or not.
+    # When set to true, the max players count will be modified to be the number of online players with the 'amount'
+    # value added to it.
     #
-    # Defaults to false when not present.
+    # If not present, defaults to false.
     #
     # Read more: https://asl.andre601.ch/profiles/#extraplayers-enabled
     #
     enabled: false
     #
-    # Sets how much should be added/subtracted from the current number of online players
-    # to then use for the max player count.
+    # Set the number that should be added to the online player count to then use as the new max player count.
     #
-    # Example:
-    # When set to 1 while 10 players are online would the player count - if unmodified -
-    # display '10/11'. When -1 is used will it display '10/9'
+    # Example: Setting this to 1 will result in ${server playersMax} displaying 11 while 10 players are online,
+    #          9 when 8 are online and so on.
     #
-    # Defaults to 0 when not present.
+    # If not present, defaults to 0.
     #
     # Read more: https://asl.andre601.ch/profiles/#extraplayers-amount
     #
     amount: 0
   #
-  # Allows you to set the max players that could join your server.
-  # Note that this option influences the '${server playersMax}' placeholder.
+  # The maxPlayers feature allows to set a number to use as the max player count to display.
   #
-  # The settings of this option have no effect should 'extraPlayers' be enabled
+  # Using this feature will modify the ${server playersMax} placeholder, except for usage in the condition option.
   #
   # Read more: https://asl.andre601.ch/profiles/#maxplayers
   #
   maxPlayers:
     #
-    # Enables/Disables the maxPlayers option.
-    # When enabled will the total amount of players allowed to join be changed to what 'amount' is set to.
+    # Set whether the maxPlayers feature should be enabled or not.
+    # When set to true, the max player count will be set to the 'amount' value.
     #
-    # Defaults to false when not present.
-    # 
+    # If not present, defaults to false.
+    #
     # Read more: https://asl.andre601.ch/profiles/#maxplayers-enabled
     #
     enabled: false
     #
-    # Sets the number to display for the max number of players allowed to join your server.
+    # Set the number that should be used as the new max players count.
     #
-    # Example:
-    # Setting this option to 0 (Default) while 1 player is online would display '1/0'
-    #
-    # Defaults to 0 if not set.
+    # If not present, defaults to 0.
     #
     # Read more: https://asl.andre601.ch/profiles/#maxplayers-amount
     #
@@ -396,12 +399,48 @@ debug: false
 faviconCacheTime: 1
 
 #
+# List of options that should be disabled while the Maintenance Mode of the plugin Maintenance is active.
+# Any option not listed here will NOT be disabled, meaning AdvancedServerList will continue to handle it.
+#
+# Each option defaults to true when not present, disabling said option while Maintenance is active.
+#
+disableDuringMaintenance:
+  #
+  # When true (Default), disables handling of MOTD while Maintenance is enabled.
+  #
+  motd: true
+  #
+  # When true (Default), disables handling of Favicon while Maintenance is enabled.
+  #
+  favicon: true
+  #
+  # When true (Default), disables hiding of player count while Maintenance is enabled.
+  #
+  hidePlayers: true
+  #
+  # When true (Default), disables handling of player count text while Maintenance is enabled.
+  #
+  playerCountText: true
+  #
+  # When true (Default), disables handling of player count hover while Maintenance is enabled.
+  #
+  playerCountHover: true
+  #
+  # When true (Default), disables use of extra players feature while Maintenance is enabled.
+  #
+  extraPlayers: true
+  #
+  # When true (Default), disables use of max players feature while Maintenance is enabled.
+  #
+  maxPlayers: true
+
+#
 # DO NOT EDIT!
 #
 # This is used internally to determine if the config needs to be migrated.
 # Changing or even removing this option could result in your config being broken.
 #
-config-version: 4
+config-version: 5
 ```
 ///
 
