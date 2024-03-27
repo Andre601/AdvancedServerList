@@ -7,7 +7,7 @@ icon: octicons/home-24
 Welcome to the Wiki of AdvancedServerList!
 
 On this site can you find the latest documentation for the plugin, including some useful examples.  
-If you're new to the plugin is it recommended to check out the [Profiles page](profiles/index.md) for a quick start on how to use this plugin.
+If you're new to the plugin, check out [:octicons-milestone-24: **Getting Started**](getting-started/index.md) for a quick Start Guide.
 
 ## Downloads
 
