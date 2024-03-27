@@ -39,7 +39,7 @@ steps:
     when:
       - status: ['success']
     settings:
-      server: https://blobfox.coffee
+      server_url: https://blobfox.coffee
       access_token:
         from_secret: MASTODON_TOKEN
       status: '${CI_COMMIT_TAG} of #AdvancedServerList has been released and can be found on Modrinth (https://modrinth.com/plugin/AdvancedServerList), Hangar (https://hangar.papermc.io/Andre_601/AdvancedServerList) and Codeberg (https://codeberg.org/Andre601/AdvancedServerList).'
