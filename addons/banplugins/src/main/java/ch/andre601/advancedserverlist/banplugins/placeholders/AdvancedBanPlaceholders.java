@@ -30,8 +30,6 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.banplugins.providers.AdvancedBanProvider;
 
-import java.util.Arrays;
-
 public class AdvancedBanPlaceholders extends PlaceholderProvider{
     
     private final AdvancedBanProvider provider = new AdvancedBanProvider();
@@ -42,7 +40,7 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        String[] args = placeholder.split("\\s");
+        String[] args = placeholder.split("\\s", 2);
         
         return switch(args[0]) {
             // Mute-related placeholders
@@ -52,9 +50,6 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
                 if(args.length == 1)
                     yield provider.muteDuration(player);
                 
-                if(args.length > 2)
-                    yield null;
-                
                 boolean fromStart = Boolean.getBoolean(args[1]);
                 yield provider.muteDuration(player, fromStart);
             }
@@ -62,9 +57,7 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
                 if(args.length == 1)
                     yield provider.muteExpirationDate(player);
                 
-                String pattern = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                
-                yield provider.banExpirationDate(player, pattern);
+                yield provider.banExpirationDate(player, args[1]);
             }
             
             // Ban-related placeholders
@@ -74,9 +67,6 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
                 if(args.length == 1)
                     yield provider.banDuration(player);
                 
-                if(args.length > 2)
-                    yield null;
-                
                 boolean fromStart = Boolean.getBoolean(args[1]);
                 yield provider.banDuration(player, fromStart);
             }
@@ -84,9 +74,7 @@ public class AdvancedBanPlaceholders extends PlaceholderProvider{
                 if(args.length == 1)
                     yield provider.banExpirationDate(player);
                 
-                String pattern = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                
-                yield provider.banExpirationDate(player, pattern);
+                yield provider.banExpirationDate(player, args[1]);
             }
             
             // Unknown/Invalid placeholder.

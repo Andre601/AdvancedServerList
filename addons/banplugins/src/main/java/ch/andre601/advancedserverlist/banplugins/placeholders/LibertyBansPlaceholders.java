@@ -30,8 +30,6 @@ import ch.andre601.advancedserverlist.api.objects.GenericPlayer;
 import ch.andre601.advancedserverlist.api.objects.GenericServer;
 import ch.andre601.advancedserverlist.banplugins.providers.LibertyBansProvider;
 
-import java.util.Arrays;
-
 public class LibertyBansPlaceholders extends PlaceholderProvider{
     
     private final LibertyBansProvider provider = LibertyBansProvider.create();
@@ -42,7 +40,7 @@ public class LibertyBansPlaceholders extends PlaceholderProvider{
     
     @Override
     public String parsePlaceholder(String placeholder, GenericPlayer player, GenericServer server){
-        String[] args = placeholder.split("\\.");
+        String[] args = placeholder.split("\\s", 2);
         
         return switch(args[0]){
             // Mute-related placeholders
@@ -52,9 +50,7 @@ public class LibertyBansPlaceholders extends PlaceholderProvider{
                 if(args.length == 1)
                     yield provider.muteExpirationDate(player);
                 
-                String pattern = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                
-                yield provider.muteExpirationDate(player, pattern);
+                yield provider.muteExpirationDate(player, args[1]);
             }
             
             // Ban-related placeholders
@@ -64,9 +60,7 @@ public class LibertyBansPlaceholders extends PlaceholderProvider{
                 if(args.length == 1)
                     yield provider.banExpirationDate(player);
                 
-                String pattern = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-                
-                yield provider.banExpirationDate(player, pattern);
+                yield provider.banExpirationDate(player,  args[1]);
             }
             
             // Unknown/Invalid placeholder
