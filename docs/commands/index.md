@@ -21,18 +21,24 @@ The following subcommands are available (Subcommands are case-insensitive):
 
 ### help
 
+/// info |
 **Permission:** `advancedserverlist.command.help`
 
 Shows a list of all available [subcommands](#subcommands) for AdvancedServerList.
+///
 
 ### reload
 
+/// info |
 **Permission:** `advancedserverlist.command.reload`
 
 Reloads the plugin's `config.yml` and all available YAML files in the `profiles` folder.
+///
 
 ### clearCache
 
+/// info |
 **Permission:** `advancedserverlist.command.clearcache`
 
 Clears the currently cached favicons and players.
+///

@@ -88,8 +88,8 @@ The plugin also supports these additional plugins. They are all optional.
 -   [**Maintenance**][maintenance]{ target="_blank" rel="nofollow" }
     
     ----
-    
-    AdvancedServerList will disable any modification of the server list entry should Maintenance mode be enabled.
+
+    AdvancedServerList will disable any modification of the server list entry should Maintenance mode be enabled, unless you change this in the config.yml file.
     
     ----
 
@@ -117,7 +117,7 @@ The plugin also supports these additional plugins. They are all optional.
 
 ## 2. Installation { #installation }
 
-Installing the plugin is as simple as moving the jar file into the plugins folder. Just make sure to download the right version of AdvancedServerList for the right platform.  
+Installing the plugin is as simple as moving the jar file into the `plugins` folder. Just make sure to download the right version of AdvancedServerList for the right platform.  
 Here is a quick table showing the jar file name with the platforms it is made for:
 
 | Jar file name                                 | Platforms             |
@@ -133,7 +133,7 @@ If everything goes well should AdvancedServerList create a folder named `Advance
 
 When you install AdvancedServerList for the first time should it have created the following file structure inside the plugins folder of your Server or Proxy:
 ```
-AdvancedServerList/
+AdvancedServerList/ # advancedserverlist/ on Velocity
 ├── favicons/
 ├── profiles/
 │   └── default.yml
@@ -337,10 +337,11 @@ These functions include, but aren't limited to:
 - Disabling/Enabling checking for updates.
 - Disabling/Enabling debug mode.
 - Setting how long favicons should be cached for.
+- Disabling/Enabling features of the plugin while the plugin Maintenance is active.
 - The config version used for migration. Don't touch this, or it may reset your config.
 
 Similar to the default.yml is this file containing comments to try and explain the settings in questions.  
-Do note that if the config gets migrated from an older version, that the comments will be discarded in the process, unfortunately.
+Note that the config can get migrated to newer versions, adding missing options in the process. However, comments will get lost during that process.
 
 /// details | default config.yml content
     type: file
@@ -444,13 +445,13 @@ config-version: 5
 ```
 ///
 
-#### Additionally created files and folders
+#### Additional created files and folders
 
 There are certain files and folders that get created when certain events happen:
 
 - A `playercache.json` file will be created on plugin shutdown containing a collection of IPs, UUIDs and Player names for every player that joined the server while AdvancedServerList was running.  
     This file is used to identify a player through their last used IP, to replace placeholders such as `${player name}` or `${player uuid}` with their respective values using the cached data.  
-    This file is not created, used nor updated when `disableCache` is set to `true` in the config.yml
+    This file is not created, used, nor updated when `disableCache` is set to `true` in the config.yml
 - A `backups` folder containing old config.yml files.  
     This folder is created when AdvancedServerList migrates your old config to a new version. This allows you to transfer settings over in case the migration didn't work properly.  
     Each backup will have the name pattern `config-<date>.yml` with `<date>` being the date and time of when this file has been created.
@@ -463,7 +464,7 @@ It's best to open the `default.yml` file located inside `profiles` with the file
 This file should contain all available options that you can set and alter.
 
 Edit the options to whatever you like. All text-based options, except [`condition`](../profiles/index.md#condition), support [MiniMessage formatting](../profiles/formatting.md).  
-The [`motd`](../profiles/index.md#motd) option also supports Hexadecimal colors, assuming the server/proxy runs at least MC 1.16.
+Hexadecimal (RGB) colors are supported, however, only the [`motd` option](../profiles/index.md#motd) may display them and only for MC 1.16+ clients. Any other option will have the color down-sampled to the nearest supported color code.
 
 If you're unsure how a specific option should look like, head over to the [Profiles page](../profiles/index.md) for more information about the general structure.  
 All you need to know is, that a bare-bones server list profile requires a valid [priority](../profiles/index.md#priority) and at least one of the settings to be present.
@@ -479,16 +480,16 @@ motd:
 
 ### Additional profiles
 
-To add additional profiles, create a new YAML file inside the `profiles` folder. The name doesn't matter, but it is recommended to keep it lowercase, use alphanumeric characters (`a-z, 0-9`), hyphens (`-`), underscores (`_`) and avoid spaces. You should also name it after what it is for, to have it more easily organized.
+To add additional profiles, create a new YAML file inside the `profiles` folder. The name can be whatever you like, but it is recommended to keep it simple and only use alphanumeric characters (`a-z` and `0-9`), underlines and hyphens.
 
 Inside the file, add a priority and at least one setting, similar to the above shown example.  
 This would already be enough to have a valid profile, but depending on the priority and file name may the file not be used, or used over other profiles.
 
 If you want to only show this file under specific situations can you use the [`condition`](../profiles/index.md#condition) option to apply conditions that need to be met to show the profile.  
-The condition option would have a single String containing one or muliple [Expressions](../profiles/expressions.md). Only if the condition would return true, would the profile be displayed, granted that it has a higher priority than any other valid file with a true condition output.
+The condition option would have a single String containing one or multiple [Expressions](../profiles/expressions.md). Only if the condition would return true, would the profile be displayed, granted that it has a higher priority than any other valid file with a true condition output.
 
 /// info | Note
-Profiles which do not have any conditions, or have an empty condition, will always be considered to have a true condition, meaning that a profile with higher priority and no condition will be selected over a profile with lower priority and a condition, even if said condition returns true.
+Files without a condition or an empty condition will be treated as always having a true condition.
 ///
 
 Here is another example profile using conditions to show it when the player was banned on the server:
