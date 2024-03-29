@@ -361,17 +361,21 @@ Your plugin should now hook into AdvancedServerList and register its own custom 
 
 ## Listening for events
 
-<!-- admo:info This requires the platform specific dependencies -->
+<!-- admo:info These events require the platform-specific APIs -->
 
-AdvancedServerList provides an Event that your plugin can listen for.  
-The event is called `PreServerListSetEvent` and provides the following methods to use:
+AdvancedServerList provides Events that your plugin can listen for specific situations.
+
+### PreServerListSetEvent
+
+This event is called **before** AdvancedServerList starts handling the PingEvent of the Server/Proxy.  
+It allows you to get and alter the [ProfileEntry][profileentry] used in the PingEvent, or even outright cancel the event itself.
+
+The event offers the following methods:
 
 - [`getEntry()`][getentry] - Gets the currently set [`ProfileEntry`][profileentry].
 - [`setEntry(ProfileEntry)`][setentry] - Sets a new [`ProfileEntry`][profileentry] to use.
 - [`isCancelled()`][iscancelled] - Gets the current cancelled state of the event.
 - [`setCancelled(boolean)`][setcancelled] - Sets the current cancelled state.
-
-Setting the event's cancelled state to true will result in AdvancedServerList not altering the Server list.
 
 Please check the server/proxy's documentation on how to listen for events with your plugin.
 
@@ -380,6 +384,13 @@ Please check the server/proxy's documentation on how to listen for events with y
 [iscancelled]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#iscancelled()
 [setcancelled]: reference/api/ch.andre601.advancedserverlist.api/events/genericserverlistevent.md#setcancelled(boolean)
 
+### PostServerListSetEvent
+
+This event is called **after** AdvancedServerList has completed its handling of the Server's/Proxy's PingEvent.
+
+It provides a method to retrieve the [ProfileEntry][profileentry] used during the PingEvent.  
+Do note that this ProfileEntry is **not** a representation of what is actually displayed in the server list, but rather what has been used by AdvancedServerList. It may also be `null` should the event handling get cancelled for any reason.
+
 [profileentry]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md
 
 ### ProfileEntry
@@ -387,8 +398,9 @@ Please check the server/proxy's documentation on how to listen for events with y
 The ProfileEntry record is the core class used within the `PreServerListSetEvent`. It sets what values (MOTD, Favicon, Players, etc.) should be displayed.  
 Note that the record is - by nature - immutable and that the [`Builder`][builder] class should be used to create a new ProfileEntry instance to use.
 
-A convenience method exists to create a `Builder` instance from an existing `ProfileEntry` in case you only want to alter certain options while everything else unchanged.
+A convenience method ([`builder()`][builder()]) exists to create a `Builder` instance from an existing `ProfileEntry` in case you only want to alter certain options while everything else should remain unchanged.
 
 This allows you to customize the Server list using your plugin. Just keep in mind that other plugins may also do the same, overriding your changes.
 
 [builder]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md
+[builder()]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/#builder()
