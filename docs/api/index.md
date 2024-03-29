@@ -403,4 +403,4 @@ A convenience method ([`builder()`][builder()]) exists to create a `Builder` ins
 This allows you to customize the Server list using your plugin. Just keep in mind that other plugins may also do the same, overriding your changes.
 
 [builder]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/builder.md
-[builder()]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/#builder()
+[builder()]: reference/api/ch.andre601.advancedserverlist.api/profiles/profileentry/index.md#builder()
