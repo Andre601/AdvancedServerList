@@ -35,8 +35,10 @@ steps:
       - git add --all
       - git commit -m "Update Preview for PR ${CI_COMMIT_PULL_REQUEST} ($( env TZ=Europe/Zurich date +"%d.%m.%Y %Z" )) [SKIP CI]"
       - git push --set-upstream upstream pr-${CI_COMMIT_PULL_REQUEST} -f
-  writeComment:
+  commentOnSuccess:
     image: mcs94/gitea-comment
+    when:
+      - status: ['success']
     secrets:
       - bot_token
     settings:
@@ -44,9 +46,22 @@ steps:
       gitea_token:
         from_secret: BOT_TOKEN
       comment: |-
-        Build-preview created!
+        Pull request Preview ready!
 
         | Name   | Value                                                 |
         |--------|-------------------------------------------------------|
         | Commit | ${CI_COMMIT_SHA}                                      |
         | Link   | https://asl.andre601.ch/@pr-${CI_COMMIT_PULL_REQUEST} |
+  commentOnFailure:
+    image: mcs94/gitea-comment
+    when:
+      - status: ['failure']
+    secrets:
+      - bot_token
+    settings:
+      gitea_address: https://codeberg.org
+      gitea_token:
+        from_secret: BOT_TOKEN
+      comment: |-
+        Issue while creating Pull request preview.
+        Please check the CI logs for any reasons: ${CI_PIPELINE_URL}
