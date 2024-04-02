@@ -1,0 +1,37 @@
+name: Pull Request
+description: Create a new Pull request
+
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        Thank you for creating a Pull request!
+
+        Please be sure to fill out this template with all requested information to ensure it being valid and not being closed unmerged.
+  - type: dropdown
+    attributes:
+      label: Type
+      description: What kind of Pull request is this?
+      options:
+        - Enhancement
+        - Bugfix
+        - Documentation
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Breaking Change?
+      description: |-
+        Is this a breaking change?
+        A breaking change means that it becomes incompatible with previous server/proxy versions or plugin versions.
+      options:
+        - Yes
+        - No
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description
+      description: Provide a detailed description of what this Pull request is doing. Link any issues this Pull request may fix/close.
+    validations:
+      required: true
