@@ -16,7 +16,6 @@ Note that the values depend on the player it is used for, as AdvancedServerList 
 | Placeholder                      | Description                                                                                            |
 |----------------------------------|--------------------------------------------------------------------------------------------------------|
 | `%asl_favicon%`                  | Gives the value of `favicon` from a matching Profile.                                                  |
-| `%asl_extra_players_max%`        | Gives the value of `playerCount -> extraPlayers -> amount` from a matching Profile. Can return `null`. |
 | `%asl_motd%`                     | Gives the value of `motd` in the matching Profile as a single String.                                  |
 | `%asl_playercount_extraplayers%` | Gives the value of `playerCount -> extraPlayers -> amount` from a matching Profile. Can return `null`. |
 | `%asl_playercount_hover%`        | Gives the value of `playerCount -> hover` from a matching Profile as a single String.                  |
