@@ -126,9 +126,11 @@ Parenthesis can be used to prevent ambiguities.
 
 `!` can be used to negate boolean expressions.
 
+/// example | Examples
 ```shell
 !${player isWhitelisted}
 ```
+///
 
 ## Credits
 
