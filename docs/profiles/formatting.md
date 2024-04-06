@@ -4,7 +4,7 @@ icon: octicons/pencil-24
 
 # Formatting
 
-All text options, with exception of [`Conditions`](../index.md#conditions), allow the usage of formatting options using [MiniMessage].
+All text options, with exception of [`Conditions`](index.md#condition), allow the usage of formatting options using [MiniMessage].
 
 /// info | Online Tool
 The devs of the Adventure library provide a handy online tool to create the right formatting codes to display the text properly.  
