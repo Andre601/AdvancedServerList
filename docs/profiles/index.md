@@ -40,6 +40,20 @@ Not setting this option, or setting it to an empty String (`condition: ''`), wil
 
 The condition option can hold one or multiple expressions. The Expression system is explained on the [Expressions page](expressions.md).
 
+/// details | Example
+    type: example
+
+```yaml title="YAML file
+priority: 0
+
+condition: '${player isWhitelisted}'
+
+motd:
+  - '<grey>Hello ${player name}!'
+  - '<grey>Nice to see you.'
+```
+///
+
 ## Profiles
 
 The `profile` option allows you to define a list of all other options, with the exception of [`priority`](#priority), [`condition`](#condition) or itself.
