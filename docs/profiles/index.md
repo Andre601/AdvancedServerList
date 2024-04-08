@@ -43,7 +43,7 @@ The condition option can hold one or multiple expressions. The Expression system
 /// details | Example
     type: example
 
-```yaml title="YAML file
+```yaml title="YAML file"
 priority: 0
 
 condition: '${player isWhitelisted}'
@@ -52,7 +52,6 @@ motd:
   - '<grey>Hello ${player name}!'
   - '<grey>Nice to see you.'
 ```
-
 ///
 
 ## Profiles
