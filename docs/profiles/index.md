@@ -52,6 +52,7 @@ motd:
   - '<grey>Hello ${player name}!'
   - '<grey>Nice to see you.'
 ```
+
 ///
 
 ## Profiles
