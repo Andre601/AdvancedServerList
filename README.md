@@ -1,5 +1,12 @@
 # AdvancedServerList
 
+> [!IMPORTANT]
+> Due to repeated confusion by users believing this repository to still receive releases, while ignoring the topic mentioning this to be a mirror, did I decide to archive it.
+> The latest changes, including updated releases can be found on [Codeberg](https://codeberg.org/Andre601/AdvancedServerList).
+> 
+> You can also check the [Modrinth](https://modrinth.com/plugin/advancedserverlist) and [HangarMC](https://hangar.papermc.io/Andre_601/AdvancedServerList) pages for new releases.
+
+
 AdvancedServerList is a plugin that allows you to customize your server's MOTD, favicon, Player count text and player count hover displayed in a player's multiplayer server list based on conditions and priorities.
 
 ## Downloads
